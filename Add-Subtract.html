@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Trainer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        h2 {
+            color: #333;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+        }
+        #question {
+            font-size: 24px;
+            margin: 20px;
+        }
+        #feedback {
+            margin: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="operation-selection">
+    <h2>Select Operation</h2>
+    <button onclick="selectOp('+')">Plus (+)</button>
+    <button onclick="selectOp('-')">Minus (-)</button>
+</div>
+
+<div id="range-selection" style="display: none;">
+    <h2>Select Range</h2>
+    <button onclick="selectRange(0,10)">0-10</button>
+    <button onclick="selectRange(0,20)">0-20</button>
+    <button onclick="selectRange(0,50)">0-50</button>
+    <button onclick="selectRange(0,100)">0-100</button>
+    <button onclick="selectRange(10,20)">10-20</button>
+    <button onclick="selectRange(50,100)">50-100</button>
+    <button onclick="showCustom()">Custom</button>
+    <div id="custom" style="display: none;">
+        Min: <input id="custom-min" type="number" min="0">
+        Max: <input id="custom-max" type="number" min="0">
+        <button onclick="selectCustom()">OK</button>
+    </div>
+</div>
+
+<div id="quiz" style="display: none;">
+    <h2>Math Quiz</h2>
+    <div id="question"></div>
+    <input id="answer" type="number">
+    <button onclick="submitAnswer()">Submit</button>
+    <div id="feedback"></div>
+</div>
+
+<script>
+    let operation, minVal, maxVal, a, b, correct, attempts = 0;
+
+    function selectOp(op) {
+        operation = op;
+        document.getElementById('operation-selection').style.display = 'none';
+        document.getElementById('range-selection').style.display = 'block';
+    }
+
+    function selectRange(min, max) {
+        minVal = min;
+        maxVal = max;
+        startQuiz();
+    }
+
+    function showCustom() {
+        document.getElementById('custom').style.display = 'block';
+    }
+
+    function selectCustom() {
+        minVal = parseInt(document.getElementById('custom-min').value);
+        maxVal = parseInt(document.getElementById('custom-max').value);
+        if (isNaN(minVal) || isNaN(maxVal) || minVal > maxVal) {
+            alert('Invalid range. Min must be less than or equal to Max.');
+            return;
+        }
+        startQuiz();
+    }
+
+    function startQuiz() {
+        document.getElementById('range-selection').style.display = 'none';
+        document.getElementById('quiz').style.display = 'block';
+        nextQuestion();
+    }
+
+    function nextQuestion() {
+        attempts = 0;
+        a = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
+        b = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
+        if (operation === '-' && a < b) {
+            let temp = a;
+            a = b;
+            b = temp;
+        }
+        correct = operation === '+' ? a + b : a - b;
+        document.getElementById('question').innerHTML = `${a} ${operation} ${b} = `;
+        document.getElementById('answer').value = '';
+        document.getElementById('feedback').innerHTML = '';
+    }
+
+    function submitAnswer() {
+        let input = parseInt(document.getElementById('answer').value);
+        if (isNaN(input)) {
+            document.getElementById('feedback').innerHTML = '<span style="color:red">Please enter a number.</span>';
+            return;
+        }
+        if (input === correct) {
+            document.getElementById('feedback').innerHTML = '<span style="color:green">✅ Correct!</span>';
+            setTimeout(nextQuestion, 1000);
+        } else {
+            attempts++;
+            let fb = '<span style="color:red">❌ Incorrect';
+            if (attempts === 1) {
+                fb += ', try again.</span>';
+            } else if (attempts === 2) {
+                fb += '. ' + getHint() + ' Try again.</span>';
+            } else {
+                fb += '. The correct answer is ' + correct + '.</span>';
+                document.getElementById('feedback').innerHTML = fb;
+                setTimeout(nextQuestion, 2000);
+                return;
+            }
+            document.getElementById('feedback').innerHTML = fb;
+        }
+    }
+
+    function getHint() {
+        if (operation === '+') {
+            let large = Math.max(a, b);
+            let small = Math.min(a, b);
+            return 'Hint: Start from ' + large + ' and count up ' + small + ' more.';
+        } else {
+            return 'Hint: Start from ' + a + ' and count down ' + b + '.';
+        }
+    }
+</script>
+
+</body>
+</html>
