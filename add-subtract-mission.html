@@ -7,7 +7,7 @@
     <style>
         :root {
             --bg-color: #1a1a2e;
-            --text-color: #ffffff;
+            --text-color: #333333;
             --accent-color: #ff5733;
             --accent-light: #ff8c66;
             --section-bg: rgba(255, 255, 255, 0.1);
@@ -266,7 +266,7 @@
         document.getElementById('question').innerHTML = `${a} ${operation} ${b} = `;
         document.getElementById('answer').value = '';
         document.getElementById('answer').focus();
-        document.getElementById('feedback').innerHTML = '';
+        //document.getElementById('feedback').innerHTML = '';
     }
 
     function submitAnswer() {
