@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Trainer</title>
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --text-color: #ffffff;
+            --accent-color: #ff5733;
+            --accent-light: #ff8c66;
+            --section-bg: rgba(255, 255, 255, 0.1);
+            --light-bg: #f5e6cc;
+            --light-text: #333333;
+            --light-section-bg: rgba(0, 0, 0, 0.05);
+            --success-color: #00cc00;
+            --error-color: #ff3333;
+            --light-success-color: #006600;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 50px;
+            background: linear-gradient(180deg, var(--bg-color) 0%, #16213e 100%);
+            color: var(--text-color);
+            background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Ccircle cx="10" cy="10" r="2" fill="%23ffffff33"/%3E%3Ccircle cx="80" cy="20" r="1" fill="%23ffffff33"/%3E%3Ccircle cx="30" cy="70" r="1.5" fill="%23ffffff33"/%3E%3C/svg%3E');
+            background-size: 100px 100px;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.light-mode {
+            background: linear-gradient(180deg, var(--light-bg) 0%, #e6d5b8 100%);
+            color: var(--light-text);
+        }
+        h2, h3 {
+            color: var(--accent-color);
+            text-shadow: 0 0 5px rgba(255, 87, 51, 0.5);
+        }
+        body.light-mode h2, body.light-mode h3 {
+            color: #cc3f1a;
+            text-shadow: none;
+        }
+        button {
+            margin: 10px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(45deg, var(--accent-color), var(--accent-light));
+            color: #fff;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        body.light-mode button {
+            background: linear-gradient(45deg, #cc3f1a, #ff7043);
+        }
+        button:hover, button:focus {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 87, 51, 0.7);
+            outline: none;
+        }
+        input {
+            padding: 12px;
+            font-size: 16px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            background: #e0e0e0;
+            color: #333;
+            width: 100px;
+            text-align: center;
+        }
+        body.light-mode input {
+            background: #ffffff;
+        }
+        input:focus {
+            outline: 2px solid var(--accent-color);
+            box-shadow: 0 0 8px rgba(255, 87, 51, 0.7);
+        }
+        #question {
+            font-size: 28px;
+            margin: 20px;
+        }
+        body.light-mode #question {
+            color: var(--light-text);
+        }
+        #feedback {
+            min-height: 80px; /* Prevent CLS */
+            margin: 20px;
+            font-size: 18px;
+        }
+        #medals, #history {
+            margin: 20px;
+            text-align: left;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            background: var(--section-bg);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        body.light-mode #medals, body.light-mode #history {
+            background: var(--light-section-bg);
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 8px 0;
+            color: var(--text-color);
+        }
+        body.light-mode li {
+            color: var(--light-text);
+        }
+        .no-entries {
+            color: #cccccc;
+            font-style: italic;
+        }
+        body.light-mode .no-entries {
+            color: #666666;
+        }
+        #mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        body.light-mode #mode-toggle {
+            color: var(--light-text);
+        }
+    </style>
+</head>
+<body>
+
+<button id="mode-toggle" aria-label="Switch to light mode">🌙</button>
+
+<div id="operation-selection">
+    <h2>Launch Your Math Mission!</h2>
+    <button onclick="selectOp('+')">Plus (+): Cosmic Addition</button>
+    <button onclick="selectOp('-')">Minus (-): Stellar Subtraction</button>
+</div>
+
+<div id="range-selection" style="display: none;">
+    <h2>Choose Your Galactic Range</h2>
+    <button onclick="selectRange(0,10)">0-10: Asteroid Belt</button>
+    <button onclick="selectRange(0,20)">0-20: Lunar Plains</button>
+    <button onclick="selectRange(0,50)">0-50: Martian Dunes</button>
+    <button onclick="selectRange(0,100)">0-100: Red Planet Core</button>
+    <button onclick="selectRange(10,20)">10-20: Crater Zone</button>
+    <button onclick="selectRange(50,100)">50-100: Cosmic Canyons</button>
+    <button onclick="showCustom()">Custom: Warp Speed</button>
+    <div id="custom" style="display: none;">
+        Min: <input id="custom-min" type="number" min="0" aria-label="Minimum range">
+        Max: <input id="custom-max" type="number" min="0" aria-label="Maximum range">
+        <button onclick="selectCustom()">Engage!</button>
+    </div>
+</div>
+
+<div id="quiz" style="display: none;">
+    <h2>Math Mission Control</h2>
+    <div id="question" aria-live="polite"></div>
+    <input id="answer" type="number" aria-label="Enter your answer">
+    <button onclick="submitAnswer()">Blast Off!</button>
+    <div id="feedback" aria-live="assertive"></div>
+    <div id="medals">
+        <h3>Galactic Medals</h3>
+        <ul id="medals-list">
+            <li class="no-entries">No medals earned yet</li>
+        </ul>
+    </div>
+    <div id="history">
+        <h3>Mission Log</h3>
+        <ul id="history-list">
+            <li class="no-entries">No entries yet</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    let operation, minVal, maxVal, a, b, correct, attempts = 0, taskStartTime;
+    let isCustom = false;
+    let startTime, consecSuccess = 0, firstStreak = 0;
+    let history = [];
+    let medals = [];
+    let hasStreak = false, hasPerfect = false, hasNovice = false, hasDedicated = false, hasSuperStreak = false;
+    const ranges = [[0,10], [0,20], [0,50], [0,100], [10,20], [50,100]];
+
+    // Theme toggle
+    const toggleButton = document.getElementById('mode-toggle');
+    toggleButton.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        toggleButton.textContent = document.body.classList.contains('light-mode') ? '🌞' : '🌙';
+        toggleButton.setAttribute('aria-label', document.body.classList.contains('light-mode') ? 'Switch to dark mode' : 'Switch to light mode');
+    });
+
+    function selectOp(op) {
+        operation = op;
+        document.getElementById('operation-selection').style.display = 'none';
+        document.getElementById('range-selection').style.display = 'block';
+    }
+
+    function selectRange(min, max) {
+        minVal = min;
+        maxVal = max;
+        isCustom = false;
+        startQuiz();
+    }
+
+    function showCustom() {
+        document.getElementById('custom').style.display = 'block';
+    }
+
+    function selectCustom() {
+        minVal = parseInt(document.getElementById('custom-min').value);
+        maxVal = parseInt(document.getElementById('custom-max').value);
+        if (isNaN(minVal) || isNaN(maxVal) || minVal > maxVal || maxVal > 10000) {
+            alert('Invalid range. Min must be less than or equal to Max, and Max cannot exceed 10,000.');
+            return;
+        }
+        isCustom = true;
+        startQuiz();
+    }
+
+    function startQuiz() {
+        document.getElementById('range-selection').style.display = 'none';
+        document.getElementById('quiz').style.display = 'block';
+        startTime = Date.now();
+        consecSuccess = 0;
+        firstStreak = 0;
+        history = [];
+        medals = [];
+        hasStreak = false;
+        hasPerfect = false;
+        hasNovice = false;
+        hasDedicated = false;
+        hasSuperStreak = false;
+        renderHistory();
+        renderMedals();
+        nextQuestion();
+    }
+
+    function nextQuestion() {
+        if (!hasNovice && (Date.now() - startTime) > 60000) {
+            award('Concentration Novice', 'Spent 1 minute exploring the math galaxy');
+            hasNovice = true;
+        }
+        if (!hasDedicated && (Date.now() - startTime) > 300000) {
+            award('Concentration Master', 'Navigated the cosmos for over 5 minutes');
+            hasDedicated = true;
+        }
+        attempts = 0;
+        taskStartTime = Date.now();
+        a = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
+        b = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
+        if (operation === '-' && a < b) {
+            let temp = a;
+            a = b;
+            b = temp;
+        }
+        correct = operation === '+' ? a + b : a - b;
+        document.getElementById('question').innerHTML = `${a} ${operation} ${b} = `;
+        document.getElementById('answer').value = '';
+        document.getElementById('answer').focus();
+        document.getElementById('feedback').innerHTML = '';
+    }
+
+    function submitAnswer() {
+        let input = parseInt(document.getElementById('answer').value);
+        if (isNaN(input)) {
+            document.getElementById('feedback').innerHTML = `<span style="color:var(--error-color)">🌌 Enter a number, space cadet!</span>`;
+            return;
+        }
+        let taskTime = Math.round((Date.now() - taskStartTime) / 1000);
+        if (input === correct) {
+            const successColor = document.body.classList.contains('light-mode') ? 'var(--light-success-color)' : 'var(--success-color)';
+            document.getElementById('feedback').innerHTML = `<span style="color:${successColor}">🚀 Blast off! Correct!</span>`;
+            let tries = attempts + 1;
+            let visual = tries === 1 ? '🟢' : tries === 2 ? '🟡' : '🔴';
+            history.unshift({ eq: `${a} ${operation} ${b} = ${correct} (Time: ${taskTime}s)`, visual });
+            if (history.length > 20) history.pop();
+            renderHistory();
+            if (attempts === 0) {
+                firstStreak++;
+                if (firstStreak >= 3 && !hasStreak) {
+                    award('Streak Master', '3 first-time correct in a cosmic row');
+                    hasStreak = true;
+                }
+                if (firstStreak >= 10 && !hasPerfect) {
+                    award('Perfect Run', 'No mistakes for 10 stellar questions');
+                    hasPerfect = true;
+                }
+            } else {
+                firstStreak = 0;
+            }
+            consecSuccess = attempts <= 1 ? consecSuccess + 1 : 0;
+            if (consecSuccess >= 10 && !hasSuperStreak) {
+                award('Super Streak', '10+ correct answers in a galactic streak');
+                hasSuperStreak = true;
+            }
+            setTimeout(() => {
+                if (consecSuccess >= 10 && !isCustom) {
+                    let nextR = getNextRange();
+                    if (nextR && confirm(`🌌 Warp to the next galaxy? Ready for ${nextR[0]}-${nextR[1]}?`)) {
+                        minVal = nextR[0];
+                        maxVal = nextR[1];
+                        consecSuccess = 0;
+                        history = [];
+                        renderHistory();
+                    }
+                }
+                nextQuestion();
+            }, 1000);
+        } else {
+            attempts++;
+            let fb = `<span style="color:var(--error-color)">🌌 Whoops, cosmic miscalculation!`;
+            if (attempts === 1) {
+                fb += ' Try again, astronaut!</span>';
+            } else if (attempts === 2) {
+                fb += ' ' + getHint() + ' Try again!</span>';
+            } else {
+                fb += ' The correct answer is ' + correct + '.</span>';
+                document.getElementById('feedback').innerHTML = fb;
+                let visual = '🔴';
+                history.unshift({ eq: `${a} ${operation} ${b} = ${correct} (Time: ${taskTime}s)`, visual });
+                if (history.length > 20) history.pop();
+                renderHistory();
+                firstStreak = 0;
+                consecSuccess = 0;
+                setTimeout(nextQuestion, 2000);
+                return;
+            }
+            document.getElementById('feedback').innerHTML = fb;
+        }
+    }
+
+    function getHint() {
+        if (operation === '+') {
+            let large = Math.max(a, b);
+            let small = Math.min(a, b);
+            return 'Hint: Launch from the bigger asteroid (' + large + ') and warp up by ' + small + ' more!';
+        } else {
+            return 'Hint: Start from the starship (' + a + ') and zoom down by ' + b + ' light-years!';
+        }
+    }
+
+    function renderHistory() {
+        let ul = document.getElementById('history-list');
+        ul.innerHTML = '';
+        if (history.length === 0) {
+            let li = document.createElement('li');
+            li.className = 'no-entries';
+            li.textContent = 'No entries yet';
+            ul.appendChild(li);
+        } else {
+            history.forEach(h => {
+                let li = document.createElement('li');
+                li.innerHTML = `${h.eq} ${h.visual}`;
+                ul.appendChild(li);
+            });
+        }
+    }
+
+    function award(name, desc) {
+        medals.push({ name, desc });
+        renderMedals();
+        const successColor = document.body.classList.contains('light-mode') ? 'var(--light-success-color)' : 'var(--success-color)';
+        let feedback = document.getElementById('feedback');
+        feedback.innerHTML += `<br><span style="color:${successColor}">🌟 Galactic Glory! You've earned the ${name} medal!</span>`;
+    }
+
+    function renderMedals() {
+        let ul = document.getElementById('medals-list');
+        ul.innerHTML = '';
+        if (medals.length === 0) {
+            let li = document.createElement('li');
+            li.className = 'no-entries';
+            li.textContent = 'No medals earned yet';
+            ul.appendChild(li);
+        } else {
+            medals.forEach(m => {
+                let li = document.createElement('li');
+                li.innerHTML = `🏅 ${m.name}: ${m.desc}`;
+                ul.appendChild(li);
+            });
+        }
+    }
+
+    function getNextRange() {
+        let idx = ranges.findIndex(r => r[0] === minVal && r[1] === maxVal);
+        if (idx === -1) return null;
+        let nextIdx = (idx + 1) % ranges.length;
+        return ranges[nextIdx];
+    }
+</script>
+
+</body>
+</html>
