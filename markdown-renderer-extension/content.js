@@ -55,10 +55,7 @@ function renderMarkdown() {
     // Configure marked options
     marked.setOptions({
       gfm: true, // GitHub Flavored Markdown
-      breaks: true, // Convert \n to <br>
-      headerIds: true,
-      mangle: false,
-      sanitize: false
+      breaks: true // Convert \n to <br>
     });
     
     // Parse the markdown
