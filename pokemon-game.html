@@ -603,8 +603,7 @@
                 <div id="feedbackMessage" role="status" aria-live="polite"></div>
             </div>
 
-            <button id="nextButton" onclick="nextQuestion()" style="display: none;">Next Pokémon →</button>
-            <button onclick="showScreen('homeScreen')">← Back to Home</button>
+            <button id="nextButton" class="primary" onclick="nextQuestion()" disabled>Next Pokémon →</button>
         </div>
 
         <!-- Medals Screen -->
@@ -814,7 +813,7 @@
             
             // Reset UI
             document.getElementById('feedbackMessage').innerHTML = '';
-            document.getElementById('nextButton').style.display = 'none';
+            document.getElementById('nextButton').disabled = true;
             
             // Show loading skeleton
             document.getElementById('pokemonImage').style.display = 'none';
@@ -910,7 +909,7 @@
             
             // Show next button after delay
             setTimeout(() => {
-                document.getElementById('nextButton').style.display = 'block';
+                document.getElementById('nextButton').disabled = false;
             }, 1000);
         }
 
