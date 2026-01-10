@@ -4,2456 +4,6004 @@
     "name": "Bulbasaur",
     "germanName": "Bisasam",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/bulbasaur.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/bulbasaur.jpg",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "types2": [
+      "Grass",
+      "Poison"
+    ],
+    "heightDm": 7,
+    "weightHg": 69,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "green",
+    "shape": "quadruped",
+    "genusEn": "Seed Pokémon",
+    "flavorTextEn": "A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.",
+    "categoryTag": "plant"
   },
   {
     "id": 2,
     "name": "Ivysaur",
     "germanName": "Bisaknosp",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ivysaur.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ivysaur.jpg",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "types2": [
+      "Grass",
+      "Poison"
+    ],
+    "heightDm": 10,
+    "weightHg": 130,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "green",
+    "shape": "quadruped",
+    "genusEn": "Seed Pokémon",
+    "flavorTextEn": "When the bulb on its back grows large, it appears to lose the ability to stand on its hind legs.",
+    "categoryTag": "plant"
   },
   {
     "id": 3,
     "name": "Venusaur",
     "germanName": "Bisaflor",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/venusaur.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/venusaur.jpg",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "types2": [
+      "Grass",
+      "Poison"
+    ],
+    "heightDm": 20,
+    "weightHg": 1000,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "green",
+    "shape": "quadruped",
+    "genusEn": "Seed Pokémon",
+    "flavorTextEn": "The plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight.",
+    "categoryTag": "plant"
   },
   {
     "id": 4,
     "name": "Charmander",
     "germanName": "Glumanda",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/charmander.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/charmander.jpg",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 6,
+    "weightHg": 85,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "red",
+    "shape": "upright",
+    "genusEn": "Lizard Pokémon",
+    "flavorTextEn": "Obviously prefers hot places. When it rains, steam is said to spout from the tip of its tail.",
+    "categoryTag": "lizard"
   },
   {
     "id": 5,
     "name": "Charmeleon",
     "germanName": "Glutexo",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/charmeleon.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/charmeleon.jpg",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 11,
+    "weightHg": 190,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "red",
+    "shape": "upright",
+    "genusEn": "Flame Pokémon",
+    "flavorTextEn": "When it swings its burning tail, it elevates the temperature to unbearably high levels.",
+    "categoryTag": "lizard"
   },
   {
     "id": 6,
     "name": "Charizard",
     "germanName": "Glurak",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/charizard.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/charizard.jpg",
+    "type": [
+      "Fire",
+      "Flying"
+    ],
+    "types2": [
+      "Fire",
+      "Flying"
+    ],
+    "heightDm": 17,
+    "weightHg": 905,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "red",
+    "shape": "upright",
+    "genusEn": "Flame Pokémon",
+    "flavorTextEn": "Spits fire that is hot enough to melt boulders. Known to cause forest fires unintentionally.",
+    "categoryTag": "lizard"
   },
   {
     "id": 7,
     "name": "Squirtle",
     "germanName": "Schiggy",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/squirtle.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/squirtle.jpg",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 5,
+    "weightHg": 90,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Tiny Turtle Pokémon",
+    "flavorTextEn": "After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth.",
+    "categoryTag": "turtle"
   },
   {
     "id": 8,
     "name": "Wartortle",
     "germanName": "Schillok",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/wartortle.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/wartortle.jpg",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 10,
+    "weightHg": 225,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Turtle Pokémon",
+    "flavorTextEn": "Often hides in water to stalk unwary prey. For swimming fast, it moves its ears to maintain balance.",
+    "categoryTag": "turtle"
   },
   {
     "id": 9,
     "name": "Blastoise",
     "germanName": "Turtok",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/blastoise.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/blastoise.jpg",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 16,
+    "weightHg": 855,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Shellfish Pokémon",
+    "flavorTextEn": "A brutal POKéMON with pressurized water jets on its shell. They are used for high speed tackles.",
+    "categoryTag": "fish"
   },
   {
     "id": 10,
     "name": "Caterpie",
     "germanName": "Raupy",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/caterpie.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/caterpie.jpg",
+    "type": [
+      "Bug"
+    ],
+    "types2": [
+      "Bug"
+    ],
+    "heightDm": 3,
+    "weightHg": 29,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "green",
+    "shape": "armor",
+    "genusEn": "Worm Pokémon",
+    "flavorTextEn": "Its short feet are tipped with suction pads that enable it to tirelessly climb slopes and walls.",
+    "categoryTag": "bug"
   },
   {
     "id": 11,
     "name": "Metapod",
     "germanName": "Safcon",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/metapod.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/metapod.jpg",
+    "type": [
+      "Bug"
+    ],
+    "types2": [
+      "Bug"
+    ],
+    "heightDm": 7,
+    "weightHg": 99,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "green",
+    "shape": "squiggle",
+    "genusEn": "Cocoon Pokémon",
+    "flavorTextEn": "This POKéMON is vulnerable to attack while its shell is soft, exposing its weak and tender body.",
+    "categoryTag": "bug"
   },
   {
     "id": 12,
     "name": "Butterfree",
     "germanName": "Smettbo",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/butterfree.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/butterfree.jpg",
+    "type": [
+      "Bug",
+      "Flying"
+    ],
+    "types2": [
+      "Bug",
+      "Flying"
+    ],
+    "heightDm": 11,
+    "weightHg": 320,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "white",
+    "shape": "bug-wings",
+    "genusEn": "Butterfly Pokémon",
+    "flavorTextEn": "In battle, it flaps its wings at high speed to release highly toxic dust into the air.",
+    "categoryTag": "flying"
   },
   {
     "id": 13,
     "name": "Weedle",
     "germanName": "Hornliu",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/weedle.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/weedle.jpg",
+    "type": [
+      "Bug",
+      "Poison"
+    ],
+    "types2": [
+      "Bug",
+      "Poison"
+    ],
+    "heightDm": 3,
+    "weightHg": 32,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "brown",
+    "shape": "armor",
+    "genusEn": "Hairy Bug Pokémon",
+    "flavorTextEn": "Often found in forests, eating leaves. It has a sharp venomous stinger on its head.",
+    "categoryTag": "bug"
   },
   {
     "id": 14,
     "name": "Kakuna",
     "germanName": "Kokuna",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/kakuna.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/kakuna.jpg",
+    "type": [
+      "Bug",
+      "Poison"
+    ],
+    "types2": [
+      "Bug",
+      "Poison"
+    ],
+    "heightDm": 6,
+    "weightHg": 100,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "yellow",
+    "shape": "squiggle",
+    "genusEn": "Cocoon Pokémon",
+    "flavorTextEn": "Almost incapable of moving, this POKéMON can only harden its shell to protect itself from predators.",
+    "categoryTag": "bug"
   },
   {
     "id": 15,
     "name": "Beedrill",
     "germanName": "Bibor",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/beedrill.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/beedrill.jpg",
+    "type": [
+      "Bug",
+      "Poison"
+    ],
+    "types2": [
+      "Bug",
+      "Poison"
+    ],
+    "heightDm": 10,
+    "weightHg": 295,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "yellow",
+    "shape": "bug-wings",
+    "genusEn": "Poison Bee Pokémon",
+    "flavorTextEn": "Flies at high speed and attacks using its large venomous stingers on its forelegs and tail.",
+    "categoryTag": null
   },
   {
     "id": 16,
     "name": "Pidgey",
     "germanName": "Taubsi",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/pidgey.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pidgey.jpg",
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "types2": [
+      "Normal",
+      "Flying"
+    ],
+    "heightDm": 3,
+    "weightHg": 18,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "brown",
+    "shape": "wings",
+    "genusEn": "Tiny Bird Pokémon",
+    "flavorTextEn": "A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand.",
+    "categoryTag": "bird"
   },
   {
     "id": 17,
     "name": "Pidgeotto",
     "germanName": "Tauboga",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/pidgeotto.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pidgeotto.jpg",
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "types2": [
+      "Normal",
+      "Flying"
+    ],
+    "heightDm": 11,
+    "weightHg": 300,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "brown",
+    "shape": "wings",
+    "genusEn": "Bird Pokémon",
+    "flavorTextEn": "Very protective of its sprawling territorial area, this POKéMON will fiercely peck at any intruder.",
+    "categoryTag": "bird"
   },
   {
     "id": 18,
     "name": "Pidgeot",
     "germanName": "Tauboss",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/pidgeot.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pidgeot.jpg",
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "types2": [
+      "Normal",
+      "Flying"
+    ],
+    "heightDm": 15,
+    "weightHg": 395,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "brown",
+    "shape": "wings",
+    "genusEn": "Bird Pokémon",
+    "flavorTextEn": "When hunting, it skims the surface of water at high speed to pick off unwary prey such as MAGIKARP.",
+    "categoryTag": "bird"
   },
   {
     "id": 19,
     "name": "Rattata",
     "germanName": "Rattfratz",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/rattata.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/rattata.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 3,
+    "weightHg": 35,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "purple",
+    "shape": "quadruped",
+    "genusEn": "Mouse Pokémon",
+    "flavorTextEn": "Bites anything when it attacks. Small and very quick, it is a common sight in many places.",
+    "categoryTag": "mouse"
   },
   {
     "id": 20,
     "name": "Raticate",
     "germanName": "Rattikarl",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/raticate.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/raticate.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 7,
+    "weightHg": 185,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Mouse Pokémon",
+    "flavorTextEn": "It uses its whis­ kers to maintain its balance. It apparently slows down if they are cut off.",
+    "categoryTag": "mouse"
   },
   {
     "id": 21,
     "name": "Spearow",
     "germanName": "Habitak",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/spearow.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/spearow.jpg",
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "types2": [
+      "Normal",
+      "Flying"
+    ],
+    "heightDm": 3,
+    "weightHg": 20,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rough-terrain",
+    "color": "brown",
+    "shape": "wings",
+    "genusEn": "Tiny Bird Pokémon",
+    "flavorTextEn": "Eats bugs in grassy areas. It has to flap its short wings at high speed to stay airborne.",
+    "categoryTag": "bird"
   },
   {
     "id": 22,
     "name": "Fearow",
     "germanName": "Ibitak",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/fearow.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/fearow.jpg",
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "types2": [
+      "Normal",
+      "Flying"
+    ],
+    "heightDm": 12,
+    "weightHg": 380,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rough-terrain",
+    "color": "brown",
+    "shape": "wings",
+    "genusEn": "Beak Pokémon",
+    "flavorTextEn": "With its huge and magnificent wings, it can keep aloft without ever having to land for rest.",
+    "categoryTag": "flying"
   },
   {
     "id": 23,
     "name": "Ekans",
     "germanName": "Rettan",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ekans.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ekans.jpg",
+    "type": [
+      "Poison"
+    ],
+    "types2": [
+      "Poison"
+    ],
+    "heightDm": 20,
+    "weightHg": 69,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "purple",
+    "shape": "squiggle",
+    "genusEn": "Snake Pokémon",
+    "flavorTextEn": "Moves silently and stealthily. Eats the eggs of birds, such as PIDGEY and SPEAROW, whole.",
+    "categoryTag": null
   },
   {
     "id": 24,
     "name": "Arbok",
     "germanName": "Arbok",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/arbok.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/arbok.jpg",
+    "type": [
+      "Poison"
+    ],
+    "types2": [
+      "Poison"
+    ],
+    "heightDm": 35,
+    "weightHg": 650,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "purple",
+    "shape": "squiggle",
+    "genusEn": "Cobra Pokémon",
+    "flavorTextEn": "It is rumored that the ferocious warning markings on its belly differ from area to area.",
+    "categoryTag": null
   },
   {
     "id": 25,
     "name": "Pikachu",
     "germanName": "Pikachu",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/pikachu.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pikachu.jpg",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 4,
+    "weightHg": 60,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Mouse Pokémon",
+    "flavorTextEn": "When several of these POKéMON gather, their electricity could build and cause lightning storms.",
+    "categoryTag": "mouse"
   },
   {
     "id": 26,
     "name": "Raichu",
     "germanName": "Raichu",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/raichu.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/raichu.jpg",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 8,
+    "weightHg": 300,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "yellow",
+    "shape": "upright",
+    "genusEn": "Mouse Pokémon",
+    "flavorTextEn": "Its long tail serves as a ground to protect itself from its own high voltage power.",
+    "categoryTag": "mouse"
   },
   {
     "id": 27,
     "name": "Sandshrew",
     "germanName": "Sandan",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sandshrew.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sandshrew.jpg",
+    "type": [
+      "Ground"
+    ],
+    "types2": [
+      "Ground"
+    ],
+    "heightDm": 6,
+    "weightHg": 120,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rough-terrain",
+    "color": "yellow",
+    "shape": "upright",
+    "genusEn": "Mouse Pokémon",
+    "flavorTextEn": "Burrows deep underground in arid locations far from water. It only emerges to hunt for food.",
+    "categoryTag": "mouse"
   },
   {
     "id": 28,
     "name": "Sandslash",
     "germanName": "Sandamer",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sandslash.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sandslash.jpg",
+    "type": [
+      "Ground"
+    ],
+    "types2": [
+      "Ground"
+    ],
+    "heightDm": 10,
+    "weightHg": 295,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rough-terrain",
+    "color": "yellow",
+    "shape": "upright",
+    "genusEn": "Mouse Pokémon",
+    "flavorTextEn": "Curls up into a spiny ball when threatened. It can roll while curled up to attack or escape.",
+    "categoryTag": "mouse"
   },
   {
     "id": 29,
     "name": "Nidoran-f",
     "germanName": "Nidoran♀",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/nidoran-f.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/nidoran-f.jpg",
+    "type": [
+      "Poison"
+    ],
+    "types2": [
+      "Poison"
+    ],
+    "heightDm": 4,
+    "weightHg": 70,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "blue",
+    "shape": "quadruped",
+    "genusEn": "Poison Pin Pokémon",
+    "flavorTextEn": "Although small, its venomous barbs render this POKéMON dangerous. The female has smaller horns.",
+    "categoryTag": null
   },
   {
     "id": 30,
     "name": "Nidorina",
     "germanName": "Nidorina",
     "region": "Kanto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/nidorina.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/nidorina.jpg",
+    "type": [
+      "Poison"
+    ],
+    "types2": [
+      "Poison"
+    ],
+    "heightDm": 8,
+    "weightHg": 200,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "blue",
+    "shape": "quadruped",
+    "genusEn": "Poison Pin Pokémon",
+    "flavorTextEn": "The female's horn develops slowly. Prefers physical attacks such as clawing and biting.",
+    "categoryTag": null
   },
   {
     "id": 31,
     "name": "Nidoqueen",
     "imageUrl": "https://img.pokemondb.net/artwork/large/nidoqueen.jpg",
     "germanName": "Nidoqueen",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Poison",
+      "Ground"
+    ],
+    "types2": [
+      "Poison",
+      "Ground"
+    ],
+    "heightDm": 13,
+    "weightHg": 600,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Drill Pokémon",
+    "flavorTextEn": "Its hard scales provide strong protection. It uses its hefty bulk to execute powerful moves.",
+    "categoryTag": null
   },
   {
     "id": 32,
     "name": "Nidoran-m",
     "imageUrl": "https://img.pokemondb.net/artwork/large/nidoran-m.jpg",
     "germanName": "Nidoran♂",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Poison"
+    ],
+    "types2": [
+      "Poison"
+    ],
+    "heightDm": 5,
+    "weightHg": 90,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "purple",
+    "shape": "quadruped",
+    "genusEn": "Poison Pin Pokémon",
+    "flavorTextEn": "Stiffens its ears to sense danger. The larger its horns, the more powerful its secreted venom.",
+    "categoryTag": null
   },
   {
     "id": 33,
     "name": "Nidorino",
     "imageUrl": "https://img.pokemondb.net/artwork/large/nidorino.jpg",
     "germanName": "Nidorino",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Poison"
+    ],
+    "types2": [
+      "Poison"
+    ],
+    "heightDm": 9,
+    "weightHg": 195,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "purple",
+    "shape": "quadruped",
+    "genusEn": "Poison Pin Pokémon",
+    "flavorTextEn": "An aggressive POKéMON that is quick to attack. The horn on its head secretes a powerful venom.",
+    "categoryTag": null
   },
   {
     "id": 34,
     "name": "Nidoking",
     "imageUrl": "https://img.pokemondb.net/artwork/large/nidoking.jpg",
     "germanName": "Nidoking",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Poison",
+      "Ground"
+    ],
+    "types2": [
+      "Poison",
+      "Ground"
+    ],
+    "heightDm": 14,
+    "weightHg": 620,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "purple",
+    "shape": "upright",
+    "genusEn": "Drill Pokémon",
+    "flavorTextEn": "It uses its powerful tail in battle to smash, constrict, then break the prey's bones.",
+    "categoryTag": null
   },
   {
     "id": 35,
     "name": "Clefairy",
     "imageUrl": "https://img.pokemondb.net/artwork/large/clefairy.jpg",
     "germanName": "Piepi",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fairy"
+    ],
+    "types2": [
+      "Fairy"
+    ],
+    "heightDm": 6,
+    "weightHg": 75,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "Fairy Pokémon",
+    "flavorTextEn": "Its magical and cute appeal has many admirers. It is rare and found only in certain areas.",
+    "categoryTag": null
   },
   {
     "id": 36,
     "name": "Clefable",
     "imageUrl": "https://img.pokemondb.net/artwork/large/clefable.jpg",
     "germanName": "Pixi",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fairy"
+    ],
+    "types2": [
+      "Fairy"
+    ],
+    "heightDm": 13,
+    "weightHg": 400,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "Fairy Pokémon",
+    "flavorTextEn": "A timid fairy POKéMON that is rarely seen. It will run and hide the moment it senses people.",
+    "categoryTag": null
   },
   {
     "id": 37,
     "name": "Vulpix",
     "imageUrl": "https://img.pokemondb.net/artwork/large/vulpix.jpg",
     "germanName": "Vulpix",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 6,
+    "weightHg": 99,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Fox Pokémon",
+    "flavorTextEn": "At the time of birth, it has just one tail. The tail splits from its tip as it grows older.",
+    "categoryTag": null
   },
   {
     "id": 38,
     "name": "Ninetales",
     "imageUrl": "https://img.pokemondb.net/artwork/large/ninetales.jpg",
     "germanName": "Vulnona",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 11,
+    "weightHg": 199,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Fox Pokémon",
+    "flavorTextEn": "Very smart and very vengeful. Grabbing one of its many tails could result in a 1000-year curse.",
+    "categoryTag": null
   },
   {
     "id": 39,
     "name": "Jigglypuff",
     "imageUrl": "https://img.pokemondb.net/artwork/large/jigglypuff.jpg",
     "germanName": "Pummeluff",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal",
+      "Fairy"
+    ],
+    "types2": [
+      "Normal",
+      "Fairy"
+    ],
+    "heightDm": 5,
+    "weightHg": 55,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "pink",
+    "shape": "humanoid",
+    "genusEn": "Balloon Pokémon",
+    "flavorTextEn": "When its huge eyes light up, it sings a mysteriously soothing melody that lulls its enemies to sleep.",
+    "categoryTag": null
   },
   {
     "id": 40,
     "name": "Wigglytuff",
     "imageUrl": "https://img.pokemondb.net/artwork/large/wigglytuff.jpg",
     "germanName": "Knuddeluff",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal",
+      "Fairy"
+    ],
+    "types2": [
+      "Normal",
+      "Fairy"
+    ],
+    "heightDm": 10,
+    "weightHg": 120,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "pink",
+    "shape": "humanoid",
+    "genusEn": "Balloon Pokémon",
+    "flavorTextEn": "The body is soft and rubbery. When angered, it will suck in air and inflate itself to an enormous size.",
+    "categoryTag": null
   },
   {
     "id": 41,
     "name": "Zubat",
     "imageUrl": "https://img.pokemondb.net/artwork/large/zubat.jpg",
     "germanName": "Zubat",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Poison",
+      "Flying"
+    ],
+    "types2": [
+      "Poison",
+      "Flying"
+    ],
+    "heightDm": 8,
+    "weightHg": 75,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "cave",
+    "color": "purple",
+    "shape": "wings",
+    "genusEn": "Bat Pokémon",
+    "flavorTextEn": "Forms colonies in perpetually dark places. Uses ultrasonic waves to identify and approach targets.",
+    "categoryTag": "flying"
   },
   {
     "id": 42,
     "name": "Golbat",
     "imageUrl": "https://img.pokemondb.net/artwork/large/golbat.jpg",
     "germanName": "Golbat",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Poison",
+      "Flying"
+    ],
+    "types2": [
+      "Poison",
+      "Flying"
+    ],
+    "heightDm": 16,
+    "weightHg": 550,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "cave",
+    "color": "purple",
+    "shape": "wings",
+    "genusEn": "Bat Pokémon",
+    "flavorTextEn": "Once it strikes, it will not stop draining energy from the victim even if it gets too heavy to fly.",
+    "categoryTag": "flying"
   },
   {
     "id": 43,
     "name": "Oddish",
     "imageUrl": "https://img.pokemondb.net/artwork/large/oddish.jpg",
     "germanName": "Myrapla",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "types2": [
+      "Grass",
+      "Poison"
+    ],
+    "heightDm": 5,
+    "weightHg": 54,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "blue",
+    "shape": "legs",
+    "genusEn": "Weed Pokémon",
+    "flavorTextEn": "During the day, it keeps its face buried in the ground. At night, it wanders around sowing its seeds.",
+    "categoryTag": "plant"
   },
   {
     "id": 44,
     "name": "Gloom",
     "imageUrl": "https://img.pokemondb.net/artwork/large/gloom.jpg",
     "germanName": "Duflor",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "types2": [
+      "Grass",
+      "Poison"
+    ],
+    "heightDm": 8,
+    "weightHg": 86,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "blue",
+    "shape": "humanoid",
+    "genusEn": "Weed Pokémon",
+    "flavorTextEn": "The fluid that oozes from its mouth isn't drool. It is a nectar that is used to attract prey.",
+    "categoryTag": "plant"
   },
   {
     "id": 45,
     "name": "Vileplume",
     "imageUrl": "https://img.pokemondb.net/artwork/large/vileplume.jpg",
     "germanName": "Giflor",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "types2": [
+      "Grass",
+      "Poison"
+    ],
+    "heightDm": 12,
+    "weightHg": 186,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "red",
+    "shape": "humanoid",
+    "genusEn": "Flower Pokémon",
+    "flavorTextEn": "The larger its petals, the more toxic pollen it contains. Its big head is heavy and hard to hold up.",
+    "categoryTag": "plant"
   },
   {
     "id": 46,
     "name": "Paras",
     "imageUrl": "https://img.pokemondb.net/artwork/large/paras.jpg",
     "germanName": "Paras",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Bug",
+      "Grass"
+    ],
+    "types2": [
+      "Bug",
+      "Grass"
+    ],
+    "heightDm": 3,
+    "weightHg": 54,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "red",
+    "shape": "armor",
+    "genusEn": "Mushroom Pokémon",
+    "flavorTextEn": "Burrows to suck tree roots. The mushrooms on its back grow by draw­ ing nutrients from the bug host.",
+    "categoryTag": null
   },
   {
     "id": 47,
     "name": "Parasect",
     "imageUrl": "https://img.pokemondb.net/artwork/large/parasect.jpg",
     "germanName": "Parasek",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Bug",
+      "Grass"
+    ],
+    "types2": [
+      "Bug",
+      "Grass"
+    ],
+    "heightDm": 10,
+    "weightHg": 295,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "red",
+    "shape": "armor",
+    "genusEn": "Mushroom Pokémon",
+    "flavorTextEn": "A host-parasite pair in which the parasite mushroom has taken over the host bug. Prefers damp places.",
+    "categoryTag": null
   },
   {
     "id": 48,
     "name": "Venonat",
     "imageUrl": "https://img.pokemondb.net/artwork/large/venonat.jpg",
     "germanName": "Bluzuk",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Bug",
+      "Poison"
+    ],
+    "types2": [
+      "Bug",
+      "Poison"
+    ],
+    "heightDm": 10,
+    "weightHg": 300,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "purple",
+    "shape": "humanoid",
+    "genusEn": "Insect Pokémon",
+    "flavorTextEn": "Lives in the shadows of tall trees where it eats insects. It is attracted by light at night.",
+    "categoryTag": null
   },
   {
     "id": 49,
     "name": "Venomoth",
     "imageUrl": "https://img.pokemondb.net/artwork/large/venomoth.jpg",
     "germanName": "Omot",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Bug",
+      "Poison"
+    ],
+    "types2": [
+      "Bug",
+      "Poison"
+    ],
+    "heightDm": 15,
+    "weightHg": 125,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "purple",
+    "shape": "bug-wings",
+    "genusEn": "Poison Moth Pokémon",
+    "flavorTextEn": "The dust-like scales covering its wings are color coded to indicate the kinds of poison it has.",
+    "categoryTag": null
   },
   {
     "id": 50,
     "name": "Diglett",
     "imageUrl": "https://img.pokemondb.net/artwork/large/diglett.jpg",
     "germanName": "Digda",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ground"
+    ],
+    "types2": [
+      "Ground"
+    ],
+    "heightDm": 2,
+    "weightHg": 8,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "cave",
+    "color": "brown",
+    "shape": "blob",
+    "genusEn": "Mole Pokémon",
+    "flavorTextEn": "Lives about one yard underground where it feeds on plant roots. It sometimes appears above ground.",
+    "categoryTag": null
   },
   {
     "id": 51,
     "name": "Dugtrio",
     "imageUrl": "https://img.pokemondb.net/artwork/large/dugtrio.jpg",
     "germanName": "Digdri",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ground"
+    ],
+    "types2": [
+      "Ground"
+    ],
+    "heightDm": 7,
+    "weightHg": 333,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "cave",
+    "color": "brown",
+    "shape": "heads",
+    "genusEn": "Mole Pokémon",
+    "flavorTextEn": "A team of DIGLETT triplets. It triggers huge earthquakes by burrowing 60 miles underground.",
+    "categoryTag": null
   },
   {
     "id": 52,
     "name": "Meowth",
     "imageUrl": "https://img.pokemondb.net/artwork/large/meowth.jpg",
     "germanName": "Mauzi",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 4,
+    "weightHg": 42,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Scratch Cat Pokémon",
+    "flavorTextEn": "Adores circular objects. Wanders the streets on a nightly basis to look for dropped loose change.",
+    "categoryTag": "mouse"
   },
   {
     "id": 53,
     "name": "Persian",
     "imageUrl": "https://img.pokemondb.net/artwork/large/persian.jpg",
     "germanName": "Snobilikat",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 10,
+    "weightHg": 320,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Classy Cat Pokémon",
+    "flavorTextEn": "Although its fur has many admirers, it is tough to raise as a pet because of its fickle meanness.",
+    "categoryTag": null
   },
   {
     "id": 54,
     "name": "Psyduck",
     "imageUrl": "https://img.pokemondb.net/artwork/large/psyduck.jpg",
     "germanName": "Enton",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 8,
+    "weightHg": 196,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "yellow",
+    "shape": "upright",
+    "genusEn": "Duck Pokémon",
+    "flavorTextEn": "While lulling its enemies with its vacant look, this wily POKéMON will use psychokinetic powers.",
+    "categoryTag": "water"
   },
   {
     "id": 55,
     "name": "Golduck",
     "imageUrl": "https://img.pokemondb.net/artwork/large/golduck.jpg",
     "germanName": "Entoron",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 17,
+    "weightHg": 766,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Duck Pokémon",
+    "flavorTextEn": "Often seen swim­ ming elegantly by lake shores. It is often mistaken for the Japanese monster, Kappa.",
+    "categoryTag": "water"
   },
   {
     "id": 56,
     "name": "Mankey",
     "imageUrl": "https://img.pokemondb.net/artwork/large/mankey.jpg",
     "germanName": "Menki",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fighting"
+    ],
+    "types2": [
+      "Fighting"
+    ],
+    "heightDm": 5,
+    "weightHg": 280,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Pig Monkey Pokémon",
+    "flavorTextEn": "Extremely quick to anger. It could be docile one moment then thrashing away the next instant.",
+    "categoryTag": null
   },
   {
     "id": 57,
     "name": "Primeape",
     "imageUrl": "https://img.pokemondb.net/artwork/large/primeape.jpg",
     "germanName": "Rasaff",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fighting"
+    ],
+    "types2": [
+      "Fighting"
+    ],
+    "heightDm": 10,
+    "weightHg": 320,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Pig Monkey Pokémon",
+    "flavorTextEn": "Always furious and tenacious to boot. It will not abandon chasing its quarry until it is caught.",
+    "categoryTag": null
   },
   {
     "id": 58,
     "name": "Growlithe",
     "imageUrl": "https://img.pokemondb.net/artwork/large/growlithe.jpg",
     "germanName": "Fukano",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 7,
+    "weightHg": 190,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Puppy Pokémon",
+    "flavorTextEn": "Very protective of its territory. It will bark and bite to repel intruders from its space.",
+    "categoryTag": null
   },
   {
     "id": 59,
     "name": "Arcanine",
     "imageUrl": "https://img.pokemondb.net/artwork/large/arcanine.jpg",
     "germanName": "Arkani",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 19,
+    "weightHg": 1550,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Legendary Pokémon",
+    "flavorTextEn": "A POKéMON that has been admired since the past for its beauty. It runs agilely as if on wings.",
+    "categoryTag": null
   },
   {
     "id": 60,
     "name": "Poliwag",
     "imageUrl": "https://img.pokemondb.net/artwork/large/poliwag.jpg",
     "germanName": "Quapsel",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 6,
+    "weightHg": 124,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "legs",
+    "genusEn": "Tadpole Pokémon",
+    "flavorTextEn": "Its newly grown legs prevent it from running. It appears to prefer swimming than trying to stand.",
+    "categoryTag": "water"
   },
   {
     "id": 61,
     "name": "Poliwhirl",
     "imageUrl": "https://img.pokemondb.net/artwork/large/poliwhirl.jpg",
     "germanName": "Quaputzi",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 10,
+    "weightHg": 200,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "humanoid",
+    "genusEn": "Tadpole Pokémon",
+    "flavorTextEn": "Capable of living in or out of water. When out of water, it sweats to keep its body slimy.",
+    "categoryTag": "water"
   },
   {
     "id": 62,
     "name": "Poliwrath",
     "imageUrl": "https://img.pokemondb.net/artwork/large/poliwrath.jpg",
     "germanName": "Quappo",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water",
+      "Fighting"
+    ],
+    "types2": [
+      "Water",
+      "Fighting"
+    ],
+    "heightDm": 13,
+    "weightHg": 540,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "humanoid",
+    "genusEn": "Tadpole Pokémon",
+    "flavorTextEn": "An adept swimmer at both the front crawl and breast stroke. Easily overtakes the best human swimmers.",
+    "categoryTag": "water"
   },
   {
     "id": 63,
     "name": "Abra",
     "imageUrl": "https://img.pokemondb.net/artwork/large/abra.jpg",
     "germanName": "Abra",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Psychic"
+    ],
+    "types2": [
+      "Psychic"
+    ],
+    "heightDm": 9,
+    "weightHg": 195,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Psi Pokémon",
+    "flavorTextEn": "Using its ability to read minds, it will identify impending danger and TELEPORT to safety.",
+    "categoryTag": null
   },
   {
     "id": 64,
     "name": "Kadabra",
     "imageUrl": "https://img.pokemondb.net/artwork/large/kadabra.jpg",
     "germanName": "Kadabra",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Psychic"
+    ],
+    "types2": [
+      "Psychic"
+    ],
+    "heightDm": 13,
+    "weightHg": 565,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Psi Pokémon",
+    "flavorTextEn": "It emits special alpha waves from its body that induce headaches just by being close by.",
+    "categoryTag": null
   },
   {
     "id": 65,
     "name": "Alakazam",
     "imageUrl": "https://img.pokemondb.net/artwork/large/alakazam.jpg",
     "germanName": "Simsala",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Psychic"
+    ],
+    "types2": [
+      "Psychic"
+    ],
+    "heightDm": 15,
+    "weightHg": 480,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "brown",
+    "shape": "humanoid",
+    "genusEn": "Psi Pokémon",
+    "flavorTextEn": "Its brain can out­ perform a super­ computer. Its intelligence quotient is said to be 5,000.",
+    "categoryTag": null
   },
   {
     "id": 66,
     "name": "Machop",
     "imageUrl": "https://img.pokemondb.net/artwork/large/machop.jpg",
     "germanName": "Machollo",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fighting"
+    ],
+    "types2": [
+      "Fighting"
+    ],
+    "heightDm": 8,
+    "weightHg": 195,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "gray",
+    "shape": "upright",
+    "genusEn": "Superpower Pokémon",
+    "flavorTextEn": "Loves to build its muscles. It trains in all styles of martial arts to become even stronger.",
+    "categoryTag": null
   },
   {
     "id": 67,
     "name": "Machoke",
     "imageUrl": "https://img.pokemondb.net/artwork/large/machoke.jpg",
     "germanName": "Maschock",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fighting"
+    ],
+    "types2": [
+      "Fighting"
+    ],
+    "heightDm": 15,
+    "weightHg": 705,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "gray",
+    "shape": "humanoid",
+    "genusEn": "Superpower Pokémon",
+    "flavorTextEn": "Its muscular body is so powerful, it must wear a power save belt to be able to regulate its motions.",
+    "categoryTag": null
   },
   {
     "id": 68,
     "name": "Machamp",
     "imageUrl": "https://img.pokemondb.net/artwork/large/machamp.jpg",
     "germanName": "Machomei",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fighting"
+    ],
+    "types2": [
+      "Fighting"
+    ],
+    "heightDm": 16,
+    "weightHg": 1300,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "gray",
+    "shape": "humanoid",
+    "genusEn": "Superpower Pokémon",
+    "flavorTextEn": "Using its heavy muscles, it throws powerful punches that can send the victim clear over the horizon.",
+    "categoryTag": null
   },
   {
     "id": 69,
     "name": "Bellsprout",
     "imageUrl": "https://img.pokemondb.net/artwork/large/bellsprout.jpg",
     "germanName": "Knofensa",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "types2": [
+      "Grass",
+      "Poison"
+    ],
+    "heightDm": 7,
+    "weightHg": 40,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "green",
+    "shape": "humanoid",
+    "genusEn": "Flower Pokémon",
+    "flavorTextEn": "A carnivorous POKéMON that traps and eats bugs. It uses its root feet to soak up needed moisture.",
+    "categoryTag": "plant"
   },
   {
     "id": 70,
     "name": "Weepinbell",
     "imageUrl": "https://img.pokemondb.net/artwork/large/weepinbell.jpg",
     "germanName": "Ultrigaria",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "types2": [
+      "Grass",
+      "Poison"
+    ],
+    "heightDm": 10,
+    "weightHg": 64,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "green",
+    "shape": "blob",
+    "genusEn": "Flycatcher Pokémon",
+    "flavorTextEn": "It spits out POISONPOWDER to immobilize the enemy and then finishes it with a spray of ACID.",
+    "categoryTag": null
   },
   {
     "id": 71,
     "name": "Victreebel",
     "imageUrl": "https://img.pokemondb.net/artwork/large/victreebel.jpg",
     "germanName": "Sarzenia",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "types2": [
+      "Grass",
+      "Poison"
+    ],
+    "heightDm": 17,
+    "weightHg": 155,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "green",
+    "shape": "blob",
+    "genusEn": "Flycatcher Pokémon",
+    "flavorTextEn": "Said to live in huge colonies deep in jungles, although no one has ever returned from there.",
+    "categoryTag": null
   },
   {
     "id": 72,
     "name": "Tentacool",
     "imageUrl": "https://img.pokemondb.net/artwork/large/tentacool.jpg",
     "germanName": "Tentacha",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water",
+      "Poison"
+    ],
+    "types2": [
+      "Water",
+      "Poison"
+    ],
+    "heightDm": 9,
+    "weightHg": 455,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "blue",
+    "shape": "tentacles",
+    "genusEn": "Jellyfish Pokémon",
+    "flavorTextEn": "Drifts in shallow seas. Anglers who hook them by accident are often punished by its stinging acid.",
+    "categoryTag": "fish"
   },
   {
     "id": 73,
     "name": "Tentacruel",
     "imageUrl": "https://img.pokemondb.net/artwork/large/tentacruel.jpg",
     "germanName": "Tentoxa",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water",
+      "Poison"
+    ],
+    "types2": [
+      "Water",
+      "Poison"
+    ],
+    "heightDm": 16,
+    "weightHg": 550,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "blue",
+    "shape": "tentacles",
+    "genusEn": "Jellyfish Pokémon",
+    "flavorTextEn": "The tentacles are normally kept short. On hunts, they are extended to ensnare and immobilize prey.",
+    "categoryTag": "fish"
   },
   {
     "id": 74,
     "name": "Geodude",
     "imageUrl": "https://img.pokemondb.net/artwork/large/geodude.jpg",
     "germanName": "Kleinstein",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Rock",
+      "Ground"
+    ],
+    "types2": [
+      "Rock",
+      "Ground"
+    ],
+    "heightDm": 4,
+    "weightHg": 200,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "brown",
+    "shape": "arms",
+    "genusEn": "Rock Pokémon",
+    "flavorTextEn": "Found in fields and mountains. Mistaking them for boulders, people often step or trip on them.",
+    "categoryTag": null
   },
   {
     "id": 75,
     "name": "Graveler",
     "imageUrl": "https://img.pokemondb.net/artwork/large/graveler.jpg",
     "germanName": "Georok",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Rock",
+      "Ground"
+    ],
+    "types2": [
+      "Rock",
+      "Ground"
+    ],
+    "heightDm": 10,
+    "weightHg": 1050,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "brown",
+    "shape": "humanoid",
+    "genusEn": "Rock Pokémon",
+    "flavorTextEn": "Rolls down slopes to move. It rolls over any obstacle without slowing or changing its direction.",
+    "categoryTag": null
   },
   {
     "id": 76,
     "name": "Golem",
     "imageUrl": "https://img.pokemondb.net/artwork/large/golem.jpg",
     "germanName": "Geowaz",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Rock",
+      "Ground"
+    ],
+    "types2": [
+      "Rock",
+      "Ground"
+    ],
+    "heightDm": 14,
+    "weightHg": 3000,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "brown",
+    "shape": "humanoid",
+    "genusEn": "Megaton Pokémon",
+    "flavorTextEn": "Its boulder-like body is extremely hard. It can easily withstand dynamite blasts without damage.",
+    "categoryTag": null
   },
   {
     "id": 77,
     "name": "Ponyta",
     "imageUrl": "https://img.pokemondb.net/artwork/large/ponyta.jpg",
     "germanName": "Ponita",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 10,
+    "weightHg": 300,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Fire Horse Pokémon",
+    "flavorTextEn": "Its hooves are 10 times harder than diamonds. It can trample anything completely flat in little time.",
+    "categoryTag": null
   },
   {
     "id": 78,
     "name": "Rapidash",
     "imageUrl": "https://img.pokemondb.net/artwork/large/rapidash.jpg",
     "germanName": "Gallopa",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 17,
+    "weightHg": 950,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Fire Horse Pokémon",
+    "flavorTextEn": "Very competitive, this POKéMON will chase anything that moves fast in the hopes of racing it.",
+    "categoryTag": null
   },
   {
     "id": 79,
     "name": "Slowpoke",
     "imageUrl": "https://img.pokemondb.net/artwork/large/slowpoke.jpg",
     "germanName": "Flegmon",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water",
+      "Psychic"
+    ],
+    "types2": [
+      "Water",
+      "Psychic"
+    ],
+    "heightDm": 12,
+    "weightHg": 360,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "pink",
+    "shape": "quadruped",
+    "genusEn": "Dopey Pokémon",
+    "flavorTextEn": "Incredibly slow and dopey. It takes 5 seconds for it to feel pain when under attack.",
+    "categoryTag": "water"
   },
   {
     "id": 80,
     "name": "Slowbro",
     "imageUrl": "https://img.pokemondb.net/artwork/large/slowbro.jpg",
     "germanName": "Lahmus",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water",
+      "Psychic"
+    ],
+    "types2": [
+      "Water",
+      "Psychic"
+    ],
+    "heightDm": 16,
+    "weightHg": 785,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "Hermit Crab Pokémon",
+    "flavorTextEn": "The SHELLDER that is latched onto SLOWPOKE's tail is said to feed on the host's left over scraps.",
+    "categoryTag": "water"
   },
   {
     "id": 81,
     "name": "Magnemite",
     "imageUrl": "https://img.pokemondb.net/artwork/large/magnemite.jpg",
     "germanName": "Magnetilo",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Electric",
+      "Steel"
+    ],
+    "types2": [
+      "Electric",
+      "Steel"
+    ],
+    "heightDm": 3,
+    "weightHg": 60,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rough-terrain",
+    "color": "gray",
+    "shape": "arms",
+    "genusEn": "Magnet Pokémon",
+    "flavorTextEn": "Uses anti-gravity to stay suspended. Appears without warning and uses THUNDER WAVE and similar moves.",
+    "categoryTag": null
   },
   {
     "id": 82,
     "name": "Magneton",
     "imageUrl": "https://img.pokemondb.net/artwork/large/magneton.jpg",
     "germanName": "Magneton",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Electric",
+      "Steel"
+    ],
+    "types2": [
+      "Electric",
+      "Steel"
+    ],
+    "heightDm": 10,
+    "weightHg": 600,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rough-terrain",
+    "color": "gray",
+    "shape": "heads",
+    "genusEn": "Magnet Pokémon",
+    "flavorTextEn": "Formed by several MAGNEMITEs linked together. They frequently appear when sunspots flare up.",
+    "categoryTag": null
   },
   {
     "id": 83,
     "name": "Farfetchd",
     "imageUrl": "https://img.pokemondb.net/artwork/large/farfetchd.jpg",
     "germanName": "Porenta",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "types2": [
+      "Normal",
+      "Flying"
+    ],
+    "heightDm": 8,
+    "weightHg": 150,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "wings",
+    "genusEn": "Wild Duck Pokémon",
+    "flavorTextEn": "The sprig of green onions it holds is its weapon. It is used much like a metal sword.",
+    "categoryTag": "flying"
   },
   {
     "id": 84,
     "name": "Doduo",
     "imageUrl": "https://img.pokemondb.net/artwork/large/doduo.jpg",
     "germanName": "Dodu",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "types2": [
+      "Normal",
+      "Flying"
+    ],
+    "heightDm": 14,
+    "weightHg": 392,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "legs",
+    "genusEn": "Twin Bird Pokémon",
+    "flavorTextEn": "A bird that makes up for its poor flying with its fast foot speed. Leaves giant footprints.",
+    "categoryTag": "bird"
   },
   {
     "id": 85,
     "name": "Dodrio",
     "imageUrl": "https://img.pokemondb.net/artwork/large/dodrio.jpg",
     "germanName": "Dodri",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "types2": [
+      "Normal",
+      "Flying"
+    ],
+    "heightDm": 18,
+    "weightHg": 852,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "legs",
+    "genusEn": "Triple Bird Pokémon",
+    "flavorTextEn": "Uses its three brains to execute complex plans. While two heads sleep, one head stays awake.",
+    "categoryTag": "bird"
   },
   {
     "id": 86,
     "name": "Seel",
     "imageUrl": "https://img.pokemondb.net/artwork/large/seel.jpg",
     "germanName": "Jurob",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 11,
+    "weightHg": 900,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "white",
+    "shape": "fish",
+    "genusEn": "Sea Lion Pokémon",
+    "flavorTextEn": "The protruding horn on its head is very hard. It is used for bashing through thick ice.",
+    "categoryTag": "water"
   },
   {
     "id": 87,
     "name": "Dewgong",
     "imageUrl": "https://img.pokemondb.net/artwork/large/dewgong.jpg",
     "germanName": "Jugong",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water",
+      "Ice"
+    ],
+    "types2": [
+      "Water",
+      "Ice"
+    ],
+    "heightDm": 17,
+    "weightHg": 1200,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "white",
+    "shape": "fish",
+    "genusEn": "Sea Lion Pokémon",
+    "flavorTextEn": "Stores thermal energy in its body. Swims at a steady 8 knots even in intensely cold waters.",
+    "categoryTag": "water"
   },
   {
     "id": 88,
     "name": "Grimer",
     "imageUrl": "https://img.pokemondb.net/artwork/large/grimer.jpg",
     "germanName": "Sleima",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Poison"
+    ],
+    "types2": [
+      "Poison"
+    ],
+    "heightDm": 9,
+    "weightHg": 300,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "purple",
+    "shape": "arms",
+    "genusEn": "Sludge Pokémon",
+    "flavorTextEn": "Appears in filthy areas. Thrives by sucking up polluted sludge that is pumped out of factories.",
+    "categoryTag": null
   },
   {
     "id": 89,
     "name": "Muk",
     "imageUrl": "https://img.pokemondb.net/artwork/large/muk.jpg",
     "germanName": "Sleimok",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Poison"
+    ],
+    "types2": [
+      "Poison"
+    ],
+    "heightDm": 12,
+    "weightHg": 300,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "purple",
+    "shape": "arms",
+    "genusEn": "Sludge Pokémon",
+    "flavorTextEn": "Thickly covered with a filthy, vile sludge. It is so toxic, even its footprints contain poison.",
+    "categoryTag": null
   },
   {
     "id": 90,
     "name": "Shellder",
     "imageUrl": "https://img.pokemondb.net/artwork/large/shellder.jpg",
     "germanName": "Muschas",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 3,
+    "weightHg": 40,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "purple",
+    "shape": "ball",
+    "genusEn": "Bivalve Pokémon",
+    "flavorTextEn": "Its hard shell repels any kind of attack. It is vulnerable only when its shell is open.",
+    "categoryTag": "water"
   },
   {
     "id": 91,
     "name": "Cloyster",
     "imageUrl": "https://img.pokemondb.net/artwork/large/cloyster.jpg",
     "germanName": "Austos",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water",
+      "Ice"
+    ],
+    "types2": [
+      "Water",
+      "Ice"
+    ],
+    "heightDm": 15,
+    "weightHg": 1325,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "purple",
+    "shape": "ball",
+    "genusEn": "Bivalve Pokémon",
+    "flavorTextEn": "When attacked, it launches its horns in quick volleys. Its innards have never been seen.",
+    "categoryTag": "water"
   },
   {
     "id": 92,
     "name": "Gastly",
     "imageUrl": "https://img.pokemondb.net/artwork/large/gastly.jpg",
     "germanName": "Nebulak",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ghost",
+      "Poison"
+    ],
+    "types2": [
+      "Ghost",
+      "Poison"
+    ],
+    "heightDm": 13,
+    "weightHg": 1,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "cave",
+    "color": "purple",
+    "shape": "ball",
+    "genusEn": "Gas Pokémon",
+    "flavorTextEn": "Almost invisible, this gaseous POKéMON cloaks the target and puts it to sleep without notice.",
+    "categoryTag": null
   },
   {
     "id": 93,
     "name": "Haunter",
     "imageUrl": "https://img.pokemondb.net/artwork/large/haunter.jpg",
     "germanName": "Alpollo",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ghost",
+      "Poison"
+    ],
+    "types2": [
+      "Ghost",
+      "Poison"
+    ],
+    "heightDm": 16,
+    "weightHg": 1,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "cave",
+    "color": "purple",
+    "shape": "arms",
+    "genusEn": "Gas Pokémon",
+    "flavorTextEn": "Because of its ability to slip through block walls, it is said to be from an­ other dimension.",
+    "categoryTag": null
   },
   {
     "id": 94,
     "name": "Gengar",
     "imageUrl": "https://img.pokemondb.net/artwork/large/gengar.jpg",
     "germanName": "Gengar",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ghost",
+      "Poison"
+    ],
+    "types2": [
+      "Ghost",
+      "Poison"
+    ],
+    "heightDm": 15,
+    "weightHg": 405,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "cave",
+    "color": "purple",
+    "shape": "upright",
+    "genusEn": "Shadow Pokémon",
+    "flavorTextEn": "Under a full moon, this POKéMON likes to mimic the shadows of people and laugh at their fright.",
+    "categoryTag": null
   },
   {
     "id": 95,
     "name": "Onix",
     "imageUrl": "https://img.pokemondb.net/artwork/large/onix.jpg",
     "germanName": "Onix",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Rock",
+      "Ground"
+    ],
+    "types2": [
+      "Rock",
+      "Ground"
+    ],
+    "heightDm": 88,
+    "weightHg": 2100,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "cave",
+    "color": "gray",
+    "shape": "squiggle",
+    "genusEn": "Rock Snake Pokémon",
+    "flavorTextEn": "As it grows, the stone portions of its body harden to become similar to a diamond, but colored black.",
+    "categoryTag": null
   },
   {
     "id": 96,
     "name": "Drowzee",
     "imageUrl": "https://img.pokemondb.net/artwork/large/drowzee.jpg",
     "germanName": "Traumato",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Psychic"
+    ],
+    "types2": [
+      "Psychic"
+    ],
+    "heightDm": 10,
+    "weightHg": 324,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "humanoid",
+    "genusEn": "Hypnosis Pokémon",
+    "flavorTextEn": "Puts enemies to sleep then eats their dreams. Occasionally gets sick from eating bad dreams.",
+    "categoryTag": null
   },
   {
     "id": 97,
     "name": "Hypno",
     "imageUrl": "https://img.pokemondb.net/artwork/large/hypno.jpg",
     "germanName": "Hypno",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Psychic"
+    ],
+    "types2": [
+      "Psychic"
+    ],
+    "heightDm": 16,
+    "weightHg": 756,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "humanoid",
+    "genusEn": "Hypnosis Pokémon",
+    "flavorTextEn": "When it locks eyes with an enemy, it will use a mix of PSI moves such as HYPNOSIS and CONFUSION.",
+    "categoryTag": null
   },
   {
     "id": 98,
     "name": "Krabby",
     "imageUrl": "https://img.pokemondb.net/artwork/large/krabby.jpg",
     "germanName": "Krabby",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 4,
+    "weightHg": 65,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "red",
+    "shape": "armor",
+    "genusEn": "River Crab Pokémon",
+    "flavorTextEn": "Its pincers are not only powerful weapons, they are used for balance when walking sideways.",
+    "categoryTag": "water"
   },
   {
     "id": 99,
     "name": "Kingler",
     "imageUrl": "https://img.pokemondb.net/artwork/large/kingler.jpg",
     "germanName": "Kingler",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 13,
+    "weightHg": 600,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "red",
+    "shape": "armor",
+    "genusEn": "Pincer Pokémon",
+    "flavorTextEn": "The large pincer has 10000 hp of crushing power. However, its huge size makes it unwieldy to use.",
+    "categoryTag": "water"
   },
   {
     "id": 100,
     "name": "Voltorb",
     "imageUrl": "https://img.pokemondb.net/artwork/large/voltorb.jpg",
     "germanName": "Voltobal",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 5,
+    "weightHg": 104,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "red",
+    "shape": "ball",
+    "genusEn": "Ball Pokémon",
+    "flavorTextEn": "Usually found in power plants. Easily mistaken for a POKé BALL, they have zapped many people.",
+    "categoryTag": null
   },
   {
     "id": 101,
     "name": "Electrode",
     "imageUrl": "https://img.pokemondb.net/artwork/large/electrode.jpg",
     "germanName": "Lektrobal",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 12,
+    "weightHg": 666,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "red",
+    "shape": "ball",
+    "genusEn": "Ball Pokémon",
+    "flavorTextEn": "It stores electric energy under very high pressure. It often explodes with little or no provocation.",
+    "categoryTag": null
   },
   {
     "id": 102,
     "name": "Exeggcute",
     "imageUrl": "https://img.pokemondb.net/artwork/large/exeggcute.jpg",
     "germanName": "Owei",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Grass",
+      "Psychic"
+    ],
+    "types2": [
+      "Grass",
+      "Psychic"
+    ],
+    "heightDm": 4,
+    "weightHg": 25,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "pink",
+    "shape": "heads",
+    "genusEn": "Egg Pokémon",
+    "flavorTextEn": "Often mistaken for eggs. When disturbed, they quickly gather and attack in swarms.",
+    "categoryTag": null
   },
   {
     "id": 103,
     "name": "Exeggutor",
     "imageUrl": "https://img.pokemondb.net/artwork/large/exeggutor.jpg",
     "germanName": "Kokowei",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Grass",
+      "Psychic"
+    ],
+    "types2": [
+      "Grass",
+      "Psychic"
+    ],
+    "heightDm": 20,
+    "weightHg": 1200,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "yellow",
+    "shape": "legs",
+    "genusEn": "Coconut Pokémon",
+    "flavorTextEn": "Legend has it that on rare occasions, one of its heads will drop off and continue on as an EXEGGCUTE.",
+    "categoryTag": null
   },
   {
     "id": 104,
     "name": "Cubone",
     "imageUrl": "https://img.pokemondb.net/artwork/large/cubone.jpg",
     "germanName": "Tragosso",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ground"
+    ],
+    "types2": [
+      "Ground"
+    ],
+    "heightDm": 4,
+    "weightHg": 65,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Lonely Pokémon",
+    "flavorTextEn": "Because it never removes its skull helmet, no one has ever seen this POKéMON's real face.",
+    "categoryTag": null
   },
   {
     "id": 105,
     "name": "Marowak",
     "imageUrl": "https://img.pokemondb.net/artwork/large/marowak.jpg",
     "germanName": "Knogga",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ground"
+    ],
+    "types2": [
+      "Ground"
+    ],
+    "heightDm": 10,
+    "weightHg": 450,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Bone Keeper Pokémon",
+    "flavorTextEn": "The bone it holds is its key weapon. It throws the bone skillfully like a boomerang to KO targets.",
+    "categoryTag": null
   },
   {
     "id": 106,
     "name": "Hitmonlee",
     "imageUrl": "https://img.pokemondb.net/artwork/large/hitmonlee.jpg",
     "germanName": "Kicklee",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fighting"
+    ],
+    "types2": [
+      "Fighting"
+    ],
+    "heightDm": 15,
+    "weightHg": 498,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "brown",
+    "shape": "humanoid",
+    "genusEn": "Kicking Pokémon",
+    "flavorTextEn": "When in a hurry, its legs lengthen progressively. It runs smoothly with extra long, loping strides.",
+    "categoryTag": null
   },
   {
     "id": 107,
     "name": "Hitmonchan",
     "imageUrl": "https://img.pokemondb.net/artwork/large/hitmonchan.jpg",
     "germanName": "Nockchan",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fighting"
+    ],
+    "types2": [
+      "Fighting"
+    ],
+    "heightDm": 14,
+    "weightHg": 502,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "brown",
+    "shape": "humanoid",
+    "genusEn": "Punching Pokémon",
+    "flavorTextEn": "While apparently doing nothing, it fires punches in lightning fast volleys that are impossible to see.",
+    "categoryTag": null
   },
   {
     "id": 108,
     "name": "Lickitung",
     "imageUrl": "https://img.pokemondb.net/artwork/large/lickitung.jpg",
     "germanName": "Schlurp",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 12,
+    "weightHg": 655,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "Licking Pokémon",
+    "flavorTextEn": "Its tongue can be extended like a chameleon's. It leaves a tingling sensation when it licks enemies.",
+    "categoryTag": null
   },
   {
     "id": 109,
     "name": "Koffing",
     "imageUrl": "https://img.pokemondb.net/artwork/large/koffing.jpg",
     "germanName": "Smogon",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Poison"
+    ],
+    "types2": [
+      "Poison"
+    ],
+    "heightDm": 6,
+    "weightHg": 10,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "purple",
+    "shape": "ball",
+    "genusEn": "Poison Gas Pokémon",
+    "flavorTextEn": "Because it stores several kinds of toxic gases in its body, it is prone to exploding without warning.",
+    "categoryTag": null
   },
   {
     "id": 110,
     "name": "Weezing",
     "imageUrl": "https://img.pokemondb.net/artwork/large/weezing.jpg",
     "germanName": "Smogmog",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Poison"
+    ],
+    "types2": [
+      "Poison"
+    ],
+    "heightDm": 12,
+    "weightHg": 95,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "purple",
+    "shape": "heads",
+    "genusEn": "Poison Gas Pokémon",
+    "flavorTextEn": "Where two kinds of poison gases meet, 2 KOFFINGs can fuse into a WEEZING over many years.",
+    "categoryTag": null
   },
   {
     "id": 111,
     "name": "Rhyhorn",
     "imageUrl": "https://img.pokemondb.net/artwork/large/rhyhorn.jpg",
     "germanName": "Rihorn",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ground",
+      "Rock"
+    ],
+    "types2": [
+      "Ground",
+      "Rock"
+    ],
+    "heightDm": 10,
+    "weightHg": 1150,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rough-terrain",
+    "color": "gray",
+    "shape": "quadruped",
+    "genusEn": "Spikes Pokémon",
+    "flavorTextEn": "Its massive bones are 1000 times harder than human bones. It can easily knock a trailer flying.",
+    "categoryTag": null
   },
   {
     "id": 112,
     "name": "Rhydon",
     "imageUrl": "https://img.pokemondb.net/artwork/large/rhydon.jpg",
     "germanName": "Rizeros",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ground",
+      "Rock"
+    ],
+    "types2": [
+      "Ground",
+      "Rock"
+    ],
+    "heightDm": 19,
+    "weightHg": 1200,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rough-terrain",
+    "color": "gray",
+    "shape": "upright",
+    "genusEn": "Drill Pokémon",
+    "flavorTextEn": "Protected by an armor-like hide, it is capable of living in molten lava of 3,600 degrees.",
+    "categoryTag": null
   },
   {
     "id": 113,
     "name": "Chansey",
     "imageUrl": "https://img.pokemondb.net/artwork/large/chansey.jpg",
     "germanName": "Chaneira",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 11,
+    "weightHg": 346,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "Egg Pokémon",
+    "flavorTextEn": "A rare and elusive POKéMON that is said to bring happiness to those who manage to get it.",
+    "categoryTag": null
   },
   {
     "id": 114,
     "name": "Tangela",
     "imageUrl": "https://img.pokemondb.net/artwork/large/tangela.jpg",
     "germanName": "Tangela",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Grass"
+    ],
+    "types2": [
+      "Grass"
+    ],
+    "heightDm": 10,
+    "weightHg": 350,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "blue",
+    "shape": "legs",
+    "genusEn": "Vine Pokémon",
+    "flavorTextEn": "The whole body is swathed with wide vines that are similar to sea­ weed. Its vines shake as it walks.",
+    "categoryTag": null
   },
   {
     "id": 115,
     "name": "Kangaskhan",
     "imageUrl": "https://img.pokemondb.net/artwork/large/kangaskhan.jpg",
     "germanName": "Kangama",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 22,
+    "weightHg": 800,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Parent Pokémon",
+    "flavorTextEn": "The infant rarely ventures out of its mother's protective pouch until it is 3 years old.",
+    "categoryTag": null
   },
   {
     "id": 116,
     "name": "Horsea",
     "imageUrl": "https://img.pokemondb.net/artwork/large/horsea.jpg",
     "germanName": "Seeper",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 4,
+    "weightHg": 80,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "blue",
+    "shape": "blob",
+    "genusEn": "Dragon Pokémon",
+    "flavorTextEn": "Known to shoot down flying bugs with precision blasts of ink from the surface of the water.",
+    "categoryTag": "dragon"
   },
   {
     "id": 117,
     "name": "Seadra",
     "imageUrl": "https://img.pokemondb.net/artwork/large/seadra.jpg",
     "germanName": "Seemon",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 12,
+    "weightHg": 250,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "blue",
+    "shape": "blob",
+    "genusEn": "Dragon Pokémon",
+    "flavorTextEn": "Capable of swim­ ming backwards by rapidly flapping its wing-like pectoral fins and stout tail.",
+    "categoryTag": "dragon"
   },
   {
     "id": 118,
     "name": "Goldeen",
     "imageUrl": "https://img.pokemondb.net/artwork/large/goldeen.jpg",
     "germanName": "Goldini",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 6,
+    "weightHg": 150,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "red",
+    "shape": "fish",
+    "genusEn": "Goldfish Pokémon",
+    "flavorTextEn": "Its tail fin billows like an elegant ballroom dress, giving it the nickname of the Water Queen.",
+    "categoryTag": "fish"
   },
   {
     "id": 119,
     "name": "Seaking",
     "imageUrl": "https://img.pokemondb.net/artwork/large/seaking.jpg",
     "germanName": "Golking",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 13,
+    "weightHg": 390,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "red",
+    "shape": "fish",
+    "genusEn": "Goldfish Pokémon",
+    "flavorTextEn": "In the autumn spawning season, they can be seen swimming power­ fully up rivers and creeks.",
+    "categoryTag": "fish"
   },
   {
     "id": 120,
     "name": "Staryu",
     "imageUrl": "https://img.pokemondb.net/artwork/large/staryu.jpg",
     "germanName": "Sterndu",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 8,
+    "weightHg": 345,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "brown",
+    "shape": "blob",
+    "genusEn": "Star Shape Pokémon",
+    "flavorTextEn": "An enigmatic POKéMON that can effortlessly regenerate any appendage it loses in battle.",
+    "categoryTag": "water"
   },
   {
     "id": 121,
     "name": "Starmie",
     "imageUrl": "https://img.pokemondb.net/artwork/large/starmie.jpg",
     "germanName": "Starmie",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water",
+      "Psychic"
+    ],
+    "types2": [
+      "Water",
+      "Psychic"
+    ],
+    "heightDm": 11,
+    "weightHg": 800,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "purple",
+    "shape": "blob",
+    "genusEn": "Mysterious Pokémon",
+    "flavorTextEn": "Its central core glows with the seven colors of the rainbow. Some people value the core as a gem.",
+    "categoryTag": "water"
   },
   {
     "id": 122,
     "name": "Mr-mime",
     "imageUrl": "https://img.pokemondb.net/artwork/large/mr-mime.jpg",
     "germanName": "Pantimos",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Psychic",
+      "Fairy"
+    ],
+    "types2": [
+      "Psychic",
+      "Fairy"
+    ],
+    "heightDm": 13,
+    "weightHg": 545,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "pink",
+    "shape": "humanoid",
+    "genusEn": "Barrier Pokémon",
+    "flavorTextEn": "If interrupted while it is miming, it will slap around the offender with its broad hands.",
+    "categoryTag": null
   },
   {
     "id": 123,
     "name": "Scyther",
     "imageUrl": "https://img.pokemondb.net/artwork/large/scyther.jpg",
     "germanName": "Sichlor",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Bug",
+      "Flying"
+    ],
+    "types2": [
+      "Bug",
+      "Flying"
+    ],
+    "heightDm": 15,
+    "weightHg": 560,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "green",
+    "shape": "bug-wings",
+    "genusEn": "Mantis Pokémon",
+    "flavorTextEn": "With ninja-like agility and speed, it can create the illusion that there is more than one.",
+    "categoryTag": "flying"
   },
   {
     "id": 124,
     "name": "Jynx",
     "imageUrl": "https://img.pokemondb.net/artwork/large/jynx.jpg",
     "germanName": "Rossana",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ice",
+      "Psychic"
+    ],
+    "types2": [
+      "Ice",
+      "Psychic"
+    ],
+    "heightDm": 14,
+    "weightHg": 406,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "red",
+    "shape": "humanoid",
+    "genusEn": "Human Shape Pokémon",
+    "flavorTextEn": "It seductively wiggles its hips as it walks. It can cause people to dance in unison with it.",
+    "categoryTag": null
   },
   {
     "id": 125,
     "name": "Electabuzz",
     "imageUrl": "https://img.pokemondb.net/artwork/large/electabuzz.jpg",
     "germanName": "Elektek",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 11,
+    "weightHg": 300,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "upright",
+    "genusEn": "Electric Pokémon",
+    "flavorTextEn": "Normally found near power plants, they can wander away and cause major blackouts in cities.",
+    "categoryTag": null
   },
   {
     "id": 126,
     "name": "Magmar",
     "imageUrl": "https://img.pokemondb.net/artwork/large/magmar.jpg",
     "germanName": "Magmar",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 13,
+    "weightHg": 445,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "red",
+    "shape": "upright",
+    "genusEn": "Spitfire Pokémon",
+    "flavorTextEn": "Its body always burns with an orange glow that enables it to hide perfectly among flames.",
+    "categoryTag": null
   },
   {
     "id": 127,
     "name": "Pinsir",
     "imageUrl": "https://img.pokemondb.net/artwork/large/pinsir.jpg",
     "germanName": "Pinsir",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Bug"
+    ],
+    "types2": [
+      "Bug"
+    ],
+    "heightDm": 15,
+    "weightHg": 550,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "forest",
+    "color": "brown",
+    "shape": "humanoid",
+    "genusEn": "Stag Beetle Pokémon",
+    "flavorTextEn": "If it fails to crush the victim in its pincers, it will swing it around and toss it hard.",
+    "categoryTag": null
   },
   {
     "id": 128,
     "name": "Tauros",
     "imageUrl": "https://img.pokemondb.net/artwork/large/tauros.jpg",
     "germanName": "Tauros",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 14,
+    "weightHg": 884,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Wild Bull Pokémon",
+    "flavorTextEn": "When it targets an enemy, it charges furiously while whipping its body with its long tails.",
+    "categoryTag": null
   },
   {
     "id": 129,
     "name": "Magikarp",
     "imageUrl": "https://img.pokemondb.net/artwork/large/magikarp.jpg",
     "germanName": "Karpador",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 9,
+    "weightHg": 100,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "red",
+    "shape": "fish",
+    "genusEn": "Fish Pokémon",
+    "flavorTextEn": "In the distant past, it was somewhat stronger than the horribly weak descendants that exist today.",
+    "categoryTag": "fish"
   },
   {
     "id": 130,
     "name": "Gyarados",
     "imageUrl": "https://img.pokemondb.net/artwork/large/gyarados.jpg",
     "germanName": "Garados",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water",
+      "Flying"
+    ],
+    "types2": [
+      "Water",
+      "Flying"
+    ],
+    "heightDm": 65,
+    "weightHg": 2350,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "squiggle",
+    "genusEn": "Atrocious Pokémon",
+    "flavorTextEn": "Rarely seen in the wild. Huge and vicious, it is capable of destroying entire cities in a rage.",
+    "categoryTag": "flying"
   },
   {
     "id": 131,
     "name": "Lapras",
     "imageUrl": "https://img.pokemondb.net/artwork/large/lapras.jpg",
     "germanName": "Lapras",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water",
+      "Ice"
+    ],
+    "types2": [
+      "Water",
+      "Ice"
+    ],
+    "heightDm": 25,
+    "weightHg": 2200,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "blue",
+    "shape": "fish",
+    "genusEn": "Transport Pokémon",
+    "flavorTextEn": "A POKéMON that has been over­ hunted almost to extinction. It can ferry people across the water.",
+    "categoryTag": "water"
   },
   {
     "id": 132,
     "name": "Ditto",
     "imageUrl": "https://img.pokemondb.net/artwork/large/ditto.jpg",
     "germanName": "Ditto",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 3,
+    "weightHg": 40,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "purple",
+    "shape": "ball",
+    "genusEn": "Transform Pokémon",
+    "flavorTextEn": "Capable of copying an enemy's genetic code to instantly transform itself into a duplicate of the enemy.",
+    "categoryTag": null
   },
   {
     "id": 133,
     "name": "Eevee",
     "imageUrl": "https://img.pokemondb.net/artwork/large/eevee.jpg",
     "germanName": "Evoli",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 3,
+    "weightHg": 65,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Evolution Pokémon",
+    "flavorTextEn": "Its genetic code is irregular. It may mutate if it is exposed to radiation from element STONEs.",
+    "categoryTag": null
   },
   {
     "id": 134,
     "name": "Vaporeon",
     "imageUrl": "https://img.pokemondb.net/artwork/large/vaporeon.jpg",
     "germanName": "Aquana",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 10,
+    "weightHg": 290,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "blue",
+    "shape": "quadruped",
+    "genusEn": "Bubble Jet Pokémon",
+    "flavorTextEn": "Lives close to water. Its long tail is ridged with a fin which is often mistaken for a mermaid's.",
+    "categoryTag": "water"
   },
   {
     "id": 135,
     "name": "Jolteon",
     "imageUrl": "https://img.pokemondb.net/artwork/large/jolteon.jpg",
     "germanName": "Blitza",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 8,
+    "weightHg": 245,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Lightning Pokémon",
+    "flavorTextEn": "It accumulates negative ions in the atmosphere to blast out 10000- volt lightning bolts.",
+    "categoryTag": null
   },
   {
     "id": 136,
     "name": "Flareon",
     "imageUrl": "https://img.pokemondb.net/artwork/large/flareon.jpg",
     "germanName": "Flamara",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 9,
+    "weightHg": 250,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "red",
+    "shape": "quadruped",
+    "genusEn": "Flame Pokémon",
+    "flavorTextEn": "When storing thermal energy in its body, its temperature could soar to over 1600 degrees.",
+    "categoryTag": "lizard"
   },
   {
     "id": 137,
     "name": "Porygon",
     "imageUrl": "https://img.pokemondb.net/artwork/large/porygon.jpg",
     "germanName": "Porygon",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 8,
+    "weightHg": 365,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "urban",
+    "color": "pink",
+    "shape": "legs",
+    "genusEn": "Virtual Pokémon",
+    "flavorTextEn": "A POKéMON that consists entirely of programming code. Capable of moving freely in cyberspace.",
+    "categoryTag": null
   },
   {
     "id": 138,
     "name": "Omanyte",
     "imageUrl": "https://img.pokemondb.net/artwork/large/omanyte.jpg",
     "germanName": "Amonitas",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Rock",
+      "Water"
+    ],
+    "types2": [
+      "Rock",
+      "Water"
+    ],
+    "heightDm": 4,
+    "weightHg": 75,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "blue",
+    "shape": "tentacles",
+    "genusEn": "Spiral Pokémon",
+    "flavorTextEn": "Although long extinct, in rare cases, it can be genetically resurrected from fossils.",
+    "categoryTag": "water"
   },
   {
     "id": 139,
     "name": "Omastar",
     "imageUrl": "https://img.pokemondb.net/artwork/large/omastar.jpg",
     "germanName": "Amoroso",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Rock",
+      "Water"
+    ],
+    "types2": [
+      "Rock",
+      "Water"
+    ],
+    "heightDm": 10,
+    "weightHg": 350,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "blue",
+    "shape": "tentacles",
+    "genusEn": "Spiral Pokémon",
+    "flavorTextEn": "A prehistoric POKéMON that died out when its heavy shell made it impossible to catch prey.",
+    "categoryTag": "water"
   },
   {
     "id": 140,
     "name": "Kabuto",
     "imageUrl": "https://img.pokemondb.net/artwork/large/kabuto.jpg",
     "germanName": "Kabuto",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Rock",
+      "Water"
+    ],
+    "types2": [
+      "Rock",
+      "Water"
+    ],
+    "heightDm": 5,
+    "weightHg": 115,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "brown",
+    "shape": "armor",
+    "genusEn": "Shellfish Pokémon",
+    "flavorTextEn": "A POKéMON that was resurrected from a fossil found in what was once the ocean floor eons ago.",
+    "categoryTag": "fish"
   },
   {
     "id": 141,
     "name": "Kabutops",
     "imageUrl": "https://img.pokemondb.net/artwork/large/kabutops.jpg",
     "germanName": "Kabutops",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Rock",
+      "Water"
+    ],
+    "types2": [
+      "Rock",
+      "Water"
+    ],
+    "heightDm": 13,
+    "weightHg": 405,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "sea",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Shellfish Pokémon",
+    "flavorTextEn": "Its sleek shape is perfect for swim­ ming. It slashes prey with its claws and drains the body fluids.",
+    "categoryTag": "fish"
   },
   {
     "id": 142,
     "name": "Aerodactyl",
     "imageUrl": "https://img.pokemondb.net/artwork/large/aerodactyl.jpg",
     "germanName": "Aerodactyl",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Rock",
+      "Flying"
+    ],
+    "types2": [
+      "Rock",
+      "Flying"
+    ],
+    "heightDm": 18,
+    "weightHg": 590,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "purple",
+    "shape": "wings",
+    "genusEn": "Fossil Pokémon",
+    "flavorTextEn": "A ferocious, pre­ historic POKéMON that goes for the enemy's throat with its serrated saw-like fangs.",
+    "categoryTag": "flying"
   },
   {
     "id": 143,
     "name": "Snorlax",
     "imageUrl": "https://img.pokemondb.net/artwork/large/snorlax.jpg",
     "germanName": "Relaxo",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 21,
+    "weightHg": 4600,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "mountain",
+    "color": "black",
+    "shape": "humanoid",
+    "genusEn": "Sleeping Pokémon",
+    "flavorTextEn": "Very lazy. Just eats and sleeps. As its rotund bulk builds, it becomes steadily more slothful.",
+    "categoryTag": null
   },
   {
     "id": 144,
     "name": "Articuno",
     "imageUrl": "https://img.pokemondb.net/artwork/large/articuno.jpg",
     "germanName": "Arktos",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Ice",
+      "Flying"
+    ],
+    "types2": [
+      "Ice",
+      "Flying"
+    ],
+    "heightDm": 17,
+    "weightHg": 554,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rare",
+    "color": "blue",
+    "shape": "wings",
+    "genusEn": "Freeze Pokémon",
+    "flavorTextEn": "A legendary bird POKéMON that is said to appear to doomed people who are lost in icy mountains.",
+    "categoryTag": "flying"
   },
   {
     "id": 145,
     "name": "Zapdos",
     "imageUrl": "https://img.pokemondb.net/artwork/large/zapdos.jpg",
     "germanName": "Zapdos",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Electric",
+      "Flying"
+    ],
+    "types2": [
+      "Electric",
+      "Flying"
+    ],
+    "heightDm": 16,
+    "weightHg": 526,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rare",
+    "color": "yellow",
+    "shape": "wings",
+    "genusEn": "Electric Pokémon",
+    "flavorTextEn": "A legendary bird POKéMON that is said to appear from clouds while dropping enormous lightning bolts.",
+    "categoryTag": "flying"
   },
   {
     "id": 146,
     "name": "Moltres",
     "imageUrl": "https://img.pokemondb.net/artwork/large/moltres.jpg",
     "germanName": "Lavados",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Fire",
+      "Flying"
+    ],
+    "types2": [
+      "Fire",
+      "Flying"
+    ],
+    "heightDm": 20,
+    "weightHg": 600,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rare",
+    "color": "yellow",
+    "shape": "wings",
+    "genusEn": "Flame Pokémon",
+    "flavorTextEn": "Known as the legendary bird of fire. Every flap of its wings creates a dazzling flash of flames.",
+    "categoryTag": "lizard"
   },
   {
     "id": 147,
     "name": "Dratini",
     "imageUrl": "https://img.pokemondb.net/artwork/large/dratini.jpg",
     "germanName": "Dratini",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Dragon"
+    ],
+    "types2": [
+      "Dragon"
+    ],
+    "heightDm": 18,
+    "weightHg": 33,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "squiggle",
+    "genusEn": "Dragon Pokémon",
+    "flavorTextEn": "Long considered a mythical POKéMON until recently when a small colony was found living underwater.",
+    "categoryTag": "dragon"
   },
   {
     "id": 148,
     "name": "Dragonair",
     "imageUrl": "https://img.pokemondb.net/artwork/large/dragonair.jpg",
     "germanName": "Dragonir",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Dragon"
+    ],
+    "types2": [
+      "Dragon"
+    ],
+    "heightDm": 40,
+    "weightHg": 165,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "squiggle",
+    "genusEn": "Dragon Pokémon",
+    "flavorTextEn": "A mystical POKéMON that exudes a gentle aura. Has the ability to change climate conditions.",
+    "categoryTag": "dragon"
   },
   {
     "id": 149,
     "name": "Dragonite",
     "imageUrl": "https://img.pokemondb.net/artwork/large/dragonite.jpg",
     "germanName": "Dragoran",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Dragon",
+      "Flying"
+    ],
+    "types2": [
+      "Dragon",
+      "Flying"
+    ],
+    "heightDm": 22,
+    "weightHg": 2100,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "waters-edge",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Dragon Pokémon",
+    "flavorTextEn": "An extremely rarely seen marine POKéMON. Its intelligence is said to match that of humans.",
+    "categoryTag": "dragon"
   },
   {
     "id": 150,
     "name": "Mewtwo",
     "imageUrl": "https://img.pokemondb.net/artwork/large/mewtwo.jpg",
     "germanName": "Mewtu",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Psychic"
+    ],
+    "types2": [
+      "Psychic"
+    ],
+    "heightDm": 20,
+    "weightHg": 1220,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rare",
+    "color": "purple",
+    "shape": "upright",
+    "genusEn": "Genetic Pokémon",
+    "flavorTextEn": "It was created by a scientist after years of horrific gene splicing and DNA engineering experiments.",
+    "categoryTag": null
   },
   {
     "id": 151,
     "name": "Mew",
     "imageUrl": "https://img.pokemondb.net/artwork/large/mew.jpg",
     "germanName": "Mew",
-    "region": "Kanto"
+    "region": "Kanto",
+    "type": [
+      "Psychic"
+    ],
+    "types2": [
+      "Psychic"
+    ],
+    "heightDm": 4,
+    "weightHg": 40,
+    "generation": "generation-i",
+    "mainRegion": "Kanto",
+    "habitat": "rare",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "New Species Pokémon",
+    "flavorTextEn": "So rare that it is still said to be a mirage by many experts. Only a few people have seen it worldwide.",
+    "categoryTag": null
   },
   {
     "id": 152,
     "name": "Chikorita",
     "germanName": "Endivie",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/chikorita.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/chikorita.jpg",
+    "type": [
+      "Grass"
+    ],
+    "types2": [
+      "Grass"
+    ],
+    "heightDm": 9,
+    "weightHg": 64,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "green",
+    "shape": "quadruped",
+    "genusEn": "Leaf Pokémon",
+    "flavorTextEn": "A sweet aroma gently wafts from the leaf on its head. It is docile and loves to soak up the sun's rays.",
+    "categoryTag": null
   },
   {
     "id": 153,
     "name": "Bayleef",
     "germanName": "Lorblatt",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/bayleef.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/bayleef.jpg",
+    "type": [
+      "Grass"
+    ],
+    "types2": [
+      "Grass"
+    ],
+    "heightDm": 12,
+    "weightHg": 158,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "green",
+    "shape": "quadruped",
+    "genusEn": "Leaf Pokémon",
+    "flavorTextEn": "The scent of spices comes from around its neck. Somehow, sniffing it makes you want to fight.",
+    "categoryTag": null
   },
   {
     "id": 154,
     "name": "Meganium",
     "germanName": "Meganie",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/meganium.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/meganium.jpg",
+    "type": [
+      "Grass"
+    ],
+    "types2": [
+      "Grass"
+    ],
+    "heightDm": 18,
+    "weightHg": 1005,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "green",
+    "shape": "quadruped",
+    "genusEn": "Herb Pokémon",
+    "flavorTextEn": "The aroma that rises from its petals contains a substance that calms aggressive feelings.",
+    "categoryTag": null
   },
   {
     "id": 155,
     "name": "Cyndaquil",
     "germanName": "Feurigel",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/cyndaquil.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/cyndaquil.jpg",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 5,
+    "weightHg": 79,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "humanoid",
+    "genusEn": "Fire Mouse Pokémon",
+    "flavorTextEn": "It is timid, and always curls it­ self up in a ball. If attacked, it flares up its back for protection.",
+    "categoryTag": "mouse"
   },
   {
     "id": 156,
     "name": "Quilava",
     "germanName": "Igelavar",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/quilava.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/quilava.jpg",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 9,
+    "weightHg": 190,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Volcano Pokémon",
+    "flavorTextEn": "Be careful if it turns its back during battle. It means that it will attack with the fire on its back.",
+    "categoryTag": null
   },
   {
     "id": 157,
     "name": "Typhlosion",
     "germanName": "Tornupto",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/typhlosion.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/typhlosion.jpg",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 17,
+    "weightHg": 795,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Volcano Pokémon",
+    "flavorTextEn": "If its rage peaks, it becomes so hot that anything that touches it will instantly go up in flames.",
+    "categoryTag": null
   },
   {
     "id": 158,
     "name": "Totodile",
     "germanName": "Karnimani",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/totodile.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/totodile.jpg",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 6,
+    "weightHg": 95,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Big Jaw Pokémon",
+    "flavorTextEn": "Its well-developed jaws are powerful and capable of crushing anything. Even its trainer must be careful.",
+    "categoryTag": "water"
   },
   {
     "id": 159,
     "name": "Croconaw",
     "germanName": "Tyracroc",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/croconaw.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/croconaw.jpg",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 11,
+    "weightHg": 250,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Big Jaw Pokémon",
+    "flavorTextEn": "If it loses a fang, a new one grows back in its place. There are always 48 fangs lining its mouth.",
+    "categoryTag": "water"
   },
   {
     "id": 160,
     "name": "Feraligatr",
     "germanName": "Impergator",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/feraligatr.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/feraligatr.jpg",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 23,
+    "weightHg": 888,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Big Jaw Pokémon",
+    "flavorTextEn": "When it bites with its massive and powerful jaws, it shakes its head and savagely tears its victim up.",
+    "categoryTag": "water"
   },
   {
     "id": 161,
     "name": "Sentret",
     "germanName": "Wiesor",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sentret.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sentret.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 8,
+    "weightHg": 60,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Scout Pokémon",
+    "flavorTextEn": "A very cautious POKéMON, it raises itself up using its tail to get a better view of its surroundings.",
+    "categoryTag": null
   },
   {
     "id": 162,
     "name": "Furret",
     "germanName": "Wiesenior",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/furret.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/furret.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 18,
+    "weightHg": 325,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Long Body Pokémon",
+    "flavorTextEn": "It makes a nest to suit its long and skinny body. The nest is impossible for other POKéMON to enter.",
+    "categoryTag": null
   },
   {
     "id": 163,
     "name": "Hoothoot",
     "germanName": "Hoothoot",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/hoothoot.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hoothoot.jpg",
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "types2": [
+      "Normal",
+      "Flying"
+    ],
+    "heightDm": 7,
+    "weightHg": 212,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "brown",
+    "shape": "wings",
+    "genusEn": "Owl Pokémon",
+    "flavorTextEn": "It always stands on one foot. It changes feet so fast, the movement can rarely be seen.",
+    "categoryTag": "flying"
   },
   {
     "id": 164,
     "name": "Noctowl",
     "germanName": "Noctuh",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/noctowl.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/noctowl.jpg",
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "types2": [
+      "Normal",
+      "Flying"
+    ],
+    "heightDm": 16,
+    "weightHg": 408,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "brown",
+    "shape": "wings",
+    "genusEn": "Owl Pokémon",
+    "flavorTextEn": "Its eyes are specially adapted. They concentrate even faint light and enable it to see in the dark.",
+    "categoryTag": "flying"
   },
   {
     "id": 165,
     "name": "Ledyba",
     "germanName": "Ledyba",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ledyba.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ledyba.jpg",
+    "type": [
+      "Bug",
+      "Flying"
+    ],
+    "types2": [
+      "Bug",
+      "Flying"
+    ],
+    "heightDm": 10,
+    "weightHg": 108,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "red",
+    "shape": "wings",
+    "genusEn": "Five Star Pokémon",
+    "flavorTextEn": "It is very timid. It will be afraid to move if it is alone. But it will be active if it is in a group.",
+    "categoryTag": "flying"
   },
   {
     "id": 166,
     "name": "Ledian",
     "germanName": "Ledian",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ledian.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ledian.jpg",
+    "type": [
+      "Bug",
+      "Flying"
+    ],
+    "types2": [
+      "Bug",
+      "Flying"
+    ],
+    "heightDm": 14,
+    "weightHg": 356,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "red",
+    "shape": "wings",
+    "genusEn": "Five Star Pokémon",
+    "flavorTextEn": "When the stars flicker in the night sky, it flutters about, scattering a glowing powder.",
+    "categoryTag": "flying"
   },
   {
     "id": 167,
     "name": "Spinarak",
     "germanName": "Webarak",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/spinarak.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/spinarak.jpg",
+    "type": [
+      "Bug",
+      "Poison"
+    ],
+    "types2": [
+      "Bug",
+      "Poison"
+    ],
+    "heightDm": 5,
+    "weightHg": 85,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "green",
+    "shape": "armor",
+    "genusEn": "String Spit Pokémon",
+    "flavorTextEn": "It lies still in the same pose for days in its web, waiting for its unsuspecting prey to wander close.",
+    "categoryTag": null
   },
   {
     "id": 168,
     "name": "Ariados",
     "germanName": "Ariados",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ariados.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ariados.jpg",
+    "type": [
+      "Bug",
+      "Poison"
+    ],
+    "types2": [
+      "Bug",
+      "Poison"
+    ],
+    "heightDm": 11,
+    "weightHg": 335,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "red",
+    "shape": "armor",
+    "genusEn": "Long Leg Pokémon",
+    "flavorTextEn": "It spins string not only from its rear but also from its mouth. It is hard to tell which end is which.",
+    "categoryTag": null
   },
   {
     "id": 169,
     "name": "Crobat",
     "germanName": "Iksbat",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/crobat.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/crobat.jpg",
+    "type": [
+      "Poison",
+      "Flying"
+    ],
+    "types2": [
+      "Poison",
+      "Flying"
+    ],
+    "heightDm": 18,
+    "weightHg": 750,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "cave",
+    "color": "purple",
+    "shape": "bug-wings",
+    "genusEn": "Bat Pokémon",
+    "flavorTextEn": "It flies so si­ lently through the dark on its four wings that it may not be noticed even when nearby.",
+    "categoryTag": "flying"
   },
   {
     "id": 170,
     "name": "Chinchou",
     "germanName": "Lampi",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/chinchou.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/chinchou.jpg",
+    "type": [
+      "Water",
+      "Electric"
+    ],
+    "types2": [
+      "Water",
+      "Electric"
+    ],
+    "heightDm": 5,
+    "weightHg": 120,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "sea",
+    "color": "blue",
+    "shape": "fish",
+    "genusEn": "Angler Pokémon",
+    "flavorTextEn": "It shoots positive and negative elec­ tricity between the tips of its two antennae and zaps its enemies.",
+    "categoryTag": "water"
   },
   {
     "id": 171,
     "name": "Lanturn",
     "germanName": "Lanturn",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/lanturn.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/lanturn.jpg",
+    "type": [
+      "Water",
+      "Electric"
+    ],
+    "types2": [
+      "Water",
+      "Electric"
+    ],
+    "heightDm": 12,
+    "weightHg": 225,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "sea",
+    "color": "blue",
+    "shape": "fish",
+    "genusEn": "Light Pokémon",
+    "flavorTextEn": "The light it emits is so bright that it can illuminate the sea's surface from a depth of over three miles.",
+    "categoryTag": "water"
   },
   {
     "id": 172,
     "name": "Pichu",
     "germanName": "Pichu",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/pichu.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pichu.jpg",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 3,
+    "weightHg": 20,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Tiny Mouse Pokémon",
+    "flavorTextEn": "It is not yet skilled at storing electricity. It may send out a jolt if amused or startled.",
+    "categoryTag": "mouse"
   },
   {
     "id": 173,
     "name": "Cleffa",
     "germanName": "Pii",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/cleffa.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/cleffa.jpg",
+    "type": [
+      "Fairy"
+    ],
+    "types2": [
+      "Fairy"
+    ],
+    "heightDm": 3,
+    "weightHg": 30,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "Star Shape Pokémon",
+    "flavorTextEn": "Because of its unusual, star-like silhouette, people believe that it came here on a meteor.",
+    "categoryTag": null
   },
   {
     "id": 174,
     "name": "Igglybuff",
     "germanName": "Fluffeluff",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/igglybuff.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/igglybuff.jpg",
+    "type": [
+      "Normal",
+      "Fairy"
+    ],
+    "types2": [
+      "Normal",
+      "Fairy"
+    ],
+    "heightDm": 3,
+    "weightHg": 10,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "pink",
+    "shape": "humanoid",
+    "genusEn": "Balloon Pokémon",
+    "flavorTextEn": "It has a very soft body. If it starts to roll, it will bounce all over and be impossible to stop.",
+    "categoryTag": null
   },
   {
     "id": 175,
     "name": "Togepi",
     "germanName": "Togepi",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/togepi.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/togepi.jpg",
+    "type": [
+      "Fairy"
+    ],
+    "types2": [
+      "Fairy"
+    ],
+    "heightDm": 3,
+    "weightHg": 15,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "white",
+    "shape": "humanoid",
+    "genusEn": "Spike Ball Pokémon",
+    "flavorTextEn": "The shell seems to be filled with joy. It is said that it will share good luck when treated kindly.",
+    "categoryTag": null
   },
   {
     "id": 176,
     "name": "Togetic",
     "germanName": "Togetic",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/togetic.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/togetic.jpg",
+    "type": [
+      "Fairy",
+      "Flying"
+    ],
+    "types2": [
+      "Fairy",
+      "Flying"
+    ],
+    "heightDm": 6,
+    "weightHg": 32,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "white",
+    "shape": "humanoid",
+    "genusEn": "Happiness Pokémon",
+    "flavorTextEn": "They say that it will appear before kindhearted, car­ ing people and shower them with happiness.",
+    "categoryTag": "flying"
   },
   {
     "id": 177,
     "name": "Natu",
     "germanName": "Natu",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/natu.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/natu.jpg",
+    "type": [
+      "Psychic",
+      "Flying"
+    ],
+    "types2": [
+      "Psychic",
+      "Flying"
+    ],
+    "heightDm": 2,
+    "weightHg": 20,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "green",
+    "shape": "wings",
+    "genusEn": "Tiny Bird Pokémon",
+    "flavorTextEn": "Because its wings aren't yet fully grown, it has to hop to get around. It is always star­ ing at something.",
+    "categoryTag": "bird"
   },
   {
     "id": 178,
     "name": "Xatu",
     "germanName": "Xatu",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/xatu.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/xatu.jpg",
+    "type": [
+      "Psychic",
+      "Flying"
+    ],
+    "types2": [
+      "Psychic",
+      "Flying"
+    ],
+    "heightDm": 15,
+    "weightHg": 150,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "green",
+    "shape": "wings",
+    "genusEn": "Mystic Pokémon",
+    "flavorTextEn": "They say that it stays still and quiet because it is seeing both the past and future at the same time.",
+    "categoryTag": "flying"
   },
   {
     "id": 179,
     "name": "Mareep",
     "germanName": "Voltilamm",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/mareep.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/mareep.jpg",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 6,
+    "weightHg": 78,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "white",
+    "shape": "quadruped",
+    "genusEn": "Wool Pokémon",
+    "flavorTextEn": "If static elec­ tricity builds in its body, its fleece doubles in volume. Touching it will shock you.",
+    "categoryTag": null
   },
   {
     "id": 180,
     "name": "Flaaffy",
     "germanName": "Waaty",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/flaaffy.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/flaaffy.jpg",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 8,
+    "weightHg": 133,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "Wool Pokémon",
+    "flavorTextEn": "As a result of storing too much electricity, it developed patches where even downy wool won't grow.",
+    "categoryTag": null
   },
   {
     "id": 181,
     "name": "Ampharos",
     "germanName": "Ampharos",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ampharos.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ampharos.jpg",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 14,
+    "weightHg": 615,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "upright",
+    "genusEn": "Light Pokémon",
+    "flavorTextEn": "The tail's tip shines brightly and can be seen from far away. It acts as a beacon for lost people.",
+    "categoryTag": null
   },
   {
     "id": 182,
     "name": "Bellossom",
     "germanName": "Blubella",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/bellossom.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/bellossom.jpg",
+    "type": [
+      "Grass"
+    ],
+    "types2": [
+      "Grass"
+    ],
+    "heightDm": 4,
+    "weightHg": 58,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "green",
+    "shape": "humanoid",
+    "genusEn": "Flower Pokémon",
+    "flavorTextEn": "BELLOSSOM gather at times and appear to dance. They say that the dance is a ritual to summon the sun.",
+    "categoryTag": "plant"
   },
   {
     "id": 183,
     "name": "Marill",
     "germanName": "Marill",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/marill.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/marill.jpg",
+    "type": [
+      "Water",
+      "Fairy"
+    ],
+    "types2": [
+      "Water",
+      "Fairy"
+    ],
+    "heightDm": 4,
+    "weightHg": 85,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Aqua Mouse Pokémon",
+    "flavorTextEn": "The tip of its tail, which con­ tains oil that is lighter than wa­ ter, lets it swim without drowning.",
+    "categoryTag": "mouse"
   },
   {
     "id": 184,
     "name": "Azumarill",
     "germanName": "Azumarill",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/azumarill.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/azumarill.jpg",
+    "type": [
+      "Water",
+      "Fairy"
+    ],
+    "types2": [
+      "Water",
+      "Fairy"
+    ],
+    "heightDm": 8,
+    "weightHg": 285,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Aqua Rabbit Pokémon",
+    "flavorTextEn": "By keeping still and listening in­ tently, it can tell what is in even wild, fast- moving rivers.",
+    "categoryTag": "water"
   },
   {
     "id": 185,
     "name": "Sudowoodo",
     "germanName": "Mogelbaum",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sudowoodo.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sudowoodo.jpg",
+    "type": [
+      "Rock"
+    ],
+    "types2": [
+      "Rock"
+    ],
+    "heightDm": 12,
+    "weightHg": 380,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "brown",
+    "shape": "humanoid",
+    "genusEn": "Imitation Pokémon",
+    "flavorTextEn": "Although it always pretends to be a tree, its composi­ tion appears to be closer to a rock than a plant.",
+    "categoryTag": null
   },
   {
     "id": 186,
     "name": "Politoed",
     "germanName": "Quaxo",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/politoed.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/politoed.jpg",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 11,
+    "weightHg": 339,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "waters-edge",
+    "color": "green",
+    "shape": "humanoid",
+    "genusEn": "Frog Pokémon",
+    "flavorTextEn": "If POLIWAG and POLIWHIRL hear its echoing cry, they respond by gather­ ing from far and wide.",
+    "categoryTag": "water"
   },
   {
     "id": 187,
     "name": "Hoppip",
     "germanName": "Hoppspross",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/hoppip.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hoppip.jpg",
+    "type": [
+      "Grass",
+      "Flying"
+    ],
+    "types2": [
+      "Grass",
+      "Flying"
+    ],
+    "heightDm": 4,
+    "weightHg": 5,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "Cottonweed Pokémon",
+    "flavorTextEn": "To keep from being blown away by the wind, they gather in clusters. They do enjoy gentle breezes, though.",
+    "categoryTag": "plant"
   },
   {
     "id": 188,
     "name": "Skiploom",
     "germanName": "Hubelupf",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/skiploom.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/skiploom.jpg",
+    "type": [
+      "Grass",
+      "Flying"
+    ],
+    "types2": [
+      "Grass",
+      "Flying"
+    ],
+    "heightDm": 6,
+    "weightHg": 10,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "green",
+    "shape": "upright",
+    "genusEn": "Cottonweed Pokémon",
+    "flavorTextEn": "The bloom on top of its head opens and closes as the temperature fluc­ tuates up and down.",
+    "categoryTag": "plant"
   },
   {
     "id": 189,
     "name": "Jumpluff",
     "germanName": "Papungha",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/jumpluff.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/jumpluff.jpg",
+    "type": [
+      "Grass",
+      "Flying"
+    ],
+    "types2": [
+      "Grass",
+      "Flying"
+    ],
+    "heightDm": 8,
+    "weightHg": 30,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Cottonweed Pokémon",
+    "flavorTextEn": "Once it catches the wind, it deft­ ly controls its cotton-puff spores to float, even around the world.",
+    "categoryTag": "plant"
   },
   {
     "id": 190,
     "name": "Aipom",
     "germanName": "Griffel",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/aipom.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/aipom.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 8,
+    "weightHg": 115,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "purple",
+    "shape": "upright",
+    "genusEn": "Long Tail Pokémon",
+    "flavorTextEn": "Its tail is so powerful that it can use it to grab a tree branch and hold itself up in the air.",
+    "categoryTag": null
   },
   {
     "id": 191,
     "name": "Sunkern",
     "germanName": "Sonnkern",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sunkern.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sunkern.jpg",
+    "type": [
+      "Grass"
+    ],
+    "types2": [
+      "Grass"
+    ],
+    "heightDm": 3,
+    "weightHg": 18,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "ball",
+    "genusEn": "Seed Pokémon",
+    "flavorTextEn": "It may drop out of the sky suddenly. If attacked by a SPEAROW, it will violently shake its leaves.",
+    "categoryTag": "plant"
   },
   {
     "id": 192,
     "name": "Sunflora",
     "germanName": "Sonnflora",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sunflora.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sunflora.jpg",
+    "type": [
+      "Grass"
+    ],
+    "types2": [
+      "Grass"
+    ],
+    "heightDm": 8,
+    "weightHg": 85,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "humanoid",
+    "genusEn": "Sun Pokémon",
+    "flavorTextEn": "It converts sun­ light into energy. In the darkness after sunset, it closes its petals and becomes still.",
+    "categoryTag": null
   },
   {
     "id": 193,
     "name": "Yanma",
     "germanName": "Yanma",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/yanma.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/yanma.jpg",
+    "type": [
+      "Bug",
+      "Flying"
+    ],
+    "types2": [
+      "Bug",
+      "Flying"
+    ],
+    "heightDm": 12,
+    "weightHg": 380,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "red",
+    "shape": "bug-wings",
+    "genusEn": "Clear Wing Pokémon",
+    "flavorTextEn": "If it flaps its wings really fast, it can generate shock waves that will shatter win­ dows in the area.",
+    "categoryTag": "flying"
   },
   {
     "id": 194,
     "name": "Wooper",
     "germanName": "Felino",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/wooper.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/wooper.jpg",
+    "type": [
+      "Water",
+      "Ground"
+    ],
+    "types2": [
+      "Water",
+      "Ground"
+    ],
+    "heightDm": 4,
+    "weightHg": 85,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "legs",
+    "genusEn": "Water Fish Pokémon",
+    "flavorTextEn": "This POKéMON lives in cold water. It will leave the water to search for food when it gets cold outside.",
+    "categoryTag": "fish"
   },
   {
     "id": 195,
     "name": "Quagsire",
     "germanName": "Morlord",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/quagsire.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/quagsire.jpg",
+    "type": [
+      "Water",
+      "Ground"
+    ],
+    "types2": [
+      "Water",
+      "Ground"
+    ],
+    "heightDm": 14,
+    "weightHg": 750,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "waters-edge",
+    "color": "blue",
+    "shape": "upright",
+    "genusEn": "Water Fish Pokémon",
+    "flavorTextEn": "This carefree POKéMON has an easy-going nature. While swimming, it always bumps into boat hulls.",
+    "categoryTag": "fish"
   },
   {
     "id": 196,
     "name": "Espeon",
     "germanName": "Psiana",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/espeon.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/espeon.jpg",
+    "type": [
+      "Psychic"
+    ],
+    "types2": [
+      "Psychic"
+    ],
+    "heightDm": 9,
+    "weightHg": 265,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "urban",
+    "color": "purple",
+    "shape": "quadruped",
+    "genusEn": "Sun Pokémon",
+    "flavorTextEn": "It uses the fine hair that covers its body to sense air currents and predict its ene­ my's actions.",
+    "categoryTag": null
   },
   {
     "id": 197,
     "name": "Umbreon",
     "germanName": "Nachtara",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/umbreon.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/umbreon.jpg",
+    "type": [
+      "Dark"
+    ],
+    "types2": [
+      "Dark"
+    ],
+    "heightDm": 10,
+    "weightHg": 270,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "urban",
+    "color": "black",
+    "shape": "quadruped",
+    "genusEn": "Moonlight Pokémon",
+    "flavorTextEn": "When agitated, this POKéMON pro­ tects itself by spraying poisonous sweat from its pores.",
+    "categoryTag": null
   },
   {
     "id": 198,
     "name": "Murkrow",
     "germanName": "Kramurx",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/murkrow.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/murkrow.jpg",
+    "type": [
+      "Dark",
+      "Flying"
+    ],
+    "types2": [
+      "Dark",
+      "Flying"
+    ],
+    "heightDm": 5,
+    "weightHg": 21,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "black",
+    "shape": "wings",
+    "genusEn": "Darkness Pokémon",
+    "flavorTextEn": "Feared and loathed by many, it is believed to bring misfortune to all those who see it at night.",
+    "categoryTag": "flying"
   },
   {
     "id": 199,
     "name": "Slowking",
     "germanName": "Laschoking",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/slowking.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/slowking.jpg",
+    "type": [
+      "Water",
+      "Psychic"
+    ],
+    "types2": [
+      "Water",
+      "Psychic"
+    ],
+    "heightDm": 20,
+    "weightHg": 795,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "waters-edge",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "Royal Pokémon",
+    "flavorTextEn": "It has incredible intellect and in­ tuition. Whatever the situation, it remains calm and collected.",
+    "categoryTag": "water"
   },
   {
     "id": 200,
     "name": "Misdreavus",
     "germanName": "Traunfugil",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/misdreavus.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/misdreavus.jpg",
+    "type": [
+      "Ghost"
+    ],
+    "types2": [
+      "Ghost"
+    ],
+    "heightDm": 7,
+    "weightHg": 10,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "cave",
+    "color": "gray",
+    "shape": "ball",
+    "genusEn": "Screech Pokémon",
+    "flavorTextEn": "It likes playing mischievous tricks such as screaming and wailing to startle people at night.",
+    "categoryTag": null
   },
   {
     "id": 201,
     "name": "Unown",
     "germanName": "Icognito",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/unown.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/unown.jpg",
+    "type": [
+      "Psychic"
+    ],
+    "types2": [
+      "Psychic"
+    ],
+    "heightDm": 5,
+    "weightHg": 50,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "rare",
+    "color": "black",
+    "shape": "ball",
+    "genusEn": "Symbol Pokémon",
+    "flavorTextEn": "Their shapes look like hieroglyphs on ancient tab­ lets. It is said that the two are somehow related.",
+    "categoryTag": null
   },
   {
     "id": 202,
     "name": "Wobbuffet",
     "germanName": "Woingenau",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/wobbuffet.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/wobbuffet.jpg",
+    "type": [
+      "Psychic"
+    ],
+    "types2": [
+      "Psychic"
+    ],
+    "heightDm": 13,
+    "weightHg": 285,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "cave",
+    "color": "blue",
+    "shape": "blob",
+    "genusEn": "Patient Pokémon",
+    "flavorTextEn": "It hates light and shock. If attack­ ed, it inflates its body to pump up its counter­ strike.",
+    "categoryTag": null
   },
   {
     "id": 203,
     "name": "Girafarig",
     "germanName": "Girafarig",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/girafarig.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/girafarig.jpg",
+    "type": [
+      "Normal",
+      "Psychic"
+    ],
+    "types2": [
+      "Normal",
+      "Psychic"
+    ],
+    "heightDm": 15,
+    "weightHg": 415,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Long Neck Pokémon",
+    "flavorTextEn": "Its tail has a small brain of its own. Beware! If you get close, it may react to your scent and bite.",
+    "categoryTag": null
   },
   {
     "id": 204,
     "name": "Pineco",
     "germanName": "Tannza",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/pineco.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pineco.jpg",
+    "type": [
+      "Bug"
+    ],
+    "types2": [
+      "Bug"
+    ],
+    "heightDm": 6,
+    "weightHg": 72,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "gray",
+    "shape": "ball",
+    "genusEn": "Bagworm Pokémon",
+    "flavorTextEn": "It likes to make its shell thicker by adding layers of tree bark. The additional weight doesn't bother it.",
+    "categoryTag": "bug"
   },
   {
     "id": 205,
     "name": "Forretress",
     "germanName": "Forstellka",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/forretress.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/forretress.jpg",
+    "type": [
+      "Bug",
+      "Steel"
+    ],
+    "types2": [
+      "Bug",
+      "Steel"
+    ],
+    "heightDm": 12,
+    "weightHg": 1258,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "purple",
+    "shape": "ball",
+    "genusEn": "Bagworm Pokémon",
+    "flavorTextEn": "Its entire body is shielded by a steel-hard shell. What lurks inside the armor is a total mystery.",
+    "categoryTag": "bug"
   },
   {
     "id": 206,
     "name": "Dunsparce",
     "germanName": "Dummisel",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/dunsparce.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/dunsparce.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 15,
+    "weightHg": 140,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "cave",
+    "color": "yellow",
+    "shape": "squiggle",
+    "genusEn": "Land Snake Pokémon",
+    "flavorTextEn": "When spotted, this POKéMON escapes backward by furi­ ously boring into the ground with its tail.",
+    "categoryTag": null
   },
   {
     "id": 207,
     "name": "Gligar",
     "germanName": "Skorgla",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/gligar.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/gligar.jpg",
+    "type": [
+      "Ground",
+      "Flying"
+    ],
+    "types2": [
+      "Ground",
+      "Flying"
+    ],
+    "heightDm": 11,
+    "weightHg": 648,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "purple",
+    "shape": "wings",
+    "genusEn": "Fly Scorpion Pokémon",
+    "flavorTextEn": "It flies straight at its target's face then clamps down on the star­ tled victim to inject poison.",
+    "categoryTag": "flying"
   },
   {
     "id": 208,
     "name": "Steelix",
     "germanName": "Stahlos",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/steelix.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/steelix.jpg",
+    "type": [
+      "Steel",
+      "Ground"
+    ],
+    "types2": [
+      "Steel",
+      "Ground"
+    ],
+    "heightDm": 92,
+    "weightHg": 4000,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "cave",
+    "color": "gray",
+    "shape": "squiggle",
+    "genusEn": "Iron Snake Pokémon",
+    "flavorTextEn": "Its body has been compressed deep under the ground. As a result, it is even harder than a diamond.",
+    "categoryTag": null
   },
   {
     "id": 209,
     "name": "Snubbull",
     "germanName": "Snubbull",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/snubbull.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/snubbull.jpg",
+    "type": [
+      "Fairy"
+    ],
+    "types2": [
+      "Fairy"
+    ],
+    "heightDm": 6,
+    "weightHg": 78,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "urban",
+    "color": "pink",
+    "shape": "humanoid",
+    "genusEn": "Fairy Pokémon",
+    "flavorTextEn": "Although it looks frightening, it is actually kind and affectionate. It is very popular among women.",
+    "categoryTag": null
   },
   {
     "id": 210,
     "name": "Granbull",
     "germanName": "Granbull",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/granbull.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/granbull.jpg",
+    "type": [
+      "Fairy"
+    ],
+    "types2": [
+      "Fairy"
+    ],
+    "heightDm": 14,
+    "weightHg": 487,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "urban",
+    "color": "purple",
+    "shape": "upright",
+    "genusEn": "Fairy Pokémon",
+    "flavorTextEn": "It is actually timid and easily spooked. If at­ tacked, it flails about to fend off its attacker.",
+    "categoryTag": null
   },
   {
     "id": 211,
     "name": "Qwilfish",
     "germanName": "Baldorfish",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/qwilfish.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/qwilfish.jpg",
+    "type": [
+      "Water",
+      "Poison"
+    ],
+    "types2": [
+      "Water",
+      "Poison"
+    ],
+    "heightDm": 5,
+    "weightHg": 39,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "sea",
+    "color": "gray",
+    "shape": "fish",
+    "genusEn": "Balloon Pokémon",
+    "flavorTextEn": "To fire its poison spikes, it must inflate its body by drinking over 2.6 gallons of water all at once.",
+    "categoryTag": "water"
   },
   {
     "id": 212,
     "name": "Scizor",
     "germanName": "Scherox",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/scizor.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/scizor.jpg",
+    "type": [
+      "Bug",
+      "Steel"
+    ],
+    "types2": [
+      "Bug",
+      "Steel"
+    ],
+    "heightDm": 18,
+    "weightHg": 1180,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "red",
+    "shape": "bug-wings",
+    "genusEn": "Pincer Pokémon",
+    "flavorTextEn": "It swings its eye- patterned pincers up to scare its foes. This makes it look like it has three heads.",
+    "categoryTag": null
   },
   {
     "id": 213,
     "name": "Shuckle",
     "germanName": "Pottrott",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/shuckle.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/shuckle.jpg",
+    "type": [
+      "Bug",
+      "Rock"
+    ],
+    "types2": [
+      "Bug",
+      "Rock"
+    ],
+    "heightDm": 6,
+    "weightHg": 205,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "yellow",
+    "shape": "armor",
+    "genusEn": "Mold Pokémon",
+    "flavorTextEn": "The BERRIES it stores in its vase-like shell decompose and become a gooey liquid.",
+    "categoryTag": null
   },
   {
     "id": 214,
     "name": "Heracross",
     "germanName": "Skaraborn",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/heracross.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/heracross.jpg",
+    "type": [
+      "Bug",
+      "Fighting"
+    ],
+    "types2": [
+      "Bug",
+      "Fighting"
+    ],
+    "heightDm": 15,
+    "weightHg": 540,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "blue",
+    "shape": "humanoid",
+    "genusEn": "Single Horn Pokémon",
+    "flavorTextEn": "This powerful POKéMON thrusts its prized horn under its enemies’ bellies then lifts and throws them.",
+    "categoryTag": null
   },
   {
     "id": 215,
     "name": "Sneasel",
     "germanName": "Sniebel",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sneasel.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sneasel.jpg",
+    "type": [
+      "Dark",
+      "Ice"
+    ],
+    "types2": [
+      "Dark",
+      "Ice"
+    ],
+    "heightDm": 9,
+    "weightHg": 280,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "black",
+    "shape": "upright",
+    "genusEn": "Sharp Claw Pokémon",
+    "flavorTextEn": "Its paws conceal sharp claws. If attacked, it sud­ denly extends the claws and startles its enemy.",
+    "categoryTag": null
   },
   {
     "id": 216,
     "name": "Teddiursa",
     "germanName": "Teddiursa",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/teddiursa.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/teddiursa.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 6,
+    "weightHg": 88,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Little Bear Pokémon",
+    "flavorTextEn": "If it finds honey, its crescent mark glows. It always licks its paws because they are soaked with honey.",
+    "categoryTag": null
   },
   {
     "id": 217,
     "name": "Ursaring",
     "germanName": "Ursaring",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ursaring.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ursaring.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 18,
+    "weightHg": 1258,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Hibernator Pokémon",
+    "flavorTextEn": "Although it is a good climber, it prefers to snap trees with its forelegs and eat fallen BERRIES.",
+    "categoryTag": null
   },
   {
     "id": 218,
     "name": "Slugma",
     "germanName": "Schneckmag",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/slugma.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/slugma.jpg",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 7,
+    "weightHg": 350,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "red",
+    "shape": "squiggle",
+    "genusEn": "Lava Pokémon",
+    "flavorTextEn": "It never sleeps. It has to keep moving because if it stopped, its magma body would cool and harden.",
+    "categoryTag": null
   },
   {
     "id": 219,
     "name": "Magcargo",
     "germanName": "Magcargo",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/magcargo.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/magcargo.jpg",
+    "type": [
+      "Fire",
+      "Rock"
+    ],
+    "types2": [
+      "Fire",
+      "Rock"
+    ],
+    "heightDm": 8,
+    "weightHg": 550,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "red",
+    "shape": "squiggle",
+    "genusEn": "Lava Pokémon",
+    "flavorTextEn": "The shell on its back is just skin that has cooled and hardened. It breaks easily with a slight touch.",
+    "categoryTag": null
   },
   {
     "id": 220,
     "name": "Swinub",
     "germanName": "Quiekel",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/swinub.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/swinub.jpg",
+    "type": [
+      "Ice",
+      "Ground"
+    ],
+    "types2": [
+      "Ice",
+      "Ground"
+    ],
+    "heightDm": 4,
+    "weightHg": 65,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "cave",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Pig Pokémon",
+    "flavorTextEn": "It rubs its snout on the ground to find and dig up food. It sometimes discovers hot springs.",
+    "categoryTag": null
   },
   {
     "id": 221,
     "name": "Piloswine",
     "germanName": "Keifel",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/piloswine.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/piloswine.jpg",
+    "type": [
+      "Ice",
+      "Ground"
+    ],
+    "types2": [
+      "Ice",
+      "Ground"
+    ],
+    "heightDm": 11,
+    "weightHg": 558,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "cave",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Swine Pokémon",
+    "flavorTextEn": "Because the long hair all over its body obscures its sight, it just keeps charging repeatedly.",
+    "categoryTag": null
   },
   {
     "id": 222,
     "name": "Corsola",
     "germanName": "Corasonn",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/corsola.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/corsola.jpg",
+    "type": [
+      "Water",
+      "Rock"
+    ],
+    "types2": [
+      "Water",
+      "Rock"
+    ],
+    "heightDm": 6,
+    "weightHg": 50,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "sea",
+    "color": "pink",
+    "shape": "armor",
+    "genusEn": "Coral Pokémon",
+    "flavorTextEn": "It continuously sheds and grows. The tip of its head is prized as a treasure for its beauty.",
+    "categoryTag": "water"
   },
   {
     "id": 223,
     "name": "Remoraid",
     "germanName": "Remoraid",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/remoraid.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/remoraid.jpg",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 6,
+    "weightHg": 120,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "sea",
+    "color": "gray",
+    "shape": "fish",
+    "genusEn": "Jet Pokémon",
+    "flavorTextEn": "It has superb ac­ curacy. The water it shoots out can strike even moving prey from more than 300 feet.",
+    "categoryTag": "water"
   },
   {
     "id": 224,
     "name": "Octillery",
     "germanName": "Octillery",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/octillery.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/octillery.jpg",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 9,
+    "weightHg": 285,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "sea",
+    "color": "red",
+    "shape": "tentacles",
+    "genusEn": "Jet Pokémon",
+    "flavorTextEn": "It traps enemies with its suction- cupped tentacles then smashes them with its rock-hard head.",
+    "categoryTag": "water"
   },
   {
     "id": 225,
     "name": "Delibird",
     "germanName": "Botogel",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/delibird.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/delibird.jpg",
+    "type": [
+      "Ice",
+      "Flying"
+    ],
+    "types2": [
+      "Ice",
+      "Flying"
+    ],
+    "heightDm": 9,
+    "weightHg": 160,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "red",
+    "shape": "wings",
+    "genusEn": "Delivery Pokémon",
+    "flavorTextEn": "It carries food all day long. There are tales about lost people who were saved by the food it had.",
+    "categoryTag": "flying"
   },
   {
     "id": 226,
     "name": "Mantine",
     "germanName": "Mantax",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/mantine.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/mantine.jpg",
+    "type": [
+      "Water",
+      "Flying"
+    ],
+    "types2": [
+      "Water",
+      "Flying"
+    ],
+    "heightDm": 21,
+    "weightHg": 2200,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "sea",
+    "color": "purple",
+    "shape": "wings",
+    "genusEn": "Kite Pokémon",
+    "flavorTextEn": "As it majestically swims, it doesn't care if REMORAID attach to it for scavenging its leftovers.",
+    "categoryTag": "flying"
   },
   {
     "id": 227,
     "name": "Skarmory",
     "germanName": "Panzaeron",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/skarmory.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/skarmory.jpg",
+    "type": [
+      "Steel",
+      "Flying"
+    ],
+    "types2": [
+      "Steel",
+      "Flying"
+    ],
+    "heightDm": 17,
+    "weightHg": 505,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "rough-terrain",
+    "color": "gray",
+    "shape": "wings",
+    "genusEn": "Armor Bird Pokémon",
+    "flavorTextEn": "Its sturdy wings look heavy, but they are actually hollow and light, allowing it to fly freely in the sky.",
+    "categoryTag": "bird"
   },
   {
     "id": 228,
     "name": "Houndour",
     "germanName": "Hunduster",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/houndour.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/houndour.jpg",
+    "type": [
+      "Dark",
+      "Fire"
+    ],
+    "types2": [
+      "Dark",
+      "Fire"
+    ],
+    "heightDm": 6,
+    "weightHg": 108,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "rough-terrain",
+    "color": "black",
+    "shape": "quadruped",
+    "genusEn": "Dark Pokémon",
+    "flavorTextEn": "It uses different kinds of cries for communicating with others of its kind and for pursuing its prey.",
+    "categoryTag": null
   },
   {
     "id": 229,
     "name": "Houndoom",
     "germanName": "Hundemon",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/houndoom.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/houndoom.jpg",
+    "type": [
+      "Dark",
+      "Fire"
+    ],
+    "types2": [
+      "Dark",
+      "Fire"
+    ],
+    "heightDm": 14,
+    "weightHg": 350,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "rough-terrain",
+    "color": "black",
+    "shape": "quadruped",
+    "genusEn": "Dark Pokémon",
+    "flavorTextEn": "If you are burned by the flames it shoots from its mouth, the pain will never go away.",
+    "categoryTag": null
   },
   {
     "id": 230,
     "name": "Kingdra",
     "germanName": "Seedraking",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/kingdra.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/kingdra.jpg",
+    "type": [
+      "Water",
+      "Dragon"
+    ],
+    "types2": [
+      "Water",
+      "Dragon"
+    ],
+    "heightDm": 18,
+    "weightHg": 1520,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "sea",
+    "color": "blue",
+    "shape": "blob",
+    "genusEn": "Dragon Pokémon",
+    "flavorTextEn": "It is said that it usually hides in underwater caves. It can create whirlpools by yawning.",
+    "categoryTag": "dragon"
   },
   {
     "id": 231,
     "name": "Phanpy",
     "germanName": "Phanpy",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/phanpy.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/phanpy.jpg",
+    "type": [
+      "Ground"
+    ],
+    "types2": [
+      "Ground"
+    ],
+    "heightDm": 5,
+    "weightHg": 335,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "rough-terrain",
+    "color": "blue",
+    "shape": "quadruped",
+    "genusEn": "Long Nose Pokémon",
+    "flavorTextEn": "It swings its long snout around play­ fully, but because it is so strong, that can be dan­ gerous.",
+    "categoryTag": null
   },
   {
     "id": 232,
     "name": "Donphan",
     "germanName": "Donphan",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/donphan.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/donphan.jpg",
+    "type": [
+      "Ground"
+    ],
+    "types2": [
+      "Ground"
+    ],
+    "heightDm": 11,
+    "weightHg": 1200,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "rough-terrain",
+    "color": "gray",
+    "shape": "quadruped",
+    "genusEn": "Armor Pokémon",
+    "flavorTextEn": "It has sharp, hard tusks and a rugged hide. Its TACKLE is strong enough to knock down a house.",
+    "categoryTag": null
   },
   {
     "id": 233,
     "name": "Porygon2",
     "germanName": "Porygon2",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/porygon2.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/porygon2.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 6,
+    "weightHg": 325,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "urban",
+    "color": "red",
+    "shape": "legs",
+    "genusEn": "Virtual Pokémon",
+    "flavorTextEn": "This upgraded version of PORYGON is designed for space exploration. It can't fly, though.",
+    "categoryTag": null
   },
   {
     "id": 234,
     "name": "Stantler",
     "germanName": "Damhirplex",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/stantler.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/stantler.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 14,
+    "weightHg": 712,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Big Horn Pokémon",
+    "flavorTextEn": "The curved antlers subtly change the flow of air to create a strange space where real­ ity is distorted.",
+    "categoryTag": null
   },
   {
     "id": 235,
     "name": "Smeargle",
     "germanName": "Farbeagle",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/smeargle.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/smeargle.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 12,
+    "weightHg": 580,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "urban",
+    "color": "white",
+    "shape": "upright",
+    "genusEn": "Painter Pokémon",
+    "flavorTextEn": "A special fluid oozes from the tip of its tail. It paints the fluid everywhere to mark its territory.",
+    "categoryTag": null
   },
   {
     "id": 236,
     "name": "Tyrogue",
     "germanName": "Rabauz",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/tyrogue.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/tyrogue.jpg",
+    "type": [
+      "Fighting"
+    ],
+    "types2": [
+      "Fighting"
+    ],
+    "heightDm": 7,
+    "weightHg": 210,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "urban",
+    "color": "purple",
+    "shape": "humanoid",
+    "genusEn": "Scuffle Pokémon",
+    "flavorTextEn": "It is always bursting with en­ ergy. To make it­ self stronger, it keeps on fighting even if it loses.",
+    "categoryTag": null
   },
   {
     "id": 237,
     "name": "Hitmontop",
     "germanName": "Kapoera",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/hitmontop.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hitmontop.jpg",
+    "type": [
+      "Fighting"
+    ],
+    "types2": [
+      "Fighting"
+    ],
+    "heightDm": 14,
+    "weightHg": 480,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "urban",
+    "color": "brown",
+    "shape": "upright",
+    "genusEn": "Handstand Pokémon",
+    "flavorTextEn": "If you become enchanted by its smooth, elegant, dance-like kicks, you may get drilled hard.",
+    "categoryTag": null
   },
   {
     "id": 238,
     "name": "Smoochum",
     "germanName": "Kussilla",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/smoochum.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/smoochum.jpg",
+    "type": [
+      "Ice",
+      "Psychic"
+    ],
+    "types2": [
+      "Ice",
+      "Psychic"
+    ],
+    "heightDm": 4,
+    "weightHg": 60,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "urban",
+    "color": "pink",
+    "shape": "humanoid",
+    "genusEn": "Kiss Pokémon",
+    "flavorTextEn": "Its lips are the most sensitive parts on its body. It always uses its lips first to examine things.",
+    "categoryTag": null
   },
   {
     "id": 239,
     "name": "Elekid",
     "germanName": "Elekid",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/elekid.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/elekid.jpg",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 6,
+    "weightHg": 235,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "humanoid",
+    "genusEn": "Electric Pokémon",
+    "flavorTextEn": "It rotates its arms to generate electricity, but it tires easily, so it charges up only a little bit.",
+    "categoryTag": null
   },
   {
     "id": 240,
     "name": "Magby",
     "germanName": "Magby",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/magby.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/magby.jpg",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 7,
+    "weightHg": 214,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "red",
+    "shape": "upright",
+    "genusEn": "Live Coal Pokémon",
+    "flavorTextEn": "Each and every time it inhales and exhales, hot embers dribble out of its mouth and nostrils.",
+    "categoryTag": null
   },
   {
     "id": 241,
     "name": "Miltank",
     "germanName": "Miltank",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/miltank.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/miltank.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 12,
+    "weightHg": 755,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "pink",
+    "shape": "upright",
+    "genusEn": "Milk Cow Pokémon",
+    "flavorTextEn": "Its milk is packed with nutrition, making it the ultimate beverage for the sick or weary.",
+    "categoryTag": null
   },
   {
     "id": 242,
     "name": "Blissey",
     "germanName": "Heiteira",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/blissey.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/blissey.jpg",
+    "type": [
+      "Normal"
+    ],
+    "types2": [
+      "Normal"
+    ],
+    "heightDm": 15,
+    "weightHg": 468,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "urban",
+    "color": "pink",
+    "shape": "humanoid",
+    "genusEn": "Happiness Pokémon",
+    "flavorTextEn": "Anyone who takes even one bite of BLISSEY's egg be­ comes unfailingly caring and pleas­ ant to everyone.",
+    "categoryTag": null
   },
   {
     "id": 243,
     "name": "Raikou",
     "germanName": "Raikou",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/raikou.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/raikou.jpg",
+    "type": [
+      "Electric"
+    ],
+    "types2": [
+      "Electric"
+    ],
+    "heightDm": 19,
+    "weightHg": 1780,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "yellow",
+    "shape": "quadruped",
+    "genusEn": "Thunder Pokémon",
+    "flavorTextEn": "The rain clouds it carries let it fire thunderbolts at will. They say that it descended with lightning.",
+    "categoryTag": null
   },
   {
     "id": 244,
     "name": "Entei",
     "germanName": "Entei",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/entei.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/entei.jpg",
+    "type": [
+      "Fire"
+    ],
+    "types2": [
+      "Fire"
+    ],
+    "heightDm": 21,
+    "weightHg": 1980,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "brown",
+    "shape": "quadruped",
+    "genusEn": "Volcano Pokémon",
+    "flavorTextEn": "Volcanoes erupt when it barks. Un­ able to restrain its extreme power, it races headlong around the land.",
+    "categoryTag": null
   },
   {
     "id": 245,
     "name": "Suicune",
     "germanName": "Suicune",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/suicune.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/suicune.jpg",
+    "type": [
+      "Water"
+    ],
+    "types2": [
+      "Water"
+    ],
+    "heightDm": 20,
+    "weightHg": 1870,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "grassland",
+    "color": "blue",
+    "shape": "quadruped",
+    "genusEn": "Aurora Pokémon",
+    "flavorTextEn": "Said to be the reincarnation of north winds, it can instantly purify filthy, murky water.",
+    "categoryTag": "water"
   },
   {
     "id": 246,
     "name": "Larvitar",
     "germanName": "Larvitar",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/larvitar.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/larvitar.jpg",
+    "type": [
+      "Rock",
+      "Ground"
+    ],
+    "types2": [
+      "Rock",
+      "Ground"
+    ],
+    "heightDm": 6,
+    "weightHg": 720,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "green",
+    "shape": "upright",
+    "genusEn": "Rock Skin Pokémon",
+    "flavorTextEn": "It feeds on soil. After it has eaten a large mountain, it will fall asleep so it can grow.",
+    "categoryTag": null
   },
   {
     "id": 247,
     "name": "Pupitar",
     "germanName": "Pupitar",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/pupitar.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pupitar.jpg",
+    "type": [
+      "Rock",
+      "Ground"
+    ],
+    "types2": [
+      "Rock",
+      "Ground"
+    ],
+    "heightDm": 12,
+    "weightHg": 1520,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "gray",
+    "shape": "squiggle",
+    "genusEn": "Hard Shell Pokémon",
+    "flavorTextEn": "Its shell is as hard as sheet rock, and it is also very strong. Its THRASHING can topple a mountain.",
+    "categoryTag": null
   },
   {
     "id": 248,
     "name": "Tyranitar",
     "germanName": "Despotar",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/tyranitar.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/tyranitar.jpg",
+    "type": [
+      "Rock",
+      "Dark"
+    ],
+    "types2": [
+      "Rock",
+      "Dark"
+    ],
+    "heightDm": 20,
+    "weightHg": 2020,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "mountain",
+    "color": "green",
+    "shape": "upright",
+    "genusEn": "Armor Pokémon",
+    "flavorTextEn": "Its body can't be harmed by any sort of attack, so it is very eager to make challenges against enemies.",
+    "categoryTag": null
   },
   {
     "id": 249,
     "name": "Lugia",
     "germanName": "Lugia",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/lugia.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/lugia.jpg",
+    "type": [
+      "Psychic",
+      "Flying"
+    ],
+    "types2": [
+      "Psychic",
+      "Flying"
+    ],
+    "heightDm": 52,
+    "weightHg": 2160,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "rare",
+    "color": "white",
+    "shape": "wings",
+    "genusEn": "Diving Pokémon",
+    "flavorTextEn": "It is said that it quietly spends its time deep at the bottom of the sea because its powers are too strong.",
+    "categoryTag": "flying"
   },
   {
     "id": 250,
     "name": "Ho-Oh",
     "germanName": "Ho-Oh",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ho-oh.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ho-oh.jpg",
+    "type": [
+      "Fire",
+      "Flying"
+    ],
+    "types2": [
+      "Fire",
+      "Flying"
+    ],
+    "heightDm": 38,
+    "weightHg": 1990,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "rare",
+    "color": "red",
+    "shape": "wings",
+    "genusEn": "Rainbow Pokémon",
+    "flavorTextEn": "Legends claim this POKéMON flies the world's skies con­ tinuously on its magnificent seven- colored wings.",
+    "categoryTag": "flying"
   },
   {
     "id": 251,
     "name": "Celebi",
     "germanName": "Celebi",
     "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/celebi.jpg"
-  },
-  {
-    "id": 152,
-    "name": "Chikorita",
-    "germanName": "Endivie",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/chikorita.jpg"
-  },
-  {
-    "id": 153,
-    "name": "Bayleef",
-    "germanName": "Lorblatt",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/bayleef.jpg"
-  },
-  {
-    "id": 154,
-    "name": "Meganium",
-    "germanName": "Meganie",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/meganium.jpg"
-  },
-  {
-    "id": 155,
-    "name": "Cyndaquil",
-    "germanName": "Feurigel",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/cyndaquil.jpg"
-  },
-  {
-    "id": 156,
-    "name": "Quilava",
-    "germanName": "Igelavar",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/quilava.jpg"
-  },
-  {
-    "id": 157,
-    "name": "Typhlosion",
-    "germanName": "Tornupto",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/typhlosion.jpg"
-  },
-  {
-    "id": 158,
-    "name": "Totodile",
-    "germanName": "Karnimani",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/totodile.jpg"
-  },
-  {
-    "id": 159,
-    "name": "Croconaw",
-    "germanName": "Tyracroc",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/croconaw.jpg"
-  },
-  {
-    "id": 160,
-    "name": "Feraligatr",
-    "germanName": "Impergator",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/feraligatr.jpg"
-  },
-  {
-    "id": 161,
-    "name": "Sentret",
-    "germanName": "Wiesor",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sentret.jpg"
-  },
-  {
-    "id": 162,
-    "name": "Furret",
-    "germanName": "Wiesenior",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/furret.jpg"
-  },
-  {
-    "id": 163,
-    "name": "Hoothoot",
-    "germanName": "Hoothoot",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/hoothoot.jpg"
-  },
-  {
-    "id": 164,
-    "name": "Noctowl",
-    "germanName": "Noctuh",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/noctowl.jpg"
-  },
-  {
-    "id": 165,
-    "name": "Ledyba",
-    "germanName": "Ledyba",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ledyba.jpg"
-  },
-  {
-    "id": 166,
-    "name": "Ledian",
-    "germanName": "Ledian",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ledian.jpg"
-  },
-  {
-    "id": 167,
-    "name": "Spinarak",
-    "germanName": "Webarak",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/spinarak.jpg"
-  },
-  {
-    "id": 168,
-    "name": "Ariados",
-    "germanName": "Ariados",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ariados.jpg"
-  },
-  {
-    "id": 169,
-    "name": "Crobat",
-    "germanName": "Iksbat",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/crobat.jpg"
-  },
-  {
-    "id": 170,
-    "name": "Chinchou",
-    "germanName": "Lampi",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/chinchou.jpg"
-  },
-  {
-    "id": 171,
-    "name": "Lanturn",
-    "germanName": "Lanturn",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/lanturn.jpg"
-  },
-  {
-    "id": 172,
-    "name": "Pichu",
-    "germanName": "Pichu",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/pichu.jpg"
-  },
-  {
-    "id": 173,
-    "name": "Cleffa",
-    "germanName": "Pii",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/cleffa.jpg"
-  },
-  {
-    "id": 174,
-    "name": "Igglybuff",
-    "germanName": "Fluffeluff",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/igglybuff.jpg"
-  },
-  {
-    "id": 175,
-    "name": "Togepi",
-    "germanName": "Togepi",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/togepi.jpg"
-  },
-  {
-    "id": 176,
-    "name": "Togetic",
-    "germanName": "Togetic",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/togetic.jpg"
-  },
-  {
-    "id": 177,
-    "name": "Natu",
-    "germanName": "Natu",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/natu.jpg"
-  },
-  {
-    "id": 178,
-    "name": "Xatu",
-    "germanName": "Xatu",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/xatu.jpg"
-  },
-  {
-    "id": 179,
-    "name": "Mareep",
-    "germanName": "Voltilamm",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/mareep.jpg"
-  },
-  {
-    "id": 180,
-    "name": "Flaaffy",
-    "germanName": "Waaty",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/flaaffy.jpg"
-  },
-  {
-    "id": 181,
-    "name": "Ampharos",
-    "germanName": "Ampharos",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ampharos.jpg"
-  },
-  {
-    "id": 182,
-    "name": "Bellossom",
-    "germanName": "Blubella",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/bellossom.jpg"
-  },
-  {
-    "id": 183,
-    "name": "Marill",
-    "germanName": "Marill",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/marill.jpg"
-  },
-  {
-    "id": 184,
-    "name": "Azumarill",
-    "germanName": "Azumarill",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/azumarill.jpg"
-  },
-  {
-    "id": 185,
-    "name": "Sudowoodo",
-    "germanName": "Mogelbaum",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sudowoodo.jpg"
-  },
-  {
-    "id": 186,
-    "name": "Politoed",
-    "germanName": "Quaxo",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/politoed.jpg"
-  },
-  {
-    "id": 187,
-    "name": "Hoppip",
-    "germanName": "Hoppspross",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/hoppip.jpg"
-  },
-  {
-    "id": 188,
-    "name": "Skiploom",
-    "germanName": "Hubelupf",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/skiploom.jpg"
-  },
-  {
-    "id": 189,
-    "name": "Jumpluff",
-    "germanName": "Papungha",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/jumpluff.jpg"
-  },
-  {
-    "id": 190,
-    "name": "Aipom",
-    "germanName": "Griffel",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/aipom.jpg"
-  },
-  {
-    "id": 191,
-    "name": "Sunkern",
-    "germanName": "Sonnkern",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sunkern.jpg"
-  },
-  {
-    "id": 192,
-    "name": "Sunflora",
-    "germanName": "Sonnflora",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sunflora.jpg"
-  },
-  {
-    "id": 193,
-    "name": "Yanma",
-    "germanName": "Yanma",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/yanma.jpg"
-  },
-  {
-    "id": 194,
-    "name": "Wooper",
-    "germanName": "Felino",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/wooper.jpg"
-  },
-  {
-    "id": 195,
-    "name": "Quagsire",
-    "germanName": "Morlord",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/quagsire.jpg"
-  },
-  {
-    "id": 196,
-    "name": "Espeon",
-    "germanName": "Psiana",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/espeon.jpg"
-  },
-  {
-    "id": 197,
-    "name": "Umbreon",
-    "germanName": "Nachtara",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/umbreon.jpg"
-  },
-  {
-    "id": 198,
-    "name": "Murkrow",
-    "germanName": "Kramurx",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/murkrow.jpg"
-  },
-  {
-    "id": 199,
-    "name": "Slowking",
-    "germanName": "Laschoking",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/slowking.jpg"
-  },
-  {
-    "id": 200,
-    "name": "Misdreavus",
-    "germanName": "Traunfugil",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/misdreavus.jpg"
-  },
-  {
-    "id": 201,
-    "name": "Unown",
-    "germanName": "Icognito",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/unown.jpg"
-  },
-  {
-    "id": 202,
-    "name": "Wobbuffet",
-    "germanName": "Woingenau",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/wobbuffet.jpg"
-  },
-  {
-    "id": 203,
-    "name": "Girafarig",
-    "germanName": "Girafarig",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/girafarig.jpg"
-  },
-  {
-    "id": 204,
-    "name": "Pineco",
-    "germanName": "Tannza",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/pineco.jpg"
-  },
-  {
-    "id": 205,
-    "name": "Forretress",
-    "germanName": "Forstellka",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/forretress.jpg"
-  },
-  {
-    "id": 206,
-    "name": "Dunsparce",
-    "germanName": "Dummisel",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/dunsparce.jpg"
-  },
-  {
-    "id": 207,
-    "name": "Gligar",
-    "germanName": "Skorgla",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/gligar.jpg"
-  },
-  {
-    "id": 208,
-    "name": "Steelix",
-    "germanName": "Stahlos",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/steelix.jpg"
-  },
-  {
-    "id": 209,
-    "name": "Snubbull",
-    "germanName": "Snubbull",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/snubbull.jpg"
-  },
-  {
-    "id": 210,
-    "name": "Granbull",
-    "germanName": "Granbull",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/granbull.jpg"
-  },
-  {
-    "id": 211,
-    "name": "Qwilfish",
-    "germanName": "Baldorfish",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/qwilfish.jpg"
-  },
-  {
-    "id": 212,
-    "name": "Scizor",
-    "germanName": "Scherox",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/scizor.jpg"
-  },
-  {
-    "id": 213,
-    "name": "Shuckle",
-    "germanName": "Pottrott",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/shuckle.jpg"
-  },
-  {
-    "id": 214,
-    "name": "Heracross",
-    "germanName": "Skaraborn",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/heracross.jpg"
-  },
-  {
-    "id": 215,
-    "name": "Sneasel",
-    "germanName": "Sniebel",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/sneasel.jpg"
-  },
-  {
-    "id": 216,
-    "name": "Teddiursa",
-    "germanName": "Teddiursa",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/teddiursa.jpg"
-  },
-  {
-    "id": 217,
-    "name": "Ursaring",
-    "germanName": "Ursaring",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ursaring.jpg"
-  },
-  {
-    "id": 218,
-    "name": "Slugma",
-    "germanName": "Schneckmag",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/slugma.jpg"
-  },
-  {
-    "id": 219,
-    "name": "Magcargo",
-    "germanName": "Magcargo",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/magcargo.jpg"
-  },
-  {
-    "id": 220,
-    "name": "Swinub",
-    "germanName": "Quiekel",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/swinub.jpg"
-  },
-  {
-    "id": 221,
-    "name": "Piloswine",
-    "germanName": "Keifel",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/piloswine.jpg"
-  },
-  {
-    "id": 222,
-    "name": "Corsola",
-    "germanName": "Corasonn",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/corsola.jpg"
-  },
-  {
-    "id": 223,
-    "name": "Remoraid",
-    "germanName": "Remoraid",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/remoraid.jpg"
-  },
-  {
-    "id": 224,
-    "name": "Octillery",
-    "germanName": "Octillery",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/octillery.jpg"
-  },
-  {
-    "id": 225,
-    "name": "Delibird",
-    "germanName": "Botogel",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/delibird.jpg"
-  },
-  {
-    "id": 226,
-    "name": "Mantine",
-    "germanName": "Mantax",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/mantine.jpg"
-  },
-  {
-    "id": 227,
-    "name": "Skarmory",
-    "germanName": "Panzaeron",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/skarmory.jpg"
-  },
-  {
-    "id": 228,
-    "name": "Houndour",
-    "germanName": "Hunduster",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/houndour.jpg"
-  },
-  {
-    "id": 229,
-    "name": "Houndoom",
-    "germanName": "Hundemon",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/houndoom.jpg"
-  },
-  {
-    "id": 230,
-    "name": "Kingdra",
-    "germanName": "Seedraking",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/kingdra.jpg"
-  },
-  {
-    "id": 231,
-    "name": "Phanpy",
-    "germanName": "Phanpy",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/phanpy.jpg"
-  },
-  {
-    "id": 232,
-    "name": "Donphan",
-    "germanName": "Donphan",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/donphan.jpg"
-  },
-  {
-    "id": 233,
-    "name": "Porygon2",
-    "germanName": "Porygon2",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/porygon2.jpg"
-  },
-  {
-    "id": 234,
-    "name": "Stantler",
-    "germanName": "Damhirplex",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/stantler.jpg"
-  },
-  {
-    "id": 235,
-    "name": "Smeargle",
-    "germanName": "Farbeagle",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/smeargle.jpg"
-  },
-  {
-    "id": 236,
-    "name": "Tyrogue",
-    "germanName": "Rabauz",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/tyrogue.jpg"
-  },
-  {
-    "id": 237,
-    "name": "Hitmontop",
-    "germanName": "Kapoera",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/hitmontop.jpg"
-  },
-  {
-    "id": 238,
-    "name": "Smoochum",
-    "germanName": "Kussilla",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/smoochum.jpg"
-  },
-  {
-    "id": 239,
-    "name": "Elekid",
-    "germanName": "Elekid",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/elekid.jpg"
-  },
-  {
-    "id": 240,
-    "name": "Magby",
-    "germanName": "Magby",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/magby.jpg"
-  },
-  {
-    "id": 241,
-    "name": "Miltank",
-    "germanName": "Miltank",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/miltank.jpg"
-  },
-  {
-    "id": 242,
-    "name": "Blissey",
-    "germanName": "Heiteira",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/blissey.jpg"
-  },
-  {
-    "id": 243,
-    "name": "Raikou",
-    "germanName": "Raikou",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/raikou.jpg"
-  },
-  {
-    "id": 244,
-    "name": "Entei",
-    "germanName": "Entei",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/entei.jpg"
-  },
-  {
-    "id": 245,
-    "name": "Suicune",
-    "germanName": "Suicune",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/suicune.jpg"
-  },
-  {
-    "id": 246,
-    "name": "Larvitar",
-    "germanName": "Larvitar",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/larvitar.jpg"
-  },
-  {
-    "id": 247,
-    "name": "Pupitar",
-    "germanName": "Pupitar",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/pupitar.jpg"
-  },
-  {
-    "id": 248,
-    "name": "Tyranitar",
-    "germanName": "Despotar",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/tyranitar.jpg"
-  },
-  {
-    "id": 249,
-    "name": "Lugia",
-    "germanName": "Lugia",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/lugia.jpg"
-  },
-  {
-    "id": 250,
-    "name": "Ho-Oh",
-    "germanName": "Ho-Oh",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/ho-oh.jpg"
-  },
-  {
-    "id": 251,
-    "name": "Celebi",
-    "germanName": "Celebi",
-    "region": "Johto",
-    "imageUrl": "https://img.pokemondb.net/artwork/large/celebi.jpg"
+    "imageUrl": "https://img.pokemondb.net/artwork/large/celebi.jpg",
+    "type": [
+      "Psychic",
+      "Grass"
+    ],
+    "types2": [
+      "Psychic",
+      "Grass"
+    ],
+    "heightDm": 6,
+    "weightHg": 50,
+    "generation": "generation-ii",
+    "mainRegion": "Johto",
+    "habitat": "forest",
+    "color": "green",
+    "shape": "humanoid",
+    "genusEn": "Time Travel Pokémon",
+    "flavorTextEn": "This POKéMON wan­ ders across time. Grass and trees flourish in the forests in which it has appeared.",
+    "categoryTag": null
   }
 ]
