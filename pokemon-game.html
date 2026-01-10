@@ -113,6 +113,7 @@
             gap: calc(var(--spacing-unit) * 2);
             width: 100%;
             max-width: 300px;
+            margin: 0 auto;
         }
 
         /* Buttons */
@@ -553,7 +554,7 @@
 </head>
 <body>
     <header>
-        <h1>⚡ Pokémon Identification Game ⚡</h1>
+        <h1 style="cursor: pointer;" onclick="showScreen('homeScreen')">⚡ Pokémon Identification Game ⚡</h1>
         <p class="subtitle">Can you name them all?</p>
     </header>
 
@@ -564,7 +565,7 @@
                 <div class="logo">🎮</div>
                 <h2>Welcome, Trainer!</h2>
                 <p>Test your Pokémon knowledge and earn coins!</p>
-                <div class="button-group">
+                <div class="button-group" style="margin-top: calc(var(--spacing-unit) * 4);">
                     <button class="primary" onclick="startGame()">Play Game</button>
                     <button onclick="showScreen('medalsScreen')">View Medals</button>
                     <button onclick="showScreen('settingsScreen')">Settings</button>
@@ -592,6 +593,9 @@
                 <div class="pokemon-image-container">
                     <img id="pokemonImage" class="pokemon-image" alt="Mystery Pokémon" style="display: none;">
                     <div id="imageLoading" class="loading-skeleton"></div>
+                </div>
+                <div id="pokemonRegion" style="text-align: center; margin-top: 12px; color: var(--text-secondary); font-size: 0.9rem; display: none;">
+                    <span style="color: var(--accent-primary);">📍</span> <span id="regionText"></span>
                 </div>
             </div>
 
@@ -815,6 +819,10 @@
             document.getElementById('feedbackMessage').innerHTML = '';
             document.getElementById('nextButton').disabled = true;
             
+            // Show region
+            document.getElementById('pokemonRegion').style.display = 'block';
+            document.getElementById('regionText').textContent = `Region: ${currentPokemon.region}`;
+            
             // Show loading skeleton
             document.getElementById('pokemonImage').style.display = 'none';
             document.getElementById('imageLoading').style.display = 'block';
@@ -844,7 +852,7 @@
             currentOptions.forEach((pokemon, index) => {
                 const button = document.createElement('button');
                 button.className = 'option-btn';
-                button.textContent = pokemon.name;
+                button.textContent = `${pokemon.name} / ${pokemon.germanName}`;
                 button.onclick = () => selectAnswer(pokemon, button);
                 button.setAttribute('aria-label', `Option: ${pokemon.name}`);
                 container.appendChild(button);
@@ -882,7 +890,7 @@
                     gameState.correctlyIdentified.push(currentPokemon.id);
                 }
                 
-                feedbackEl.innerHTML = `<div class="feedback-message correct">✅ Correct! It's ${currentPokemon.name}!</div>`;
+                feedbackEl.innerHTML = `<div class="feedback-message correct">✅ Correct! It's ${currentPokemon.name} / ${currentPokemon.germanName}!</div>`;
                 
                 // Check for new medals
                 checkMedals();
@@ -893,16 +901,16 @@
                 
                 // Highlight correct answer
                 document.querySelectorAll('.option-btn').forEach(btn => {
-                    if (btn.textContent === currentPokemon.name) {
+                    if (btn.textContent === `${currentPokemon.name} / ${currentPokemon.germanName}`) {
                         btn.classList.add('correct');
                     }
                 });
                 
-                feedbackEl.innerHTML = `<div class="feedback-message incorrect">❌ Not quite! It's ${currentPokemon.name}. Try again next time!</div>`;
+                feedbackEl.innerHTML = `<div class="feedback-message incorrect">❌ Not quite! It's ${currentPokemon.name} / ${currentPokemon.germanName}. Try again next time!</div>`;
             }
             
             // Update image alt text now that answer is revealed
-            document.getElementById('pokemonImage').alt = `Pokémon: ${currentPokemon.name}`;
+            document.getElementById('pokemonImage').alt = `Pokémon: ${currentPokemon.name} / ${currentPokemon.germanName}`;
             
             updateUI();
             saveProgress();

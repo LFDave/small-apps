@@ -1,153 +1,2459 @@
 [
-  {"id": 1, "name": "Bulbasaur", "imageUrl": "https://img.pokemondb.net/artwork/large/bulbasaur.jpg"},
-  {"id": 2, "name": "Ivysaur", "imageUrl": "https://img.pokemondb.net/artwork/large/ivysaur.jpg"},
-  {"id": 3, "name": "Venusaur", "imageUrl": "https://img.pokemondb.net/artwork/large/venusaur.jpg"},
-  {"id": 4, "name": "Charmander", "imageUrl": "https://img.pokemondb.net/artwork/large/charmander.jpg"},
-  {"id": 5, "name": "Charmeleon", "imageUrl": "https://img.pokemondb.net/artwork/large/charmeleon.jpg"},
-  {"id": 6, "name": "Charizard", "imageUrl": "https://img.pokemondb.net/artwork/large/charizard.jpg"},
-  {"id": 7, "name": "Squirtle", "imageUrl": "https://img.pokemondb.net/artwork/large/squirtle.jpg"},
-  {"id": 8, "name": "Wartortle", "imageUrl": "https://img.pokemondb.net/artwork/large/wartortle.jpg"},
-  {"id": 9, "name": "Blastoise", "imageUrl": "https://img.pokemondb.net/artwork/large/blastoise.jpg"},
-  {"id": 10, "name": "Caterpie", "imageUrl": "https://img.pokemondb.net/artwork/large/caterpie.jpg"},
-  {"id": 11, "name": "Metapod", "imageUrl": "https://img.pokemondb.net/artwork/large/metapod.jpg"},
-  {"id": 12, "name": "Butterfree", "imageUrl": "https://img.pokemondb.net/artwork/large/butterfree.jpg"},
-  {"id": 13, "name": "Weedle", "imageUrl": "https://img.pokemondb.net/artwork/large/weedle.jpg"},
-  {"id": 14, "name": "Kakuna", "imageUrl": "https://img.pokemondb.net/artwork/large/kakuna.jpg"},
-  {"id": 15, "name": "Beedrill", "imageUrl": "https://img.pokemondb.net/artwork/large/beedrill.jpg"},
-  {"id": 16, "name": "Pidgey", "imageUrl": "https://img.pokemondb.net/artwork/large/pidgey.jpg"},
-  {"id": 17, "name": "Pidgeotto", "imageUrl": "https://img.pokemondb.net/artwork/large/pidgeotto.jpg"},
-  {"id": 18, "name": "Pidgeot", "imageUrl": "https://img.pokemondb.net/artwork/large/pidgeot.jpg"},
-  {"id": 19, "name": "Rattata", "imageUrl": "https://img.pokemondb.net/artwork/large/rattata.jpg"},
-  {"id": 20, "name": "Raticate", "imageUrl": "https://img.pokemondb.net/artwork/large/raticate.jpg"},
-  {"id": 21, "name": "Spearow", "imageUrl": "https://img.pokemondb.net/artwork/large/spearow.jpg"},
-  {"id": 22, "name": "Fearow", "imageUrl": "https://img.pokemondb.net/artwork/large/fearow.jpg"},
-  {"id": 23, "name": "Ekans", "imageUrl": "https://img.pokemondb.net/artwork/large/ekans.jpg"},
-  {"id": 24, "name": "Arbok", "imageUrl": "https://img.pokemondb.net/artwork/large/arbok.jpg"},
-  {"id": 25, "name": "Pikachu", "imageUrl": "https://img.pokemondb.net/artwork/large/pikachu.jpg"},
-  {"id": 26, "name": "Raichu", "imageUrl": "https://img.pokemondb.net/artwork/large/raichu.jpg"},
-  {"id": 27, "name": "Sandshrew", "imageUrl": "https://img.pokemondb.net/artwork/large/sandshrew.jpg"},
-  {"id": 28, "name": "Sandslash", "imageUrl": "https://img.pokemondb.net/artwork/large/sandslash.jpg"},
-  {"id": 29, "name": "Nidoran-f", "imageUrl": "https://img.pokemondb.net/artwork/large/nidoran-f.jpg"},
-  {"id": 30, "name": "Nidorina", "imageUrl": "https://img.pokemondb.net/artwork/large/nidorina.jpg"},
-  {"id": 31, "name": "Nidoqueen", "imageUrl": "https://img.pokemondb.net/artwork/large/nidoqueen.jpg"},
-  {"id": 32, "name": "Nidoran-m", "imageUrl": "https://img.pokemondb.net/artwork/large/nidoran-m.jpg"},
-  {"id": 33, "name": "Nidorino", "imageUrl": "https://img.pokemondb.net/artwork/large/nidorino.jpg"},
-  {"id": 34, "name": "Nidoking", "imageUrl": "https://img.pokemondb.net/artwork/large/nidoking.jpg"},
-  {"id": 35, "name": "Clefairy", "imageUrl": "https://img.pokemondb.net/artwork/large/clefairy.jpg"},
-  {"id": 36, "name": "Clefable", "imageUrl": "https://img.pokemondb.net/artwork/large/clefable.jpg"},
-  {"id": 37, "name": "Vulpix", "imageUrl": "https://img.pokemondb.net/artwork/large/vulpix.jpg"},
-  {"id": 38, "name": "Ninetales", "imageUrl": "https://img.pokemondb.net/artwork/large/ninetales.jpg"},
-  {"id": 39, "name": "Jigglypuff", "imageUrl": "https://img.pokemondb.net/artwork/large/jigglypuff.jpg"},
-  {"id": 40, "name": "Wigglytuff", "imageUrl": "https://img.pokemondb.net/artwork/large/wigglytuff.jpg"},
-  {"id": 41, "name": "Zubat", "imageUrl": "https://img.pokemondb.net/artwork/large/zubat.jpg"},
-  {"id": 42, "name": "Golbat", "imageUrl": "https://img.pokemondb.net/artwork/large/golbat.jpg"},
-  {"id": 43, "name": "Oddish", "imageUrl": "https://img.pokemondb.net/artwork/large/oddish.jpg"},
-  {"id": 44, "name": "Gloom", "imageUrl": "https://img.pokemondb.net/artwork/large/gloom.jpg"},
-  {"id": 45, "name": "Vileplume", "imageUrl": "https://img.pokemondb.net/artwork/large/vileplume.jpg"},
-  {"id": 46, "name": "Paras", "imageUrl": "https://img.pokemondb.net/artwork/large/paras.jpg"},
-  {"id": 47, "name": "Parasect", "imageUrl": "https://img.pokemondb.net/artwork/large/parasect.jpg"},
-  {"id": 48, "name": "Venonat", "imageUrl": "https://img.pokemondb.net/artwork/large/venonat.jpg"},
-  {"id": 49, "name": "Venomoth", "imageUrl": "https://img.pokemondb.net/artwork/large/venomoth.jpg"},
-  {"id": 50, "name": "Diglett", "imageUrl": "https://img.pokemondb.net/artwork/large/diglett.jpg"},
-  {"id": 51, "name": "Dugtrio", "imageUrl": "https://img.pokemondb.net/artwork/large/dugtrio.jpg"},
-  {"id": 52, "name": "Meowth", "imageUrl": "https://img.pokemondb.net/artwork/large/meowth.jpg"},
-  {"id": 53, "name": "Persian", "imageUrl": "https://img.pokemondb.net/artwork/large/persian.jpg"},
-  {"id": 54, "name": "Psyduck", "imageUrl": "https://img.pokemondb.net/artwork/large/psyduck.jpg"},
-  {"id": 55, "name": "Golduck", "imageUrl": "https://img.pokemondb.net/artwork/large/golduck.jpg"},
-  {"id": 56, "name": "Mankey", "imageUrl": "https://img.pokemondb.net/artwork/large/mankey.jpg"},
-  {"id": 57, "name": "Primeape", "imageUrl": "https://img.pokemondb.net/artwork/large/primeape.jpg"},
-  {"id": 58, "name": "Growlithe", "imageUrl": "https://img.pokemondb.net/artwork/large/growlithe.jpg"},
-  {"id": 59, "name": "Arcanine", "imageUrl": "https://img.pokemondb.net/artwork/large/arcanine.jpg"},
-  {"id": 60, "name": "Poliwag", "imageUrl": "https://img.pokemondb.net/artwork/large/poliwag.jpg"},
-  {"id": 61, "name": "Poliwhirl", "imageUrl": "https://img.pokemondb.net/artwork/large/poliwhirl.jpg"},
-  {"id": 62, "name": "Poliwrath", "imageUrl": "https://img.pokemondb.net/artwork/large/poliwrath.jpg"},
-  {"id": 63, "name": "Abra", "imageUrl": "https://img.pokemondb.net/artwork/large/abra.jpg"},
-  {"id": 64, "name": "Kadabra", "imageUrl": "https://img.pokemondb.net/artwork/large/kadabra.jpg"},
-  {"id": 65, "name": "Alakazam", "imageUrl": "https://img.pokemondb.net/artwork/large/alakazam.jpg"},
-  {"id": 66, "name": "Machop", "imageUrl": "https://img.pokemondb.net/artwork/large/machop.jpg"},
-  {"id": 67, "name": "Machoke", "imageUrl": "https://img.pokemondb.net/artwork/large/machoke.jpg"},
-  {"id": 68, "name": "Machamp", "imageUrl": "https://img.pokemondb.net/artwork/large/machamp.jpg"},
-  {"id": 69, "name": "Bellsprout", "imageUrl": "https://img.pokemondb.net/artwork/large/bellsprout.jpg"},
-  {"id": 70, "name": "Weepinbell", "imageUrl": "https://img.pokemondb.net/artwork/large/weepinbell.jpg"},
-  {"id": 71, "name": "Victreebel", "imageUrl": "https://img.pokemondb.net/artwork/large/victreebel.jpg"},
-  {"id": 72, "name": "Tentacool", "imageUrl": "https://img.pokemondb.net/artwork/large/tentacool.jpg"},
-  {"id": 73, "name": "Tentacruel", "imageUrl": "https://img.pokemondb.net/artwork/large/tentacruel.jpg"},
-  {"id": 74, "name": "Geodude", "imageUrl": "https://img.pokemondb.net/artwork/large/geodude.jpg"},
-  {"id": 75, "name": "Graveler", "imageUrl": "https://img.pokemondb.net/artwork/large/graveler.jpg"},
-  {"id": 76, "name": "Golem", "imageUrl": "https://img.pokemondb.net/artwork/large/golem.jpg"},
-  {"id": 77, "name": "Ponyta", "imageUrl": "https://img.pokemondb.net/artwork/large/ponyta.jpg"},
-  {"id": 78, "name": "Rapidash", "imageUrl": "https://img.pokemondb.net/artwork/large/rapidash.jpg"},
-  {"id": 79, "name": "Slowpoke", "imageUrl": "https://img.pokemondb.net/artwork/large/slowpoke.jpg"},
-  {"id": 80, "name": "Slowbro", "imageUrl": "https://img.pokemondb.net/artwork/large/slowbro.jpg"},
-  {"id": 81, "name": "Magnemite", "imageUrl": "https://img.pokemondb.net/artwork/large/magnemite.jpg"},
-  {"id": 82, "name": "Magneton", "imageUrl": "https://img.pokemondb.net/artwork/large/magneton.jpg"},
-  {"id": 83, "name": "Farfetchd", "imageUrl": "https://img.pokemondb.net/artwork/large/farfetchd.jpg"},
-  {"id": 84, "name": "Doduo", "imageUrl": "https://img.pokemondb.net/artwork/large/doduo.jpg"},
-  {"id": 85, "name": "Dodrio", "imageUrl": "https://img.pokemondb.net/artwork/large/dodrio.jpg"},
-  {"id": 86, "name": "Seel", "imageUrl": "https://img.pokemondb.net/artwork/large/seel.jpg"},
-  {"id": 87, "name": "Dewgong", "imageUrl": "https://img.pokemondb.net/artwork/large/dewgong.jpg"},
-  {"id": 88, "name": "Grimer", "imageUrl": "https://img.pokemondb.net/artwork/large/grimer.jpg"},
-  {"id": 89, "name": "Muk", "imageUrl": "https://img.pokemondb.net/artwork/large/muk.jpg"},
-  {"id": 90, "name": "Shellder", "imageUrl": "https://img.pokemondb.net/artwork/large/shellder.jpg"},
-  {"id": 91, "name": "Cloyster", "imageUrl": "https://img.pokemondb.net/artwork/large/cloyster.jpg"},
-  {"id": 92, "name": "Gastly", "imageUrl": "https://img.pokemondb.net/artwork/large/gastly.jpg"},
-  {"id": 93, "name": "Haunter", "imageUrl": "https://img.pokemondb.net/artwork/large/haunter.jpg"},
-  {"id": 94, "name": "Gengar", "imageUrl": "https://img.pokemondb.net/artwork/large/gengar.jpg"},
-  {"id": 95, "name": "Onix", "imageUrl": "https://img.pokemondb.net/artwork/large/onix.jpg"},
-  {"id": 96, "name": "Drowzee", "imageUrl": "https://img.pokemondb.net/artwork/large/drowzee.jpg"},
-  {"id": 97, "name": "Hypno", "imageUrl": "https://img.pokemondb.net/artwork/large/hypno.jpg"},
-  {"id": 98, "name": "Krabby", "imageUrl": "https://img.pokemondb.net/artwork/large/krabby.jpg"},
-  {"id": 99, "name": "Kingler", "imageUrl": "https://img.pokemondb.net/artwork/large/kingler.jpg"},
-  {"id": 100, "name": "Voltorb", "imageUrl": "https://img.pokemondb.net/artwork/large/voltorb.jpg"},
-  {"id": 101, "name": "Electrode", "imageUrl": "https://img.pokemondb.net/artwork/large/electrode.jpg"},
-  {"id": 102, "name": "Exeggcute", "imageUrl": "https://img.pokemondb.net/artwork/large/exeggcute.jpg"},
-  {"id": 103, "name": "Exeggutor", "imageUrl": "https://img.pokemondb.net/artwork/large/exeggutor.jpg"},
-  {"id": 104, "name": "Cubone", "imageUrl": "https://img.pokemondb.net/artwork/large/cubone.jpg"},
-  {"id": 105, "name": "Marowak", "imageUrl": "https://img.pokemondb.net/artwork/large/marowak.jpg"},
-  {"id": 106, "name": "Hitmonlee", "imageUrl": "https://img.pokemondb.net/artwork/large/hitmonlee.jpg"},
-  {"id": 107, "name": "Hitmonchan", "imageUrl": "https://img.pokemondb.net/artwork/large/hitmonchan.jpg"},
-  {"id": 108, "name": "Lickitung", "imageUrl": "https://img.pokemondb.net/artwork/large/lickitung.jpg"},
-  {"id": 109, "name": "Koffing", "imageUrl": "https://img.pokemondb.net/artwork/large/koffing.jpg"},
-  {"id": 110, "name": "Weezing", "imageUrl": "https://img.pokemondb.net/artwork/large/weezing.jpg"},
-  {"id": 111, "name": "Rhyhorn", "imageUrl": "https://img.pokemondb.net/artwork/large/rhyhorn.jpg"},
-  {"id": 112, "name": "Rhydon", "imageUrl": "https://img.pokemondb.net/artwork/large/rhydon.jpg"},
-  {"id": 113, "name": "Chansey", "imageUrl": "https://img.pokemondb.net/artwork/large/chansey.jpg"},
-  {"id": 114, "name": "Tangela", "imageUrl": "https://img.pokemondb.net/artwork/large/tangela.jpg"},
-  {"id": 115, "name": "Kangaskhan", "imageUrl": "https://img.pokemondb.net/artwork/large/kangaskhan.jpg"},
-  {"id": 116, "name": "Horsea", "imageUrl": "https://img.pokemondb.net/artwork/large/horsea.jpg"},
-  {"id": 117, "name": "Seadra", "imageUrl": "https://img.pokemondb.net/artwork/large/seadra.jpg"},
-  {"id": 118, "name": "Goldeen", "imageUrl": "https://img.pokemondb.net/artwork/large/goldeen.jpg"},
-  {"id": 119, "name": "Seaking", "imageUrl": "https://img.pokemondb.net/artwork/large/seaking.jpg"},
-  {"id": 120, "name": "Staryu", "imageUrl": "https://img.pokemondb.net/artwork/large/staryu.jpg"},
-  {"id": 121, "name": "Starmie", "imageUrl": "https://img.pokemondb.net/artwork/large/starmie.jpg"},
-  {"id": 122, "name": "Mr-mime", "imageUrl": "https://img.pokemondb.net/artwork/large/mr-mime.jpg"},
-  {"id": 123, "name": "Scyther", "imageUrl": "https://img.pokemondb.net/artwork/large/scyther.jpg"},
-  {"id": 124, "name": "Jynx", "imageUrl": "https://img.pokemondb.net/artwork/large/jynx.jpg"},
-  {"id": 125, "name": "Electabuzz", "imageUrl": "https://img.pokemondb.net/artwork/large/electabuzz.jpg"},
-  {"id": 126, "name": "Magmar", "imageUrl": "https://img.pokemondb.net/artwork/large/magmar.jpg"},
-  {"id": 127, "name": "Pinsir", "imageUrl": "https://img.pokemondb.net/artwork/large/pinsir.jpg"},
-  {"id": 128, "name": "Tauros", "imageUrl": "https://img.pokemondb.net/artwork/large/tauros.jpg"},
-  {"id": 129, "name": "Magikarp", "imageUrl": "https://img.pokemondb.net/artwork/large/magikarp.jpg"},
-  {"id": 130, "name": "Gyarados", "imageUrl": "https://img.pokemondb.net/artwork/large/gyarados.jpg"},
-  {"id": 131, "name": "Lapras", "imageUrl": "https://img.pokemondb.net/artwork/large/lapras.jpg"},
-  {"id": 132, "name": "Ditto", "imageUrl": "https://img.pokemondb.net/artwork/large/ditto.jpg"},
-  {"id": 133, "name": "Eevee", "imageUrl": "https://img.pokemondb.net/artwork/large/eevee.jpg"},
-  {"id": 134, "name": "Vaporeon", "imageUrl": "https://img.pokemondb.net/artwork/large/vaporeon.jpg"},
-  {"id": 135, "name": "Jolteon", "imageUrl": "https://img.pokemondb.net/artwork/large/jolteon.jpg"},
-  {"id": 136, "name": "Flareon", "imageUrl": "https://img.pokemondb.net/artwork/large/flareon.jpg"},
-  {"id": 137, "name": "Porygon", "imageUrl": "https://img.pokemondb.net/artwork/large/porygon.jpg"},
-  {"id": 138, "name": "Omanyte", "imageUrl": "https://img.pokemondb.net/artwork/large/omanyte.jpg"},
-  {"id": 139, "name": "Omastar", "imageUrl": "https://img.pokemondb.net/artwork/large/omastar.jpg"},
-  {"id": 140, "name": "Kabuto", "imageUrl": "https://img.pokemondb.net/artwork/large/kabuto.jpg"},
-  {"id": 141, "name": "Kabutops", "imageUrl": "https://img.pokemondb.net/artwork/large/kabutops.jpg"},
-  {"id": 142, "name": "Aerodactyl", "imageUrl": "https://img.pokemondb.net/artwork/large/aerodactyl.jpg"},
-  {"id": 143, "name": "Snorlax", "imageUrl": "https://img.pokemondb.net/artwork/large/snorlax.jpg"},
-  {"id": 144, "name": "Articuno", "imageUrl": "https://img.pokemondb.net/artwork/large/articuno.jpg"},
-  {"id": 145, "name": "Zapdos", "imageUrl": "https://img.pokemondb.net/artwork/large/zapdos.jpg"},
-  {"id": 146, "name": "Moltres", "imageUrl": "https://img.pokemondb.net/artwork/large/moltres.jpg"},
-  {"id": 147, "name": "Dratini", "imageUrl": "https://img.pokemondb.net/artwork/large/dratini.jpg"},
-  {"id": 148, "name": "Dragonair", "imageUrl": "https://img.pokemondb.net/artwork/large/dragonair.jpg"},
-  {"id": 149, "name": "Dragonite", "imageUrl": "https://img.pokemondb.net/artwork/large/dragonite.jpg"},
-  {"id": 150, "name": "Mewtwo", "imageUrl": "https://img.pokemondb.net/artwork/large/mewtwo.jpg"},
-  {"id": 151, "name": "Mew", "imageUrl": "https://img.pokemondb.net/artwork/large/mew.jpg"}
+  {
+    "id": 1,
+    "name": "Bulbasaur",
+    "germanName": "Bisasam",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/bulbasaur.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Ivysaur",
+    "germanName": "Bisaknosp",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ivysaur.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Venusaur",
+    "germanName": "Bisaflor",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/venusaur.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Charmander",
+    "germanName": "Glumanda",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/charmander.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Charmeleon",
+    "germanName": "Glutexo",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/charmeleon.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Charizard",
+    "germanName": "Glurak",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/charizard.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Squirtle",
+    "germanName": "Schiggy",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/squirtle.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Wartortle",
+    "germanName": "Schillok",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/wartortle.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Blastoise",
+    "germanName": "Turtok",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/blastoise.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Caterpie",
+    "germanName": "Raupy",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/caterpie.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Metapod",
+    "germanName": "Safcon",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/metapod.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Butterfree",
+    "germanName": "Smettbo",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/butterfree.jpg"
+  },
+  {
+    "id": 13,
+    "name": "Weedle",
+    "germanName": "Hornliu",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/weedle.jpg"
+  },
+  {
+    "id": 14,
+    "name": "Kakuna",
+    "germanName": "Kokuna",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/kakuna.jpg"
+  },
+  {
+    "id": 15,
+    "name": "Beedrill",
+    "germanName": "Bibor",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/beedrill.jpg"
+  },
+  {
+    "id": 16,
+    "name": "Pidgey",
+    "germanName": "Taubsi",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pidgey.jpg"
+  },
+  {
+    "id": 17,
+    "name": "Pidgeotto",
+    "germanName": "Tauboga",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pidgeotto.jpg"
+  },
+  {
+    "id": 18,
+    "name": "Pidgeot",
+    "germanName": "Tauboss",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pidgeot.jpg"
+  },
+  {
+    "id": 19,
+    "name": "Rattata",
+    "germanName": "Rattfratz",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/rattata.jpg"
+  },
+  {
+    "id": 20,
+    "name": "Raticate",
+    "germanName": "Rattikarl",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/raticate.jpg"
+  },
+  {
+    "id": 21,
+    "name": "Spearow",
+    "germanName": "Habitak",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/spearow.jpg"
+  },
+  {
+    "id": 22,
+    "name": "Fearow",
+    "germanName": "Ibitak",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/fearow.jpg"
+  },
+  {
+    "id": 23,
+    "name": "Ekans",
+    "germanName": "Rettan",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ekans.jpg"
+  },
+  {
+    "id": 24,
+    "name": "Arbok",
+    "germanName": "Arbok",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/arbok.jpg"
+  },
+  {
+    "id": 25,
+    "name": "Pikachu",
+    "germanName": "Pikachu",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pikachu.jpg"
+  },
+  {
+    "id": 26,
+    "name": "Raichu",
+    "germanName": "Raichu",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/raichu.jpg"
+  },
+  {
+    "id": 27,
+    "name": "Sandshrew",
+    "germanName": "Sandan",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sandshrew.jpg"
+  },
+  {
+    "id": 28,
+    "name": "Sandslash",
+    "germanName": "Sandamer",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sandslash.jpg"
+  },
+  {
+    "id": 29,
+    "name": "Nidoran-f",
+    "germanName": "Nidoran♀",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/nidoran-f.jpg"
+  },
+  {
+    "id": 30,
+    "name": "Nidorina",
+    "germanName": "Nidorina",
+    "region": "Kanto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/nidorina.jpg"
+  },
+  {
+    "id": 31,
+    "name": "Nidoqueen",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/nidoqueen.jpg",
+    "germanName": "Nidoqueen",
+    "region": "Kanto"
+  },
+  {
+    "id": 32,
+    "name": "Nidoran-m",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/nidoran-m.jpg",
+    "germanName": "Nidoran♂",
+    "region": "Kanto"
+  },
+  {
+    "id": 33,
+    "name": "Nidorino",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/nidorino.jpg",
+    "germanName": "Nidorino",
+    "region": "Kanto"
+  },
+  {
+    "id": 34,
+    "name": "Nidoking",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/nidoking.jpg",
+    "germanName": "Nidoking",
+    "region": "Kanto"
+  },
+  {
+    "id": 35,
+    "name": "Clefairy",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/clefairy.jpg",
+    "germanName": "Piepi",
+    "region": "Kanto"
+  },
+  {
+    "id": 36,
+    "name": "Clefable",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/clefable.jpg",
+    "germanName": "Pixi",
+    "region": "Kanto"
+  },
+  {
+    "id": 37,
+    "name": "Vulpix",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/vulpix.jpg",
+    "germanName": "Vulpix",
+    "region": "Kanto"
+  },
+  {
+    "id": 38,
+    "name": "Ninetales",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ninetales.jpg",
+    "germanName": "Vulnona",
+    "region": "Kanto"
+  },
+  {
+    "id": 39,
+    "name": "Jigglypuff",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/jigglypuff.jpg",
+    "germanName": "Pummeluff",
+    "region": "Kanto"
+  },
+  {
+    "id": 40,
+    "name": "Wigglytuff",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/wigglytuff.jpg",
+    "germanName": "Knuddeluff",
+    "region": "Kanto"
+  },
+  {
+    "id": 41,
+    "name": "Zubat",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/zubat.jpg",
+    "germanName": "Zubat",
+    "region": "Kanto"
+  },
+  {
+    "id": 42,
+    "name": "Golbat",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/golbat.jpg",
+    "germanName": "Golbat",
+    "region": "Kanto"
+  },
+  {
+    "id": 43,
+    "name": "Oddish",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/oddish.jpg",
+    "germanName": "Myrapla",
+    "region": "Kanto"
+  },
+  {
+    "id": 44,
+    "name": "Gloom",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/gloom.jpg",
+    "germanName": "Duflor",
+    "region": "Kanto"
+  },
+  {
+    "id": 45,
+    "name": "Vileplume",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/vileplume.jpg",
+    "germanName": "Giflor",
+    "region": "Kanto"
+  },
+  {
+    "id": 46,
+    "name": "Paras",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/paras.jpg",
+    "germanName": "Paras",
+    "region": "Kanto"
+  },
+  {
+    "id": 47,
+    "name": "Parasect",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/parasect.jpg",
+    "germanName": "Parasek",
+    "region": "Kanto"
+  },
+  {
+    "id": 48,
+    "name": "Venonat",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/venonat.jpg",
+    "germanName": "Bluzuk",
+    "region": "Kanto"
+  },
+  {
+    "id": 49,
+    "name": "Venomoth",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/venomoth.jpg",
+    "germanName": "Omot",
+    "region": "Kanto"
+  },
+  {
+    "id": 50,
+    "name": "Diglett",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/diglett.jpg",
+    "germanName": "Digda",
+    "region": "Kanto"
+  },
+  {
+    "id": 51,
+    "name": "Dugtrio",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/dugtrio.jpg",
+    "germanName": "Digdri",
+    "region": "Kanto"
+  },
+  {
+    "id": 52,
+    "name": "Meowth",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/meowth.jpg",
+    "germanName": "Mauzi",
+    "region": "Kanto"
+  },
+  {
+    "id": 53,
+    "name": "Persian",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/persian.jpg",
+    "germanName": "Snobilikat",
+    "region": "Kanto"
+  },
+  {
+    "id": 54,
+    "name": "Psyduck",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/psyduck.jpg",
+    "germanName": "Enton",
+    "region": "Kanto"
+  },
+  {
+    "id": 55,
+    "name": "Golduck",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/golduck.jpg",
+    "germanName": "Entoron",
+    "region": "Kanto"
+  },
+  {
+    "id": 56,
+    "name": "Mankey",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/mankey.jpg",
+    "germanName": "Menki",
+    "region": "Kanto"
+  },
+  {
+    "id": 57,
+    "name": "Primeape",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/primeape.jpg",
+    "germanName": "Rasaff",
+    "region": "Kanto"
+  },
+  {
+    "id": 58,
+    "name": "Growlithe",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/growlithe.jpg",
+    "germanName": "Fukano",
+    "region": "Kanto"
+  },
+  {
+    "id": 59,
+    "name": "Arcanine",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/arcanine.jpg",
+    "germanName": "Arkani",
+    "region": "Kanto"
+  },
+  {
+    "id": 60,
+    "name": "Poliwag",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/poliwag.jpg",
+    "germanName": "Quapsel",
+    "region": "Kanto"
+  },
+  {
+    "id": 61,
+    "name": "Poliwhirl",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/poliwhirl.jpg",
+    "germanName": "Quaputzi",
+    "region": "Kanto"
+  },
+  {
+    "id": 62,
+    "name": "Poliwrath",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/poliwrath.jpg",
+    "germanName": "Quappo",
+    "region": "Kanto"
+  },
+  {
+    "id": 63,
+    "name": "Abra",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/abra.jpg",
+    "germanName": "Abra",
+    "region": "Kanto"
+  },
+  {
+    "id": 64,
+    "name": "Kadabra",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/kadabra.jpg",
+    "germanName": "Kadabra",
+    "region": "Kanto"
+  },
+  {
+    "id": 65,
+    "name": "Alakazam",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/alakazam.jpg",
+    "germanName": "Simsala",
+    "region": "Kanto"
+  },
+  {
+    "id": 66,
+    "name": "Machop",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/machop.jpg",
+    "germanName": "Machollo",
+    "region": "Kanto"
+  },
+  {
+    "id": 67,
+    "name": "Machoke",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/machoke.jpg",
+    "germanName": "Maschock",
+    "region": "Kanto"
+  },
+  {
+    "id": 68,
+    "name": "Machamp",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/machamp.jpg",
+    "germanName": "Machomei",
+    "region": "Kanto"
+  },
+  {
+    "id": 69,
+    "name": "Bellsprout",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/bellsprout.jpg",
+    "germanName": "Knofensa",
+    "region": "Kanto"
+  },
+  {
+    "id": 70,
+    "name": "Weepinbell",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/weepinbell.jpg",
+    "germanName": "Ultrigaria",
+    "region": "Kanto"
+  },
+  {
+    "id": 71,
+    "name": "Victreebel",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/victreebel.jpg",
+    "germanName": "Sarzenia",
+    "region": "Kanto"
+  },
+  {
+    "id": 72,
+    "name": "Tentacool",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/tentacool.jpg",
+    "germanName": "Tentacha",
+    "region": "Kanto"
+  },
+  {
+    "id": 73,
+    "name": "Tentacruel",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/tentacruel.jpg",
+    "germanName": "Tentoxa",
+    "region": "Kanto"
+  },
+  {
+    "id": 74,
+    "name": "Geodude",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/geodude.jpg",
+    "germanName": "Kleinstein",
+    "region": "Kanto"
+  },
+  {
+    "id": 75,
+    "name": "Graveler",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/graveler.jpg",
+    "germanName": "Georok",
+    "region": "Kanto"
+  },
+  {
+    "id": 76,
+    "name": "Golem",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/golem.jpg",
+    "germanName": "Geowaz",
+    "region": "Kanto"
+  },
+  {
+    "id": 77,
+    "name": "Ponyta",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ponyta.jpg",
+    "germanName": "Ponita",
+    "region": "Kanto"
+  },
+  {
+    "id": 78,
+    "name": "Rapidash",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/rapidash.jpg",
+    "germanName": "Gallopa",
+    "region": "Kanto"
+  },
+  {
+    "id": 79,
+    "name": "Slowpoke",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/slowpoke.jpg",
+    "germanName": "Flegmon",
+    "region": "Kanto"
+  },
+  {
+    "id": 80,
+    "name": "Slowbro",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/slowbro.jpg",
+    "germanName": "Lahmus",
+    "region": "Kanto"
+  },
+  {
+    "id": 81,
+    "name": "Magnemite",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/magnemite.jpg",
+    "germanName": "Magnetilo",
+    "region": "Kanto"
+  },
+  {
+    "id": 82,
+    "name": "Magneton",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/magneton.jpg",
+    "germanName": "Magneton",
+    "region": "Kanto"
+  },
+  {
+    "id": 83,
+    "name": "Farfetchd",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/farfetchd.jpg",
+    "germanName": "Porenta",
+    "region": "Kanto"
+  },
+  {
+    "id": 84,
+    "name": "Doduo",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/doduo.jpg",
+    "germanName": "Dodu",
+    "region": "Kanto"
+  },
+  {
+    "id": 85,
+    "name": "Dodrio",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/dodrio.jpg",
+    "germanName": "Dodri",
+    "region": "Kanto"
+  },
+  {
+    "id": 86,
+    "name": "Seel",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/seel.jpg",
+    "germanName": "Jurob",
+    "region": "Kanto"
+  },
+  {
+    "id": 87,
+    "name": "Dewgong",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/dewgong.jpg",
+    "germanName": "Jugong",
+    "region": "Kanto"
+  },
+  {
+    "id": 88,
+    "name": "Grimer",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/grimer.jpg",
+    "germanName": "Sleima",
+    "region": "Kanto"
+  },
+  {
+    "id": 89,
+    "name": "Muk",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/muk.jpg",
+    "germanName": "Sleimok",
+    "region": "Kanto"
+  },
+  {
+    "id": 90,
+    "name": "Shellder",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/shellder.jpg",
+    "germanName": "Muschas",
+    "region": "Kanto"
+  },
+  {
+    "id": 91,
+    "name": "Cloyster",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/cloyster.jpg",
+    "germanName": "Austos",
+    "region": "Kanto"
+  },
+  {
+    "id": 92,
+    "name": "Gastly",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/gastly.jpg",
+    "germanName": "Nebulak",
+    "region": "Kanto"
+  },
+  {
+    "id": 93,
+    "name": "Haunter",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/haunter.jpg",
+    "germanName": "Alpollo",
+    "region": "Kanto"
+  },
+  {
+    "id": 94,
+    "name": "Gengar",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/gengar.jpg",
+    "germanName": "Gengar",
+    "region": "Kanto"
+  },
+  {
+    "id": 95,
+    "name": "Onix",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/onix.jpg",
+    "germanName": "Onix",
+    "region": "Kanto"
+  },
+  {
+    "id": 96,
+    "name": "Drowzee",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/drowzee.jpg",
+    "germanName": "Traumato",
+    "region": "Kanto"
+  },
+  {
+    "id": 97,
+    "name": "Hypno",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hypno.jpg",
+    "germanName": "Hypno",
+    "region": "Kanto"
+  },
+  {
+    "id": 98,
+    "name": "Krabby",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/krabby.jpg",
+    "germanName": "Krabby",
+    "region": "Kanto"
+  },
+  {
+    "id": 99,
+    "name": "Kingler",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/kingler.jpg",
+    "germanName": "Kingler",
+    "region": "Kanto"
+  },
+  {
+    "id": 100,
+    "name": "Voltorb",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/voltorb.jpg",
+    "germanName": "Voltobal",
+    "region": "Kanto"
+  },
+  {
+    "id": 101,
+    "name": "Electrode",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/electrode.jpg",
+    "germanName": "Lektrobal",
+    "region": "Kanto"
+  },
+  {
+    "id": 102,
+    "name": "Exeggcute",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/exeggcute.jpg",
+    "germanName": "Owei",
+    "region": "Kanto"
+  },
+  {
+    "id": 103,
+    "name": "Exeggutor",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/exeggutor.jpg",
+    "germanName": "Kokowei",
+    "region": "Kanto"
+  },
+  {
+    "id": 104,
+    "name": "Cubone",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/cubone.jpg",
+    "germanName": "Tragosso",
+    "region": "Kanto"
+  },
+  {
+    "id": 105,
+    "name": "Marowak",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/marowak.jpg",
+    "germanName": "Knogga",
+    "region": "Kanto"
+  },
+  {
+    "id": 106,
+    "name": "Hitmonlee",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hitmonlee.jpg",
+    "germanName": "Kicklee",
+    "region": "Kanto"
+  },
+  {
+    "id": 107,
+    "name": "Hitmonchan",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hitmonchan.jpg",
+    "germanName": "Nockchan",
+    "region": "Kanto"
+  },
+  {
+    "id": 108,
+    "name": "Lickitung",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/lickitung.jpg",
+    "germanName": "Schlurp",
+    "region": "Kanto"
+  },
+  {
+    "id": 109,
+    "name": "Koffing",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/koffing.jpg",
+    "germanName": "Smogon",
+    "region": "Kanto"
+  },
+  {
+    "id": 110,
+    "name": "Weezing",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/weezing.jpg",
+    "germanName": "Smogmog",
+    "region": "Kanto"
+  },
+  {
+    "id": 111,
+    "name": "Rhyhorn",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/rhyhorn.jpg",
+    "germanName": "Rihorn",
+    "region": "Kanto"
+  },
+  {
+    "id": 112,
+    "name": "Rhydon",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/rhydon.jpg",
+    "germanName": "Rizeros",
+    "region": "Kanto"
+  },
+  {
+    "id": 113,
+    "name": "Chansey",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/chansey.jpg",
+    "germanName": "Chaneira",
+    "region": "Kanto"
+  },
+  {
+    "id": 114,
+    "name": "Tangela",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/tangela.jpg",
+    "germanName": "Tangela",
+    "region": "Kanto"
+  },
+  {
+    "id": 115,
+    "name": "Kangaskhan",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/kangaskhan.jpg",
+    "germanName": "Kangama",
+    "region": "Kanto"
+  },
+  {
+    "id": 116,
+    "name": "Horsea",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/horsea.jpg",
+    "germanName": "Seeper",
+    "region": "Kanto"
+  },
+  {
+    "id": 117,
+    "name": "Seadra",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/seadra.jpg",
+    "germanName": "Seemon",
+    "region": "Kanto"
+  },
+  {
+    "id": 118,
+    "name": "Goldeen",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/goldeen.jpg",
+    "germanName": "Goldini",
+    "region": "Kanto"
+  },
+  {
+    "id": 119,
+    "name": "Seaking",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/seaking.jpg",
+    "germanName": "Golking",
+    "region": "Kanto"
+  },
+  {
+    "id": 120,
+    "name": "Staryu",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/staryu.jpg",
+    "germanName": "Sterndu",
+    "region": "Kanto"
+  },
+  {
+    "id": 121,
+    "name": "Starmie",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/starmie.jpg",
+    "germanName": "Starmie",
+    "region": "Kanto"
+  },
+  {
+    "id": 122,
+    "name": "Mr-mime",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/mr-mime.jpg",
+    "germanName": "Pantimos",
+    "region": "Kanto"
+  },
+  {
+    "id": 123,
+    "name": "Scyther",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/scyther.jpg",
+    "germanName": "Sichlor",
+    "region": "Kanto"
+  },
+  {
+    "id": 124,
+    "name": "Jynx",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/jynx.jpg",
+    "germanName": "Rossana",
+    "region": "Kanto"
+  },
+  {
+    "id": 125,
+    "name": "Electabuzz",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/electabuzz.jpg",
+    "germanName": "Elektek",
+    "region": "Kanto"
+  },
+  {
+    "id": 126,
+    "name": "Magmar",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/magmar.jpg",
+    "germanName": "Magmar",
+    "region": "Kanto"
+  },
+  {
+    "id": 127,
+    "name": "Pinsir",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pinsir.jpg",
+    "germanName": "Pinsir",
+    "region": "Kanto"
+  },
+  {
+    "id": 128,
+    "name": "Tauros",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/tauros.jpg",
+    "germanName": "Tauros",
+    "region": "Kanto"
+  },
+  {
+    "id": 129,
+    "name": "Magikarp",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/magikarp.jpg",
+    "germanName": "Karpador",
+    "region": "Kanto"
+  },
+  {
+    "id": 130,
+    "name": "Gyarados",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/gyarados.jpg",
+    "germanName": "Garados",
+    "region": "Kanto"
+  },
+  {
+    "id": 131,
+    "name": "Lapras",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/lapras.jpg",
+    "germanName": "Lapras",
+    "region": "Kanto"
+  },
+  {
+    "id": 132,
+    "name": "Ditto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ditto.jpg",
+    "germanName": "Ditto",
+    "region": "Kanto"
+  },
+  {
+    "id": 133,
+    "name": "Eevee",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/eevee.jpg",
+    "germanName": "Evoli",
+    "region": "Kanto"
+  },
+  {
+    "id": 134,
+    "name": "Vaporeon",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/vaporeon.jpg",
+    "germanName": "Aquana",
+    "region": "Kanto"
+  },
+  {
+    "id": 135,
+    "name": "Jolteon",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/jolteon.jpg",
+    "germanName": "Blitza",
+    "region": "Kanto"
+  },
+  {
+    "id": 136,
+    "name": "Flareon",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/flareon.jpg",
+    "germanName": "Flamara",
+    "region": "Kanto"
+  },
+  {
+    "id": 137,
+    "name": "Porygon",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/porygon.jpg",
+    "germanName": "Porygon",
+    "region": "Kanto"
+  },
+  {
+    "id": 138,
+    "name": "Omanyte",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/omanyte.jpg",
+    "germanName": "Amonitas",
+    "region": "Kanto"
+  },
+  {
+    "id": 139,
+    "name": "Omastar",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/omastar.jpg",
+    "germanName": "Amoroso",
+    "region": "Kanto"
+  },
+  {
+    "id": 140,
+    "name": "Kabuto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/kabuto.jpg",
+    "germanName": "Kabuto",
+    "region": "Kanto"
+  },
+  {
+    "id": 141,
+    "name": "Kabutops",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/kabutops.jpg",
+    "germanName": "Kabutops",
+    "region": "Kanto"
+  },
+  {
+    "id": 142,
+    "name": "Aerodactyl",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/aerodactyl.jpg",
+    "germanName": "Aerodactyl",
+    "region": "Kanto"
+  },
+  {
+    "id": 143,
+    "name": "Snorlax",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/snorlax.jpg",
+    "germanName": "Relaxo",
+    "region": "Kanto"
+  },
+  {
+    "id": 144,
+    "name": "Articuno",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/articuno.jpg",
+    "germanName": "Arktos",
+    "region": "Kanto"
+  },
+  {
+    "id": 145,
+    "name": "Zapdos",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/zapdos.jpg",
+    "germanName": "Zapdos",
+    "region": "Kanto"
+  },
+  {
+    "id": 146,
+    "name": "Moltres",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/moltres.jpg",
+    "germanName": "Lavados",
+    "region": "Kanto"
+  },
+  {
+    "id": 147,
+    "name": "Dratini",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/dratini.jpg",
+    "germanName": "Dratini",
+    "region": "Kanto"
+  },
+  {
+    "id": 148,
+    "name": "Dragonair",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/dragonair.jpg",
+    "germanName": "Dragonir",
+    "region": "Kanto"
+  },
+  {
+    "id": 149,
+    "name": "Dragonite",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/dragonite.jpg",
+    "germanName": "Dragoran",
+    "region": "Kanto"
+  },
+  {
+    "id": 150,
+    "name": "Mewtwo",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/mewtwo.jpg",
+    "germanName": "Mewtu",
+    "region": "Kanto"
+  },
+  {
+    "id": 151,
+    "name": "Mew",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/mew.jpg",
+    "germanName": "Mew",
+    "region": "Kanto"
+  },
+  {
+    "id": 152,
+    "name": "Chikorita",
+    "germanName": "Endivie",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/chikorita.jpg"
+  },
+  {
+    "id": 153,
+    "name": "Bayleef",
+    "germanName": "Lorblatt",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/bayleef.jpg"
+  },
+  {
+    "id": 154,
+    "name": "Meganium",
+    "germanName": "Meganie",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/meganium.jpg"
+  },
+  {
+    "id": 155,
+    "name": "Cyndaquil",
+    "germanName": "Feurigel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/cyndaquil.jpg"
+  },
+  {
+    "id": 156,
+    "name": "Quilava",
+    "germanName": "Igelavar",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/quilava.jpg"
+  },
+  {
+    "id": 157,
+    "name": "Typhlosion",
+    "germanName": "Tornupto",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/typhlosion.jpg"
+  },
+  {
+    "id": 158,
+    "name": "Totodile",
+    "germanName": "Karnimani",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/totodile.jpg"
+  },
+  {
+    "id": 159,
+    "name": "Croconaw",
+    "germanName": "Tyracroc",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/croconaw.jpg"
+  },
+  {
+    "id": 160,
+    "name": "Feraligatr",
+    "germanName": "Impergator",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/feraligatr.jpg"
+  },
+  {
+    "id": 161,
+    "name": "Sentret",
+    "germanName": "Wiesor",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sentret.jpg"
+  },
+  {
+    "id": 162,
+    "name": "Furret",
+    "germanName": "Wiesenior",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/furret.jpg"
+  },
+  {
+    "id": 163,
+    "name": "Hoothoot",
+    "germanName": "Hoothoot",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hoothoot.jpg"
+  },
+  {
+    "id": 164,
+    "name": "Noctowl",
+    "germanName": "Noctuh",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/noctowl.jpg"
+  },
+  {
+    "id": 165,
+    "name": "Ledyba",
+    "germanName": "Ledyba",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ledyba.jpg"
+  },
+  {
+    "id": 166,
+    "name": "Ledian",
+    "germanName": "Ledian",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ledian.jpg"
+  },
+  {
+    "id": 167,
+    "name": "Spinarak",
+    "germanName": "Webarak",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/spinarak.jpg"
+  },
+  {
+    "id": 168,
+    "name": "Ariados",
+    "germanName": "Ariados",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ariados.jpg"
+  },
+  {
+    "id": 169,
+    "name": "Crobat",
+    "germanName": "Iksbat",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/crobat.jpg"
+  },
+  {
+    "id": 170,
+    "name": "Chinchou",
+    "germanName": "Lampi",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/chinchou.jpg"
+  },
+  {
+    "id": 171,
+    "name": "Lanturn",
+    "germanName": "Lanturn",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/lanturn.jpg"
+  },
+  {
+    "id": 172,
+    "name": "Pichu",
+    "germanName": "Pichu",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pichu.jpg"
+  },
+  {
+    "id": 173,
+    "name": "Cleffa",
+    "germanName": "Pii",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/cleffa.jpg"
+  },
+  {
+    "id": 174,
+    "name": "Igglybuff",
+    "germanName": "Fluffeluff",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/igglybuff.jpg"
+  },
+  {
+    "id": 175,
+    "name": "Togepi",
+    "germanName": "Togepi",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/togepi.jpg"
+  },
+  {
+    "id": 176,
+    "name": "Togetic",
+    "germanName": "Togetic",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/togetic.jpg"
+  },
+  {
+    "id": 177,
+    "name": "Natu",
+    "germanName": "Natu",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/natu.jpg"
+  },
+  {
+    "id": 178,
+    "name": "Xatu",
+    "germanName": "Xatu",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/xatu.jpg"
+  },
+  {
+    "id": 179,
+    "name": "Mareep",
+    "germanName": "Voltilamm",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/mareep.jpg"
+  },
+  {
+    "id": 180,
+    "name": "Flaaffy",
+    "germanName": "Waaty",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/flaaffy.jpg"
+  },
+  {
+    "id": 181,
+    "name": "Ampharos",
+    "germanName": "Ampharos",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ampharos.jpg"
+  },
+  {
+    "id": 182,
+    "name": "Bellossom",
+    "germanName": "Blubella",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/bellossom.jpg"
+  },
+  {
+    "id": 183,
+    "name": "Marill",
+    "germanName": "Marill",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/marill.jpg"
+  },
+  {
+    "id": 184,
+    "name": "Azumarill",
+    "germanName": "Azumarill",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/azumarill.jpg"
+  },
+  {
+    "id": 185,
+    "name": "Sudowoodo",
+    "germanName": "Mogelbaum",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sudowoodo.jpg"
+  },
+  {
+    "id": 186,
+    "name": "Politoed",
+    "germanName": "Quaxo",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/politoed.jpg"
+  },
+  {
+    "id": 187,
+    "name": "Hoppip",
+    "germanName": "Hoppspross",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hoppip.jpg"
+  },
+  {
+    "id": 188,
+    "name": "Skiploom",
+    "germanName": "Hubelupf",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/skiploom.jpg"
+  },
+  {
+    "id": 189,
+    "name": "Jumpluff",
+    "germanName": "Papungha",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/jumpluff.jpg"
+  },
+  {
+    "id": 190,
+    "name": "Aipom",
+    "germanName": "Griffel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/aipom.jpg"
+  },
+  {
+    "id": 191,
+    "name": "Sunkern",
+    "germanName": "Sonnkern",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sunkern.jpg"
+  },
+  {
+    "id": 192,
+    "name": "Sunflora",
+    "germanName": "Sonnflora",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sunflora.jpg"
+  },
+  {
+    "id": 193,
+    "name": "Yanma",
+    "germanName": "Yanma",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/yanma.jpg"
+  },
+  {
+    "id": 194,
+    "name": "Wooper",
+    "germanName": "Felino",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/wooper.jpg"
+  },
+  {
+    "id": 195,
+    "name": "Quagsire",
+    "germanName": "Morlord",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/quagsire.jpg"
+  },
+  {
+    "id": 196,
+    "name": "Espeon",
+    "germanName": "Psiana",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/espeon.jpg"
+  },
+  {
+    "id": 197,
+    "name": "Umbreon",
+    "germanName": "Nachtara",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/umbreon.jpg"
+  },
+  {
+    "id": 198,
+    "name": "Murkrow",
+    "germanName": "Kramurx",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/murkrow.jpg"
+  },
+  {
+    "id": 199,
+    "name": "Slowking",
+    "germanName": "Laschoking",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/slowking.jpg"
+  },
+  {
+    "id": 200,
+    "name": "Misdreavus",
+    "germanName": "Traunfugil",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/misdreavus.jpg"
+  },
+  {
+    "id": 201,
+    "name": "Unown",
+    "germanName": "Icognito",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/unown.jpg"
+  },
+  {
+    "id": 202,
+    "name": "Wobbuffet",
+    "germanName": "Woingenau",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/wobbuffet.jpg"
+  },
+  {
+    "id": 203,
+    "name": "Girafarig",
+    "germanName": "Girafarig",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/girafarig.jpg"
+  },
+  {
+    "id": 204,
+    "name": "Pineco",
+    "germanName": "Tannza",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pineco.jpg"
+  },
+  {
+    "id": 205,
+    "name": "Forretress",
+    "germanName": "Forstellka",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/forretress.jpg"
+  },
+  {
+    "id": 206,
+    "name": "Dunsparce",
+    "germanName": "Dummisel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/dunsparce.jpg"
+  },
+  {
+    "id": 207,
+    "name": "Gligar",
+    "germanName": "Skorgla",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/gligar.jpg"
+  },
+  {
+    "id": 208,
+    "name": "Steelix",
+    "germanName": "Stahlos",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/steelix.jpg"
+  },
+  {
+    "id": 209,
+    "name": "Snubbull",
+    "germanName": "Snubbull",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/snubbull.jpg"
+  },
+  {
+    "id": 210,
+    "name": "Granbull",
+    "germanName": "Granbull",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/granbull.jpg"
+  },
+  {
+    "id": 211,
+    "name": "Qwilfish",
+    "germanName": "Baldorfish",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/qwilfish.jpg"
+  },
+  {
+    "id": 212,
+    "name": "Scizor",
+    "germanName": "Scherox",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/scizor.jpg"
+  },
+  {
+    "id": 213,
+    "name": "Shuckle",
+    "germanName": "Pottrott",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/shuckle.jpg"
+  },
+  {
+    "id": 214,
+    "name": "Heracross",
+    "germanName": "Skaraborn",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/heracross.jpg"
+  },
+  {
+    "id": 215,
+    "name": "Sneasel",
+    "germanName": "Sniebel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sneasel.jpg"
+  },
+  {
+    "id": 216,
+    "name": "Teddiursa",
+    "germanName": "Teddiursa",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/teddiursa.jpg"
+  },
+  {
+    "id": 217,
+    "name": "Ursaring",
+    "germanName": "Ursaring",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ursaring.jpg"
+  },
+  {
+    "id": 218,
+    "name": "Slugma",
+    "germanName": "Schneckmag",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/slugma.jpg"
+  },
+  {
+    "id": 219,
+    "name": "Magcargo",
+    "germanName": "Magcargo",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/magcargo.jpg"
+  },
+  {
+    "id": 220,
+    "name": "Swinub",
+    "germanName": "Quiekel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/swinub.jpg"
+  },
+  {
+    "id": 221,
+    "name": "Piloswine",
+    "germanName": "Keifel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/piloswine.jpg"
+  },
+  {
+    "id": 222,
+    "name": "Corsola",
+    "germanName": "Corasonn",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/corsola.jpg"
+  },
+  {
+    "id": 223,
+    "name": "Remoraid",
+    "germanName": "Remoraid",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/remoraid.jpg"
+  },
+  {
+    "id": 224,
+    "name": "Octillery",
+    "germanName": "Octillery",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/octillery.jpg"
+  },
+  {
+    "id": 225,
+    "name": "Delibird",
+    "germanName": "Botogel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/delibird.jpg"
+  },
+  {
+    "id": 226,
+    "name": "Mantine",
+    "germanName": "Mantax",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/mantine.jpg"
+  },
+  {
+    "id": 227,
+    "name": "Skarmory",
+    "germanName": "Panzaeron",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/skarmory.jpg"
+  },
+  {
+    "id": 228,
+    "name": "Houndour",
+    "germanName": "Hunduster",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/houndour.jpg"
+  },
+  {
+    "id": 229,
+    "name": "Houndoom",
+    "germanName": "Hundemon",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/houndoom.jpg"
+  },
+  {
+    "id": 230,
+    "name": "Kingdra",
+    "germanName": "Seedraking",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/kingdra.jpg"
+  },
+  {
+    "id": 231,
+    "name": "Phanpy",
+    "germanName": "Phanpy",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/phanpy.jpg"
+  },
+  {
+    "id": 232,
+    "name": "Donphan",
+    "germanName": "Donphan",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/donphan.jpg"
+  },
+  {
+    "id": 233,
+    "name": "Porygon2",
+    "germanName": "Porygon2",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/porygon2.jpg"
+  },
+  {
+    "id": 234,
+    "name": "Stantler",
+    "germanName": "Damhirplex",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/stantler.jpg"
+  },
+  {
+    "id": 235,
+    "name": "Smeargle",
+    "germanName": "Farbeagle",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/smeargle.jpg"
+  },
+  {
+    "id": 236,
+    "name": "Tyrogue",
+    "germanName": "Rabauz",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/tyrogue.jpg"
+  },
+  {
+    "id": 237,
+    "name": "Hitmontop",
+    "germanName": "Kapoera",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hitmontop.jpg"
+  },
+  {
+    "id": 238,
+    "name": "Smoochum",
+    "germanName": "Kussilla",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/smoochum.jpg"
+  },
+  {
+    "id": 239,
+    "name": "Elekid",
+    "germanName": "Elekid",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/elekid.jpg"
+  },
+  {
+    "id": 240,
+    "name": "Magby",
+    "germanName": "Magby",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/magby.jpg"
+  },
+  {
+    "id": 241,
+    "name": "Miltank",
+    "germanName": "Miltank",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/miltank.jpg"
+  },
+  {
+    "id": 242,
+    "name": "Blissey",
+    "germanName": "Heiteira",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/blissey.jpg"
+  },
+  {
+    "id": 243,
+    "name": "Raikou",
+    "germanName": "Raikou",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/raikou.jpg"
+  },
+  {
+    "id": 244,
+    "name": "Entei",
+    "germanName": "Entei",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/entei.jpg"
+  },
+  {
+    "id": 245,
+    "name": "Suicune",
+    "germanName": "Suicune",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/suicune.jpg"
+  },
+  {
+    "id": 246,
+    "name": "Larvitar",
+    "germanName": "Larvitar",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/larvitar.jpg"
+  },
+  {
+    "id": 247,
+    "name": "Pupitar",
+    "germanName": "Pupitar",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pupitar.jpg"
+  },
+  {
+    "id": 248,
+    "name": "Tyranitar",
+    "germanName": "Despotar",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/tyranitar.jpg"
+  },
+  {
+    "id": 249,
+    "name": "Lugia",
+    "germanName": "Lugia",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/lugia.jpg"
+  },
+  {
+    "id": 250,
+    "name": "Ho-Oh",
+    "germanName": "Ho-Oh",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ho-oh.jpg"
+  },
+  {
+    "id": 251,
+    "name": "Celebi",
+    "germanName": "Celebi",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/celebi.jpg"
+  },
+  {
+    "id": 152,
+    "name": "Chikorita",
+    "germanName": "Endivie",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/chikorita.jpg"
+  },
+  {
+    "id": 153,
+    "name": "Bayleef",
+    "germanName": "Lorblatt",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/bayleef.jpg"
+  },
+  {
+    "id": 154,
+    "name": "Meganium",
+    "germanName": "Meganie",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/meganium.jpg"
+  },
+  {
+    "id": 155,
+    "name": "Cyndaquil",
+    "germanName": "Feurigel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/cyndaquil.jpg"
+  },
+  {
+    "id": 156,
+    "name": "Quilava",
+    "germanName": "Igelavar",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/quilava.jpg"
+  },
+  {
+    "id": 157,
+    "name": "Typhlosion",
+    "germanName": "Tornupto",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/typhlosion.jpg"
+  },
+  {
+    "id": 158,
+    "name": "Totodile",
+    "germanName": "Karnimani",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/totodile.jpg"
+  },
+  {
+    "id": 159,
+    "name": "Croconaw",
+    "germanName": "Tyracroc",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/croconaw.jpg"
+  },
+  {
+    "id": 160,
+    "name": "Feraligatr",
+    "germanName": "Impergator",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/feraligatr.jpg"
+  },
+  {
+    "id": 161,
+    "name": "Sentret",
+    "germanName": "Wiesor",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sentret.jpg"
+  },
+  {
+    "id": 162,
+    "name": "Furret",
+    "germanName": "Wiesenior",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/furret.jpg"
+  },
+  {
+    "id": 163,
+    "name": "Hoothoot",
+    "germanName": "Hoothoot",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hoothoot.jpg"
+  },
+  {
+    "id": 164,
+    "name": "Noctowl",
+    "germanName": "Noctuh",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/noctowl.jpg"
+  },
+  {
+    "id": 165,
+    "name": "Ledyba",
+    "germanName": "Ledyba",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ledyba.jpg"
+  },
+  {
+    "id": 166,
+    "name": "Ledian",
+    "germanName": "Ledian",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ledian.jpg"
+  },
+  {
+    "id": 167,
+    "name": "Spinarak",
+    "germanName": "Webarak",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/spinarak.jpg"
+  },
+  {
+    "id": 168,
+    "name": "Ariados",
+    "germanName": "Ariados",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ariados.jpg"
+  },
+  {
+    "id": 169,
+    "name": "Crobat",
+    "germanName": "Iksbat",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/crobat.jpg"
+  },
+  {
+    "id": 170,
+    "name": "Chinchou",
+    "germanName": "Lampi",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/chinchou.jpg"
+  },
+  {
+    "id": 171,
+    "name": "Lanturn",
+    "germanName": "Lanturn",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/lanturn.jpg"
+  },
+  {
+    "id": 172,
+    "name": "Pichu",
+    "germanName": "Pichu",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pichu.jpg"
+  },
+  {
+    "id": 173,
+    "name": "Cleffa",
+    "germanName": "Pii",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/cleffa.jpg"
+  },
+  {
+    "id": 174,
+    "name": "Igglybuff",
+    "germanName": "Fluffeluff",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/igglybuff.jpg"
+  },
+  {
+    "id": 175,
+    "name": "Togepi",
+    "germanName": "Togepi",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/togepi.jpg"
+  },
+  {
+    "id": 176,
+    "name": "Togetic",
+    "germanName": "Togetic",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/togetic.jpg"
+  },
+  {
+    "id": 177,
+    "name": "Natu",
+    "germanName": "Natu",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/natu.jpg"
+  },
+  {
+    "id": 178,
+    "name": "Xatu",
+    "germanName": "Xatu",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/xatu.jpg"
+  },
+  {
+    "id": 179,
+    "name": "Mareep",
+    "germanName": "Voltilamm",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/mareep.jpg"
+  },
+  {
+    "id": 180,
+    "name": "Flaaffy",
+    "germanName": "Waaty",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/flaaffy.jpg"
+  },
+  {
+    "id": 181,
+    "name": "Ampharos",
+    "germanName": "Ampharos",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ampharos.jpg"
+  },
+  {
+    "id": 182,
+    "name": "Bellossom",
+    "germanName": "Blubella",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/bellossom.jpg"
+  },
+  {
+    "id": 183,
+    "name": "Marill",
+    "germanName": "Marill",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/marill.jpg"
+  },
+  {
+    "id": 184,
+    "name": "Azumarill",
+    "germanName": "Azumarill",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/azumarill.jpg"
+  },
+  {
+    "id": 185,
+    "name": "Sudowoodo",
+    "germanName": "Mogelbaum",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sudowoodo.jpg"
+  },
+  {
+    "id": 186,
+    "name": "Politoed",
+    "germanName": "Quaxo",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/politoed.jpg"
+  },
+  {
+    "id": 187,
+    "name": "Hoppip",
+    "germanName": "Hoppspross",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hoppip.jpg"
+  },
+  {
+    "id": 188,
+    "name": "Skiploom",
+    "germanName": "Hubelupf",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/skiploom.jpg"
+  },
+  {
+    "id": 189,
+    "name": "Jumpluff",
+    "germanName": "Papungha",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/jumpluff.jpg"
+  },
+  {
+    "id": 190,
+    "name": "Aipom",
+    "germanName": "Griffel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/aipom.jpg"
+  },
+  {
+    "id": 191,
+    "name": "Sunkern",
+    "germanName": "Sonnkern",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sunkern.jpg"
+  },
+  {
+    "id": 192,
+    "name": "Sunflora",
+    "germanName": "Sonnflora",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sunflora.jpg"
+  },
+  {
+    "id": 193,
+    "name": "Yanma",
+    "germanName": "Yanma",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/yanma.jpg"
+  },
+  {
+    "id": 194,
+    "name": "Wooper",
+    "germanName": "Felino",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/wooper.jpg"
+  },
+  {
+    "id": 195,
+    "name": "Quagsire",
+    "germanName": "Morlord",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/quagsire.jpg"
+  },
+  {
+    "id": 196,
+    "name": "Espeon",
+    "germanName": "Psiana",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/espeon.jpg"
+  },
+  {
+    "id": 197,
+    "name": "Umbreon",
+    "germanName": "Nachtara",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/umbreon.jpg"
+  },
+  {
+    "id": 198,
+    "name": "Murkrow",
+    "germanName": "Kramurx",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/murkrow.jpg"
+  },
+  {
+    "id": 199,
+    "name": "Slowking",
+    "germanName": "Laschoking",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/slowking.jpg"
+  },
+  {
+    "id": 200,
+    "name": "Misdreavus",
+    "germanName": "Traunfugil",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/misdreavus.jpg"
+  },
+  {
+    "id": 201,
+    "name": "Unown",
+    "germanName": "Icognito",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/unown.jpg"
+  },
+  {
+    "id": 202,
+    "name": "Wobbuffet",
+    "germanName": "Woingenau",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/wobbuffet.jpg"
+  },
+  {
+    "id": 203,
+    "name": "Girafarig",
+    "germanName": "Girafarig",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/girafarig.jpg"
+  },
+  {
+    "id": 204,
+    "name": "Pineco",
+    "germanName": "Tannza",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pineco.jpg"
+  },
+  {
+    "id": 205,
+    "name": "Forretress",
+    "germanName": "Forstellka",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/forretress.jpg"
+  },
+  {
+    "id": 206,
+    "name": "Dunsparce",
+    "germanName": "Dummisel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/dunsparce.jpg"
+  },
+  {
+    "id": 207,
+    "name": "Gligar",
+    "germanName": "Skorgla",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/gligar.jpg"
+  },
+  {
+    "id": 208,
+    "name": "Steelix",
+    "germanName": "Stahlos",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/steelix.jpg"
+  },
+  {
+    "id": 209,
+    "name": "Snubbull",
+    "germanName": "Snubbull",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/snubbull.jpg"
+  },
+  {
+    "id": 210,
+    "name": "Granbull",
+    "germanName": "Granbull",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/granbull.jpg"
+  },
+  {
+    "id": 211,
+    "name": "Qwilfish",
+    "germanName": "Baldorfish",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/qwilfish.jpg"
+  },
+  {
+    "id": 212,
+    "name": "Scizor",
+    "germanName": "Scherox",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/scizor.jpg"
+  },
+  {
+    "id": 213,
+    "name": "Shuckle",
+    "germanName": "Pottrott",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/shuckle.jpg"
+  },
+  {
+    "id": 214,
+    "name": "Heracross",
+    "germanName": "Skaraborn",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/heracross.jpg"
+  },
+  {
+    "id": 215,
+    "name": "Sneasel",
+    "germanName": "Sniebel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/sneasel.jpg"
+  },
+  {
+    "id": 216,
+    "name": "Teddiursa",
+    "germanName": "Teddiursa",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/teddiursa.jpg"
+  },
+  {
+    "id": 217,
+    "name": "Ursaring",
+    "germanName": "Ursaring",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ursaring.jpg"
+  },
+  {
+    "id": 218,
+    "name": "Slugma",
+    "germanName": "Schneckmag",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/slugma.jpg"
+  },
+  {
+    "id": 219,
+    "name": "Magcargo",
+    "germanName": "Magcargo",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/magcargo.jpg"
+  },
+  {
+    "id": 220,
+    "name": "Swinub",
+    "germanName": "Quiekel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/swinub.jpg"
+  },
+  {
+    "id": 221,
+    "name": "Piloswine",
+    "germanName": "Keifel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/piloswine.jpg"
+  },
+  {
+    "id": 222,
+    "name": "Corsola",
+    "germanName": "Corasonn",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/corsola.jpg"
+  },
+  {
+    "id": 223,
+    "name": "Remoraid",
+    "germanName": "Remoraid",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/remoraid.jpg"
+  },
+  {
+    "id": 224,
+    "name": "Octillery",
+    "germanName": "Octillery",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/octillery.jpg"
+  },
+  {
+    "id": 225,
+    "name": "Delibird",
+    "germanName": "Botogel",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/delibird.jpg"
+  },
+  {
+    "id": 226,
+    "name": "Mantine",
+    "germanName": "Mantax",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/mantine.jpg"
+  },
+  {
+    "id": 227,
+    "name": "Skarmory",
+    "germanName": "Panzaeron",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/skarmory.jpg"
+  },
+  {
+    "id": 228,
+    "name": "Houndour",
+    "germanName": "Hunduster",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/houndour.jpg"
+  },
+  {
+    "id": 229,
+    "name": "Houndoom",
+    "germanName": "Hundemon",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/houndoom.jpg"
+  },
+  {
+    "id": 230,
+    "name": "Kingdra",
+    "germanName": "Seedraking",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/kingdra.jpg"
+  },
+  {
+    "id": 231,
+    "name": "Phanpy",
+    "germanName": "Phanpy",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/phanpy.jpg"
+  },
+  {
+    "id": 232,
+    "name": "Donphan",
+    "germanName": "Donphan",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/donphan.jpg"
+  },
+  {
+    "id": 233,
+    "name": "Porygon2",
+    "germanName": "Porygon2",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/porygon2.jpg"
+  },
+  {
+    "id": 234,
+    "name": "Stantler",
+    "germanName": "Damhirplex",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/stantler.jpg"
+  },
+  {
+    "id": 235,
+    "name": "Smeargle",
+    "germanName": "Farbeagle",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/smeargle.jpg"
+  },
+  {
+    "id": 236,
+    "name": "Tyrogue",
+    "germanName": "Rabauz",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/tyrogue.jpg"
+  },
+  {
+    "id": 237,
+    "name": "Hitmontop",
+    "germanName": "Kapoera",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/hitmontop.jpg"
+  },
+  {
+    "id": 238,
+    "name": "Smoochum",
+    "germanName": "Kussilla",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/smoochum.jpg"
+  },
+  {
+    "id": 239,
+    "name": "Elekid",
+    "germanName": "Elekid",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/elekid.jpg"
+  },
+  {
+    "id": 240,
+    "name": "Magby",
+    "germanName": "Magby",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/magby.jpg"
+  },
+  {
+    "id": 241,
+    "name": "Miltank",
+    "germanName": "Miltank",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/miltank.jpg"
+  },
+  {
+    "id": 242,
+    "name": "Blissey",
+    "germanName": "Heiteira",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/blissey.jpg"
+  },
+  {
+    "id": 243,
+    "name": "Raikou",
+    "germanName": "Raikou",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/raikou.jpg"
+  },
+  {
+    "id": 244,
+    "name": "Entei",
+    "germanName": "Entei",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/entei.jpg"
+  },
+  {
+    "id": 245,
+    "name": "Suicune",
+    "germanName": "Suicune",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/suicune.jpg"
+  },
+  {
+    "id": 246,
+    "name": "Larvitar",
+    "germanName": "Larvitar",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/larvitar.jpg"
+  },
+  {
+    "id": 247,
+    "name": "Pupitar",
+    "germanName": "Pupitar",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/pupitar.jpg"
+  },
+  {
+    "id": 248,
+    "name": "Tyranitar",
+    "germanName": "Despotar",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/tyranitar.jpg"
+  },
+  {
+    "id": 249,
+    "name": "Lugia",
+    "germanName": "Lugia",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/lugia.jpg"
+  },
+  {
+    "id": 250,
+    "name": "Ho-Oh",
+    "germanName": "Ho-Oh",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/ho-oh.jpg"
+  },
+  {
+    "id": 251,
+    "name": "Celebi",
+    "germanName": "Celebi",
+    "region": "Johto",
+    "imageUrl": "https://img.pokemondb.net/artwork/large/celebi.jpg"
+  }
 ]
