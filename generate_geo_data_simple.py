@@ -355,7 +355,7 @@ def main():
     # Show examples
     print("\nExample entries:")
     for entry in result[:5]:
-        tags_str = f" [{',' .join(entry['tags'])}]" if entry['tags'] else ""
+        tags_str = f" [{', '.join(entry['tags'])}]" if entry['tags'] else ""
         print(f"  {entry['flag']} {entry['country_en']} ({entry['id']}) - {entry['capital_en']} - {entry['continent_en']}{tags_str}")
 
 
