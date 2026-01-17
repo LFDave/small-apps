@@ -77,7 +77,7 @@ def load_base_countries() -> Dict[str, Dict]:
 
 def load_german_translations() -> Dict[str, Dict]:
     """Load German translations from stefangabos/world_countries."""
-    data = fetch_json(WORLD_COUNTRIES_URL)
+    data = fetch_json(GERMAN_COUNTRIES_URL)
     if not data or not isinstance(data, list):
         return {}
     
