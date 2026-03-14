@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jass Scoreboard — Schiefertafel Z/Z</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Win overlay -->
+  <div id="win-overlay" role="dialog" aria-modal="true" aria-labelledby="win-team-name">
+    <div class="win-content">
+      <div class="win-icon">🏆</div>
+      <h2>Gewonnen!</h2>
+      <p id="win-team-name" class="win-team"></p>
+      <p class="win-hint">Tippe zum Schliessen</p>
+    </div>
+    <div class="chalk-particles" aria-hidden="true">
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="app-wrapper">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Jass Tafel</h1>
+      <div class="header-settings">
+        <label for="input-target" class="setting-label">Ziel:</label>
+        <input
+          id="input-target"
+          type="number"
+          class="setting-input"
+          min="100"
+          max="10000"
+          step="50"
+          aria-label="Target score"
+        />
+        <button id="btn-flip" class="btn btn-icon" title="Flip board" aria-label="Flip board orientation">⇄</button>
+      </div>
+    </header>
+
+    <!-- Team name editors -->
+    <div class="name-editors">
+      <div class="name-editor-group">
+        <label for="edit-name-a" class="sr-only">Team A name</label>
+        <input id="edit-name-a" type="text" class="team-name-input" maxlength="30" aria-label="Team A name" />
+      </div>
+      <div class="name-editor-divider" aria-hidden="true">vs</div>
+      <div class="name-editor-group">
+        <label for="edit-name-b" class="sr-only">Team B name</label>
+        <input id="edit-name-b" type="text" class="team-name-input" maxlength="30" aria-label="Team B name" />
+      </div>
+    </div>
+
+    <!-- Scoreboard (Z/Z layout) -->
+    <main class="board" role="main" aria-label="Scoreboard">
+      <!-- Panel A (left) -->
+      <section id="panel-a" class="board-panel panel-left" aria-label="Left team">
+        <h2 id="team-a-name" class="panel-team-name chalk-text"></h2>
+        <div id="entries-a" class="entries-area chalk-text" aria-live="polite" aria-label="Entries for left team"></div>
+        <div class="panel-total-row">
+          <span class="total-label chalk-text">Total:</span>
+          <span id="total-a" class="total-value chalk-text">0</span>
+        </div>
+      </section>
+
+      <!-- Z/Z diagonal divider -->
+      <div class="board-divider" aria-hidden="true">
+        <svg class="z-divider-svg" viewBox="0 0 60 300" preserveAspectRatio="none">
+          <line x1="30" y1="0" x2="30" y2="300" stroke="rgba(255,100,100,0.55)" stroke-width="2" />
+          <line x1="5" y1="10" x2="55" y2="10" stroke="rgba(255,100,100,0.45)" stroke-width="1.5" />
+          <line x1="5" y1="290" x2="55" y2="290" stroke="rgba(255,100,100,0.45)" stroke-width="1.5" />
+          <line x1="55" y1="10" x2="5" y2="290" stroke="rgba(255,100,100,0.4)" stroke-width="1.5" stroke-dasharray="6,4" />
+        </svg>
+      </div>
+
+      <!-- Panel B (right) -->
+      <section id="panel-b" class="board-panel panel-right" aria-label="Right team">
+        <h2 id="team-b-name" class="panel-team-name chalk-text"></h2>
+        <div id="entries-b" class="entries-area chalk-text" aria-live="polite" aria-label="Entries for right team"></div>
+        <div class="panel-total-row">
+          <span class="total-label chalk-text">Total:</span>
+          <span id="total-b" class="total-value chalk-text">0</span>
+        </div>
+      </section>
+    </main>
+
+    <!-- Score input area -->
+    <div id="score-input-area" class="score-input-area">
+      <p id="error-msg" class="error-msg" role="alert" aria-live="assertive"></p>
+      <div class="input-row">
+        <label for="select-team" class="sr-only">Select team</label>
+        <select id="select-team" class="select-team" aria-label="Select team">
+          <option value="A">Team A</option>
+          <option value="B">Team B</option>
+        </select>
+
+        <label for="input-points" class="sr-only">Points</label>
+        <input
+          id="input-points"
+          type="number"
+          class="points-input"
+          placeholder="Punkte…"
+          min="1"
+          max="500"
+          step="1"
+          aria-label="Points to add"
+        />
+
+        <button id="btn-add" class="btn btn-primary" aria-label="Add score">Eintragen</button>
+      </div>
+
+      <div class="action-row">
+        <button id="btn-undo" class="btn btn-secondary" aria-label="Undo last entry">↩ Rückgängig</button>
+        <button id="btn-reset" class="btn btn-danger" aria-label="Reset game">🔄 Neu</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
