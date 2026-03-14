@@ -2,17 +2,19 @@
 
 import { getState } from "./state.js";
 
-function addEntry(teamId, points) {
+// Each bar type and its point value per mark
+const BAR_VALUES = { top: 100, diagonal: 50, bottom: 20 };
+
+function addEntry(teamId, barType) {
   const state = getState();
   if (state.gameFinished) return false;
-
-  const p = parseInt(points, 10);
-  if (isNaN(p) || p <= 0 || p > 500) return false;
+  if (!BAR_VALUES[barType]) return false;
   if (!state.teams.find(t => t.id === teamId)) return false;
 
   state.entries.push({
     teamId,
-    points: p,
+    barType,
+    value: BAR_VALUES[barType],
     timestamp: Date.now()
   });
 
@@ -36,7 +38,9 @@ function recalcTotals() {
   const state = getState();
   state.totals = { A: 0, B: 0 };
   for (const entry of state.entries) {
-    state.totals[entry.teamId] = (state.totals[entry.teamId] || 0) + entry.points;
+    // Support both new (value) and legacy (points) saved entries
+    const pts = entry.value || entry.points || 0;
+    state.totals[entry.teamId] = (state.totals[entry.teamId] || 0) + pts;
   }
 }
 

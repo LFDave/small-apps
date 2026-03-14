@@ -59,14 +59,7 @@
       <!-- Panel A (top) -->
       <section id="panel-a" class="board-panel panel-top" aria-label="Top team">
         <h2 id="team-a-name" class="panel-team-name chalk-text"></h2>
-        <div class="z-wrapper">
-          <svg class="z-lines" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden="true">
-            <line x1="0" y1="22" x2="400" y2="22" stroke="rgba(224,80,80,0.6)" stroke-width="2"/>
-            <line x1="400" y1="22" x2="0" y2="138" stroke="rgba(224,80,80,0.42)" stroke-width="1.5" stroke-dasharray="10,6"/>
-            <line x1="0" y1="138" x2="400" y2="138" stroke="rgba(224,80,80,0.6)" stroke-width="2"/>
-          </svg>
-          <div id="entries-a" class="entries-area chalk-text" aria-live="polite" aria-label="Entries for top team"></div>
-        </div>
+        <div id="z-svg-a" class="z-svg-area" aria-label="Score area for top team" aria-live="polite"></div>
         <div class="panel-total-row">
           <span class="total-label chalk-text">Total:</span>
           <span id="total-a" class="total-value chalk-text">0</span>
@@ -79,14 +72,7 @@
       <!-- Panel B (bottom, rotated 180° — readable from opposite side of table) -->
       <section id="panel-b" class="board-panel panel-bottom" aria-label="Bottom team">
         <h2 id="team-b-name" class="panel-team-name chalk-text"></h2>
-        <div class="z-wrapper">
-          <svg class="z-lines" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden="true">
-            <line x1="0" y1="22" x2="400" y2="22" stroke="rgba(224,80,80,0.6)" stroke-width="2"/>
-            <line x1="400" y1="22" x2="0" y2="138" stroke="rgba(224,80,80,0.42)" stroke-width="1.5" stroke-dasharray="10,6"/>
-            <line x1="0" y1="138" x2="400" y2="138" stroke="rgba(224,80,80,0.6)" stroke-width="2"/>
-          </svg>
-          <div id="entries-b" class="entries-area chalk-text" aria-live="polite" aria-label="Entries for bottom team"></div>
-        </div>
+        <div id="z-svg-b" class="z-svg-area" aria-label="Score area for bottom team" aria-live="polite"></div>
         <div class="panel-total-row">
           <span class="total-label chalk-text">Total:</span>
           <span id="total-b" class="total-value chalk-text">0</span>
@@ -97,26 +83,27 @@
     <!-- Score input area -->
     <div id="score-input-area" class="score-input-area">
       <p id="error-msg" class="error-msg" role="alert" aria-live="assertive"></p>
-      <div class="input-row">
-        <label for="select-team" class="sr-only">Select team</label>
-        <select id="select-team" class="select-team" aria-label="Select team">
-          <option value="A">Team A</option>
-          <option value="B">Team B</option>
-        </select>
 
-        <label for="input-points" class="sr-only">Points</label>
-        <input
-          id="input-points"
-          type="number"
-          class="points-input"
-          placeholder="Punkte…"
-          min="1"
-          max="500"
-          step="1"
-          aria-label="Points to add"
-        />
+      <!-- Team selector -->
+      <div class="team-toggle-row" role="group" aria-label="Select team">
+        <button id="btn-team-a" class="btn btn-team is-active" data-team="A">Team A</button>
+        <button id="btn-team-b" class="btn btn-team" data-team="B">Team B</button>
+      </div>
 
-        <button id="btn-add" class="btn btn-primary" aria-label="Add score">Eintragen</button>
+      <!-- Mark entry: three fixed denominations -->
+      <div class="mark-row" role="group" aria-label="Add mark">
+        <button id="btn-mark-top" class="btn btn-mark" aria-label="Top bar — add 100 points">
+          <span class="mark-pts">+100</span>
+          <span class="mark-lbl">Oben</span>
+        </button>
+        <button id="btn-mark-diag" class="btn btn-mark" aria-label="Diagonal — add 50 points">
+          <span class="mark-pts">+50</span>
+          <span class="mark-lbl">Diagonal</span>
+        </button>
+        <button id="btn-mark-bot" class="btn btn-mark" aria-label="Bottom bar — add 20 points">
+          <span class="mark-pts">+20</span>
+          <span class="mark-lbl">Unten</span>
+        </button>
       </div>
 
       <div class="action-row">

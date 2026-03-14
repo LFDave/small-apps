@@ -5,6 +5,8 @@ import { addEntry, undoLastEntry } from "./scoring.js";
 import { render } from "./renderer.js";
 import { saveState } from "./storage.js";
 
+// Currently-active team for mark entry
+let activeTeamId = "A";
 let errorTimeout = null;
 
 function persist() {
@@ -12,18 +14,21 @@ function persist() {
 }
 
 function bindEvents() {
-  // Score entry form
-  const addBtn = document.getElementById("btn-add");
-  if (addBtn) {
-    addBtn.addEventListener("click", handleAddScore);
-  }
+  // Team toggle buttons
+  const btnTeamA = document.getElementById("btn-team-a");
+  const btnTeamB = document.getElementById("btn-team-b");
+  if (btnTeamA) btnTeamA.addEventListener("click", () => setActiveTeam("A"));
+  if (btnTeamB) btnTeamB.addEventListener("click", () => setActiveTeam("B"));
 
-  // Allow pressing Enter in the points input
-  const pointsInput = document.getElementById("input-points");
-  if (pointsInput) {
-    pointsInput.addEventListener("keydown", e => {
-      if (e.key === "Enter") handleAddScore();
-    });
+  // Mark entry buttons (+100 / +50 / +20)
+  const markDefs = [
+    { id: "btn-mark-top",  barType: "top"      },
+    { id: "btn-mark-diag", barType: "diagonal" },
+    { id: "btn-mark-bot",  barType: "bottom"   }
+  ];
+  for (const { id, barType } of markDefs) {
+    const btn = document.getElementById(id);
+    if (btn) btn.addEventListener("click", () => handleMarkAdd(barType));
   }
 
   // Undo button
@@ -44,13 +49,7 @@ function bindEvents() {
         resetState();
         render();
         persist();
-        // Re-enable score input
-        const inputArea = document.getElementById("score-input-area");
-        if (inputArea) {
-          const inputs = inputArea.querySelectorAll("input, button, select");
-          inputs.forEach(el => { el.disabled = false; });
-          inputArea.classList.remove("disabled");
-        }
+        document.getElementById("score-input-area")?.classList.remove("disabled");
         document.getElementById("win-overlay")?.classList.remove("active");
       }
     });
@@ -66,7 +65,7 @@ function bindEvents() {
     });
   }
 
-  // Team name edits (blur to save)
+  // Team name edits (save on blur/change)
   const nameA = document.getElementById("edit-name-a");
   if (nameA) {
     nameA.addEventListener("change", () => {
@@ -94,7 +93,7 @@ function bindEvents() {
       const ok = setTargetScore(targetInput.value);
       if (!ok) {
         targetInput.value = getState().targetScore;
-        showError("Target score must be between 100 and 10000.");
+        showError("Ziel muss zwischen 100 und 10000 liegen.");
       } else {
         render();
         persist();
@@ -102,7 +101,7 @@ function bindEvents() {
     });
   }
 
-  // Close win overlay (click anywhere on it)
+  // Close win overlay on click
   const winOverlay = document.getElementById("win-overlay");
   if (winOverlay) {
     winOverlay.addEventListener("click", () => {
@@ -111,34 +110,19 @@ function bindEvents() {
   }
 }
 
-function handleAddScore() {
+function setActiveTeam(teamId) {
+  activeTeamId = teamId;
+  // Update visual state of toggle buttons
+  document.getElementById("btn-team-a")?.classList.toggle("is-active", teamId === "A");
+  document.getElementById("btn-team-b")?.classList.toggle("is-active", teamId === "B");
+}
+
+function handleMarkAdd(barType) {
   const state = getState();
   if (state.gameFinished) return;
 
-  const teamSelect = document.getElementById("select-team");
-  const pointsInput = document.getElementById("input-points");
-
-  const teamId = teamSelect ? teamSelect.value : null;
-  const pointsRaw = pointsInput ? pointsInput.value : "";
-
-  if (!teamId) {
-    showError("Please select a team.");
-    return;
-  }
-
-  const points = parseInt(pointsRaw, 10);
-  if (isNaN(points) || points <= 0 || points > 500) {
-    showError("Points must be a whole number between 1 and 500.");
-    pointsInput && pointsInput.focus();
-    return;
-  }
-
-  const ok = addEntry(teamId, points);
+  const ok = addEntry(activeTeamId, barType);
   if (ok) {
-    if (pointsInput) {
-      pointsInput.value = "";
-      pointsInput.focus();
-    }
     render();
     persist();
   }
@@ -150,9 +134,7 @@ function showError(msg) {
   errEl.textContent = msg;
   errEl.classList.add("visible");
   clearTimeout(errorTimeout);
-  errorTimeout = setTimeout(() => {
-    errEl.classList.remove("visible");
-  }, 3000);
+  errorTimeout = setTimeout(() => errEl.classList.remove("visible"), 3000);
 }
 
 function initInputValues() {
@@ -164,6 +146,9 @@ function initInputValues() {
   if (nameA) nameA.value = state.teams[0].name;
   if (nameB) nameB.value = state.teams[1].name;
   if (targetInput) targetInput.value = state.targetScore;
+
+  // Sync active team button visual
+  setActiveTeam(activeTeamId);
 }
 
 export { bindEvents, initInputValues };
