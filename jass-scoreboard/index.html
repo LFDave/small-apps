@@ -37,7 +37,7 @@
           step="50"
           aria-label="Target score"
         />
-        <button id="btn-flip" class="btn btn-icon" title="Flip board" aria-label="Flip board orientation">⇄</button>
+        <button id="btn-flip" class="btn btn-icon" title="Swap teams" aria-label="Swap team positions">↕</button>
       </div>
     </header>
 
@@ -56,30 +56,37 @@
 
     <!-- Scoreboard (Z/Z layout) -->
     <main class="board" role="main" aria-label="Scoreboard">
-      <!-- Panel A (left) -->
-      <section id="panel-a" class="board-panel panel-left" aria-label="Left team">
+      <!-- Panel A (top) -->
+      <section id="panel-a" class="board-panel panel-top" aria-label="Top team">
         <h2 id="team-a-name" class="panel-team-name chalk-text"></h2>
-        <div id="entries-a" class="entries-area chalk-text" aria-live="polite" aria-label="Entries for left team"></div>
+        <div class="z-wrapper">
+          <svg class="z-lines" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="0" y1="22" x2="400" y2="22" stroke="rgba(224,80,80,0.6)" stroke-width="2"/>
+            <line x1="400" y1="22" x2="0" y2="138" stroke="rgba(224,80,80,0.42)" stroke-width="1.5" stroke-dasharray="10,6"/>
+            <line x1="0" y1="138" x2="400" y2="138" stroke="rgba(224,80,80,0.6)" stroke-width="2"/>
+          </svg>
+          <div id="entries-a" class="entries-area chalk-text" aria-live="polite" aria-label="Entries for top team"></div>
+        </div>
         <div class="panel-total-row">
           <span class="total-label chalk-text">Total:</span>
           <span id="total-a" class="total-value chalk-text">0</span>
         </div>
       </section>
 
-      <!-- Z/Z diagonal divider -->
-      <div class="board-divider" aria-hidden="true">
-        <svg class="z-divider-svg" viewBox="0 0 60 300" preserveAspectRatio="none">
-          <line x1="30" y1="0" x2="30" y2="300" stroke="rgba(255,100,100,0.55)" stroke-width="2" />
-          <line x1="5" y1="10" x2="55" y2="10" stroke="rgba(255,100,100,0.45)" stroke-width="1.5" />
-          <line x1="5" y1="290" x2="55" y2="290" stroke="rgba(255,100,100,0.45)" stroke-width="1.5" />
-          <line x1="55" y1="10" x2="5" y2="290" stroke="rgba(255,100,100,0.4)" stroke-width="1.5" stroke-dasharray="6,4" />
-        </svg>
-      </div>
+      <!-- Horizontal divider between the two Z shapes -->
+      <div class="board-h-divider" aria-hidden="true"></div>
 
-      <!-- Panel B (right) -->
-      <section id="panel-b" class="board-panel panel-right" aria-label="Right team">
+      <!-- Panel B (bottom, rotated 180° — readable from opposite side of table) -->
+      <section id="panel-b" class="board-panel panel-bottom" aria-label="Bottom team">
         <h2 id="team-b-name" class="panel-team-name chalk-text"></h2>
-        <div id="entries-b" class="entries-area chalk-text" aria-live="polite" aria-label="Entries for right team"></div>
+        <div class="z-wrapper">
+          <svg class="z-lines" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="0" y1="22" x2="400" y2="22" stroke="rgba(224,80,80,0.6)" stroke-width="2"/>
+            <line x1="400" y1="22" x2="0" y2="138" stroke="rgba(224,80,80,0.42)" stroke-width="1.5" stroke-dasharray="10,6"/>
+            <line x1="0" y1="138" x2="400" y2="138" stroke="rgba(224,80,80,0.6)" stroke-width="2"/>
+          </svg>
+          <div id="entries-b" class="entries-area chalk-text" aria-live="polite" aria-label="Entries for bottom team"></div>
+        </div>
         <div class="panel-total-row">
           <span class="total-label chalk-text">Total:</span>
           <span id="total-b" class="total-value chalk-text">0</span>

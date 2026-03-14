@@ -39,28 +39,28 @@ function buildEntriesHTML(teamId) {
 function render() {
   const state = getState();
 
-  const [leftTeam, rightTeam] = state.flipped
+  const [topTeam, bottomTeam] = state.flipped
     ? [state.teams[1], state.teams[0]]
     : [state.teams[0], state.teams[1]];
 
   // Team name headers
-  document.getElementById("team-a-name").textContent = leftTeam.name;
-  document.getElementById("team-b-name").textContent = rightTeam.name;
+  document.getElementById("team-a-name").textContent = topTeam.name;
+  document.getElementById("team-b-name").textContent = bottomTeam.name;
 
   // Entries (tally marks)
-  document.getElementById("entries-a").innerHTML = buildEntriesHTML(leftTeam.id);
-  document.getElementById("entries-b").innerHTML = buildEntriesHTML(rightTeam.id);
+  document.getElementById("entries-a").innerHTML = buildEntriesHTML(topTeam.id);
+  document.getElementById("entries-b").innerHTML = buildEntriesHTML(bottomTeam.id);
 
   // Totals
-  document.getElementById("total-a").textContent = state.totals[leftTeam.id] || 0;
-  document.getElementById("total-b").textContent = state.totals[rightTeam.id] || 0;
+  document.getElementById("total-a").textContent = state.totals[topTeam.id] || 0;
+  document.getElementById("total-b").textContent = state.totals[bottomTeam.id] || 0;
 
   // Target score display
   const targetEl = document.getElementById("target-score-display");
   if (targetEl) targetEl.textContent = state.targetScore;
 
   // Win state
-  renderWinState(leftTeam, rightTeam);
+  renderWinState(topTeam, bottomTeam);
 
   // Update team select options to reflect current names
   const teamSelect = document.getElementById("select-team");
@@ -89,21 +89,21 @@ function render() {
     panelB.classList.remove("winner-panel");
     if (state.gameFinished && state.winner) {
       const winnerId = state.winner;
-      const winnerIsLeft = leftTeam.id === winnerId;
-      if (winnerIsLeft) panelA.classList.add("winner-panel");
+      const winnerIsTop = topTeam.id === winnerId;
+      if (winnerIsTop) panelA.classList.add("winner-panel");
       else panelB.classList.add("winner-panel");
     }
   }
 }
 
-function renderWinState(leftTeam, rightTeam) {
+function renderWinState(topTeam, bottomTeam) {
   const state = getState();
   const overlay = document.getElementById("win-overlay");
   if (!overlay) return;
 
   if (state.gameFinished && state.winner) {
     const winningTeam =
-      state.winner === leftTeam.id ? leftTeam : rightTeam;
+      state.winner === topTeam.id ? topTeam : bottomTeam;
     document.getElementById("win-team-name").textContent = winningTeam.name;
     overlay.classList.add("active");
   } else {
