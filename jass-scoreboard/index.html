@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jass Scoreboard — Schiefertafel Z/Z</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Win overlay -->
+  <div id="win-overlay" role="dialog" aria-modal="true" aria-labelledby="win-team-name">
+    <div class="win-content">
+      <div class="win-icon">🏆</div>
+      <h2>Gewonnen!</h2>
+      <p id="win-team-name" class="win-team"></p>
+      <p class="win-hint">Tippe zum Schliessen</p>
+    </div>
+    <div class="chalk-particles" aria-hidden="true">
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="app-wrapper">
+    <!-- Header -->
+    <header class="app-header">
+      <h1 class="header-title">Jass Tafel</h1>
+      <div class="header-settings">
+        <label for="input-target" class="setting-label">Ziel:</label>
+        <input
+          id="input-target"
+          type="number"
+          class="setting-input"
+          min="100"
+          max="10000"
+          step="50"
+          aria-label="Target score"
+        />
+        <button id="btn-flip" class="btn btn-icon" title="Swap teams" aria-label="Swap team positions">↕</button>
+      </div>
+    </header>
+
+    <!-- Team name editors -->
+    <div class="name-editors">
+      <div class="name-editor-group">
+        <label for="edit-name-a" class="sr-only">Team A name</label>
+        <input id="edit-name-a" type="text" class="team-name-input" maxlength="30" aria-label="Team A name" />
+      </div>
+      <div class="name-editor-divider" aria-hidden="true">vs</div>
+      <div class="name-editor-group">
+        <label for="edit-name-b" class="sr-only">Team B name</label>
+        <input id="edit-name-b" type="text" class="team-name-input" maxlength="30" aria-label="Team B name" />
+      </div>
+    </div>
+
+    <!-- Scoreboard (Z/Z layout) -->
+    <main class="board" role="main" aria-label="Scoreboard">
+      <!-- Panel A (top) -->
+      <section id="panel-a" class="board-panel panel-top" aria-label="Top team">
+        <h2 id="team-a-name" class="panel-team-name chalk-text"></h2>
+        <div id="z-svg-a" class="z-svg-area" aria-label="Score area for top team" aria-live="polite"></div>
+        <div class="panel-total-row">
+          <span class="total-label chalk-text">Total:</span>
+          <span id="total-a" class="total-value chalk-text">0</span>
+        </div>
+      </section>
+
+      <!-- Horizontal divider between the two Z shapes -->
+      <div class="board-h-divider" aria-hidden="true"></div>
+
+      <!-- Panel B (bottom, rotated 180° — readable from opposite side of table) -->
+      <section id="panel-b" class="board-panel panel-bottom" aria-label="Bottom team">
+        <h2 id="team-b-name" class="panel-team-name chalk-text"></h2>
+        <div id="z-svg-b" class="z-svg-area" aria-label="Score area for bottom team" aria-live="polite"></div>
+        <div class="panel-total-row">
+          <span class="total-label chalk-text">Total:</span>
+          <span id="total-b" class="total-value chalk-text">0</span>
+        </div>
+      </section>
+    </main>
+
+    <!-- Score input area -->
+    <div id="score-input-area" class="score-input-area">
+      <p id="error-msg" class="error-msg" role="alert" aria-live="assertive"></p>
+
+      <!-- Team selector -->
+      <div class="team-toggle-row" role="group" aria-label="Select team">
+        <button id="btn-team-a" class="btn btn-team is-active" data-team="A">Team A</button>
+        <button id="btn-team-b" class="btn btn-team" data-team="B">Team B</button>
+      </div>
+
+      <!-- Mark entry: three fixed denominations -->
+      <div class="mark-row" role="group" aria-label="Add mark">
+        <button id="btn-mark-top" class="btn btn-mark" aria-label="Top bar — add 100 points">
+          <span class="mark-pts">+100</span>
+          <span class="mark-lbl">Oben</span>
+        </button>
+        <button id="btn-mark-diag" class="btn btn-mark" aria-label="Diagonal — add 50 points">
+          <span class="mark-pts">+50</span>
+          <span class="mark-lbl">Diagonal</span>
+        </button>
+        <button id="btn-mark-bot" class="btn btn-mark" aria-label="Bottom bar — add 20 points">
+          <span class="mark-pts">+20</span>
+          <span class="mark-lbl">Unten</span>
+        </button>
+      </div>
+
+      <div class="action-row">
+        <button id="btn-undo" class="btn btn-secondary" aria-label="Undo last entry">↩ Rückgängig</button>
+        <button id="btn-reset" class="btn btn-danger" aria-label="Reset game">🔄 Neu</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
