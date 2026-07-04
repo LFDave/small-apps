@@ -1227,8 +1227,9 @@
         }
 
         function flagImg(country) {
-            const code = country.id.toLowerCase();
-            return `<img src="https://flagcdn.com/${code}.svg" alt="${country.flag}" class="flag-img">`;
+            const code = /^[A-Z]{2}$/.test(country.id) ? country.id.toLowerCase() : '';
+            if (!code) return country.flag;
+            return `<img src="https://flagcdn.com/${code}.svg" alt="Flag of ${country.country_en}" class="flag-img">`;
         }
 
         function getMedalTranslation(medalId) {
