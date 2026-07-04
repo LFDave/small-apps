@@ -300,6 +300,18 @@
             filter: drop-shadow(0 4px 12px rgba(0,0,0,.3));
         }
 
+        .flag-img {
+            height: 1.5em;
+            width: auto;
+            vertical-align: middle;
+            border-radius: 3px;
+        }
+
+        .question-highlight .flag-img {
+            height: 4rem;
+            border-radius: 6px;
+        }
+
         .options-container {
             display: flex;
             flex-direction: column;
@@ -846,6 +858,10 @@
                 font-size: 3rem;
             }
 
+            .question-highlight .flag-img {
+                height: 3rem;
+            }
+
             .option-btn {
                 font-size: 1.05rem;
                 padding: calc(var(--spacing-unit) * 1.5);
@@ -1210,6 +1226,11 @@
             return translations[lang][key] || translations['en'][key] || key;
         }
 
+        function flagImg(country) {
+            const code = country.id.toLowerCase();
+            return `<img src="https://flagcdn.com/${code}.svg" alt="${country.flag}" class="flag-img">`;
+        }
+
         function getMedalTranslation(medalId) {
             const lang = gameState.language;
             const medalData = translations[lang].medals[medalId] || translations['en'].medals[medalId];
@@ -1480,7 +1501,7 @@
             // Update UI
             document.getElementById('modeBadge').textContent = `${mode.icon} ${mode.getName()}`;
             document.getElementById('questionText').textContent = mode.getQuestion(country);
-            document.getElementById('questionHighlight').textContent = country.flag;
+            document.getElementById('questionHighlight').innerHTML = flagImg(country);
             document.getElementById('feedbackMessage').innerHTML = '';
             document.getElementById('nextButton').disabled = true;
             
@@ -1598,7 +1619,7 @@
                     gameState.bestStreak = gameState.streak;
                 }
                 
-                feedbackEl.innerHTML = `<div class="feedback-message correct">✅ ${t('correct')} ${currentQuestion.country.flag} ${t('theAnswerIs')} ${currentQuestion.correctAnswer}!</div>`;
+                feedbackEl.innerHTML = `<div class="feedback-message correct">✅ ${t('correct')} ${flagImg(currentQuestion.country)} ${t('theAnswerIs')} ${currentQuestion.correctAnswer}!</div>`;
                 
                 if (currentQuestion.country.tags && currentQuestion.country.tags.includes('extraordinary_name')) {
                     checkExtraordinaryNameMedal();
@@ -1617,7 +1638,7 @@
                     }
                 });
                 
-                feedbackEl.innerHTML = `<div class="feedback-message incorrect">❌ ${t('notQuite')} ${currentQuestion.country.flag} ${t('theCorrectAnswerIs')} ${currentQuestion.correctAnswer}.</div>`;
+                feedbackEl.innerHTML = `<div class="feedback-message incorrect">❌ ${t('notQuite')} ${flagImg(currentQuestion.country)} ${t('theCorrectAnswerIs')} ${currentQuestion.correctAnswer}.</div>`;
             }
             
             updateUI();
