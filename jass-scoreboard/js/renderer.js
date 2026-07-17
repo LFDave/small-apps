@@ -10,7 +10,7 @@
 // "S" — no matter which side of the table you look from.
 
 import { getState } from "./state.js";
-import { decompose } from "./scoring.js";
+import { computeMarks } from "./scoring.js";
 
 // ── Board geometry (one half, local coordinates) ─────────────────
 const W = 640;        // board width
@@ -85,7 +85,8 @@ function hundredMarks(rand, count) {
 }
 
 /**
- * Fifties as strokes crossing the diagonal, laid out along it.
+ * Fifties as strokes crossing the diagonal, accumulating along it
+ * from the top-right end.
  */
 function fiftyMarks(rand, count) {
   if (!count) return "";
@@ -97,9 +98,12 @@ function fiftyMarks(rand, count) {
   const px = -uy; // perpendicular unit vector
   const py = ux;
 
+  const startFrac = 0.14;
+  const spanFrac = 0.72;
+  const stepFrac = Math.min(0.1, spanFrac / count);
   let out = "";
   for (let i = 0; i < count; i++) {
-    const t = len * Math.min(0.85, 0.3 + i * 0.11);
+    const t = len * (startFrac + (i + 0.5) * stepFrac);
     const cx = XR + ux * t;
     const cy = TOP_Y + uy * t;
     out += chalkLine(rand, cx - px * 18, cy - py * 18, cx + px * 18, cy + py * 18, 3.2, "mark");
@@ -108,16 +112,18 @@ function fiftyMarks(rand, count) {
 }
 
 /**
- * Twenties as upright strokes on the bottom bar (at most two appear —
- * five twenties are auto-exchanged for a hundred by decompose()).
+ * Twenties as upright strokes on the bottom bar. They align right and
+ * grow towards the left, simply stacking up round after round — no
+ * exchanging into fifties or hundreds, chalk stays where it was
+ * written.
  */
 function twentyMarks(rand, count) {
   if (!count) return "";
   const usable = XR - XL - 24;
-  const step = Math.min(22, usable / Math.max(1, count));
+  const step = Math.min(22, Math.max(7, usable / count));
   let out = "";
   for (let i = 0; i < count; i++) {
-    const x = XL + 12 + i * step;
+    const x = XR - 12 - i * step;
     out += chalkLine(rand, x, BOT_Y - 17, x + (rand() * 4 - 2), BOT_Y + 17, 3.2, "mark");
   }
   return out;
@@ -127,9 +133,9 @@ function twentyMarks(rand, count) {
  * One team's half of the slate, drawn in local coordinates for a
  * viewer sitting at that half's outer edge.
  */
-function buildHalf(team, total, isWinner, seed) {
+function buildHalf(team, total, marks, isWinner, seed) {
   const rand = mulberry32(seed);
-  const { hundreds, fifties, twenties, remainder } = decompose(total);
+  const { hundreds, fifties, twenties, remainder } = marks;
 
   let s = "";
   if (isWinner) {
@@ -159,7 +165,7 @@ function buildHalf(team, total, isWinner, seed) {
   s += twentyMarks(rand, twenties);
   s += `</g>`;
 
-  // Remainder below 20 written as a chalk number
+  // Sum of all sub-20 rests, written as a chalk number
   if (remainder > 0) {
     s += `<text class="rest-num" x="${XR}" y="${BOT_Y + 56}" text-anchor="end">+ ${remainder}</text>`;
   }
@@ -174,6 +180,7 @@ function render() {
   // the data model itself never changes
   const farTeam = state.flipped ? state.teams[1] : state.teams[0];
   const nearTeam = state.flipped ? state.teams[0] : state.teams[1];
+  const marks = computeMarks(state.entries);
 
   const svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jasstafel: ${esc(farTeam.name)} ${state.totals[farTeam.id]} Punkte, ${esc(nearTeam.name)} ${state.totals[nearTeam.id]} Punkte">
     <defs>
@@ -183,9 +190,9 @@ function render() {
       </filter>
     </defs>
     <rect class="board-frame" x="10" y="10" width="${W - 20}" height="${H - 20}" rx="16"/>
-    <g transform="rotate(180 ${W / 2} ${HH / 2})">${buildHalf(farTeam, state.totals[farTeam.id], state.winner === farTeam.id, 11)}</g>
+    <g transform="rotate(180 ${W / 2} ${HH / 2})">${buildHalf(farTeam, state.totals[farTeam.id], marks[farTeam.id], state.winner === farTeam.id, 11)}</g>
     <line class="board-divider" x1="26" y1="${HH}" x2="${W - 26}" y2="${HH}"/>
-    <g transform="translate(0 ${HH})">${buildHalf(nearTeam, state.totals[nearTeam.id], state.winner === nearTeam.id, 47)}</g>
+    <g transform="translate(0 ${HH})">${buildHalf(nearTeam, state.totals[nearTeam.id], marks[nearTeam.id], state.winner === nearTeam.id, 47)}</g>
   </svg>`;
 
   const board = document.getElementById("board");

@@ -22,23 +22,25 @@ the board (swaps which team sits at the near edge) without touching the data.
 
 ## Chalk notation
 
-Scores are entered as normal round values (1–500). The board decomposes each
-team's running total into the classic Schieber chalk notation:
+Scores are entered as normal round values (1–500). Each round is written to
+the board once, in classic Schieber chalk notation:
 
 | Line | Value per mark |
 |---|---|
 | Top bar | 100 points (bundled tally-style: `||||\` per 500) |
 | Diagonal | 50 points |
-| Bottom bar | 20 points |
-| Chalk number | remainder below 20 (e.g. `+ 17`) |
+| Bottom bar | 20 points, aligned right, growing towards the left |
+| Chalk number | sum of all sub-20 rests (e.g. `+ 17`) |
 
-The board is always kept canonical — five twenties are automatically
-"exchanged" for a hundred, like a tidy chalk writer would do.
+True chalk semantics: once a mark is written it stays on the board. Marks
+simply stack up round after round — there is **no automatic conversion**
+(five twenties are never exchanged for a hundred, two fifties never become
+a hundred). Only ↩ Rückgängig wipes the last round's marks again.
 
 ## Features
 
 - 🧮 **Free score entry** — any 1–500 points per round, plus quick chips (+20/+50/+100/+157)
-- ✏️ **Chalk marks derived from totals** — authentic 100/50/20 notation on the Z lines
+- ✏️ **Chalk marks per round** — authentic 100/50/20 notation on the Z lines, marks accumulate and are never converted
 - 🔄 **Deterministic chalk jitter** — hand-drawn look that stays stable across re-renders
 - 🏆 **Win detection** — a team wins by *exceeding* the target (default 2500)
 - ↩ **Undo** — remove the last recorded round (also after a win)

@@ -34,15 +34,13 @@ function findWinner(totals, targetScore) {
 }
 
 /**
- * Decompose a running total into classic Schieber chalk notation:
+ * Decompose a single round's points into chalk strokes:
  * hundreds on the top bar, fifties on the diagonal, twenties on the
- * bottom bar, remainder written as a number. The board is always kept
- * in canonical form — five twenties are automatically "exchanged" for
- * a hundred, exactly like a tidy chalk writer would do.
+ * bottom bar, rest below 20 as a number.
  */
-function decompose(total) {
-  const hundreds = Math.floor(total / 100);
-  let rest = total % 100;
+function decomposeEntry(points) {
+  const hundreds = Math.floor(points / 100);
+  let rest = points % 100;
   const fifties = Math.floor(rest / 50);
   rest %= 50;
   const twenties = Math.floor(rest / 20);
@@ -50,4 +48,28 @@ function decompose(total) {
   return { hundreds, fifties, twenties, remainder: rest };
 }
 
-export { validatePoints, computeTotals, findWinner, decompose };
+/**
+ * Accumulate chalk marks over the whole entry sequence — real chalk
+ * semantics: each round is written once and its strokes stay on the
+ * board forever. Marks are NEVER converted between lines (no
+ * exchanging five twenties for a hundred); the rest numbers simply
+ * add up.
+ */
+function computeMarks(entries) {
+  const marks = {
+    A: { hundreds: 0, fifties: 0, twenties: 0, remainder: 0 },
+    B: { hundreds: 0, fifties: 0, twenties: 0, remainder: 0 }
+  };
+  for (const e of entries) {
+    const team = marks[e.teamId];
+    if (!team || !Number.isFinite(e.points)) continue;
+    const d = decomposeEntry(e.points);
+    team.hundreds += d.hundreds;
+    team.fifties += d.fifties;
+    team.twenties += d.twenties;
+    team.remainder += d.remainder;
+  }
+  return marks;
+}
+
+export { validatePoints, computeTotals, findWinner, decomposeEntry, computeMarks };
