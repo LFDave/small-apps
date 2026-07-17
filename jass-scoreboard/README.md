@@ -75,8 +75,24 @@ jass-scoreboard/
 │   ├── scoring.js      # Validation, totals, win check, chalk decomposition
 │   ├── renderer.js     # Single-SVG slate scene: Z's, marks, totals, win state
 │   └── ui.js           # Event binding and input validation
+├── tests/
+│   ├── e2e.test.mjs    # Playwright end-to-end tests
+│   └── package.json    # Test-only dependencies (playwright)
 └── README.md
 ```
+
+## Tests
+
+```
+cd tests
+npm install
+node e2e.test.mjs
+```
+
+Spawns its own static server, drives the real flows in Chromium (entry,
+validation, chalk semantics, bundling, undo, flip, persistence, win,
+reset, escaping) and fails on any console error. Screenshots land in
+`tests/screenshots/`.
 
 ## Technologies
 
