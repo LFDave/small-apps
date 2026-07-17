@@ -30,7 +30,7 @@ the board once, in classic Schieber chalk notation:
 | Top bar | 100 points, left-aligned |
 | Diagonal | 50 points, compact spacing from the top-right end |
 | Bottom bar | 20 points, aligned right, growing towards the left |
-| Chalk number | sum of all sub-20 rests (e.g. `+ 17`) |
+| Chalk number | sub-20 rest — always below 20; at 20 it carries into a 20-mark |
 
 All three lines bundle their marks tally-style: every fifth stroke is a
 slash across the previous four (`||||\`).
@@ -39,6 +39,11 @@ True chalk semantics: once a mark is written it stays on the board. Marks
 simply stack up round after round — there is **no automatic conversion**
 (five twenties are never exchanged for a hundred, two fifties never become
 a hundred). Only ↩ Rückgängig wipes the last round's marks again.
+
+The one exception is the rest **number**: numerals are the one thing a
+chalk writer wipes and rewrites. Sub-20 rests add up, and whenever the
+accumulated rest reaches 20, a 20-mark is written on the bottom bar and
+the number is rewritten with what's left — so it never shows 20 or more.
 
 ## Features
 

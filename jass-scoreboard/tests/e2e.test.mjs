@@ -148,6 +148,16 @@ try {
   check("reset keeps team name", stored.teams[0].name === "Huber & Meier");
   check("reset keeps target", stored.targetScore === 850, `got ${stored.targetScore}`);
 
+  // ── Rest number never reaches 20: carries into a 20-mark ──────────
+  await add("B", 19);
+  await add("B", 19); // rests 19+19=38 → one 20-mark + rest 18
+  nearB = await half(NEAR);
+  check("rest carries into a 20-mark at 20", nearB.marks === 1, `got ${nearB.marks} marks`);
+  check("rest number stays below 20", nearB.rest === "+ 18", `got ${nearB.rest}`);
+  await page.screenshot({ path: join(SHOTS_DIR, "rest-carry.png"), fullPage: true });
+  await page.click("#btn-undo");
+  await page.click("#btn-undo");
+
   // ── Injection-safe team names ─────────────────────────────────────
   await page.fill("#edit-name-a", "<img src=x onerror=alert(1)>");
   await page.locator("#edit-name-a").blur();

@@ -52,8 +52,10 @@ function decomposeEntry(points) {
  * Accumulate chalk marks over the whole entry sequence — real chalk
  * semantics: each round is written once and its strokes stay on the
  * board forever. Marks are NEVER converted between lines (no
- * exchanging five twenties for a hundred); the rest numbers simply
- * add up.
+ * exchanging five twenties for a hundred). The sub-20 rests add up,
+ * but the written rest number must never reach 20: whenever the
+ * accumulated rest hits 20, a 20-mark is written on the bottom bar
+ * and the number is rewritten with what's left.
  */
 function computeMarks(entries) {
   const marks = {
@@ -68,6 +70,10 @@ function computeMarks(entries) {
     team.fifties += d.fifties;
     team.twenties += d.twenties;
     team.remainder += d.remainder;
+    while (team.remainder >= 20) {
+      team.remainder -= 20;
+      team.twenties += 1;
+    }
   }
   return marks;
 }
