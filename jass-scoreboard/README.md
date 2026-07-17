@@ -27,10 +27,13 @@ the board once, in classic Schieber chalk notation:
 
 | Line | Value per mark |
 |---|---|
-| Top bar | 100 points (bundled tally-style: `||||\` per 500) |
-| Diagonal | 50 points |
+| Top bar | 100 points, left-aligned |
+| Diagonal | 50 points, compact spacing from the top-right end |
 | Bottom bar | 20 points, aligned right, growing towards the left |
 | Chalk number | sum of all sub-20 rests (e.g. `+ 17`) |
+
+All three lines bundle their marks tally-style: every fifth stroke is a
+slash across the previous four (`||||\`).
 
 True chalk semantics: once a mark is written it stays on the board. Marks
 simply stack up round after round — there is **no automatic conversion**

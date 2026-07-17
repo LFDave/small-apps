@@ -53,42 +53,51 @@ function chalkLine(rand, x1, y1, x2, y2, width, cls) {
   return `<line class="${cls}" x1="${(x1 + j()).toFixed(1)}" y1="${(y1 + j()).toFixed(1)}" x2="${(x2 + j()).toFixed(1)}" y2="${(y2 + j()).toFixed(1)}" stroke-width="${width}" stroke-linecap="round"/>`;
 }
 
-/**
- * Hundreds on the top bar, bundled tally-style: four upright strokes
- * plus a diagonal slash across them for each complete group of five.
- */
-function hundredMarks(rand, count) {
-  if (!count) return "";
-  const usable = XR - XL - 24;
+function splitGroups(count) {
   const groups = [];
   for (let left = count; left > 0; left -= 5) groups.push(Math.min(left, 5));
+  return groups;
+}
+
+/**
+ * Tally marks on a horizontal bar, bundled in fives: four upright
+ * strokes plus a slash across them for each complete group (||||\).
+ * dir 1 = left-aligned growing right (hundreds), dir -1 =
+ * right-aligned growing left (twenties). Marks stack up in place —
+ * no conversion between lines, chalk stays where it was written.
+ */
+function barTallies(rand, count, y, dir) {
+  if (!count) return "";
+  const usable = XR - XL - 24;
+  const groups = splitGroups(count);
   const uprightTotal = groups.reduce((sum, c) => sum + Math.min(c, 4), 0);
   const GAP = 26;
   const denom = Math.max(1, uprightTotal - groups.length);
   const step = Math.max(7, Math.min(19, (usable - (groups.length - 1) * GAP) / denom));
 
-  let x = XL + 12;
+  let x = dir === 1 ? XL + 12 : XR - 12;
   let out = "";
   for (const cnt of groups) {
     const uprights = Math.min(cnt, 4);
     for (let k = 0; k < uprights; k++) {
-      const ux = x + k * step;
-      out += chalkLine(rand, ux, TOP_Y - 17, ux + (rand() * 4 - 2), TOP_Y + 17, 3.2, "mark");
+      const ux = x + dir * k * step;
+      out += chalkLine(rand, ux, y - 17, ux + (rand() * 4 - 2), y + 17, 3.2, "mark");
     }
     const groupWidth = (uprights - 1) * step;
     if (cnt === 5) {
-      out += chalkLine(rand, x - step * 0.45, TOP_Y + 16, x + groupWidth + step * 0.45, TOP_Y - 16, 3.2, "mark");
+      out += chalkLine(rand, x - dir * step * 0.45, y + 16, x + dir * (groupWidth + step * 0.45), y - 16, 3.2, "mark");
     }
-    x += groupWidth + GAP;
+    x += dir * (groupWidth + GAP);
   }
   return out;
 }
 
 /**
- * Fifties as strokes crossing the diagonal, accumulating along it
- * from the top-right end.
+ * Fifties as strokes crossing the diagonal, accumulating compactly
+ * from the top-right end and bundled in fives like the other lines:
+ * four cross-strokes plus a slash through them per complete group.
  */
-function fiftyMarks(rand, count) {
+function diagTallies(rand, count) {
   if (!count) return "";
   const dx = XL - XR;
   const dy = BOT_Y - TOP_Y;
@@ -97,34 +106,30 @@ function fiftyMarks(rand, count) {
   const uy = dy / len;
   const px = -uy; // perpendicular unit vector
   const py = ux;
+  const point = t => [XR + ux * t, TOP_Y + uy * t];
 
-  const startFrac = 0.14;
-  const spanFrac = 0.72;
-  const stepFrac = Math.min(0.1, spanFrac / count);
-  let out = "";
-  for (let i = 0; i < count; i++) {
-    const t = len * (startFrac + (i + 0.5) * stepFrac);
-    const cx = XR + ux * t;
-    const cy = TOP_Y + uy * t;
-    out += chalkLine(rand, cx - px * 18, cy - py * 18, cx + px * 18, cy + py * 18, 3.2, "mark");
-  }
-  return out;
-}
+  const groups = splitGroups(count);
+  const uprightTotal = groups.reduce((sum, c) => sum + Math.min(c, 4), 0);
+  const GAP = 36;
+  const usable = len * 0.8;
+  const denom = Math.max(1, uprightTotal - groups.length);
+  const step = Math.max(12, Math.min(26, (usable - (groups.length - 1) * GAP) / denom));
 
-/**
- * Twenties as upright strokes on the bottom bar. They align right and
- * grow towards the left, simply stacking up round after round — no
- * exchanging into fifties or hundreds, chalk stays where it was
- * written.
- */
-function twentyMarks(rand, count) {
-  if (!count) return "";
-  const usable = XR - XL - 24;
-  const step = Math.min(22, Math.max(7, usable / count));
+  let t = len * 0.1;
   let out = "";
-  for (let i = 0; i < count; i++) {
-    const x = XR - 12 - i * step;
-    out += chalkLine(rand, x, BOT_Y - 17, x + (rand() * 4 - 2), BOT_Y + 17, 3.2, "mark");
+  for (const cnt of groups) {
+    const uprights = Math.min(cnt, 4);
+    for (let k = 0; k < uprights; k++) {
+      const [cx, cy] = point(t + k * step);
+      out += chalkLine(rand, cx - px * 18, cy - py * 18, cx + px * 18, cy + py * 18, 3.2, "mark");
+    }
+    const groupSpan = (uprights - 1) * step;
+    if (cnt === 5) {
+      const [sx, sy] = point(t - step * 0.45);
+      const [ex, ey] = point(t + groupSpan + step * 0.45);
+      out += chalkLine(rand, sx + px * 12, sy + py * 12, ex - px * 12, ey - py * 12, 3.2, "mark");
+    }
+    t += groupSpan + GAP;
   }
   return out;
 }
@@ -160,9 +165,9 @@ function buildHalf(team, total, marks, isWinner, seed) {
 
   // Chalk marks
   s += `<g class="marks" filter="url(#chalk-rough)">`;
-  s += hundredMarks(rand, hundreds);
-  s += fiftyMarks(rand, fifties);
-  s += twentyMarks(rand, twenties);
+  s += barTallies(rand, hundreds, TOP_Y, 1);
+  s += diagTallies(rand, fifties);
+  s += barTallies(rand, twenties, BOT_Y, -1);
   s += `</g>`;
 
   // Sum of all sub-20 rests, written as a chalk number
