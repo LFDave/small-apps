@@ -1,0 +1,232 @@
+// renderer.js — draws the whole slate as one SVG scene:
+// two chalk Z's (one per team), marks, totals, win state.
+//
+// Readability from both sides of the table:
+// Each Z is drawn point-symmetric about its own centre — the top bar,
+// the diagonal and the bottom bar map exactly onto themselves under a
+// 180° rotation. The far team's half IS rotated 180° (so its name and
+// total face the player across the table), and because of the point
+// symmetry both Z shapes still read as a proper "Z" — never as an
+// "S" — no matter which side of the table you look from.
+
+import { getState } from "./state.js";
+import { decompose } from "./scoring.js";
+
+// ── Board geometry (one half, local coordinates) ─────────────────
+const W = 640;        // board width
+const HH = 460;       // height of one half
+const H = HH * 2;     // full board height
+
+const XL = 64;        // Z left x
+const XR = 576;       // Z right x
+const TOP_Y = 150;    // Z top bar y
+const BOT_Y = 380;    // Z bottom bar y
+// Z centre = ((XL+XR)/2, (TOP_Y+BOT_Y)/2) = (320, 265).
+// rotate180(x, y) → (640−x, 530−y): top bar ↔ bottom bar, the
+// diagonal (XR,TOP_Y)→(XL,BOT_Y) maps onto itself. Point symmetry ✓
+
+function esc(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/**
+ * Deterministic PRNG (mulberry32) — chalk jitter must be stable
+ * across re-renders so the marks don't wiggle on every update.
+ */
+function mulberry32(seed) {
+  let t = seed >>> 0;
+  return function () {
+    t += 0x6d2b79f5;
+    let r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function chalkLine(rand, x1, y1, x2, y2, width, cls) {
+  const j = () => rand() * 2.8 - 1.4;
+  return `<line class="${cls}" x1="${(x1 + j()).toFixed(1)}" y1="${(y1 + j()).toFixed(1)}" x2="${(x2 + j()).toFixed(1)}" y2="${(y2 + j()).toFixed(1)}" stroke-width="${width}" stroke-linecap="round"/>`;
+}
+
+/**
+ * Hundreds on the top bar, bundled tally-style: four upright strokes
+ * plus a diagonal slash across them for each complete group of five.
+ */
+function hundredMarks(rand, count) {
+  if (!count) return "";
+  const usable = XR - XL - 24;
+  const groups = [];
+  for (let left = count; left > 0; left -= 5) groups.push(Math.min(left, 5));
+  const uprightTotal = groups.reduce((sum, c) => sum + Math.min(c, 4), 0);
+  const GAP = 26;
+  const denom = Math.max(1, uprightTotal - groups.length);
+  const step = Math.max(7, Math.min(19, (usable - (groups.length - 1) * GAP) / denom));
+
+  let x = XL + 12;
+  let out = "";
+  for (const cnt of groups) {
+    const uprights = Math.min(cnt, 4);
+    for (let k = 0; k < uprights; k++) {
+      const ux = x + k * step;
+      out += chalkLine(rand, ux, TOP_Y - 17, ux + (rand() * 4 - 2), TOP_Y + 17, 3.2, "mark");
+    }
+    const groupWidth = (uprights - 1) * step;
+    if (cnt === 5) {
+      out += chalkLine(rand, x - step * 0.45, TOP_Y + 16, x + groupWidth + step * 0.45, TOP_Y - 16, 3.2, "mark");
+    }
+    x += groupWidth + GAP;
+  }
+  return out;
+}
+
+/**
+ * Fifties as strokes crossing the diagonal, laid out along it.
+ */
+function fiftyMarks(rand, count) {
+  if (!count) return "";
+  const dx = XL - XR;
+  const dy = BOT_Y - TOP_Y;
+  const len = Math.sqrt(dx * dx + dy * dy);
+  const ux = dx / len;
+  const uy = dy / len;
+  const px = -uy; // perpendicular unit vector
+  const py = ux;
+
+  let out = "";
+  for (let i = 0; i < count; i++) {
+    const t = len * Math.min(0.85, 0.3 + i * 0.11);
+    const cx = XR + ux * t;
+    const cy = TOP_Y + uy * t;
+    out += chalkLine(rand, cx - px * 18, cy - py * 18, cx + px * 18, cy + py * 18, 3.2, "mark");
+  }
+  return out;
+}
+
+/**
+ * Twenties as upright strokes on the bottom bar (at most two appear —
+ * five twenties are auto-exchanged for a hundred by decompose()).
+ */
+function twentyMarks(rand, count) {
+  if (!count) return "";
+  const usable = XR - XL - 24;
+  const step = Math.min(22, usable / Math.max(1, count));
+  let out = "";
+  for (let i = 0; i < count; i++) {
+    const x = XL + 12 + i * step;
+    out += chalkLine(rand, x, BOT_Y - 17, x + (rand() * 4 - 2), BOT_Y + 17, 3.2, "mark");
+  }
+  return out;
+}
+
+/**
+ * One team's half of the slate, drawn in local coordinates for a
+ * viewer sitting at that half's outer edge.
+ */
+function buildHalf(team, total, isWinner, seed) {
+  const rand = mulberry32(seed);
+  const { hundreds, fifties, twenties, remainder } = decompose(total);
+
+  let s = "";
+  if (isWinner) {
+    s += `<rect class="win-glow" x="18" y="14" width="${W - 36}" height="${HH - 28}" rx="14"/>`;
+  }
+
+  // Name + total, facing this half's player
+  s += `<text class="team-name" x="${XL}" y="62">${esc(team.name)}</text>`;
+  s += `<text class="team-total" x="${XR}" y="72" text-anchor="end">${total}</text>`;
+
+  // The Z — red painted guide lines, point-symmetric about (320, 265)
+  s += `<g class="z-lines" filter="url(#chalk-rough)">`;
+  s += `<line class="z-line" x1="${XL}" y1="${TOP_Y}" x2="${XR}" y2="${TOP_Y}"/>`;
+  s += `<line class="z-line z-diag" x1="${XR}" y1="${TOP_Y}" x2="${XL}" y2="${BOT_Y}"/>`;
+  s += `<line class="z-line" x1="${XL}" y1="${BOT_Y}" x2="${XR}" y2="${BOT_Y}"/>`;
+  s += `</g>`;
+
+  // Small value labels at the line ends (face this half's player)
+  s += `<text class="line-label" x="${XL - 12}" y="${TOP_Y + 5}" text-anchor="end">100</text>`;
+  s += `<text class="line-label" x="${XL - 12}" y="${BOT_Y + 5}" text-anchor="end">20</text>`;
+  s += `<text class="line-label" x="${(XL + XR) / 2 + 26}" y="${(TOP_Y + BOT_Y) / 2 + 30}">50</text>`;
+
+  // Chalk marks
+  s += `<g class="marks" filter="url(#chalk-rough)">`;
+  s += hundredMarks(rand, hundreds);
+  s += fiftyMarks(rand, fifties);
+  s += twentyMarks(rand, twenties);
+  s += `</g>`;
+
+  // Remainder below 20 written as a chalk number
+  if (remainder > 0) {
+    s += `<text class="rest-num" x="${XR}" y="${BOT_Y + 56}" text-anchor="end">+ ${remainder}</text>`;
+  }
+
+  return s;
+}
+
+function render() {
+  const state = getState();
+
+  // flipped swaps which team sits at the near (bottom) edge;
+  // the data model itself never changes
+  const farTeam = state.flipped ? state.teams[1] : state.teams[0];
+  const nearTeam = state.flipped ? state.teams[0] : state.teams[1];
+
+  const svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jasstafel: ${esc(farTeam.name)} ${state.totals[farTeam.id]} Punkte, ${esc(nearTeam.name)} ${state.totals[nearTeam.id]} Punkte">
+    <defs>
+      <filter id="chalk-rough" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4"/>
+      </filter>
+    </defs>
+    <rect class="board-frame" x="10" y="10" width="${W - 20}" height="${H - 20}" rx="16"/>
+    <g transform="rotate(180 ${W / 2} ${HH / 2})">${buildHalf(farTeam, state.totals[farTeam.id], state.winner === farTeam.id, 11)}</g>
+    <line class="board-divider" x1="26" y1="${HH}" x2="${W - 26}" y2="${HH}"/>
+    <g transform="translate(0 ${HH})">${buildHalf(nearTeam, state.totals[nearTeam.id], state.winner === nearTeam.id, 47)}</g>
+  </svg>`;
+
+  const board = document.getElementById("board");
+  if (board) board.innerHTML = svg;
+
+  // Team toggle labels
+  const btnTeamA = document.getElementById("btn-team-a");
+  const btnTeamB = document.getElementById("btn-team-b");
+  if (btnTeamA) btnTeamA.textContent = state.teams[0].name;
+  if (btnTeamB) btnTeamB.textContent = state.teams[1].name;
+
+  // Disable score entry once the game is finished (undo/reset stay active)
+  const inputArea = document.getElementById("score-input-area");
+  if (inputArea) {
+    inputArea.classList.toggle("disabled", state.gameFinished);
+    inputArea
+      .querySelectorAll(".btn-team, .btn-chip, #input-points, #btn-add")
+      .forEach(el => { el.disabled = state.gameFinished; });
+  }
+
+  // Screen-reader status
+  const sr = document.getElementById("sr-status");
+  if (sr) {
+    sr.textContent =
+      `${state.teams[0].name}: ${state.totals.A} Punkte. ` +
+      `${state.teams[1].name}: ${state.totals.B} Punkte. Ziel: ${state.targetScore}.`;
+  }
+
+  renderWinOverlay(state);
+}
+
+function renderWinOverlay(state) {
+  const overlay = document.getElementById("win-overlay");
+  if (!overlay) return;
+  if (state.gameFinished && state.winner && !state.winAcknowledged) {
+    const winner = state.teams.find(t => t.id === state.winner);
+    document.getElementById("win-team-name").textContent = winner ? winner.name : "";
+    overlay.classList.add("active");
+  } else {
+    overlay.classList.remove("active");
+  }
+}
+
+export { render };

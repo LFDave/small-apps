@@ -1,0 +1,444 @@
+/* styles.css — Jass Tafel: one slate, two Z's, chalk look */
+
+/* ─── Reset & base ────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --page-bg:       #21262b;
+  --slate:         #232e28;
+  --slate-deep:    #1b241f;
+  --chalk:         #f2efe4;
+  --chalk-dim:     #c9c5b2;
+  --paint-red:     #d84a43;
+  --paint-red-dim: rgba(216, 74, 67, 0.55);
+  --wood:          #6d4a2f;
+  --wood-dark:     #543823;
+  --input-bg:      #2b333a;
+  --input-border:  rgba(242, 239, 228, 0.28);
+  --btn-primary:   #4a7c59;
+  --btn-primary-h: #5a9c6e;
+  --btn-secondary: #3c4a55;
+  --btn-danger:    #7a3535;
+  --btn-danger-h:  #9a4545;
+  --winner-glow:   #ffd75a;
+  --font-ui:       'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-chalk:    'Segoe Print', 'Bradley Hand', 'Chalkboard SE', 'Comic Sans MS', cursive;
+  --radius:        8px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--page-bg);
+  background-image:
+    radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.03) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 80%, rgba(255,255,255,0.02) 0%, transparent 55%);
+  color: var(--chalk);
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.app-wrapper {
+  width: 100%;
+  max-width: 540px;
+  padding: 12px 12px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ─── Header ──────────────────────────────────────────────────── */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.header-title {
+  font-family: var(--font-chalk);
+  font-size: 1.5rem;
+  letter-spacing: 0.03em;
+}
+
+.header-settings {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.setting-label {
+  font-size: 0.85rem;
+  color: var(--chalk-dim);
+}
+
+.setting-input {
+  width: 84px;
+  padding: 8px;
+  font-size: 1rem;
+  background: var(--input-bg);
+  color: var(--chalk);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+}
+
+/* ─── Team name editors ───────────────────────────────────────── */
+.name-editors {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-name-input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 10px;
+  font-size: 0.95rem;
+  background: var(--input-bg);
+  color: var(--chalk);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+}
+
+.name-editor-divider {
+  color: var(--chalk-dim);
+  font-size: 0.8rem;
+}
+
+/* ─── The slate board ─────────────────────────────────────────── */
+.board svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 10px solid var(--wood);
+  border-bottom-color: var(--wood-dark);
+  border-right-color: var(--wood-dark);
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at 30% 25%, rgba(255,255,255,0.045) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 70%, rgba(255,255,255,0.03) 0%, transparent 50%),
+    linear-gradient(160deg, var(--slate) 0%, var(--slate-deep) 100%);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+
+.board-frame {
+  fill: none;
+  stroke: rgba(216, 74, 67, 0.35);
+  stroke-width: 2.5;
+}
+
+.board-divider {
+  stroke: var(--paint-red);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.z-line {
+  stroke: var(--paint-red);
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.z-diag {
+  stroke-width: 3;
+  opacity: 0.7;
+}
+
+.line-label {
+  fill: var(--paint-red-dim);
+  font-family: var(--font-chalk);
+  font-size: 15px;
+}
+
+.mark {
+  stroke: var(--chalk);
+  opacity: 0.92;
+}
+
+.team-name {
+  fill: var(--chalk);
+  font-family: var(--font-chalk);
+  font-size: 27px;
+}
+
+.team-total {
+  fill: var(--chalk);
+  font-family: var(--font-chalk);
+  font-size: 46px;
+  font-weight: 700;
+}
+
+.rest-num {
+  fill: var(--chalk);
+  font-family: var(--font-chalk);
+  font-size: 28px;
+}
+
+.win-glow {
+  fill: rgba(255, 215, 90, 0.09);
+  stroke: var(--winner-glow);
+  stroke-width: 2.5;
+  animation: glowPulse 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  from { stroke-opacity: 0.35; }
+  to   { stroke-opacity: 0.9; }
+}
+
+/* ─── Score input ─────────────────────────────────────────────── */
+.score-input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.score-input-area.disabled .btn-team,
+.score-input-area.disabled .btn-chip,
+.score-input-area.disabled #input-points,
+.score-input-area.disabled #btn-add {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.error-msg {
+  min-height: 1.2em;
+  font-size: 0.85rem;
+  color: #ff9c9c;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.error-msg.visible {
+  opacity: 1;
+}
+
+.team-toggle-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.btn {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--chalk);
+  background: var(--btn-secondary);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  padding: 13px 14px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--winner-glow);
+  outline-offset: 2px;
+}
+
+.btn-icon {
+  padding: 8px 12px;
+  font-size: 1.1rem;
+}
+
+.btn-team {
+  background: var(--input-bg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-team.is-active {
+  background: var(--btn-primary);
+  border-color: var(--btn-primary-h);
+}
+
+.entry-row {
+  display: flex;
+  gap: 8px;
+}
+
+#input-points {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  font-size: 1.15rem;
+  background: var(--input-bg);
+  color: var(--chalk);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+}
+
+.btn-primary {
+  background: var(--btn-primary);
+}
+
+.btn-primary:hover {
+  background: var(--btn-primary-h);
+}
+
+.chip-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.btn-chip {
+  padding: 11px 6px;
+  background: var(--input-bg);
+}
+
+.btn-chip:hover {
+  background: var(--btn-secondary);
+}
+
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.btn-danger {
+  background: var(--btn-danger);
+}
+
+.btn-danger:hover {
+  background: var(--btn-danger-h);
+}
+
+/* ─── Win overlay ─────────────────────────────────────────────── */
+#win-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 14, 12, 0.82);
+  cursor: pointer;
+}
+
+#win-overlay.active {
+  display: flex;
+}
+
+.win-content {
+  text-align: center;
+  animation: winPop 0.45s ease-out;
+}
+
+@keyframes winPop {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.win-icon {
+  font-size: 4rem;
+  animation: winSpin 0.6s ease-out;
+}
+
+@keyframes winSpin {
+  from { transform: rotate(-20deg) scale(0.6); }
+  to   { transform: rotate(0deg)   scale(1); }
+}
+
+#win-overlay h2 {
+  font-family: var(--font-chalk);
+  font-size: 2.2rem;
+  color: var(--winner-glow);
+  text-shadow: 0 0 18px rgba(255, 215, 90, 0.6);
+}
+
+.win-team {
+  font-family: var(--font-chalk);
+  font-size: 1.6rem;
+  margin-top: 6px;
+}
+
+.win-hint {
+  margin-top: 18px;
+  font-size: 0.85rem;
+  color: var(--chalk-dim);
+}
+
+.chalk-particles span {
+  position: absolute;
+  background: var(--chalk);
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: float 2.6s ease-in infinite;
+}
+
+.chalk-particles span:nth-child(1)  { left: 12%; top: 68%; animation-delay: 0s;    width: 6px; height: 6px; }
+.chalk-particles span:nth-child(2)  { left: 28%; top: 78%; animation-delay: 0.4s;  width: 4px; height: 4px; }
+.chalk-particles span:nth-child(3)  { left: 44%; top: 72%; animation-delay: 0.8s;  width: 7px; height: 7px; }
+.chalk-particles span:nth-child(4)  { left: 60%; top: 80%; animation-delay: 1.2s;  width: 5px; height: 5px; }
+.chalk-particles span:nth-child(5)  { left: 76%; top: 70%; animation-delay: 0.2s;  width: 6px; height: 6px; }
+.chalk-particles span:nth-child(6)  { left: 88%; top: 76%; animation-delay: 0.9s;  width: 4px; height: 4px; }
+.chalk-particles span:nth-child(7)  { left: 20%; top: 16%; animation-delay: 0.6s;  width: 5px; height: 5px; }
+.chalk-particles span:nth-child(8)  { left: 52%; top: 12%; animation-delay: 1.1s;  width: 6px; height: 6px; }
+.chalk-particles span:nth-child(9)  { left: 74%; top: 14%; animation-delay: 1.5s;  width: 5px; height: 5px; }
+
+@keyframes float {
+  0%   { transform: translateY(0)      rotate(0deg);   opacity: 0.8; }
+  50%  { transform: translateY(-30px)  rotate(180deg); opacity: 0.4; }
+  100% { transform: translateY(-60px)  rotate(360deg); opacity: 0; }
+}
+
+/* ─── Motion preferences ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .win-glow,
+  .win-content,
+  .win-icon,
+  .chalk-particles span {
+    animation: none;
+  }
+}
+
+/* ─── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 380px) {
+  .app-wrapper {
+    padding: 8px 8px 20px;
+  }
+
+  .header-title {
+    font-size: 1.2rem;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 11px 8px;
+  }
+
+  .board svg {
+    border-width: 7px;
+  }
+}
