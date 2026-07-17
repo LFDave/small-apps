@@ -1,159 +1,228 @@
-// renderer.js — render board, tallies, totals, win state
+// renderer.js — draws the whole slate as one SVG scene:
+// two chalk Z's (one per team), marks, totals, win state.
+//
+// Readability from both sides of the table:
+// Each Z is drawn point-symmetric about its own centre — the top bar,
+// the diagonal and the bottom bar map exactly onto themselves under a
+// 180° rotation. The far team's half IS rotated 180° (so its name and
+// total face the player across the table), and because of the point
+// symmetry both Z shapes still read as a proper "Z" — never as an
+// "S" — no matter which side of the table you look from.
 
 import { getState } from "./state.js";
+import { decompose } from "./scoring.js";
 
-// ── SVG Z geometry constants ──────────────────────────────────────
-const Z_W  = 400;   // viewBox width
-const Z_H  = 170;   // viewBox height
-const X_L  = 12;    // left x bound
-const X_R  = 388;   // right x bound
-const TOP_Y = 42;   // top bar y
-const BOT_Y = 128;  // bottom bar y
-// Diagonal: (X_R, TOP_Y) → (X_L, BOT_Y)
+// ── Board geometry (one half, local coordinates) ─────────────────
+const W = 640;        // board width
+const HH = 460;       // height of one half
+const H = HH * 2;     // full board height
 
-// Mark spacing limits (SVG viewBox units)
-const MIN_SPACING = 6;
-const MAX_SPACING = 13;
-const DIAG_MARGIN = 14;  // gap to leave at each end of the diagonal
+const XL = 64;        // Z left x
+const XR = 576;       // Z right x
+const TOP_Y = 150;    // Z top bar y
+const BOT_Y = 380;    // Z bottom bar y
+// Z centre = ((XL+XR)/2, (TOP_Y+BOT_Y)/2) = (320, 265).
+// rotate180(x, y) → (640−x, 530−y): top bar ↔ bottom bar, the
+// diagonal (XR,TOP_Y)→(XL,BOT_Y) maps onto itself. Point symmetry ✓
+
+function esc(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 /**
- * Build perpendicular tick marks along the top or bottom horizontal bar.
+ * Deterministic PRNG (mulberry32) — chalk jitter must be stable
+ * across re-renders so the marks don't wiggle on every update.
  */
-function hMarks(count, y) {
-  if (!count) return "";
-  const usable = X_R - X_L - 16;                               // ~360 px
-  const spacing = Math.max(MIN_SPACING, Math.min(MAX_SPACING, count > 1 ? usable / (count - 1) : usable));
-  const totalSpan = spacing * (count - 1);
-  const startX = X_L + 8 + (usable - totalSpan) / 2;
+function mulberry32(seed) {
+  let t = seed >>> 0;
+  return function () {
+    t += 0x6d2b79f5;
+    let r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
+function chalkLine(rand, x1, y1, x2, y2, width, cls) {
+  const j = () => rand() * 2.8 - 1.4;
+  return `<line class="${cls}" x1="${(x1 + j()).toFixed(1)}" y1="${(y1 + j()).toFixed(1)}" x2="${(x2 + j()).toFixed(1)}" y2="${(y2 + j()).toFixed(1)}" stroke-width="${width}" stroke-linecap="round"/>`;
+}
+
+/**
+ * Hundreds on the top bar, bundled tally-style: four upright strokes
+ * plus a diagonal slash across them for each complete group of five.
+ */
+function hundredMarks(rand, count) {
+  if (!count) return "";
+  const usable = XR - XL - 24;
+  const groups = [];
+  for (let left = count; left > 0; left -= 5) groups.push(Math.min(left, 5));
+  const uprightTotal = groups.reduce((sum, c) => sum + Math.min(c, 4), 0);
+  const GAP = 26;
+  const denom = Math.max(1, uprightTotal - groups.length);
+  const step = Math.max(7, Math.min(19, (usable - (groups.length - 1) * GAP) / denom));
+
+  let x = XL + 12;
   let out = "";
-  for (let i = 0; i < count; i++) {
-    const x = +(startX + i * spacing).toFixed(1);
-    out += `<line x1="${x}" y1="${y - 11}" x2="${x}" y2="${y + 11}" stroke="rgba(240,237,224,0.92)" stroke-width="2" stroke-linecap="round"/>`;
+  for (const cnt of groups) {
+    const uprights = Math.min(cnt, 4);
+    for (let k = 0; k < uprights; k++) {
+      const ux = x + k * step;
+      out += chalkLine(rand, ux, TOP_Y - 17, ux + (rand() * 4 - 2), TOP_Y + 17, 3.2, "mark");
+    }
+    const groupWidth = (uprights - 1) * step;
+    if (cnt === 5) {
+      out += chalkLine(rand, x - step * 0.45, TOP_Y + 16, x + groupWidth + step * 0.45, TOP_Y - 16, 3.2, "mark");
+    }
+    x += groupWidth + GAP;
   }
   return out;
 }
 
 /**
- * Build perpendicular tick marks along the diagonal of the Z.
- * Marks are drawn as short vertical lines since preserveAspectRatio="none"
- * would skew true perpendiculars; vertical ticks look authentic on a chalk board.
+ * Fifties as strokes crossing the diagonal, laid out along it.
  */
-function diagMarks(count) {
+function fiftyMarks(rand, count) {
   if (!count) return "";
-  const dx = X_L - X_R;         // -376
-  const dy = BOT_Y - TOP_Y;     //  86
+  const dx = XL - XR;
+  const dy = BOT_Y - TOP_Y;
   const len = Math.sqrt(dx * dx + dy * dy);
-  const ux = dx / len;  const uy = dy / len;  // unit along diagonal
-
-  const usable = len - 2 * DIAG_MARGIN;
-  const spacing = Math.max(MIN_SPACING, Math.min(MAX_SPACING, count > 1 ? usable / (count - 1) : usable));
-  const totalSpan = spacing * (count - 1);
-  const tStart = DIAG_MARGIN + (usable - totalSpan) / 2;
+  const ux = dx / len;
+  const uy = dy / len;
+  const px = -uy; // perpendicular unit vector
+  const py = ux;
 
   let out = "";
   for (let i = 0; i < count; i++) {
-    const t  = tStart + i * spacing;
-    const cx = +(X_R + ux * t).toFixed(1);
-    const cy = +(TOP_Y + uy * t).toFixed(1);
-    // Vertical tick crossing the diagonal line
-    out += `<line x1="${cx}" y1="${+(cy - 13).toFixed(1)}" x2="${cx}" y2="${+(cy + 13).toFixed(1)}" stroke="rgba(240,237,224,0.92)" stroke-width="2" stroke-linecap="round"/>`;
+    const t = len * Math.min(0.85, 0.3 + i * 0.11);
+    const cx = XR + ux * t;
+    const cy = TOP_Y + uy * t;
+    out += chalkLine(rand, cx - px * 18, cy - py * 18, cx + px * 18, cy + py * 18, 3.2, "mark");
   }
   return out;
 }
 
 /**
- * Build the complete SVG Z shape with marks on lines for one team.
+ * Twenties as upright strokes on the bottom bar (at most two appear —
+ * five twenties are auto-exchanged for a hundred by decompose()).
  */
-function buildZsvg(teamId) {
-  const state = getState();
-  const entries = state.entries.filter(e => e.teamId === teamId);
-
-  // Count marks per bar (support legacy entries that only have points/no barType)
-  const topN  = entries.filter(e => e.barType === "top").length;
-  const diagN = entries.filter(e => e.barType === "diagonal").length;
-  const botN  = entries.filter(e => e.barType === "bottom").length;
-
-  return `<svg viewBox="0 0 ${Z_W} ${Z_H}" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true">
-    <!-- Z guide lines -->
-    <line x1="${X_L}" y1="${TOP_Y}" x2="${X_R}" y2="${TOP_Y}" stroke="rgba(224,80,80,0.80)" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="${X_R}" y1="${TOP_Y}" x2="${X_L}" y2="${BOT_Y}" stroke="rgba(224,80,80,0.52)" stroke-width="1.5" stroke-dasharray="9,6"/>
-    <line x1="${X_L}" y1="${BOT_Y}" x2="${X_R}" y2="${BOT_Y}" stroke="rgba(224,80,80,0.80)" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- Chalk marks on bars -->
-    ${hMarks(topN,  TOP_Y)}
-    ${diagMarks(diagN)}
-    ${hMarks(botN,  BOT_Y)}
-  </svg>`;
+function twentyMarks(rand, count) {
+  if (!count) return "";
+  const usable = XR - XL - 24;
+  const step = Math.min(22, usable / Math.max(1, count));
+  let out = "";
+  for (let i = 0; i < count; i++) {
+    const x = XL + 12 + i * step;
+    out += chalkLine(rand, x, BOT_Y - 17, x + (rand() * 4 - 2), BOT_Y + 17, 3.2, "mark");
+  }
+  return out;
 }
 
 /**
- * Full render of the scoreboard.
+ * One team's half of the slate, drawn in local coordinates for a
+ * viewer sitting at that half's outer edge.
  */
+function buildHalf(team, total, isWinner, seed) {
+  const rand = mulberry32(seed);
+  const { hundreds, fifties, twenties, remainder } = decompose(total);
+
+  let s = "";
+  if (isWinner) {
+    s += `<rect class="win-glow" x="18" y="14" width="${W - 36}" height="${HH - 28}" rx="14"/>`;
+  }
+
+  // Name + total, facing this half's player
+  s += `<text class="team-name" x="${XL}" y="62">${esc(team.name)}</text>`;
+  s += `<text class="team-total" x="${XR}" y="72" text-anchor="end">${total}</text>`;
+
+  // The Z — red painted guide lines, point-symmetric about (320, 265)
+  s += `<g class="z-lines" filter="url(#chalk-rough)">`;
+  s += `<line class="z-line" x1="${XL}" y1="${TOP_Y}" x2="${XR}" y2="${TOP_Y}"/>`;
+  s += `<line class="z-line z-diag" x1="${XR}" y1="${TOP_Y}" x2="${XL}" y2="${BOT_Y}"/>`;
+  s += `<line class="z-line" x1="${XL}" y1="${BOT_Y}" x2="${XR}" y2="${BOT_Y}"/>`;
+  s += `</g>`;
+
+  // Small value labels at the line ends (face this half's player)
+  s += `<text class="line-label" x="${XL - 12}" y="${TOP_Y + 5}" text-anchor="end">100</text>`;
+  s += `<text class="line-label" x="${XL - 12}" y="${BOT_Y + 5}" text-anchor="end">20</text>`;
+  s += `<text class="line-label" x="${(XL + XR) / 2 + 26}" y="${(TOP_Y + BOT_Y) / 2 + 30}">50</text>`;
+
+  // Chalk marks
+  s += `<g class="marks" filter="url(#chalk-rough)">`;
+  s += hundredMarks(rand, hundreds);
+  s += fiftyMarks(rand, fifties);
+  s += twentyMarks(rand, twenties);
+  s += `</g>`;
+
+  // Remainder below 20 written as a chalk number
+  if (remainder > 0) {
+    s += `<text class="rest-num" x="${XR}" y="${BOT_Y + 56}" text-anchor="end">+ ${remainder}</text>`;
+  }
+
+  return s;
+}
+
 function render() {
   const state = getState();
 
-  const [topTeam, bottomTeam] = state.flipped
-    ? [state.teams[1], state.teams[0]]
-    : [state.teams[0], state.teams[1]];
+  // flipped swaps which team sits at the near (bottom) edge;
+  // the data model itself never changes
+  const farTeam = state.flipped ? state.teams[1] : state.teams[0];
+  const nearTeam = state.flipped ? state.teams[0] : state.teams[1];
 
-  // Team name headers inside panels
-  document.getElementById("team-a-name").textContent = topTeam.name;
-  document.getElementById("team-b-name").textContent = bottomTeam.name;
+  const svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jasstafel: ${esc(farTeam.name)} ${state.totals[farTeam.id]} Punkte, ${esc(nearTeam.name)} ${state.totals[nearTeam.id]} Punkte">
+    <defs>
+      <filter id="chalk-rough" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4"/>
+      </filter>
+    </defs>
+    <rect class="board-frame" x="10" y="10" width="${W - 20}" height="${H - 20}" rx="16"/>
+    <g transform="rotate(180 ${W / 2} ${HH / 2})">${buildHalf(farTeam, state.totals[farTeam.id], state.winner === farTeam.id, 11)}</g>
+    <line class="board-divider" x1="26" y1="${HH}" x2="${W - 26}" y2="${HH}"/>
+    <g transform="translate(0 ${HH})">${buildHalf(nearTeam, state.totals[nearTeam.id], state.winner === nearTeam.id, 47)}</g>
+  </svg>`;
 
-  // SVG Z marks
-  const svgA = document.getElementById("z-svg-a");
-  const svgB = document.getElementById("z-svg-b");
-  if (svgA) svgA.innerHTML = buildZsvg(topTeam.id);
-  if (svgB) svgB.innerHTML = buildZsvg(bottomTeam.id);
+  const board = document.getElementById("board");
+  if (board) board.innerHTML = svg;
 
-  // Totals
-  document.getElementById("total-a").textContent = state.totals[topTeam.id] || 0;
-  document.getElementById("total-b").textContent = state.totals[bottomTeam.id] || 0;
-
-  // Target score display
-  const targetEl = document.getElementById("target-score-display");
-  if (targetEl) targetEl.textContent = state.targetScore;
-
-  // Update team toggle button labels
+  // Team toggle labels
   const btnTeamA = document.getElementById("btn-team-a");
   const btnTeamB = document.getElementById("btn-team-b");
   if (btnTeamA) btnTeamA.textContent = state.teams[0].name;
   if (btnTeamB) btnTeamB.textContent = state.teams[1].name;
 
-  // Win state
-  renderWinState(topTeam, bottomTeam);
-
-  // Input area enable/disable (undo and reset always stay enabled)
+  // Disable score entry once the game is finished (undo/reset stay active)
   const inputArea = document.getElementById("score-input-area");
   if (inputArea) {
     inputArea.classList.toggle("disabled", state.gameFinished);
-    inputArea.querySelectorAll(".btn-mark, .btn-team").forEach(el => {
-      el.disabled = state.gameFinished;
-    });
+    inputArea
+      .querySelectorAll(".btn-team, .btn-chip, #input-points, #btn-add")
+      .forEach(el => { el.disabled = state.gameFinished; });
   }
 
-  // Highlight winning panel
-  const panelA = document.getElementById("panel-a");
-  const panelB = document.getElementById("panel-b");
-  if (panelA && panelB) {
-    panelA.classList.remove("winner-panel");
-    panelB.classList.remove("winner-panel");
-    if (state.gameFinished && state.winner) {
-      const winnerIsTop = topTeam.id === state.winner;
-      if (winnerIsTop) panelA.classList.add("winner-panel");
-      else             panelB.classList.add("winner-panel");
-    }
+  // Screen-reader status
+  const sr = document.getElementById("sr-status");
+  if (sr) {
+    sr.textContent =
+      `${state.teams[0].name}: ${state.totals.A} Punkte. ` +
+      `${state.teams[1].name}: ${state.totals.B} Punkte. Ziel: ${state.targetScore}.`;
   }
+
+  renderWinOverlay(state);
 }
 
-function renderWinState(topTeam, bottomTeam) {
-  const state = getState();
+function renderWinOverlay(state) {
   const overlay = document.getElementById("win-overlay");
   if (!overlay) return;
-
-  if (state.gameFinished && state.winner) {
-    const winningTeam = state.winner === topTeam.id ? topTeam : bottomTeam;
-    document.getElementById("win-team-name").textContent = winningTeam.name;
+  if (state.gameFinished && state.winner && !state.winAcknowledged) {
+    const winner = state.teams.find(t => t.id === state.winner);
+    document.getElementById("win-team-name").textContent = winner ? winner.name : "";
     overlay.classList.add("active");
   } else {
     overlay.classList.remove("active");

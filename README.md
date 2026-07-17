@@ -7,10 +7,12 @@ small apps for various use cases
 A browser-based digital Jass scoreboard that replicates a traditional Swiss chalk slate board with the classic Z/Z layout.
 
 **Features:**
-- Classic Z/Z slate board look with chalk tally marks (e.g. `||||\ ||||\ |`)
+- One SVG slate scene with two chalk Z's — both readable from both sides of the table (point-symmetric Z geometry, far half rotated 180°)
+- Classic Schieber chalk notation: 100s on the top bar (tally bundles `||||\`), 50s on the diagonal, 20s on the bottom bar, remainder as chalk number
+- Free score entry (1–500) plus quick chips (+20/+50/+100/+157)
 - Two teams, editable names and target score (default 2500)
 - Win detection with animated overlay (gold glow, chalk particles)
-- Undo last entry, reset game, flip board orientation
+- Undo last entry, reset game, rotate board orientation
 - Game state persisted to localStorage — resume on page reload
 - Responsive: works on mobile (320px+), tablet, and desktop
 - No external frameworks — pure HTML, CSS, Vanilla JS

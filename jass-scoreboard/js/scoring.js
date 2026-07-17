@@ -1,59 +1,53 @@
-// scoring.js — add score, calculate totals, check winner
+// scoring.js — score validation, totals, win check, chalk-mark decomposition
 
-import { getState } from "./state.js";
-
-// Each bar type and its point value per mark
-const BAR_VALUES = { top: 100, diagonal: 50, bottom: 20 };
-
-function addEntry(teamId, barType) {
-  const state = getState();
-  if (state.gameFinished) return false;
-  if (!BAR_VALUES[barType]) return false;
-  if (!state.teams.find(t => t.id === teamId)) return false;
-
-  state.entries.push({
-    teamId,
-    barType,
-    value: BAR_VALUES[barType],
-    timestamp: Date.now()
-  });
-
-  recalcTotals();
-  checkWinner();
-  return true;
+/**
+ * Validate a round score. Returns an error message (German) or null if valid.
+ */
+function validatePoints(value) {
+  if (!Number.isInteger(value)) return "Punkte müssen eine ganze Zahl sein.";
+  if (value < 1) return "Punkte müssen grösser als 0 sein.";
+  if (value > 500) return "Maximal 500 Punkte pro Eintrag.";
+  return null;
 }
 
-function undoLastEntry() {
-  const state = getState();
-  if (state.entries.length === 0) return false;
-  state.entries.pop();
-  state.winner = null;
-  state.gameFinished = false;
-  recalcTotals();
-  checkWinner();
-  return true;
-}
-
-function recalcTotals() {
-  const state = getState();
-  state.totals = { A: 0, B: 0 };
-  for (const entry of state.entries) {
-    // Support both new (value) and legacy (points) saved entries
-    const pts = entry.value || entry.points || 0;
-    state.totals[entry.teamId] = (state.totals[entry.teamId] || 0) + pts;
-  }
-}
-
-function checkWinner() {
-  const state = getState();
-  if (state.gameFinished) return;
-  for (const team of state.teams) {
-    if ((state.totals[team.id] || 0) > state.targetScore) {
-      state.winner = team.id;
-      state.gameFinished = true;
-      return;
+/**
+ * Totals are always derived from the entry list, never edited directly.
+ */
+function computeTotals(entries) {
+  const totals = { A: 0, B: 0 };
+  for (const e of entries) {
+    if (totals[e.teamId] !== undefined && Number.isFinite(e.points)) {
+      totals[e.teamId] += e.points;
     }
   }
+  return totals;
 }
 
-export { addEntry, undoLastEntry, recalcTotals, checkWinner };
+/**
+ * A team wins when its total EXCEEDS the target score (strictly greater).
+ */
+function findWinner(totals, targetScore) {
+  for (const id of ["A", "B"]) {
+    if (totals[id] > targetScore) return id;
+  }
+  return null;
+}
+
+/**
+ * Decompose a running total into classic Schieber chalk notation:
+ * hundreds on the top bar, fifties on the diagonal, twenties on the
+ * bottom bar, remainder written as a number. The board is always kept
+ * in canonical form — five twenties are automatically "exchanged" for
+ * a hundred, exactly like a tidy chalk writer would do.
+ */
+function decompose(total) {
+  const hundreds = Math.floor(total / 100);
+  let rest = total % 100;
+  const fifties = Math.floor(rest / 50);
+  rest %= 50;
+  const twenties = Math.floor(rest / 20);
+  rest %= 20;
+  return { hundreds, fifties, twenties, remainder: rest };
+}
+
+export { validatePoints, computeTotals, findWinner, decompose };
