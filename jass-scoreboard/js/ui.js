@@ -9,8 +9,8 @@ import {
   resetGame,
   toggleFlip,
   acknowledgeWin
-} from "./state.js";
-import { render } from "./renderer.js";
+} from "./state.js?v=3";
+import { render } from "./renderer.js?v=3";
 
 let selectedTeam = "A";
 let errorTimeout = null;

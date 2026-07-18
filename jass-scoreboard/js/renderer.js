@@ -9,8 +9,8 @@
 // symmetry both Z shapes still read as a proper "Z" — never as an
 // "S" — no matter which side of the table you look from.
 
-import { getState } from "./state.js";
-import { computeMarks } from "./scoring.js";
+import { getState } from "./state.js?v=3";
+import { computeMarks } from "./scoring.js?v=3";
 
 // ── Board geometry (one half, local coordinates) ─────────────────
 const W = 640;        // board width
