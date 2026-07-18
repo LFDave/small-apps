@@ -50,12 +50,4 @@ function migrateEntry(entry) {
   return { teamId: entry.teamId, points, timestamp: entry.timestamp || 0 };
 }
 
-function clearState() {
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-  } catch (e) {
-    console.warn("Could not clear state:", e);
-  }
-}
-
-export { saveState, loadState, clearState };
+export { saveState, loadState };

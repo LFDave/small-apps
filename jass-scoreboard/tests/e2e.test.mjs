@@ -9,7 +9,7 @@
 
 import { chromium } from "playwright";
 import { spawn } from "node:child_process";
-import { mkdirSync, existsSync } from "node:fs";
+import { mkdirSync, existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -29,6 +29,29 @@ function check(name, condition, detail = "") {
   const ok = Boolean(condition);
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}${ok || !detail ? "" : ` — ${detail}`}`);
   if (!ok) failures++;
+}
+
+// ── Cache-busting version consistency ───────────────────────────────
+// Every local asset reference (index.html + inter-module imports) must
+// carry the same ?v= — a partial bump would serve mixed stale/new files.
+{
+  const sources = [
+    ["index.html", readFileSync(join(APP_DIR, "index.html"), "utf8")],
+    ...readdirSync(join(APP_DIR, "js"))
+      .filter(f => f.endsWith(".js"))
+      .map(f => [`js/${f}`, readFileSync(join(APP_DIR, "js", f), "utf8")])
+  ];
+  const versions = new Set();
+  let unversioned = [];
+  for (const [file, text] of sources) {
+    for (const m of text.matchAll(/(?:href="css\/[^"]+|src="js\/[^"]+|from "\.\/[^"]+)"/g)) {
+      const v = m[0].match(/\?v=([\w.]+)/);
+      if (v) versions.add(v[1]);
+      else unversioned.push(`${file}: ${m[0]}`);
+    }
+  }
+  check("all asset URLs carry a ?v= version", unversioned.length === 0, unversioned.join(" | "));
+  check("cache-busting version is identical everywhere", versions.size === 1, [...versions].join(", "));
 }
 
 mkdirSync(SHOTS_DIR, { recursive: true });

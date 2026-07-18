@@ -78,4 +78,4 @@ function computeMarks(entries) {
   return marks;
 }
 
-export { validatePoints, computeTotals, findWinner, decomposeEntry, computeMarks };
+export { validatePoints, computeTotals, findWinner, computeMarks };
