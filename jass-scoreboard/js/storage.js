@@ -44,9 +44,9 @@ function loadState() {
 function migrateEntry(entry) {
   if (!entry || (entry.teamId !== "A" && entry.teamId !== "B")) return null;
   let points = null;
-  if (Number.isInteger(entry.points) && entry.points >= 1) points = entry.points;
+  if (Number.isInteger(entry.points) && entry.points !== 0) points = entry.points;
   else if (Number.isInteger(entry.value) && entry.value >= 1) points = entry.value;
-  if (points === null || points > 500) return null;
+  if (points === null || Math.abs(points) > 500) return null;
   return { teamId: entry.teamId, points, timestamp: entry.timestamp || 0 };
 }
 

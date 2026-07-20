@@ -1,12 +1,13 @@
 // scoring.js — score validation, totals, win check, chalk-mark decomposition
 
 /**
- * Validate a round score. Returns an error message (German) or null if valid.
+ * Validate a round score. Negative values are corrections.
+ * Returns an error message (German) or null if valid.
  */
 function validatePoints(value) {
   if (!Number.isInteger(value)) return "Punkte müssen eine ganze Zahl sein.";
-  if (value < 1) return "Punkte müssen grösser als 0 sein.";
-  if (value > 500) return "Maximal 500 Punkte pro Eintrag.";
+  if (value === 0) return "Punkte dürfen nicht 0 sein.";
+  if (Math.abs(value) > 500) return "Maximal 500 Punkte pro Eintrag.";
   return null;
 }
 
@@ -49,13 +50,46 @@ function decomposeEntry(points) {
 }
 
 /**
+ * The written rest number must never reach 20: whenever the
+ * accumulated rest hits 20, a 20-mark is written on the bottom bar
+ * and the number is rewritten with what's left.
+ */
+function carryRest(team) {
+  while (team.remainder >= 20) {
+    team.remainder -= 20;
+    team.twenties += 1;
+  }
+}
+
+/**
+ * A correction (negative entry) wipes marks from the highest value
+ * down: whole 100s first, then 50s, then 20s, as much as is needed;
+ * what's left is taken off the rest number. If the rest would go
+ * negative, the next-lowest available mark is wiped and the leftover
+ * rewritten (as 20-marks + rest), like a chalk writer correcting the
+ * board.
+ */
+function removeMarks(team, amount) {
+  let need = amount;
+  while (need >= 100 && team.hundreds > 0) { team.hundreds--; need -= 100; }
+  while (need >= 50 && team.fifties > 0) { team.fifties--; need -= 50; }
+  while (need >= 20 && team.twenties > 0) { team.twenties--; need -= 20; }
+  team.remainder -= need;
+  while (team.remainder < 0) {
+    if (team.twenties > 0) { team.twenties--; team.remainder += 20; }
+    else if (team.fifties > 0) { team.fifties--; team.remainder += 50; }
+    else if (team.hundreds > 0) { team.hundreds--; team.remainder += 100; }
+    else { team.remainder = 0; break; } // guarded by total validation
+  }
+  carryRest(team);
+}
+
+/**
  * Accumulate chalk marks over the whole entry sequence — real chalk
  * semantics: each round is written once and its strokes stay on the
  * board forever. Marks are NEVER converted between lines (no
- * exchanging five twenties for a hundred). The sub-20 rests add up,
- * but the written rest number must never reach 20: whenever the
- * accumulated rest hits 20, a 20-mark is written on the bottom bar
- * and the number is rewritten with what's left.
+ * exchanging five twenties for a hundred). Corrections (negative
+ * entries) are the one sanctioned way marks get wiped besides undo.
  */
 function computeMarks(entries) {
   const marks = {
@@ -65,15 +99,16 @@ function computeMarks(entries) {
   for (const e of entries) {
     const team = marks[e.teamId];
     if (!team || !Number.isFinite(e.points)) continue;
+    if (e.points < 0) {
+      removeMarks(team, -e.points);
+      continue;
+    }
     const d = decomposeEntry(e.points);
     team.hundreds += d.hundreds;
     team.fifties += d.fifties;
     team.twenties += d.twenties;
     team.remainder += d.remainder;
-    while (team.remainder >= 20) {
-      team.remainder -= 20;
-      team.twenties += 1;
-    }
+    carryRest(team);
   }
   return marks;
 }

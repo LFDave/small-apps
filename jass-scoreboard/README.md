@@ -14,7 +14,9 @@ README only covers what it is and how to use it.
    `python3 -m http.server` → open `http://localhost:8000/index.html`
 2. Edit team names and the target score (default 2500) at the top.
 3. Select a team, type the round points (1–500) and hit **Eintragen** —
-   or tap a quick chip (+20 / +50 / +100 / +157).
+   or tap a quick chip (+20 / +50 / +100 / +157). Enter negative points
+   (e.g. -120) to correct a mistake: marks are wiped from the highest
+   value down. Team A is the half facing you; ⇅ swaps sides.
 4. **↩ Rückgängig** wipes the last round's marks, **🔄 Neu** starts a new
    game, **⇅** rotates the board for the players across the table.
 5. A team wins by *exceeding* the target. The game survives page

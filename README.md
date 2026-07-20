@@ -9,7 +9,7 @@ A browser-based digital Jass scoreboard that replicates a traditional Swiss chal
 **Features:**
 - One SVG slate scene with two chalk Z's — both readable from both sides of the table (point-symmetric Z geometry, far half rotated 180°)
 - Classic Schieber chalk notation: 100s on the top bar, 50s on the diagonal, 20s right-aligned on the bottom bar — all bundled tally-style (`||||\`), rest as chalk number; marks stack up per round and are never converted (chalk stays chalk)
-- Free score entry (1–500) plus quick chips (+20/+50/+100/+157)
+- Free score entry (1–500) plus quick chips (+20/+50/+100/+157); negative entries correct mistakes (marks wiped highest → lowest)
 - Two teams, editable names and target score (default 2500)
 - Win detection with animated overlay (gold glow, chalk particles)
 - Undo last entry, reset game, rotate board orientation

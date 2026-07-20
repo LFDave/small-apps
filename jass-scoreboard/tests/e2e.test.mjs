@@ -97,13 +97,16 @@ try {
   await page.reload();
   await page.waitForSelector("#board svg");
 
+  // ── Team A faces the device holder (near/bottom half) ─────────────
+  check("Team A sits at the near half by default", (await half(NEAR)).name === "Team A");
+
   // ── Free entry + per-round chalk decomposition ────────────────────
   await add("A", 157); // 1×100 + 1×50 + rest 7
   await add("A", 257); // 2×100 + 1×50 + rest 7
-  let farA = await half(FAR);
-  check("free entry: total 157+257=414", farA.total === "414", `got ${farA.total}`);
-  check("marks per round: 3×100 + 2×50 = 5 strokes", farA.marks === 5, `got ${farA.marks}`);
-  check("rests accumulate: + 14", farA.rest === "+ 14", `got ${farA.rest}`);
+  let nearA = await half(NEAR);
+  check("free entry: total 157+257=414", nearA.total === "414", `got ${nearA.total}`);
+  check("marks per round: 3×100 + 2×50 = 5 strokes", nearA.marks === 5, `got ${nearA.marks}`);
+  check("rests accumulate: + 14", nearA.rest === "+ 14", `got ${nearA.rest}`);
 
   // ── Validation ────────────────────────────────────────────────────
   await page.fill("#input-points", "501");
@@ -113,28 +116,28 @@ try {
 
   // ── Chalk semantics: no conversion, right-aligned 20s ─────────────
   for (let i = 0; i < 5; i++) await add("B", 20);
-  let nearB = await half(NEAR);
+  let farB = await half(FAR);
   // 5×20 (total 100) must stay on the 20-line as one complete bundle:
   // 4 uprights + 1 slash = 5 stroke lines, and no 100-mark appears
-  check("no conversion: 5×20 → one ||||\\ bundle (5 lines)", nearB.marks === 5, `got ${nearB.marks}`);
-  const rightMost = Math.max(...nearB.markXs);
+  check("no conversion: 5×20 → one ||||\\ bundle (5 lines)", farB.marks === 5, `got ${farB.marks}`);
+  const rightMost = Math.max(...farB.markXs); // local coords, unaffected by the half's rotation
   check("20s align right (near x=564)", rightMost > 540, `rightmost x=${rightMost}`);
 
   // ── Bundling on all lines ─────────────────────────────────────────
   for (let i = 0; i < 7; i++) await add("B", 50); // one bundle + 2 = 7 lines on diagonal
   for (let i = 0; i < 4; i++) await add("A", 100); // A now 7×100: bundle(5) + 2 = 7 lines
-  nearB = await half(NEAR);
-  farA = await half(FAR);
-  check("50s bundle in fives (7×50 → 7 lines incl. slash)", nearB.marks === 5 + 7, `got ${nearB.marks}`);
-  check("100s bundle in fives (7×100 → 7 lines incl. slash)", farA.marks === 7 + 2, `A lines ${farA.marks} (7×100 + 2×50)`);
+  farB = await half(FAR);
+  nearA = await half(NEAR);
+  check("50s bundle in fives (7×50 → 7 lines incl. slash)", farB.marks === 5 + 7, `got ${farB.marks}`);
+  check("100s bundle in fives (7×100 → 7 lines incl. slash)", nearA.marks === 7 + 2, `A lines ${nearA.marks} (7×100 + 2×50)`);
   await page.screenshot({ path: join(SHOTS_DIR, "board.png"), fullPage: true });
 
   // ── Undo removes exactly the last round's marks ───────────────────
-  const before = (await half(NEAR)).marks;
+  const before = (await half(FAR)).marks;
   await add("B", 90); // writes 1×50 + 2×20
   await page.click("#btn-undo");
-  nearB = await half(NEAR);
-  check("undo wipes only the last round's marks", nearB.marks === before, `got ${nearB.marks}, want ${before}`);
+  farB = await half(FAR);
+  check("undo wipes only the last round's marks", farB.marks === before, `got ${farB.marks}, want ${before}`);
 
   // ── Flip swaps halves, data unchanged ─────────────────────────────
   const farNameBefore = (await half(FAR)).name;
@@ -174,10 +177,31 @@ try {
   // ── Rest number never reaches 20: carries into a 20-mark ──────────
   await add("B", 19);
   await add("B", 19); // rests 19+19=38 → one 20-mark + rest 18
-  nearB = await half(NEAR);
-  check("rest carries into a 20-mark at 20", nearB.marks === 1, `got ${nearB.marks} marks`);
-  check("rest number stays below 20", nearB.rest === "+ 18", `got ${nearB.rest}`);
+  farB = await half(FAR);
+  check("rest carries into a 20-mark at 20", farB.marks === 1, `got ${farB.marks} marks`);
+  check("rest number stays below 20", farB.rest === "+ 18", `got ${farB.rest}`);
   await page.screenshot({ path: join(SHOTS_DIR, "rest-carry.png"), fullPage: true });
+  await page.click("#btn-undo");
+  await page.click("#btn-undo");
+
+  // ── Corrections: negative points wipe marks highest → lowest ──────
+  await add("A", 180); // marks {1×100, 1×50, 1×20, +10}
+  await add("A", -120); // wipes the 100 and the 20 → {1×50, +10}, total 60
+  nearA = await half(NEAR);
+  check("correction removes highest→lowest (180−120 → 1×50 + 10)",
+    nearA.total === "60" && nearA.marks === 1 && nearA.rest === "+ 10",
+    `total ${nearA.total}, marks ${nearA.marks}, rest ${nearA.rest}`);
+  await add("A", -30); // 60−30: wipes the 50, rewrites 1×20 + 10
+  nearA = await half(NEAR);
+  check("correction borrows from a higher mark and rewrites",
+    nearA.total === "30" && nearA.marks === 1 && nearA.rest === "+ 10",
+    `total ${nearA.total}, marks ${nearA.marks}, rest ${nearA.rest}`);
+  await page.screenshot({ path: join(SHOTS_DIR, "correction.png"), fullPage: true });
+  await add("A", -100); // more than the current total → rejected
+  const corrErr = await page.locator("#error-msg").textContent();
+  check("correction larger than total is rejected", corrErr.includes("Korrektur"), `got "${corrErr}"`);
+  check("rejected correction changes nothing", (await half(NEAR)).total === "30");
+  await page.click("#btn-undo");
   await page.click("#btn-undo");
   await page.click("#btn-undo");
 
