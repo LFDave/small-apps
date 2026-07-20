@@ -11,9 +11,12 @@ spec-sync rules, cache-busting convention) applies as well.
   correctly from both sides of the table (far half rotated 180°).
 - Chalk semantics: marks are written per round and never converted
   between lines (no exchanging five 20s for a 100); 20s align right on
-  the bottom bar; all lines bundle tallies in fives (`||||\`); only undo
-  removes the last round's marks. The rest number is always below 20 —
-  at 20 it carries into a 20-mark.
+  the bottom bar; all lines bundle tallies in fives (`||||\`); marks are
+  wiped only by undo (last round) or corrections (negative entries,
+  removing highest → lowest with borrowing). The rest number is always
+  below 20 — at 20 it carries into a 20-mark.
+- Team A defaults to the near (bottom) half — the side facing the person
+  holding the device.
 - Tests: `cd tests && npm install && node e2e.test.mjs` — must pass
   before reporting back; it also enforces the `?v=N` cache-busting
   consistency across index.html and all js imports.

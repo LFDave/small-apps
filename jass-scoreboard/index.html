@@ -6,7 +6,7 @@
   <title>Jass Tafel — Schiefertafel Z/Z</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23232e28'/%3E%3Cpath d='M25 32h50L25 68h50' stroke='%23f2efe4' stroke-width='9' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
   <!-- Cache busting: bump ?v= here AND in every js import on each release -->
-  <link rel="stylesheet" href="css/styles.css?v=3" />
+  <link rel="stylesheet" href="css/styles.css?v=4" />
 </head>
 <body>
   <!-- Win overlay -->
@@ -73,10 +73,10 @@
           id="input-points"
           type="number"
           inputmode="numeric"
-          min="1"
+          min="-500"
           max="500"
           placeholder="Punkte"
-          aria-label="Punkte eingeben (1 bis 500)"
+          aria-label="Punkte eingeben (-500 bis 500, negativ zur Korrektur)"
         />
         <button id="btn-add" class="btn btn-primary">Eintragen</button>
       </div>
@@ -95,6 +95,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/app.js?v=3"></script>
+  <script type="module" src="js/app.js?v=4"></script>
 </body>
 </html>

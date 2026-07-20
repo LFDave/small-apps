@@ -1,7 +1,7 @@
 // state.js — global state definition, mutations, validation
 
-import { computeTotals, findWinner, validatePoints } from "./scoring.js?v=3";
-import { saveState } from "./storage.js?v=3";
+import { computeTotals, findWinner, validatePoints } from "./scoring.js?v=4";
+import { saveState } from "./storage.js?v=4";
 
 function defaults() {
   return {
@@ -79,6 +79,9 @@ function addEntry(teamId, points) {
   if (!state.teams.find(t => t.id === teamId)) return "Ungültiges Team.";
   const error = validatePoints(points);
   if (error) return error;
+  if (points < 0 && state.totals[teamId] + points < 0) {
+    return "Korrektur grösser als der aktuelle Punktestand.";
+  }
   state.entries.push({ teamId, points, timestamp: Date.now() });
   recompute();
   saveState(state);

@@ -1,6 +1,6 @@
 # PRD — Digital Jass Scoreboard (Schiefertafel Z/Z)
 
-Version: 2.2 (as built — this file is the single source of truth and is
+Version: 2.3 (as built — this file is the single source of truth and is
 updated in the same change whenever behavior changes)
 
 ## 1. Product
@@ -69,8 +69,15 @@ Chalk marks are derived from the entry sequence, never stored.
 2. Enter points or tap a quick chip: +20 / +50 / +100 / +157
 3. **Eintragen** (Enter also submits)
 
-Validation: integer, `0 < points ≤ 500`. Errors shown in German in an
-`aria-live` region.
+Validation: integer, `-500 ≤ points ≤ 500`, not 0. Errors shown in
+German in an `aria-live` region.
+
+**Corrections:** negative points fix mistakes. A correction must not
+exceed the team's current total (rejected otherwise) and wipes marks
+from the **highest value down** — whole 100s first, then 50s, then 20s,
+as much as is needed; the leftover comes off the rest number. If the
+rest would go negative, the next-lowest available mark is wiped and the
+leftover rewritten as 20-marks + rest (chalk-writer style borrowing).
 
 ## 7. Chalk Mark Rendering
 
@@ -87,8 +94,8 @@ Hard rules (chalk semantics):
 
 - Marks accumulate round after round and are **never converted** between
   lines (no exchanging five 20s for a 100, or two 50s for a 100).
-- A written mark disappears only through **Undo**, which wipes exactly
-  the last round's marks.
+- A written mark disappears only through **Undo** (wipes exactly the
+  last round's marks) or a **correction** (negative entry, see §6).
 - All three lines bundle tallies in fives: every fifth stroke is a slash
   across the previous four (`||||\`) — display grouping, never conversion.
 - The rest number never reaches 20: rests add up, and at 20 a 20-mark is
@@ -107,6 +114,8 @@ Hard rules (chalk semantics):
   upside down is still a "Z", never an "S".
 - The far half is rotated 180° so that team's name, total and marks face
   the player across the table.
+- **Team A defaults to the near (bottom) half** — the side facing the
+  person holding the device; Team B to the far half.
 - The ⇅ button toggles `flipped`, swapping which team sits at the near
   edge; the data model never changes.
 

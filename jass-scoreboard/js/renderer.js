@@ -9,8 +9,8 @@
 // symmetry both Z shapes still read as a proper "Z" — never as an
 // "S" — no matter which side of the table you look from.
 
-import { getState } from "./state.js?v=3";
-import { computeMarks } from "./scoring.js?v=3";
+import { getState } from "./state.js?v=4";
+import { computeMarks } from "./scoring.js?v=4";
 
 // ── Board geometry (one half, local coordinates) ─────────────────
 const W = 640;        // board width
@@ -181,10 +181,11 @@ function buildHalf(team, total, marks, isWinner, seed) {
 function render() {
   const state = getState();
 
-  // flipped swaps which team sits at the near (bottom) edge;
-  // the data model itself never changes
-  const farTeam = state.flipped ? state.teams[1] : state.teams[0];
-  const nearTeam = state.flipped ? state.teams[0] : state.teams[1];
+  // Team A defaults to the near (bottom) half — the side facing the
+  // person holding the device; flipped swaps the halves. The data
+  // model itself never changes.
+  const nearTeam = state.flipped ? state.teams[1] : state.teams[0];
+  const farTeam = state.flipped ? state.teams[0] : state.teams[1];
   const marks = computeMarks(state.entries);
 
   const svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jasstafel: ${esc(farTeam.name)} ${state.totals[farTeam.id]} Punkte, ${esc(nearTeam.name)} ${state.totals[nearTeam.id]} Punkte">
