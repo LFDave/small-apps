@@ -21,6 +21,8 @@ README only covers what it is and how to use it.
    game, **⇅** rotates the board for the players across the table.
 5. A team wins by *exceeding* the target. The game survives page
    reloads (localStorage).
+6. **📷** saves the board (just the two Z's, no controls) as a JPG
+   image — e.g. to share the final result.
 
 Rounds are written as chalk marks like on a real Jasstafel: 100s on the
 top bar, 50s on the diagonal, 20s right-aligned on the bottom bar (all

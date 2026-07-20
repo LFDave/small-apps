@@ -13,6 +13,7 @@ A browser-based digital Jass scoreboard that replicates a traditional Swiss chal
 - Two teams, editable names and target score (default 2500)
 - Win detection with animated overlay (gold glow, chalk particles)
 - Undo last entry, reset game, rotate board orientation
+- JPG export of the board (just the two Z's, no controls)
 - Game state persisted to localStorage — resume on page reload
 - Responsive: works on mobile (320px+), tablet, and desktop
 - No external frameworks — pure HTML, CSS, Vanilla JS

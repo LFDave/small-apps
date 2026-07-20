@@ -1,7 +1,7 @@
 // state.js — global state definition, mutations, validation
 
-import { computeTotals, findWinner, validatePoints } from "./scoring.js?v=4";
-import { saveState } from "./storage.js?v=4";
+import { computeTotals, findWinner, validatePoints } from "./scoring.js?v=5";
+import { saveState } from "./storage.js?v=5";
 
 function defaults() {
   return {
