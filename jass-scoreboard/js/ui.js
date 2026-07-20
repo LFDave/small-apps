@@ -9,8 +9,8 @@ import {
   resetGame,
   toggleFlip,
   acknowledgeWin
-} from "./state.js?v=4";
-import { render } from "./renderer.js?v=4";
+} from "./state.js?v=5";
+import { render, buildBoardSvg } from "./renderer.js?v=5";
 
 let selectedTeam = "A";
 let errorTimeout = null;
@@ -49,6 +49,9 @@ function bindUI() {
     toggleFlip();
     render();
   });
+
+  // Export the slate (both Z's, no controls) as a JPG download
+  document.getElementById("btn-export")?.addEventListener("click", exportBoardAsJpg);
 
   // Team names
   bindNameInput("edit-name-a", "A");
@@ -111,6 +114,47 @@ function recordScore(points) {
   }
   render();
   return true;
+}
+
+/**
+ * Rasterize the self-contained board SVG onto a 2× canvas and trigger
+ * a JPG download (jasstafel-YYYY-MM-DD.jpg). Pure browser APIs — a PDF
+ * export would require an external library, which this app forbids;
+ * the browser's print dialog can produce a PDF instead.
+ */
+function exportBoardAsJpg() {
+  const svgMarkup = buildBoardSvg(true);
+  const svgUrl = URL.createObjectURL(new Blob([svgMarkup], { type: "image/svg+xml;charset=utf-8" }));
+  const img = new Image();
+  img.onload = () => {
+    URL.revokeObjectURL(svgUrl);
+    const scale = 2;
+    const canvas = document.createElement("canvas");
+    canvas.width = 640 * scale;
+    canvas.height = 920 * scale;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#232e28";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob(blob => {
+      if (!blob) {
+        showError("Export fehlgeschlagen.");
+        return;
+      }
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      const d = new Date();
+      const pad = n => String(n).padStart(2, "0");
+      link.download = `jasstafel-${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.jpg`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    }, "image/jpeg", 0.92);
+  };
+  img.onerror = () => {
+    URL.revokeObjectURL(svgUrl);
+    showError("Export fehlgeschlagen.");
+  };
+  img.src = svgUrl;
 }
 
 function showError(msg) {

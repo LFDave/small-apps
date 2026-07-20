@@ -197,6 +197,20 @@ try {
     nearA.total === "30" && nearA.marks === 1 && nearA.rest === "+ 10",
     `total ${nearA.total}, marks ${nearA.marks}, rest ${nearA.rest}`);
   await page.screenshot({ path: join(SHOTS_DIR, "correction.png"), fullPage: true });
+
+  // ── JPG export of the board (both Z's, no controls) ───────────────
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    page.click("#btn-export")
+  ]);
+  check("export downloads jasstafel-YYYY-MM-DD.jpg",
+    /^jasstafel-\d{4}-\d{2}-\d{2}\.jpg$/.test(download.suggestedFilename()),
+    `got ${download.suggestedFilename()}`);
+  await download.saveAs(join(SHOTS_DIR, "export.jpg"));
+  const jpg = readFileSync(join(SHOTS_DIR, "export.jpg"));
+  check("export is a real JPEG with content",
+    jpg.length > 20000 && jpg[0] === 0xff && jpg[1] === 0xd8,
+    `${jpg.length} bytes, magic ${jpg[0]?.toString(16)}${jpg[1]?.toString(16)}`);
   await add("A", -100); // more than the current total → rejected
   const corrErr = await page.locator("#error-msg").textContent();
   check("correction larger than total is rejected", corrErr.includes("Korrektur"), `got "${corrErr}"`);

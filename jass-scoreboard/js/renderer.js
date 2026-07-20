@@ -9,8 +9,8 @@
 // symmetry both Z shapes still read as a proper "Z" — never as an
 // "S" — no matter which side of the table you look from.
 
-import { getState } from "./state.js?v=4";
-import { computeMarks } from "./scoring.js?v=4";
+import { getState } from "./state.js?v=5";
+import { computeMarks } from "./scoring.js?v=5";
 
 // ── Board geometry (one half, local coordinates) ─────────────────
 const W = 640;        // board width
@@ -178,7 +178,28 @@ function buildHalf(team, total, marks, isWinner, seed) {
   return s;
 }
 
-function render() {
+// Styles inlined into the standalone export SVG — the app stylesheet
+// doesn't apply once the SVG leaves the page. Keep in sync with the
+// same classes in css/styles.css.
+const EXPORT_STYLE = `
+  .board-frame{fill:none;stroke:rgba(216,74,67,0.35);stroke-width:2.5}
+  .board-divider{stroke:#d84a43;stroke-width:3.5;stroke-linecap:round;opacity:.85}
+  .z-line{stroke:#d84a43;stroke-width:4;stroke-linecap:round;opacity:.85}
+  .z-diag{stroke-width:3;opacity:.7}
+  .line-label{fill:rgba(216,74,67,0.55);font-family:'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive;font-size:15px}
+  .mark{stroke:#f2efe4;opacity:.92}
+  .team-name{fill:#f2efe4;font-family:'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive;font-size:27px}
+  .team-total{fill:#f2efe4;font-family:'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive;font-size:46px;font-weight:700}
+  .rest-num{fill:#f2efe4;font-family:'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive;font-size:28px}
+  .win-glow{fill:rgba(255,215,90,0.09);stroke:#ffd75a;stroke-width:2.5}
+`;
+
+/**
+ * The complete slate scene (both Z's, no controls). With forExport the
+ * SVG is self-contained: explicit size, inlined styles and a slate
+ * background, so it rasterizes correctly outside the page.
+ */
+function buildBoardSvg(forExport = false) {
   const state = getState();
 
   // Team A defaults to the near (bottom) half — the side facing the
@@ -188,21 +209,39 @@ function render() {
   const farTeam = state.flipped ? state.teams[0] : state.teams[1];
   const marks = computeMarks(state.entries);
 
-  const svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jasstafel: ${esc(farTeam.name)} ${state.totals[farTeam.id]} Punkte, ${esc(nearTeam.name)} ${state.totals[nearTeam.id]} Punkte">
+  const sizeAttrs = forExport ? ` width="${W}" height="${H}"` : "";
+  const exportBits = forExport
+    ? `<style>${EXPORT_STYLE}</style>
+       <rect width="${W}" height="${H}" rx="12" fill="url(#slate-grad)"/>`
+    : "";
+  const gradientDef = forExport
+    ? `<linearGradient id="slate-grad" x1="0" y1="0" x2="0.34" y2="0.94">
+         <stop offset="0" stop-color="#232e28"/>
+         <stop offset="1" stop-color="#1b241f"/>
+       </linearGradient>`
+    : "";
+
+  return `<svg viewBox="0 0 ${W} ${H}"${sizeAttrs} xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jasstafel: ${esc(farTeam.name)} ${state.totals[farTeam.id]} Punkte, ${esc(nearTeam.name)} ${state.totals[nearTeam.id]} Punkte">
     <defs>
       <filter id="chalk-rough" x="-5%" y="-5%" width="110%" height="110%">
         <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" result="noise"/>
         <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4"/>
       </filter>
+      ${gradientDef}
     </defs>
+    ${exportBits}
     <rect class="board-frame" x="10" y="10" width="${W - 20}" height="${H - 20}" rx="16"/>
     <g transform="rotate(180 ${W / 2} ${HH / 2})">${buildHalf(farTeam, state.totals[farTeam.id], marks[farTeam.id], state.winner === farTeam.id, 11)}</g>
     <line class="board-divider" x1="26" y1="${HH}" x2="${W - 26}" y2="${HH}"/>
     <g transform="translate(0 ${HH})">${buildHalf(nearTeam, state.totals[nearTeam.id], marks[nearTeam.id], state.winner === nearTeam.id, 47)}</g>
   </svg>`;
+}
+
+function render() {
+  const state = getState();
 
   const board = document.getElementById("board");
-  if (board) board.innerHTML = svg;
+  if (board) board.innerHTML = buildBoardSvg();
 
   // Team toggle labels
   const btnTeamA = document.getElementById("btn-team-a");
@@ -242,4 +281,4 @@ function renderWinOverlay(state) {
   }
 }
 
-export { render };
+export { render, buildBoardSvg };

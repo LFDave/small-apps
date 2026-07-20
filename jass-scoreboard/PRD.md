@@ -1,6 +1,6 @@
 # PRD — Digital Jass Scoreboard (Schiefertafel Z/Z)
 
-Version: 2.3 (as built — this file is the single source of truth and is
+Version: 2.4 (as built — this file is the single source of truth and is
 updated in the same change whenever behavior changes)
 
 ## 1. Product
@@ -119,6 +119,17 @@ Hard rules (chalk semantics):
 - The ⇅ button toggles `flipped`, swapping which team sits at the near
   edge; the data model never changes.
 
+## 8a. Export
+
+The 📷 button saves the board as a **JPG** download
+(`jasstafel-YYYY-MM-DD.jpg`): just the slate with the two Z's, names,
+totals and marks — no controls. Implementation: the board SVG is made
+self-contained (explicit size, inlined styles, slate background),
+rasterized onto a 2× canvas and downloaded via `canvas.toBlob` — pure
+browser APIs. PDF export is deliberately not offered: it would require
+an external library (forbidden by §2); the browser's print dialog can
+produce a PDF. Export stays available after a win.
+
 ## 9. Undo & Reset
 
 - Undo: `entries.pop()` → recompute totals/marks/winner → re-render.
@@ -162,4 +173,4 @@ Hard rules (chalk semantics):
 ## 13. Out of Scope
 
 Multiple Jass variants, multiplayer sync, PWA install, statistics,
-export screenshot, tournament mode.
+PDF export, tournament mode.
