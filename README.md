@@ -1,4 +1,5 @@
 # small-apps
+
 small apps for various use cases
 
 ## Apps Available
@@ -18,7 +19,7 @@ A browser-based digital Jass scoreboard that replicates a traditional Swiss chal
 - Responsive: works on mobile (320px+), tablet, and desktop
 - No external frameworks — pure HTML, CSS, Vanilla JS
 
-**Play:** [jass-scoreboard/index.html](jass-scoreboard/index.html)
+**Play:** [lfdave.github.io/small-apps/jass-scoreboard](https://lfdave.github.io/small-apps/jass-scoreboard)
 
 ### 🌍 GeoTriad - Geography Quiz Game
 A fun, educational geography quiz game for kids around 10 years old!
@@ -34,7 +35,7 @@ A fun, educational geography quiz game for kids around 10 years old!
 - Mobile-friendly design
 - Progress saved locally (no sign-up required)
 
-**Play:** [geotriad-game.html](geotriad-game.html)
+**Play:** [lfdave.github.io/small-apps/geotriad-game](https://lfdave.github.io/small-apps/geotriad-game)
 
 ### 🎮 Pokémon Identification Game
 A fun, kid-friendly browser game where players identify Pokémon from images and earn coins and medals!
@@ -49,7 +50,14 @@ A fun, kid-friendly browser game where players identify Pokémon from images and
 - Mobile-friendly design
 - Progress saved locally (no sign-up required)
 
-**Play:** [pokemon-game.html](pokemon-game.html)
+**Play:** [lfdave.github.io/small-apps/pokemon-game](https://lfdave.github.io/small-apps/pokemon-game)
 
-### ➕➖ Math Trainer Apps
-Simple math practice games for addition and subtraction.
+### ➕➖ Math Trainer
+Simple math practice game for addition and subtraction.
+
+**Play:** [lfdave.github.io/small-apps/add-subtract](https://lfdave.github.io/small-apps/add-subtract)
+
+### 🚀 Math Trainer Mission
+Mission variant of the math trainer for addition and subtraction practice.
+
+**Play:** [lfdave.github.io/small-apps/add-subtract-mission](https://lfdave.github.io/small-apps/add-subtract-mission)
