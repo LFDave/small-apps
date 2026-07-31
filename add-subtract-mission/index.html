@@ -255,14 +255,16 @@
         }
         attempts = 0;
         taskStartTime = Date.now();
-        a = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
-        b = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
-        if (operation === '-' && a < b) {
-            let temp = a;
-            a = b;
-            b = temp;
+        // The chosen range bounds the result: draw the result first,
+        // then derive operands so every number stays in the range.
+        correct = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
+        if (operation === '+') {
+            a = Math.floor(Math.random() * (correct + 1));
+            b = correct - a;
+        } else {
+            b = Math.floor(Math.random() * (maxVal - correct + 1));
+            a = correct + b;
         }
-        correct = operation === '+' ? a + b : a - b;
         document.getElementById('question').innerHTML = `${a} ${operation} ${b} = `;
         document.getElementById('answer').value = '';
         document.getElementById('answer').focus();
