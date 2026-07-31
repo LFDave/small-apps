@@ -15,9 +15,9 @@ import { readFile } from "node:fs/promises";
 import { mkdirSync, existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildLadder, expectedChars } from "../js/practice.js?v=5";
-import { autoChunk } from "../js/util.js?v=5";
-import { EMERGENCY } from "../js/data.js?v=5";
+import { buildLadder, expectedChars } from "../js/practice.js?v=6";
+import { autoChunk } from "../js/util.js?v=6";
+import { EMERGENCY } from "../js/data.js?v=6";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -336,14 +336,16 @@ try {
     await page.locator('[data-action="train-up"]').count() === 0);
   await shot("14-training-done");
 
-  // Two clean runs in a row trigger the suggestion to add a digit.
+  // Five clean runs in a row trigger the suggestion to add a digit.
+  for (let run = 1; run <= 4; run++) {
+    await page.click('[data-action="train-again"]');
+    await solveTraining(false, 5);
+    check(`no suggestion after ${run} clean run(s)`,
+      await page.locator('[data-action="train-up"]').count() === 0);
+  }
   await page.click('[data-action="train-again"]');
   await solveTraining(false, 5);
-  check("no suggestion after one clean run",
-    await page.locator('[data-action="train-up"]').count() === 0);
-  await page.click('[data-action="train-again"]');
-  await solveTraining(false, 5);
-  check("suggestion after two clean runs",
+  check("suggestion after five clean runs",
     await page.locator('[data-action="train-up"]').count() === 1);
   check("suggestion names the next length",
     (await text(".feedback-info")).includes("6 Ziffern"));
@@ -358,10 +360,10 @@ try {
   check("chosen training length persists", (await text(".train-len-value")) === "6 Ziffern");
 
   /* ── Level, XP and medal gallery ───────────────────────────────── */
-  // Totals: 48 (door) + 25 (Mami) + 21 (quiz) + 3 x 15 (training) = 139;
-  // exercises reached 8 during training, unlocking the fifth medal.
-  check("home shows level 3", (await text(".stats-title")).includes("Zahlenfuchs"));
-  check("home shows 139 XP", (await text(".stats-xp")) === "139 von 160 XP");
+  // Totals: 48 (door) + 25 (Mami) + 21 (quiz) + 6 x 15 (training) = 184;
+  // exercises passed 8 during training, unlocking the fifth medal.
+  check("home shows level 4", (await text(".stats-title")).includes("Merkfuchs"));
+  check("home shows 184 XP", (await text(".stats-xp")) === "184 von 280 XP");
   check("five medals unlocked", (await text(".stats-medals")) === "5/9");
   await page.click(".stats-strip");
   check("medal gallery opens", (await text("h1")) === "Medaillen");

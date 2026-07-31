@@ -16,7 +16,8 @@ Notfallnummern (112, 117, 118, 144, 145, 1414).
    richtige Nummer.
 4. Zufallszahl: Training mit zufälligen Zahlen in wählbarer Länge
    (3 bis 16 Ziffern). Am Ende wartet gleich die nächste Zahl. Klappt
-   es zweimal ohne Fehler, schlägt die App eine Ziffer mehr vor.
+   es fünfmal hintereinander ohne Fehler, schlägt die App eine Ziffer
+   mehr vor.
 5. Für jede Übung gibt es XP, Levels (vom Fuchswelpen zum Meisterfuchs)
    und Medaillen. Fehler kosten nichts, Tempo zählt nicht.
 

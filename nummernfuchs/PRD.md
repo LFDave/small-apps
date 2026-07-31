@@ -103,7 +103,7 @@ Entry status from `completions`: 0 = Neu, 1 to 2 = Geübt, 3+ = Sitzt!
   opposite emphasis of the entry ladder, where returning home is
   primary, because training sessions chain naturally.
 - **Level-up suggestion**: a run is clean when it finished without a
-  single wrong answer. After two consecutive clean runs at the current
+  single wrong answer. After five consecutive clean runs at the current
   length (tracked as `trainCleanLen`/`trainCleanCount` in the game
   state), the completion panel suggests one digit more ("Das klappt
   richtig gut. Probier es mit {n} Ziffern!") and the primary action

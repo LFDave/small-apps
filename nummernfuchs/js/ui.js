@@ -2,11 +2,11 @@
 // No state mutation here; all interactions go through data-action
 // attributes handled in app.js.
 
-import { icon } from "./icons.js?v=5";
-import { STRINGS as S, EMERGENCY, MEDAL_TEXT, fmt } from "./data.js?v=5";
-import { intlChunks, statusOf, escapeHtml } from "./util.js?v=5";
-import { checkTyped, stepNeedsInput, stepAllowsPlus, serviceByNumber } from "./practice.js?v=5";
-import { MEDALS, levelFor } from "./game.js?v=5";
+import { icon } from "./icons.js?v=6";
+import { STRINGS as S, EMERGENCY, MEDAL_TEXT, fmt } from "./data.js?v=6";
+import { intlChunks, statusOf, escapeHtml } from "./util.js?v=6";
+import { checkTyped, stepNeedsInput, stepAllowsPlus, serviceByNumber } from "./practice.js?v=6";
+import { MEDALS, levelFor } from "./game.js?v=6";
 
 export function render(state) {
   const app = document.getElementById("app");
@@ -249,7 +249,7 @@ function renderLadder(state) {
       const n = entry.chunks.join("").length;
       const g = state.data.game;
       const suggest = g.trainCleanLen === state.data.trainingLength
-        && g.trainCleanCount >= 2
+        && g.trainCleanCount >= 5
         && state.data.trainingLength < 16;
       const nextLen = state.data.trainingLength + 1;
       const buttons = suggest
