@@ -52,6 +52,19 @@ A fun, kid-friendly browser game where players identify Pokémon from images and
 
 **Play:** [lfdave.github.io/small-apps/pokemon-game](https://lfdave.github.io/small-apps/pokemon-game)
 
+### 🦊 Nummernfuchs
+A calm memory trainer (German) that helps kids learn real numbers by heart: door codes, family phone numbers (incl. the international +41 form), and the Swiss emergency numbers.
+
+**Features:**
+- Learn any code or phone number in spoken chunks (e.g. `640 132`)
+- Learning ladder: the number disappears group by group until it is typed fully from memory
+- Phone numbers optionally practiced in international form (+41 79 ...)
+- Built-in Swiss emergency pack: 112, 117, 118, 144, 145, 1414 with a situation quiz
+- Supportive feedback, no time pressure while typing
+- Progress saved locally on the device (no sign-up, no tracking)
+
+**Play:** [lfdave.github.io/small-apps/nummernfuchs](https://lfdave.github.io/small-apps/nummernfuchs)
+
 ### ➕➖ Math Trainer
 Simple math practice game for addition and subtraction.
 
