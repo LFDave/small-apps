@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Apps</title>
+<meta name="description" content="Kleine, ruhige Web-Apps zum Lernen, Üben und Spielen.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D8C47A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='7' height='7' x='3' y='3' rx='1'/%3E%3Crect width='7' height='7' x='14' y='3' rx='1'/%3E%3Crect width='7' height='7' x='14' y='14' rx='1'/%3E%3Crect width='7' height='7' x='3' y='14' rx='1'/%3E%3C/svg%3E" type="image/svg+xml">
+<style>
+  :root {
+    --color-background-app: #0E141D;
+    --color-background-surface: #162232;
+    --color-background-surface-raised: #1B2A3C;
+    --color-action-secondary-hover-bg: #26384E;
+    --color-border-subtle: #263648;
+    --color-border-focus: #F4E7B1;
+    --color-text-primary: #F5F7FA;
+    --color-text-secondary: #C5D0DD;
+    --color-text-muted: #8FA1B4;
+    --color-accent: #D8C47A;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --duration-base: 180ms;
+    --easing-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --size-xl: 1.375rem;
+    --size-xxl: 1.75rem;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100svh;
+    background: var(--color-background-app);
+    color: var(--color-text-primary);
+    font-family: system-ui, sans-serif;
+    line-height: 1.55;
+    padding: var(--space-4);
+  }
+  main {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding-block: var(--space-8);
+  }
+  header { margin-bottom: var(--space-8); }
+  h1 {
+    font-size: var(--size-xxl);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 0 0 var(--space-2);
+  }
+  .intro {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+  ul.apps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  a.app {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-background-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    color: inherit;
+    text-decoration: none;
+    min-height: 3rem;
+    transition: background-color var(--duration-base) var(--easing-out);
+  }
+  a.app:hover { background: var(--color-action-secondary-hover-bg); }
+  a.app:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+  .app svg {
+    flex: none;
+    color: var(--color-accent);
+  }
+  .app .name {
+    display: block;
+    font-weight: 600;
+  }
+  .app .desc {
+    display: block;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+  footer {
+    margin-top: var(--space-8);
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+  footer p { margin: 0 0 var(--space-2); }
+  footer a { color: var(--color-text-secondary); }
+  footer a:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Mini Apps</h1>
+    <p class="intro">Kleine, ruhige Web-Apps zum Lernen, Üben und Spielen.</p>
+  </header>
+
+  <ul class="apps">
+    <li>
+      <a class="app" href="jass-scoreboard/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9c-1.5 1.5-3 3.2-3 5.5A5.5 5.5 0 0 0 7.5 20c1.8 0 3-.5 4.5-2 1.5 1.5 2.7 2 4.5 2a5.5 5.5 0 0 0 5.5-5.5c0-2.3-1.5-4-3-5.5l-7-7-7 7Z"/><path d="M12 18v4"/></svg>
+        <span>
+          <span class="name">Jass Schiefertafel</span>
+          <span class="desc">Digitale Schiefertafel für Jass mit dem klassischen Z-Layout.</span>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a class="app" href="geotriad-game/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        <span>
+          <span class="name">GeoTriad</span>
+          <span class="desc">Geografie-Quiz zu Kontinenten, Ländern und Hauptstädten.</span>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a class="app" href="pokemon-game/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+        <span>
+          <span class="name">Pokémon Quiz</span>
+          <span class="desc">Pokémon der ersten Generation erkennen und Medaillen sammeln.</span>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a class="app" href="add-subtract/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+        <span>
+          <span class="name">Mathe-Trainer</span>
+          <span class="desc">Plus und Minus üben.</span>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a class="app" href="add-subtract-mission/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+        <span>
+          <span class="name">Mathe-Trainer Mission</span>
+          <span class="desc">Plus und Minus üben als Mission.</span>
+        </span>
+      </a>
+    </li>
+  </ul>
+
+  <footer>
+    <p>Keine Konten, keine Cookies. Der Fortschritt wird auf diesem Gerät gespeichert.</p>
+    <p><a href="https://github.com/LFDave/small-apps">Quellcode auf GitHub</a></p>
+  </footer>
+</main>
+</body>
+</html>
