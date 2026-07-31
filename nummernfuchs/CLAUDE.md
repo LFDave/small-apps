@@ -20,6 +20,9 @@ spec-sync rules, cache-busting convention) applies as well.
   evaluated when the last cell fills. Keep the advisory line under the
   pad (WCAG 3.2.2) and never validate per digit — whole-answer checks
   only, otherwise recall becomes guessing.
+- Random-number training reuses the ladder via a transient entry in
+  `state.ladder.trainEntry` (no id, never persisted). Anything that
+  writes progress must guard on `trainEntry` first.
 - Icons: `js/icons.js` is generated from lucide-static SVGs; add icons
   by appending to `PATHS`, keep the Lucide names.
 - Tests: `cd tests && npm install && node e2e.test.mjs` — must pass

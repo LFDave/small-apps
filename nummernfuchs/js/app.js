@@ -1,14 +1,14 @@
 // app.js — controller: owns the state, handles all interactions via
 // event delegation, persists through storage.js and renders via ui.js.
 
-import { render, intlPreviewText } from "./ui.js?v=2";
-import { STRINGS as S } from "./data.js?v=2";
-import * as storage from "./storage.js?v=2";
-import { parseNumberInput } from "./util.js?v=2";
+import { render, intlPreviewText } from "./ui.js?v=3";
+import { STRINGS as S } from "./data.js?v=3";
+import * as storage from "./storage.js?v=3";
+import { parseNumberInput, autoChunk, randomDigits } from "./util.js?v=3";
 import {
   buildLadder, expectedChars, checkTyped, stepNeedsInput, stepAllowsPlus,
   buildQuiz
-} from "./practice.js?v=2";
+} from "./practice.js?v=3";
 
 const state = {
   view: "home",
@@ -95,6 +95,18 @@ function startLadder(id) {
   go("ladder");
 }
 
+// Random-number training: a transient entry that never touches
+// storage. Completing it only offers the next random number.
+function startTraining() {
+  const digits = randomDigits(state.data.trainingLength);
+  const entry = { type: "code", chunks: autoChunk(digits, "code"), completions: 0 };
+  state.ladder = {
+    trainEntry: entry, steps: buildLadder(entry), i: 0,
+    typed: [], wrong: 0, phase: "input"
+  };
+  go("ladder");
+}
+
 function ladderAdvance() {
   const l = state.ladder;
   l.i += 1;
@@ -102,10 +114,12 @@ function ladderAdvance() {
   l.wrong = 0;
   l.phase = "input";
   if (l.i >= l.steps.length) {
-    const entry = state.data.entries.find((e) => e.id === l.entryId);
-    entry.completions += 1;
-    entry.lastDone = Date.now();
-    storage.save(state.data);
+    if (!l.trainEntry) {
+      const entry = state.data.entries.find((e) => e.id === l.entryId);
+      entry.completions += 1;
+      entry.lastDone = Date.now();
+      storage.save(state.data);
+    }
     l.phase = "done";
   }
   render(state);
@@ -257,6 +271,15 @@ document.addEventListener("click", (e) => {
     }
     case "practice": startLadder(id); break;
     case "ladder-again": startLadder(id); break;
+    case "train-len": {
+      const next = state.data.trainingLength + Number(el.dataset.delta);
+      state.data.trainingLength = Math.min(16, Math.max(3, next));
+      storage.save(state.data);
+      render(state);
+      break;
+    }
+    case "train-start": startTraining(); break;
+    case "train-again": startTraining(); break;
     case "step-next": ladderAdvance(); break;
     case "retry": {
       state.ladder.typed = [];

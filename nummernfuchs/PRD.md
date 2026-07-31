@@ -17,7 +17,7 @@ root): dark-only token system, violet accent family, Atkinson
 Hyperlegible (digits included; alignment comes from fixed-width digit
 cells, not from a mono font).
 
-## V1 scope
+## Scope
 
 1. **Meine Nummern** — custom codes (3 to 16 digits, free chunking) and
    phone numbers including an international form.
@@ -26,10 +26,11 @@ cells, not from a mono font).
 3. **Notfallnummern** — built-in Swiss emergency pack with a typing
    quiz: 112 Notruf Europa, 117 Polizei, 118 Feuerwehr, 144 Sanität,
    145 Tox Info, 1414 Rega.
+4. **Zufallszahl** — random-number training with selectable length.
 
-Out of scope for v1 (planned later): spaced review scheduling, the
-standalone Blitz digit-span game, sounds, English toggle, sibling
-profiles.
+Out of scope (planned later): spaced review scheduling, adaptive
+digit-span progression (auto-growing random-number length), sounds,
+English toggle, sibling profiles.
 
 ## Entries
 
@@ -87,6 +88,20 @@ Feedback (persistent until the child moves on, never "Falsch"):
 
 Entry status from `completions`: 0 = Neu, 1 to 2 = Geübt, 3+ = Sitzt!
 
+## Random-number training (Zufallszahl)
+
+- Home panel with a length stepper: 3 to 16 digits, default 6. The
+  chosen length persists (`trainingLength` in `nummernfuchs.state`).
+- "Zufallszahl üben" generates uniform random digits of that length
+  (leading zeros allowed) and auto-chunks them like a code.
+- The number runs through the same learning ladder as a transient
+  entry: nothing is stored, no status pill, cloze always hides the
+  first chunk (completions is always 0 for a fresh random number).
+- The completion panel's primary action is "Neue Zufallszahl" (same
+  length, new number); "Zur Übersicht" is secondary. This is the
+  opposite emphasis of the entry ladder, where returning home is
+  primary, because training sessions chain naturally.
+
 ## Emergency quiz
 
 - All six numbers per session, random order.
@@ -107,7 +122,8 @@ Entry status from `completions`: 0 = Neu, 1 to 2 = Geübt, 3+ = Sitzt!
 
 1. **Home** — entry cards (label, chunked number, international
    subline, status pill, edit), add button (primary only when the list
-   is empty), emergency grid with practice button, storage note
+   is empty), random-number training panel (length stepper + start),
+   emergency grid with practice button, storage note
    ("Alle Nummern bleiben auf diesem Gerät.") and reset link
    (confirm dialog).
 2. **Form** — type choice (Code / Telefonnummer), label, number input

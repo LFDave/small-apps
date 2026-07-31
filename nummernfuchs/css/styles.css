@@ -6,14 +6,14 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=2") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=3") format("woff2");
 }
 @font-face {
   font-family: "Atkinson Hyperlegible";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=2") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=3") format("woff2");
 }
 
 :root {
@@ -620,6 +620,27 @@ input:focus-visible {
 .pad-hint {
   text-align: center;
   max-width: 20rem;
+}
+
+/* ── Random-number training (home) ───────────────────────────────── */
+
+.train-len {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.train-len .key {
+  width: var(--target-child);
+  flex: none;
+}
+
+.train-len-value {
+  font-size: var(--size-lg);
+  font-weight: 700;
+  min-width: 7rem;
+  text-align: center;
 }
 
 /* ── Quiz ────────────────────────────────────────────────────────── */

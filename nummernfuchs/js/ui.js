@@ -2,10 +2,10 @@
 // No state mutation here; all interactions go through data-action
 // attributes handled in app.js.
 
-import { icon } from "./icons.js?v=2";
-import { STRINGS as S, EMERGENCY, fmt } from "./data.js?v=2";
-import { intlChunks, statusOf, escapeHtml } from "./util.js?v=2";
-import { checkTyped, stepNeedsInput, stepAllowsPlus, serviceByNumber } from "./practice.js?v=2";
+import { icon } from "./icons.js?v=3";
+import { STRINGS as S, EMERGENCY, fmt } from "./data.js?v=3";
+import { intlChunks, statusOf, escapeHtml } from "./util.js?v=3";
+import { checkTyped, stepNeedsInput, stepAllowsPlus, serviceByNumber } from "./practice.js?v=3";
 
 export function render(state) {
   const app = document.getElementById("app");
@@ -69,6 +69,18 @@ function renderHome(state) {
       <h2>${S.homeMyNumbers}</h2>
       ${myNumbers}
       <button type="button" class="btn ${addBtnClass} btn-wide" data-action="nav-add">${icon("plus")} ${S.homeAdd}</button>
+    </section>
+    <section class="section">
+      <h2>${S.homeTraining}</h2>
+      <div class="panel">
+        <p class="hint">${S.homeTrainingIntro}</p>
+        <div class="train-len">
+          <button type="button" class="key" data-action="train-len" data-delta="-1" aria-label="${S.trainingFewer}">${icon("minus")}</button>
+          <span class="train-len-value" aria-live="polite">${fmt(S.trainingDigits, { n: state.data.trainingLength })}</span>
+          <button type="button" class="key" data-action="train-len" data-delta="1" aria-label="${S.trainingMore}">${icon("plus")}</button>
+        </div>
+        <button type="button" class="btn btn-secondary btn-wide" data-action="train-start">${S.trainingStart}</button>
+      </div>
     </section>
     <section class="section">
       <h2>${S.homeEmergency}</h2>
@@ -154,13 +166,25 @@ export function intlPreviewText(f) {
 
 function renderLadder(state) {
   const l = state.ladder;
-  const entry = state.data.entries.find((e) => e.id === l.entryId);
+  const training = Boolean(l.trainEntry);
+  const entry = l.trainEntry || state.data.entries.find((e) => e.id === l.entryId);
   if (!entry) return "";
+  const title = training ? S.trainingTitle : escapeHtml(entry.label);
 
   if (l.phase === "done") {
+    if (training) {
+      const n = entry.chunks.join("").length;
+      return `
+        ${viewHeader(title)}
+        <div class="panel done-panel">
+          ${feedback("success", `<strong>${S.ladderDoneTitle}</strong> ${fmt(S.trainingDoneMsg, { n })}`)}
+          <button type="button" class="btn btn-primary btn-wide" data-action="train-again" data-autofocus>${S.trainingAgain}</button>
+          <button type="button" class="btn btn-secondary btn-wide" data-action="nav-home">${S.ladderHome}</button>
+        </div>`;
+    }
     const sitzt = statusOf(entry.completions) === "sitzt";
     return `
-      ${viewHeader(escapeHtml(entry.label))}
+      ${viewHeader(title)}
       <div class="panel done-panel">
         ${feedback("success", `<strong>${S.ladderDoneTitle}</strong> ${fmt(S.ladderDoneMsg, { label: escapeHtml(entry.label) })}${sitzt ? " " + S.ladderDoneSitzt : ""}`)}
         <button type="button" class="btn btn-primary btn-wide" data-action="nav-home" data-autofocus>${S.ladderHome}</button>
@@ -201,7 +225,7 @@ function renderLadder(state) {
   }
 
   return `
-    ${viewHeader(escapeHtml(entry.label))}
+    ${viewHeader(title)}
     <div class="step-dots" role="img" aria-label="Schritt ${l.i + 1} von ${l.steps.length}">${dots}</div>
     <p class="instruction">${instruction}</p>
     ${renderCells(step, l)}

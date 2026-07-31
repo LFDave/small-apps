@@ -14,6 +14,8 @@ Notfallnummern (112, 117, 118, 144, 145, 1414).
    bis das Kind die ganze Nummer aus dem Kopf tippt.
 3. Notfallnummern: kurze Situationen ("Es brennt."), das Kind tippt die
    richtige Nummer.
+4. Zufallszahl: Training mit zufälligen Zahlen in wählbarer Länge
+   (3 bis 16 Ziffern). Am Ende wartet gleich die nächste Zahl.
 
 Alle Nummern bleiben auf dem Gerät (localStorage). Keine Konten, kein
 Tracking, keine externen Anfragen.

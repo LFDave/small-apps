@@ -49,6 +49,10 @@ export function intlChunks(entry) {
   return ["+" + (entry.cc || "41"), ...parts];
 }
 
+export function randomDigits(n) {
+  return Array.from({ length: n }, () => Math.floor(Math.random() * 10)).join("");
+}
+
 export function statusOf(completions) {
   if (!completions) return "neu";
   return completions >= 3 ? "sitzt" : "geuebt";

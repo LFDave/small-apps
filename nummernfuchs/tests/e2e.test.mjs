@@ -15,8 +15,9 @@ import { readFile } from "node:fs/promises";
 import { mkdirSync, existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildLadder, expectedChars } from "../js/practice.js?v=2";
-import { EMERGENCY } from "../js/data.js?v=2";
+import { buildLadder, expectedChars } from "../js/practice.js?v=3";
+import { autoChunk } from "../js/util.js?v=3";
+import { EMERGENCY } from "../js/data.js?v=3";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -269,6 +270,42 @@ try {
   await page.reload();
   check("entries survive a reload", await page.locator(".entry-row").count() === 2);
   check("progress survives a reload", (await text(".pill")) === "Sitzt!");
+
+  /* ── Random-number training ────────────────────────────────────── */
+  check("training length defaults to 6", (await text(".train-len-value")) === "6 Ziffern");
+  await page.click('[data-action="train-len"][data-delta="-1"]');
+  check("length stepper decreases", (await text(".train-len-value")) === "5 Ziffern");
+  for (let i = 0; i < 5; i++) await page.click('[data-action="train-len"][data-delta="-1"]');
+  check("length clamps at 3", (await text(".train-len-value")) === "3 Ziffern");
+  for (let i = 0; i < 2; i++) await page.click('[data-action="train-len"][data-delta="1"]');
+  check("length stepper increases", (await text(".train-len-value")) === "5 Ziffern");
+
+  await page.click('[data-action="train-start"]');
+  const trainDigits = await page.$$eval(".cell.shown", (els) => els.map((el) => el.textContent).join(""));
+  check("random number has the chosen length", trainDigits.length === 5, trainDigits);
+  const train = { type: "code", chunks: autoChunk(trainDigits, "code"), completions: 0 };
+  const trainSteps = buildLadder(train);
+  check("training uses the normal ladder", await page.locator(".dot").count() === trainSteps.length);
+  await shot("13-training-view");
+  for (const step of trainSteps) {
+    if (step.hidden.length === 0) {
+      await page.click('[data-action="step-next"]');
+    } else {
+      await typePad(expectedChars(step));
+      await page.waitForSelector(".feedback-success");
+      await page.click('[data-action="step-next"]');
+    }
+  }
+  check("training completion offers a new random number",
+    await page.locator('[data-action="train-again"]').count() === 1);
+  await shot("14-training-done");
+  await page.click('[data-action="train-again"]');
+  const trainDigits2 = await page.$$eval(".cell.shown", (els) => els.map((el) => el.textContent).join(""));
+  check("new random number starts at the view step with same length", trainDigits2.length === 5);
+  await page.click('[data-action="nav-home"]');
+  check("nothing was stored for training", await page.locator(".entry-row").count() === 2);
+  await page.reload();
+  check("chosen training length persists", (await text(".train-len-value")) === "5 Ziffern");
 
   /* ── Desktop layout ────────────────────────────────────────────── */
   await page.setViewportSize({ width: 1280, height: 800 });

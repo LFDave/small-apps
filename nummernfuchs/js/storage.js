@@ -10,11 +10,16 @@ export function load() {
     const data = JSON.parse(raw);
     return {
       entries: Array.isArray(data.entries) ? data.entries : [],
-      emergency: data.emergency && typeof data.emergency === "object" ? data.emergency : {}
+      emergency: data.emergency && typeof data.emergency === "object" ? data.emergency : {},
+      trainingLength: clampLength(data.trainingLength)
     };
   } catch {
     return emptyState();
   }
+}
+
+function clampLength(n) {
+  return Number.isInteger(n) ? Math.min(16, Math.max(3, n)) : 6;
 }
 
 export function save(data) {
@@ -27,5 +32,5 @@ export function reset() {
 }
 
 function emptyState() {
-  return { entries: [], emergency: {} };
+  return { entries: [], emergency: {}, trainingLength: 6 };
 }
