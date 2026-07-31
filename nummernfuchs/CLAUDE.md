@@ -16,6 +16,10 @@ spec-sync rules, cache-busting convention) applies as well.
   answers, so tests never drift from the step builder. Keep it pure.
 - The cloze step hides chunk `completions % chunkCount` — deterministic
   on purpose (rotation across runs, and the tests rely on it).
+- Input uses the PIN-pad pattern: no confirm button, the answer is
+  evaluated when the last cell fills. Keep the advisory line under the
+  pad (WCAG 3.2.2) and never validate per digit — whole-answer checks
+  only, otherwise recall becomes guessing.
 - Icons: `js/icons.js` is generated from lucide-static SVGs; add icons
   by appending to `PATHS`, keep the Lucide names.
 - Tests: `cd tests && npm install && node e2e.test.mjs` — must pass

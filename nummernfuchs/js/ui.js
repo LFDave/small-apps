@@ -2,10 +2,10 @@
 // No state mutation here; all interactions go through data-action
 // attributes handled in app.js.
 
-import { icon } from "./icons.js?v=1";
-import { STRINGS as S, EMERGENCY, fmt } from "./data.js?v=1";
-import { intlChunks, statusOf, escapeHtml } from "./util.js?v=1";
-import { checkTyped, stepNeedsInput, stepAllowsPlus, serviceByNumber } from "./practice.js?v=1";
+import { icon } from "./icons.js?v=2";
+import { STRINGS as S, EMERGENCY, fmt } from "./data.js?v=2";
+import { intlChunks, statusOf, escapeHtml } from "./util.js?v=2";
+import { checkTyped, stepNeedsInput, stepAllowsPlus, serviceByNumber } from "./practice.js?v=2";
 
 export function render(state) {
   const app = document.getElementById("app");
@@ -186,7 +186,6 @@ function renderLadder(state) {
   if (!stepNeedsInput(step)) {
     actions = primaryBtn("step-next", l.i === 0 ? S.ladderReady : S.ladderNext, true);
   } else if (l.phase === "input") {
-    if (l.hint) fb = feedback("info", S.ladderIncomplete);
     actions = pad(stepAllowsPlus(step));
   } else if (l.phase === "correct") {
     fb = feedback("success", S.ladderCorrect);
@@ -246,8 +245,6 @@ function renderQuiz(state) {
       fb = feedback("warn", q.copyAgain
         ? fmt(S.quizCopyAgain, { number: svc.number })
         : fmt(S.quizWrongCopy, { explain: svc.explain }));
-    } else if (q.hint) {
-      fb = feedback("info", S.ladderIncomplete);
     }
     actions = pad(false);
   } else if (q.phase === "correct") {
@@ -287,6 +284,9 @@ function primaryBtn(action, label, autofocus) {
   return `<button type="button" class="btn btn-primary btn-wide" data-action="${action}" ${autofocus ? "data-autofocus" : ""}>${label}</button>`;
 }
 
+// PIN-pad without a confirm button: the app checks the answer when the
+// last cell fills. The visible hint announces that behavior before the
+// component is used (WCAG 3.2.2 On Input).
 function pad(allowPlus) {
   const digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const keys = digits.map((d) => `<button type="button" class="key" data-key="${d}">${d}</button>`).join("");
@@ -300,7 +300,7 @@ function pad(allowPlus) {
       <button type="button" class="key" data-key="0">0</button>
       <button type="button" class="key" data-key="back" aria-label="${S.padBackspace}">${icon("delete")}</button>
     </div>
-    <button type="button" class="btn btn-primary btn-wide btn-ok" data-action="ok" aria-label="${S.padOk}">${S.ladderCheck}</button>`;
+    <p class="hint pad-hint">${S.padAutoHint}</p>`;
 }
 
 // Renders the digit cells for a step. Hidden chunks consume the typed

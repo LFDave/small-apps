@@ -1,14 +1,14 @@
 // app.js — controller: owns the state, handles all interactions via
 // event delegation, persists through storage.js and renders via ui.js.
 
-import { render, intlPreviewText } from "./ui.js?v=1";
-import { STRINGS as S } from "./data.js?v=1";
-import * as storage from "./storage.js?v=1";
-import { parseNumberInput } from "./util.js?v=1";
+import { render, intlPreviewText } from "./ui.js?v=2";
+import { STRINGS as S } from "./data.js?v=2";
+import * as storage from "./storage.js?v=2";
+import { parseNumberInput } from "./util.js?v=2";
 import {
   buildLadder, expectedChars, checkTyped, stepNeedsInput, stepAllowsPlus,
   buildQuiz
-} from "./practice.js?v=1";
+} from "./practice.js?v=2";
 
 const state = {
   view: "home",
@@ -90,7 +90,7 @@ function startLadder(id) {
   if (!entry) return;
   state.ladder = {
     entryId: id, steps: buildLadder(entry), i: 0,
-    typed: [], wrong: 0, hint: false, phase: "input"
+    typed: [], wrong: 0, phase: "input"
   };
   go("ladder");
 }
@@ -100,7 +100,6 @@ function ladderAdvance() {
   l.i += 1;
   l.typed = [];
   l.wrong = 0;
-  l.hint = false;
   l.phase = "input";
   if (l.i >= l.steps.length) {
     const entry = state.data.entries.find((e) => e.id === l.entryId);
@@ -115,12 +114,7 @@ function ladderAdvance() {
 function ladderCheck() {
   const l = state.ladder;
   const step = l.steps[l.i];
-  const expected = expectedChars(step);
-  if (l.typed.length < expected.length) {
-    l.hint = true;
-    render(state);
-    return;
-  }
+  if (l.typed.length < expectedChars(step).length) return;
   if (checkTyped(step, l.typed).ok) {
     l.phase = "correct";
   } else {
@@ -135,7 +129,7 @@ function ladderCheck() {
 function startQuiz() {
   state.quiz = {
     rounds: buildQuiz(), i: 0, typed: [], phase: "ask",
-    firstTry: {}, wrongThisRound: false, copyAgain: false, hint: false
+    firstTry: {}, wrongThisRound: false, copyAgain: false
   };
   go("quiz");
 }
@@ -143,11 +137,7 @@ function startQuiz() {
 function quizCheck() {
   const q = state.quiz;
   const number = q.rounds[q.i];
-  if (q.typed.length < number.length) {
-    q.hint = true;
-    render(state);
-    return;
-  }
+  if (q.typed.length < number.length) return;
   const correct = q.typed.join("") === number;
   if (correct) {
     q.phase = "correct";
@@ -173,7 +163,6 @@ function quizNext() {
   q.typed = [];
   q.wrongThisRound = false;
   q.copyAgain = false;
-  q.hint = false;
   q.phase = q.i >= q.rounds.length ? "done" : "ask";
   render(state);
 }
@@ -187,21 +176,22 @@ function activeInput() {
     return {
       typed: state.ladder.typed,
       max: expectedChars(step).length,
-      allowPlus: stepAllowsPlus(step),
-      clearHint: () => { state.ladder.hint = false; }
+      allowPlus: stepAllowsPlus(step)
     };
   }
   if (state.view === "quiz" && (state.quiz.phase === "ask" || state.quiz.phase === "copy")) {
     return {
       typed: state.quiz.typed,
       max: state.quiz.rounds[state.quiz.i].length,
-      allowPlus: false,
-      clearHint: () => { state.quiz.hint = false; }
+      allowPlus: false
     };
   }
   return null;
 }
 
+// PIN-pad model: no confirm button. The answer is evaluated the moment
+// the last cell fills; the advisory line under the pad announces this
+// behavior beforehand (WCAG 3.2.2 On Input).
 function pressKey(key) {
   const input = activeInput();
   if (!input) return;
@@ -214,13 +204,12 @@ function pressKey(key) {
     if (input.typed.length >= input.max) return;
     input.typed.push(key);
   }
-  input.clearHint();
+  if (input.typed.length >= input.max) {
+    if (state.view === "ladder") ladderCheck();
+    else quizCheck();
+    return;
+  }
   render(state);
-}
-
-function pressOk() {
-  if (state.view === "ladder") ladderCheck();
-  else if (state.view === "quiz") quizCheck();
 }
 
 /* ── Event wiring ────────────────────────────────────────────────── */
@@ -283,7 +272,6 @@ document.addEventListener("click", (e) => {
       render(state);
       break;
     }
-    case "ok": pressOk(); break;
     case "quiz-start": startQuiz(); break;
     case "quiz-next": quizNext(); break;
   }
@@ -334,11 +322,6 @@ document.addEventListener("keydown", (e) => {
     if (activeInput()) {
       e.preventDefault();
       pressKey("back");
-    }
-  } else if (e.key === "Enter") {
-    if (activeInput()) {
-      e.preventDefault();
-      pressOk();
     }
   }
 });

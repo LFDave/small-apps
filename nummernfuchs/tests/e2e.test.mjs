@@ -15,8 +15,8 @@ import { readFile } from "node:fs/promises";
 import { mkdirSync, existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildLadder, expectedChars } from "../js/practice.js?v=1";
-import { EMERGENCY } from "../js/data.js?v=1";
+import { buildLadder, expectedChars } from "../js/practice.js?v=2";
+import { EMERGENCY } from "../js/data.js?v=2";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -113,7 +113,6 @@ try {
         await page.click('[data-action="step-next"]');
       } else {
         await typePad(expectedChars(step));
-        await page.click('[data-action="ok"]');
         await page.waitForSelector(".feedback-success");
         await page.click('[data-action="step-next"]');
       }
@@ -147,36 +146,37 @@ try {
   await shot("03-ladder-view");
   await page.click('[data-action="step-next"]');
 
+  // PIN-pad pattern: no confirm button, the last digit evaluates.
+  check("no confirm button on the pad", await page.locator('[data-action="ok"], .btn-ok').count() === 0);
+  check("auto-check advisory line shown", (await text(".pad-hint")).includes("letzten Ziffer"));
+
   // Cloze step hides the first chunk (completions = 0). Get it wrong
   // twice: supportive feedback, then the reveal option.
   check("cloze hides three digits", await page.locator(".cell.empty").count() === 3);
   await typePad("999");
-  await page.click('[data-action="ok"]');
-  check("wrong answer shows warm feedback", await page.locator(".feedback-warn").count() === 1);
+  check("last digit auto-evaluates a wrong answer", await page.locator(".feedback-warn").count() === 1);
   check("wrong cells marked", await page.locator(".cell.wrong").count() === 3);
   check("no reveal option after first miss", await page.locator('[data-action="reveal"]').count() === 0);
   await shot("04-ladder-wrong");
   await page.click('[data-action="retry"]');
   await typePad("111");
-  await page.click('[data-action="ok"]');
   check("reveal offered after second miss", await page.locator('[data-action="reveal"]').count() === 1);
   await page.click('[data-action="reveal"]');
   check("reveal shows the digits", await page.locator(".cell.reveal").count() === 3);
   await shot("05-ladder-reveal");
   await page.click('[data-action="reveal-done"]');
   await typePad("640");
-  await page.click('[data-action="ok"]');
-  check("correct chunk confirmed", await page.locator(".feedback-success").count() === 1);
+  check("last digit auto-locks a correct answer", await page.locator(".feedback-success").count() === 1);
+  await shot("06-ladder-locked");
   await page.click('[data-action="step-next"]');
 
-  // Tail step ("132") via physical keyboard, full step via pad.
+  // Tail step ("132") via physical keyboard, full step via pad; both
+  // evaluate on the last digit without Enter.
   await page.keyboard.type("132");
-  await page.keyboard.press("Enter");
   await page.waitForSelector(".feedback-success");
-  check("keyboard input works", true);
+  check("keyboard input auto-evaluates", true);
   await page.click('[data-action="step-next"]');
   await typePad("640132");
-  await page.click('[data-action="ok"]');
   await page.waitForSelector(".feedback-success");
   await page.click('[data-action="step-next"]');
   check("ladder completion panel", (await text(".done-panel .feedback")).includes("Geschafft"));
@@ -231,7 +231,6 @@ try {
       await page.click('[data-action="step-next"]');
     } else {
       await typePad(expectedChars(step));
-      await page.click('[data-action="ok"]');
       await page.waitForSelector(".feedback-success");
       await page.click('[data-action="step-next"]');
     }
@@ -250,12 +249,10 @@ try {
     if (round === 0) {
       const wrong = svc.number.split("").map((d) => String((Number(d) + 1) % 10)).join("");
       await page.keyboard.type(wrong);
-      await page.keyboard.press("Enter");
       check("wrong quiz answer explains the number",
         (await text(".feedback-warn")).includes(svc.number));
     }
     await page.keyboard.type(svc.number);
-    await page.keyboard.press("Enter");
     await page.waitForSelector(".feedback-success");
     check(`round ${round + 1} correct feedback names the service`,
       (await text(".feedback-success")).includes(svc.number));

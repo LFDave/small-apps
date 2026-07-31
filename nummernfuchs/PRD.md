@@ -67,12 +67,16 @@ Steps built per run (`js/practice.js`):
 
 Input model: hidden chunks render as fixed-width cells (dots when
 empty); typing fills them left to right across all hidden chunks. The
-pad has keys 1-9, 0, backspace; OK checks. The physical keyboard works
-the same (digits, `+`, Backspace, Enter = OK).
+pad has keys 1-9, 0 and backspace; there is no confirm button. The
+answer checks itself the moment the last cell fills (PIN-pad pattern,
+like a phone unlock screen). A visible advisory line under the pad
+announces this before use: "Bei der letzten Ziffer siehst du sofort,
+ob es stimmt." Evaluation is whole-answer only, never per typed digit,
+so recall cannot degrade into digit-by-digit guessing. The physical
+keyboard works the same (digits, `+`, Backspace).
 
 Feedback (persistent until the child moves on, never "Falsch"):
 
-- Incomplete OK press: "Tipp zuerst alle Ziffern ein." (info)
 - Correct: "Richtig." (success) + Weiter button.
 - Wrong: wrong cells marked, "Fast. Versuch es noch einmal." + retry.
   From the second miss on the same step, an extra option shows the
@@ -88,7 +92,8 @@ Entry status from `completions`: 0 = Neu, 1 to 2 = Geübt, 3+ = Sitzt!
 - All six numbers per session, random order.
 - A round shows icon, situation ("Es brennt.") and the question
   "Welche Nummer rufst du?"; the child types the number (cell count
-  hints the length).
+  hints the length; the last digit evaluates automatically, same
+  PIN-pad pattern as the ladder).
 - Correct on first try: success feedback with a one-line explanation
   ("118 ist die Feuerwehr."), per-number streak +1.
 - Wrong: streak resets, the correct number is named in the feedback and
@@ -133,6 +138,12 @@ Entry status from `completions`: 0 = Neu, 1 to 2 = Geübt, 3+ = Sitzt!
 - Motion: opacity/transform only, 120 to 240 ms, reduced-motion
   disables it.
 - Targets: pad keys 3rem, buttons min 2.75rem.
+- Auto-check accessibility (WCAG 2.1 AA): the behavior is announced
+  before use via the visible advisory line (SC 3.2.2 On Input), results
+  are announced through the persistent feedback area with
+  `role="status"` instead of a forced focus jump (SC 4.1.3 Status
+  Messages), no time limits are involved (SC 2.2.1), and wrong answers
+  are identified in text, never by color alone (SC 3.3.1).
 
 ## Structure
 

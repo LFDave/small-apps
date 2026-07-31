@@ -105,12 +105,10 @@ export const STRINGS = {
   ladderStepIntlFull: "Tipp die internationale Nummer ein. Sie beginnt mit +.",
   ladderReady: "Ich bin bereit",
   ladderNext: "Weiter",
-  ladderCheck: "OK",
   ladderRetry: "Nochmals versuchen",
   ladderReveal: "Nummer nochmals anschauen",
   ladderRevealMsg: "Schau genau hin. Dann versuch es nochmals.",
   ladderRevealDone: "Weiter üben",
-  ladderIncomplete: "Tipp zuerst alle Ziffern ein.",
   ladderCorrect: "Richtig.",
   ladderWrong: "Fast. Versuch es noch einmal.",
   ladderWrongAgain: "Fast. Schau dir die Nummer nochmals an, wenn du willst.",
@@ -133,7 +131,7 @@ export const STRINGS = {
   quizPracticed: "geübt",
 
   padBackspace: "Ziffer löschen",
-  padOk: "Eingabe prüfen"
+  padAutoHint: "Bei der letzten Ziffer siehst du sofort, ob es stimmt."
 };
 
 // Fills {placeholders} in a string template.
