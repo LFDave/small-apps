@@ -15,9 +15,9 @@ import { readFile } from "node:fs/promises";
 import { mkdirSync, existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildLadder, expectedChars } from "../js/practice.js?v=4";
-import { autoChunk } from "../js/util.js?v=4";
-import { EMERGENCY } from "../js/data.js?v=4";
+import { buildLadder, expectedChars } from "../js/practice.js?v=5";
+import { autoChunk } from "../js/util.js?v=5";
+import { EMERGENCY } from "../js/data.js?v=5";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -298,43 +298,75 @@ try {
   for (let i = 0; i < 2; i++) await page.click('[data-action="train-len"][data-delta="1"]');
   check("length stepper increases", (await text(".train-len-value")) === "5 Ziffern");
 
-  await page.click('[data-action="train-start"]');
-  const trainDigits = await page.$$eval(".cell.shown", (els) => els.map((el) => el.textContent).join(""));
-  check("random number has the chosen length", trainDigits.length === 5, trainDigits);
-  const train = { type: "code", chunks: autoChunk(trainDigits, "code"), completions: 0 };
-  const trainSteps = buildLadder(train);
-  check("training uses the normal ladder", await page.locator(".dot").count() === trainSteps.length);
-  await shot("13-training-view");
-  for (const step of trainSteps) {
-    if (step.hidden.length === 0) {
-      await page.click('[data-action="step-next"]');
-    } else {
-      await typePad(expectedChars(step));
+  // Solves the currently shown training ladder (must be on the view
+  // step). With withMistake, the first input step is answered wrong
+  // once — the clean-run streak must reset, XP must not change.
+  const solveTraining = async (withMistake, expectLen) => {
+    const digits = await page.$$eval(".cell.shown", (els) => els.map((el) => el.textContent).join(""));
+    check("random number has the chosen length", digits.length === expectLen, digits);
+    const steps = buildLadder({ type: "code", chunks: autoChunk(digits, "code"), completions: 0 });
+    let mistakeDone = !withMistake;
+    for (const step of steps) {
+      if (step.hidden.length === 0) {
+        await page.click('[data-action="step-next"]');
+        continue;
+      }
+      const expected = expectedChars(step);
+      if (!mistakeDone) {
+        await typePad(expected.map((d) => String((Number(d) + 1) % 10)));
+        await page.waitForSelector(".feedback-warn");
+        await page.click('[data-action="retry"]');
+        mistakeDone = true;
+      }
+      await typePad(expected);
       await page.waitForSelector(".feedback-success");
       await page.click('[data-action="step-next"]');
     }
-  }
+  };
+
+  await page.click('[data-action="train-start"]');
+  check("training uses the normal ladder", await page.locator(".dot").count() > 0);
+  await shot("13-training-view");
+  await solveTraining(true, 5);
   check("training completion offers a new random number",
     await page.locator('[data-action="train-again"]').count() === 1);
-  // XP: 10 + 5 digits = 15 (total 109).
-  check("training rewards +15 XP", (await text(".reward-xp")) === "+15 XP");
+  // XP: 10 + 5 digits = 15 (total 109) — the mistake costs nothing.
+  check("training rewards +15 XP despite a mistake", (await text(".reward-xp")) === "+15 XP");
+  check("no level-up suggestion after a run with mistakes",
+    await page.locator('[data-action="train-up"]').count() === 0);
   await shot("14-training-done");
+
+  // Two clean runs in a row trigger the suggestion to add a digit.
   await page.click('[data-action="train-again"]');
-  const trainDigits2 = await page.$$eval(".cell.shown", (els) => els.map((el) => el.textContent).join(""));
-  check("new random number starts at the view step with same length", trainDigits2.length === 5);
+  await solveTraining(false, 5);
+  check("no suggestion after one clean run",
+    await page.locator('[data-action="train-up"]').count() === 0);
+  await page.click('[data-action="train-again"]');
+  await solveTraining(false, 5);
+  check("suggestion after two clean runs",
+    await page.locator('[data-action="train-up"]').count() === 1);
+  check("suggestion names the next length",
+    (await text(".feedback-info")).includes("6 Ziffern"));
+  await shot("16-training-suggest");
+  await page.click('[data-action="train-up"]');
+  const upDigits = await page.$$eval(".cell.shown", (els) => els.map((el) => el.textContent).join(""));
+  check("accepted suggestion starts a longer number", upDigits.length === 6, upDigits);
   await page.click('[data-action="nav-home"]');
   check("nothing was stored for training", await page.locator(".entry-row").count() === 2);
+  check("stepper follows the accepted suggestion", (await text(".train-len-value")) === "6 Ziffern");
   await page.reload();
-  check("chosen training length persists", (await text(".train-len-value")) === "5 Ziffern");
+  check("chosen training length persists", (await text(".train-len-value")) === "6 Ziffern");
 
   /* ── Level, XP and medal gallery ───────────────────────────────── */
+  // Totals: 48 (door) + 25 (Mami) + 21 (quiz) + 3 x 15 (training) = 139;
+  // exercises reached 8 during training, unlocking the fifth medal.
   check("home shows level 3", (await text(".stats-title")).includes("Zahlenfuchs"));
-  check("home shows 109 XP", (await text(".stats-xp")) === "109 von 160 XP");
-  check("four medals unlocked", (await text(".stats-medals")) === "4/9");
+  check("home shows 139 XP", (await text(".stats-xp")) === "139 von 160 XP");
+  check("five medals unlocked", (await text(".stats-medals")) === "5/9");
   await page.click(".stats-strip");
   check("medal gallery opens", (await text("h1")) === "Medaillen");
   check("gallery lists all medals", await page.locator(".medal-card").count() === 9);
-  check("gallery shows four unlocked", await page.locator(".medal-card:not(.locked)").count() === 4);
+  check("gallery shows five unlocked", await page.locator(".medal-card:not(.locked)").count() === 5);
   check("locked medals keep their description visible",
     (await text(".medal-card.locked .medal-desc")).length > 0);
   await shot("15-medals");

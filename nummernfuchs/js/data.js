@@ -63,6 +63,8 @@ export const STRINGS = {
   trainingTitle: "Zufallszahl",
   trainingDoneMsg: "Du hast dir eine Zufallszahl mit {n} Ziffern gemerkt.",
   trainingAgain: "Neue Zufallszahl",
+  trainingSuggest: "Das klappt richtig gut. Probier es mit {n} Ziffern!",
+  trainingSuggestBtn: "Mit {n} Ziffern üben",
 
   homeEmergency: "Notfallnummern",
   homeEmergencyIntro: "Diese Nummern helfen dir im Notfall. Kennst du sie auswendig?",

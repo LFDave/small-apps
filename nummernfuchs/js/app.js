@@ -1,15 +1,15 @@
 // app.js — controller: owns the state, handles all interactions via
 // event delegation, persists through storage.js and renders via ui.js.
 
-import { render, intlPreviewText } from "./ui.js?v=4";
-import { STRINGS as S } from "./data.js?v=4";
-import * as storage from "./storage.js?v=4";
-import { parseNumberInput, autoChunk, randomDigits } from "./util.js?v=4";
+import { render, intlPreviewText } from "./ui.js?v=5";
+import { STRINGS as S } from "./data.js?v=5";
+import * as storage from "./storage.js?v=5";
+import { parseNumberInput, autoChunk, randomDigits } from "./util.js?v=5";
 import {
   buildLadder, expectedChars, checkTyped, stepNeedsInput, stepAllowsPlus,
   buildQuiz
-} from "./practice.js?v=4";
-import { award, xpForLadder, xpForQuiz } from "./game.js?v=4";
+} from "./practice.js?v=5";
+import { award, xpForLadder, xpForQuiz } from "./game.js?v=5";
 
 const state = {
   view: "home",
@@ -91,7 +91,7 @@ function startLadder(id) {
   if (!entry) return;
   state.ladder = {
     entryId: id, steps: buildLadder(entry), i: 0,
-    typed: [], wrong: 0, phase: "input"
+    typed: [], wrong: 0, mistakes: 0, phase: "input"
   };
   go("ladder");
 }
@@ -103,7 +103,7 @@ function startTraining() {
   const entry = { type: "code", chunks: autoChunk(digits, "code"), completions: 0 };
   state.ladder = {
     trainEntry: entry, steps: buildLadder(entry), i: 0,
-    typed: [], wrong: 0, phase: "input"
+    typed: [], wrong: 0, mistakes: 0, phase: "input"
   };
   go("ladder");
 }
@@ -118,7 +118,15 @@ function ladderAdvance() {
     const entry = l.trainEntry || state.data.entries.find((e) => e.id === l.entryId);
     const digits = entry.chunks.join("").length;
     if (l.trainEntry) {
-      state.data.game.bestTraining = Math.max(state.data.game.bestTraining, digits);
+      const g = state.data.game;
+      g.bestTraining = Math.max(g.bestTraining, digits);
+      // Clean runs (no wrong answer) at the same length build toward
+      // the level-up suggestion; a run with mistakes silently resets.
+      if (g.trainCleanLen !== digits) {
+        g.trainCleanLen = digits;
+        g.trainCleanCount = 0;
+      }
+      g.trainCleanCount = l.mistakes === 0 ? g.trainCleanCount + 1 : 0;
     } else {
       entry.completions += 1;
       entry.lastDone = Date.now();
@@ -140,6 +148,7 @@ function ladderCheck() {
     l.phase = "correct";
   } else {
     l.wrong += 1;
+    l.mistakes += 1;
     l.phase = "wrong";
   }
   storage.save(state.data);
@@ -298,6 +307,14 @@ document.addEventListener("click", (e) => {
     }
     case "train-start": startTraining(); break;
     case "train-again": startTraining(); break;
+    case "train-up": {
+      state.data.trainingLength = Math.min(16, state.data.trainingLength + 1);
+      state.data.game.trainCleanLen = state.data.trainingLength;
+      state.data.game.trainCleanCount = 0;
+      storage.save(state.data);
+      startTraining();
+      break;
+    }
     case "nav-medals": go("medals"); break;
     case "step-next": ladderAdvance(); break;
     case "retry": {

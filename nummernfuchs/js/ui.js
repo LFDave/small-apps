@@ -2,11 +2,11 @@
 // No state mutation here; all interactions go through data-action
 // attributes handled in app.js.
 
-import { icon } from "./icons.js?v=4";
-import { STRINGS as S, EMERGENCY, MEDAL_TEXT, fmt } from "./data.js?v=4";
-import { intlChunks, statusOf, escapeHtml } from "./util.js?v=4";
-import { checkTyped, stepNeedsInput, stepAllowsPlus, serviceByNumber } from "./practice.js?v=4";
-import { MEDALS, levelFor } from "./game.js?v=4";
+import { icon } from "./icons.js?v=5";
+import { STRINGS as S, EMERGENCY, MEDAL_TEXT, fmt } from "./data.js?v=5";
+import { intlChunks, statusOf, escapeHtml } from "./util.js?v=5";
+import { checkTyped, stepNeedsInput, stepAllowsPlus, serviceByNumber } from "./practice.js?v=5";
+import { MEDALS, levelFor } from "./game.js?v=5";
 
 export function render(state) {
   const app = document.getElementById("app");
@@ -247,13 +247,26 @@ function renderLadder(state) {
   if (l.phase === "done") {
     if (training) {
       const n = entry.chunks.join("").length;
+      const g = state.data.game;
+      const suggest = g.trainCleanLen === state.data.trainingLength
+        && g.trainCleanCount >= 2
+        && state.data.trainingLength < 16;
+      const nextLen = state.data.trainingLength + 1;
+      const buttons = suggest
+        ? `
+          <button type="button" class="btn btn-primary btn-wide" data-action="train-up" data-autofocus>${fmt(S.trainingSuggestBtn, { n: nextLen })}</button>
+          <button type="button" class="btn btn-secondary btn-wide" data-action="train-again">${S.trainingAgain}</button>
+          <button type="button" class="btn btn-secondary btn-wide" data-action="nav-home">${S.ladderHome}</button>`
+        : `
+          <button type="button" class="btn btn-primary btn-wide" data-action="train-again" data-autofocus>${S.trainingAgain}</button>
+          <button type="button" class="btn btn-secondary btn-wide" data-action="nav-home">${S.ladderHome}</button>`;
       return `
         ${viewHeader(title)}
         <div class="panel done-panel">
           ${feedback("success", `<strong>${S.ladderDoneTitle}</strong> ${fmt(S.trainingDoneMsg, { n })}`)}
           ${rewardBlock(l.reward)}
-          <button type="button" class="btn btn-primary btn-wide" data-action="train-again" data-autofocus>${S.trainingAgain}</button>
-          <button type="button" class="btn btn-secondary btn-wide" data-action="nav-home">${S.ladderHome}</button>
+          ${suggest ? feedback("info", fmt(S.trainingSuggest, { n: nextLen })) : ""}
+          ${buttons}
         </div>`;
     }
     const sitzt = statusOf(entry.completions) === "sitzt";

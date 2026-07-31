@@ -27,6 +27,8 @@ function sanitizeGame(g) {
     exercises: num(g.exercises),
     digitsTyped: num(g.digitsTyped),
     bestTraining: num(g.bestTraining),
+    trainCleanLen: num(g.trainCleanLen),
+    trainCleanCount: num(g.trainCleanCount),
     medals: Array.isArray(g.medals) ? g.medals.filter((m) => typeof m === "string") : []
   };
 }

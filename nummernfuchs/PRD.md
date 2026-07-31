@@ -30,8 +30,7 @@ cells, not from a mono font).
 5. **Quiet gamification** — XP, levels and medals that reward practice,
    never speed or perfection.
 
-Out of scope (planned later): spaced review scheduling, adaptive
-digit-span progression (auto-growing random-number length), sounds,
+Out of scope (planned later): spaced review scheduling, sounds,
 English toggle, sibling profiles.
 
 ## Entries
@@ -103,6 +102,15 @@ Entry status from `completions`: 0 = Neu, 1 to 2 = Geübt, 3+ = Sitzt!
   length, new number); "Zur Übersicht" is secondary. This is the
   opposite emphasis of the entry ladder, where returning home is
   primary, because training sessions chain naturally.
+- **Level-up suggestion**: a run is clean when it finished without a
+  single wrong answer. After two consecutive clean runs at the current
+  length (tracked as `trainCleanLen`/`trainCleanCount` in the game
+  state), the completion panel suggests one digit more ("Das klappt
+  richtig gut. Probier es mit {n} Ziffern!") and the primary action
+  becomes "Mit {n} Ziffern üben": it raises the saved length by one
+  (max 16) and starts a new number immediately. A run with mistakes
+  silently resets the clean streak — no message, and XP is unaffected.
+  Changing the length (stepper or suggestion) also resets the streak.
 
 ## Emergency quiz
 
@@ -167,7 +175,9 @@ retries cost nothing, and speed never matters.
   line with the baseline motion rules.
 - **Counters** stored under `game` in `nummernfuchs.state`: `xp`,
   `exercises`, `digitsTyped` (every pad press), `bestTraining`
-  (longest completed random number), `medals`. Reset clears them.
+  (longest completed random number), `trainCleanLen`/`trainCleanCount`
+  (clean-run streak for the level-up suggestion), `medals`. Reset
+  clears them.
 
 ## Persistence and privacy
 
