@@ -1,5 +1,7 @@
 # Game Design System
 
+> Superseded on 2026-07-31 by DESIGN.md, the token-only baseline for all new apps. This file stays for reference on pre-baseline apps only. Its gradient accents, gradient text, and glow effects are listed as anti-patterns in the current baseline. Do not use it for new work.
+
 Premium dark theme design system for single-page web games. Professional yet playful aesthetic with teal→violet gradient accents.
 
 ---
