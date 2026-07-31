@@ -41,10 +41,41 @@ Practice addition and subtraction. German UI, dark theme, sage accent, no accoun
 - Feedback never relies on color alone; the status text always states the result.
 - prefers-reduced-motion disables transitions.
 
+## Progression (per GAMIFICATION.md)
+
+XP:
+
+- Solving a task earns XP scaled by range: base 2 XP times a multiplier of 1 (max <= 10), 2 (<= 20), 3 (<= 50), or 4 (above).
+- Retries cost nothing: a task solved after wrong attempts earns full XP. Struggling is practicing, not failing.
+- Revealed solution: 1 XP flat for the effort. XP never decreases.
+
+Levels (cumulative XP): Zahlenstart 0, Zahlenspringer 20, Rechenfuchs 60, Rechenprofi 150, Zahlenmeister 300, Rechenheld 600. Past the top, XP keeps counting. The setup screen shows a stats strip: level name, XP, progress bar to the next level (progress tokens), and the medal count linking to the gallery.
+
+Medals (pure functions of stored counters, all visible when locked, Lucide icons):
+
+- Startklar: 1 Aufgabe gelöst (solved >= 1)
+- Dranbleiber: 8 Aufgaben gelöst (solved >= 8)
+- Rechenkünstler: 34 Aufgaben gelöst (solved >= 34)
+- Fleissige Finger: 144 Ziffern getippt (digitsTyped >= 144)
+- Nicht aufgegeben: 21 Aufgaben im zweiten Anlauf gelöst (retriedSolved >= 21)
+- Minus-Fuchs: 21 Minus-Aufgaben gelöst (minusSolved >= 21)
+- Grosse Zahlen: 8 Aufgaben im Bereich bis 100 gelöst (max100Solved >= 8)
+- Entdecker: eine Aufgabe in jedem vorgegebenen Bereich (rangesSolved covers all six presets)
+
+Reward moments: after a task completes, a small persistent block under the feedback shows XP gained, a new level, and new medals. No modals, no animation, no sound. It clears with the next task.
+
+Difficulty proposal:
+
+- Ladder: 0-10 to 0-20 to 0-50 to 0-100. Other presets and custom ranges never trigger proposals.
+- Mastery trigger per GAMIFICATION.md adaptive difficulty: a clean run here is one task solved without a wrong answer. Because a task takes seconds, the threshold is 10 consecutive clean tasks, not the 2 that longer exercises use.
+- On the 10th, the success state shows a proposal instead of Weiter: "Das klappt richtig gut. Möchtest du bis N rechnen?" with "Ja, bis N" (updates the saved setting and continues immediately; the settings screen follows the change) and "Später" (continues unchanged).
+- Declining resets the counter silently and re-arms after 10 more. The counter also resets on any wrong answer, on a revealed solution, and when the quiz starts.
+- The range always stays freely selectable in the settings.
+
 ## Storage
 
 - `add-subtract.settings`: { op, min, max, custom }
-- `add-subtract.stats`: { solved, streak }
+- `add-subtract.stats`: { xp, solved, streak, firstTryStreak, digitsTyped, retriedSolved, minusSolved, max100Solved, rangesSolved }
 
 ## Out of scope
 

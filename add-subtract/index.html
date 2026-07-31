@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mathe-Trainer</title>
 <meta name="description" content="Plus und Minus üben. Ruhig, ohne Zeitdruck.">
-<link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=3" type="image/svg+xml">
 <style>
   :root {
     --color-background-app: #0E141D;
@@ -24,6 +24,7 @@
     --color-text-muted: #8FA1B4;
     --color-accent: #9BC8A8;
     --color-accent-soft: #9BC8A826;
+    --color-accent-muted: #72987C;
     --color-success-soft: #8ECFA326;
     --color-danger-soft: #E58C8A26;
     --space-2: 0.5rem;
@@ -88,6 +89,26 @@
     margin-top: var(--space-6);
   }
   button.primary:hover { background: var(--color-action-primary-hover-bg); }
+  .progressbox {
+    background: var(--color-background-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .progressbox .level-line { margin: 0 0 var(--space-2); }
+  .progressbox .level-line strong { font-weight: 600; }
+  .progressbox .xp { color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
+  .bar {
+    height: 0.5rem;
+    background: var(--color-background-surface-soft);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+  }
+  .bar .fill { height: 100%; background: var(--color-accent); border-radius: var(--radius-pill); }
+  .next-level { color: var(--color-text-muted); font-size: 0.875rem; margin: var(--space-2) 0 var(--space-3); }
+  .progressbox button { min-height: 2.75rem; font-size: 0.875rem; display: inline-flex; align-items: center; gap: var(--space-2); }
+  .progressbox button svg { color: var(--color-accent); }
   .custom-range { margin-top: var(--space-3); display: flex; gap: var(--space-3); align-items: end; }
   .custom-range label { display: block; font-size: 0.875rem; color: var(--color-text-secondary); }
   .custom-range input {
@@ -123,12 +144,7 @@
     margin: 0 0 var(--space-5);
     font-variant-numeric: tabular-nums;
   }
-  .slots {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-2);
-    margin-bottom: var(--space-3);
-  }
+  .slots { display: flex; justify-content: center; gap: var(--space-2); margin-bottom: var(--space-3); }
   .slot {
     width: 3rem;
     height: 3.5rem;
@@ -142,12 +158,7 @@
   }
   .slot.ok { background: var(--color-success-soft); border-color: var(--color-accent); }
   .slot.wrong { background: var(--color-danger-soft); }
-  .advisory {
-    text-align: center;
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
-    margin: 0 0 var(--space-5);
-  }
+  .advisory { text-align: center; color: var(--color-text-muted); font-size: 0.875rem; margin: 0 0 var(--space-5); }
   .keypad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -163,7 +174,6 @@
     background: var(--color-background-surface-raised);
   }
   .keypad button:hover { background: var(--color-action-secondary-hover-bg); }
-  .keypad button:disabled { opacity: 0.5; cursor: default; }
   .feedback {
     margin: var(--space-5) 0 0;
     padding: var(--space-4);
@@ -174,6 +184,43 @@
     min-height: 3.5rem;
   }
   .feedback:empty { visibility: hidden; }
+  .reward {
+    margin: var(--space-3) 0 0;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-accent-soft);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  .reward p { margin: 0; }
+  .proposal {
+    margin: var(--space-5) 0 0;
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-background-surface);
+    border: 1px solid var(--color-border-subtle);
+    text-align: center;
+  }
+  .proposal p { margin: 0 0 var(--space-3); }
+  .proposal .row { display: flex; gap: var(--space-3); justify-content: center; }
+  .proposal button.primary { width: auto; margin: 0; }
+  .medal-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+  .medal {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--color-background-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+  }
+  .medal svg { flex: none; color: var(--color-accent); }
+  .medal.locked svg { color: var(--color-text-muted); }
+  .medal .name { display: block; font-weight: 600; }
+  .medal.locked .name { color: var(--color-text-secondary); }
+  .medal .desc { display: block; color: var(--color-text-muted); font-size: 0.875rem; }
+  .medal .state { margin-left: auto; color: var(--color-text-muted); font-size: 0.875rem; }
   [hidden] { display: none !important; }
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
@@ -218,7 +265,22 @@
       </div>
     </div>
     <p class="form-error" id="form-error" role="status"></p>
+    <div class="progressbox" id="progressbox">
+      <p class="level-line"><strong id="level-name"></strong> <span class="xp" id="xp-line"></span></p>
+      <div class="bar" role="progressbar" id="level-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Fortschritt zum nächsten Level"><div class="fill" id="level-fill"></div></div>
+      <p class="next-level" id="next-level"></p>
+      <button type="button" id="show-medals">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        <span id="medal-count">Medaillen</span>
+      </button>
+    </div>
     <button type="button" class="primary" id="start">Los geht's</button>
+  </section>
+
+  <section id="medal-screen" aria-label="Medaillen" hidden>
+    <h2>Medaillen</h2>
+    <ul class="medal-list" id="medal-list"></ul>
+    <button type="button" class="primary" id="medals-back">Zurück</button>
   </section>
 
   <section id="quiz" aria-label="Aufgabe" hidden>
@@ -249,6 +311,14 @@
       </button>
     </div>
     <p class="feedback" id="feedback" role="status"></p>
+    <div class="reward" id="reward" hidden></div>
+    <div class="proposal" id="proposal" hidden>
+      <p id="proposal-text"></p>
+      <div class="row">
+        <button type="button" class="primary" id="propose-yes"></button>
+        <button type="button" id="propose-later">Später</button>
+      </div>
+    </div>
     <button type="button" class="primary" id="next" hidden>Weiter</button>
   </section>
 </main>
@@ -258,9 +328,46 @@
   "use strict";
   var SETTINGS_KEY = "add-subtract.settings";
   var STATS_KEY = "add-subtract.stats";
+  var PRESETS = ["0-10", "0-20", "0-50", "0-100", "10-20", "50-100"];
+  var LADDER = { "0-10": 20, "0-20": 50, "0-50": 100 };
+  var PROPOSE_AFTER = 10;
+
+  var LEVELS = [
+    { xp: 0, name: "Zahlenstart" },
+    { xp: 20, name: "Zahlenspringer" },
+    { xp: 60, name: "Rechenfuchs" },
+    { xp: 150, name: "Rechenprofi" },
+    { xp: 300, name: "Zahlenmeister" },
+    { xp: 600, name: "Rechenheld" }
+  ];
+
+  var ICONS = {
+    flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/>',
+    checkcheck: '<path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/>',
+    award: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+    hash: '<line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/>',
+    rotate: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    minus: '<path d="M5 12h14"/>',
+    mountain: '<path d="m8 3 4 8 5-5 5 15H2L8 3z"/>',
+    compass: '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>'
+  };
+
+  var MEDALS = [
+    { id: "start", name: "Startklar", desc: "Erste Aufgabe gelöst", icon: "flag", done: function (s) { return s.solved >= 1; } },
+    { id: "dran", name: "Dranbleiber", desc: "8 Aufgaben gelöst", icon: "checkcheck", done: function (s) { return s.solved >= 8; } },
+    { id: "kuenstler", name: "Rechenkünstler", desc: "34 Aufgaben gelöst", icon: "award", done: function (s) { return s.solved >= 34; } },
+    { id: "finger", name: "Fleissige Finger", desc: "144 Ziffern getippt", icon: "hash", done: function (s) { return s.digitsTyped >= 144; } },
+    { id: "zweiter", name: "Nicht aufgegeben", desc: "21 Aufgaben im zweiten Anlauf gelöst", icon: "rotate", done: function (s) { return s.retriedSolved >= 21; } },
+    { id: "minus", name: "Minus-Fuchs", desc: "21 Minus-Aufgaben gelöst", icon: "minus", done: function (s) { return s.minusSolved >= 21; } },
+    { id: "gross", name: "Grosse Zahlen", desc: "8 Aufgaben im Bereich bis 100 gelöst", icon: "mountain", done: function (s) { return s.max100Solved >= 8; } },
+    { id: "entdecker", name: "Entdecker", desc: "In jedem Bereich eine Aufgabe gelöst", icon: "compass", done: function (s) {
+      return PRESETS.every(function (k) { return (s.rangesSolved[k] || 0) >= 1; });
+    } }
+  ];
 
   var setupEl = document.getElementById("setup");
   var quizEl = document.getElementById("quiz");
+  var medalScreen = document.getElementById("medal-screen");
   var instructionEl = document.getElementById("instruction");
   var opChips = document.getElementById("op-chips");
   var rangeChips = document.getElementById("range-chips");
@@ -275,20 +382,35 @@
   var slotsEl = document.getElementById("slots");
   var keypadEl = document.getElementById("keypad");
   var feedbackEl = document.getElementById("feedback");
+  var rewardEl = document.getElementById("reward");
+  var proposalEl = document.getElementById("proposal");
+  var proposalText = document.getElementById("proposal-text");
+  var proposeYes = document.getElementById("propose-yes");
+  var proposeLater = document.getElementById("propose-later");
   var nextBtn = document.getElementById("next");
 
   var settings = { op: "+", min: 0, max: 10, custom: false };
-  var stats = { solved: 0, streak: 0 };
+  var stats = {
+    xp: 0, solved: 0, streak: 0, firstTryStreak: 0,
+    digitsTyped: 0, retriedSolved: 0, minusSolved: 0, max100Solved: 0,
+    rangesSolved: {}
+  };
   var a = 0, b = 0, correct = 0, answerStr = "";
   var entry = "";
   var attempts = 0;
   var locked = false;
+  var proposedMax = 0;
 
   try {
     var s = JSON.parse(localStorage.getItem(SETTINGS_KEY));
     if (s && (s.op === "+" || s.op === "-") && s.min >= 0 && s.max >= s.min) settings = s;
     var t = JSON.parse(localStorage.getItem(STATS_KEY));
-    if (t && t.solved >= 0) stats = { solved: t.solved, streak: t.streak || 0 };
+    if (t && typeof t === "object") {
+      Object.keys(stats).forEach(function (k) {
+        if (typeof t[k] === typeof stats[k]) stats[k] = t[k];
+      });
+      if (!stats.rangesSolved || typeof stats.rangesSolved !== "object") stats.rangesSolved = {};
+    }
   } catch (e) { /* defaults stay */ }
 
   function save() {
@@ -298,19 +420,62 @@
     } catch (e) { /* storage unavailable */ }
   }
 
-  function reflectSettings() {
-    opChips.querySelectorAll("button").forEach(function (btn) {
-      btn.setAttribute("aria-pressed", String(btn.dataset.op === settings.op));
+  function rangeKey() { return settings.custom ? "custom" : settings.min + "-" + settings.max; }
+
+  function levelIndex(xp) {
+    var i = 0;
+    for (var l = 0; l < LEVELS.length; l++) if (xp >= LEVELS[l].xp) i = l;
+    return i;
+  }
+
+  function unlockedIds() {
+    return MEDALS.filter(function (m) { return m.done(stats); }).map(function (m) { return m.id; });
+  }
+
+  function xpForSolve() {
+    var mult = settings.max <= 10 ? 1 : settings.max <= 20 ? 2 : settings.max <= 50 ? 3 : 4;
+    return 2 * mult;
+  }
+
+  function svgIcon(key, size) {
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size +
+      '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      ICONS[key] + "</svg>";
+  }
+
+  function renderProgress() {
+    var li = levelIndex(stats.xp);
+    var cur = LEVELS[li];
+    var next = LEVELS[li + 1];
+    document.getElementById("level-name").textContent = cur.name;
+    document.getElementById("xp-line").textContent = "· " + stats.xp + " XP";
+    var bar = document.getElementById("level-bar");
+    var fill = document.getElementById("level-fill");
+    if (next) {
+      var pct = Math.round(((stats.xp - cur.xp) / (next.xp - cur.xp)) * 100);
+      fill.style.width = pct + "%";
+      bar.setAttribute("aria-valuenow", String(pct));
+      document.getElementById("next-level").textContent = "Noch " + (next.xp - stats.xp) + " XP bis " + next.name + ".";
+    } else {
+      fill.style.width = "100%";
+      bar.setAttribute("aria-valuenow", "100");
+      document.getElementById("next-level").textContent = "Höchstes Level erreicht. Die XP zählen weiter.";
+    }
+    document.getElementById("medal-count").textContent = "Medaillen · " + unlockedIds().length + " von " + MEDALS.length;
+  }
+
+  function renderMedals() {
+    var list = document.getElementById("medal-list");
+    list.innerHTML = "";
+    MEDALS.forEach(function (m) {
+      var open = m.done(stats);
+      var li = document.createElement("li");
+      li.className = "medal" + (open ? "" : " locked");
+      li.innerHTML = svgIcon(m.icon, 24) +
+        '<span><span class="name">' + m.name + '</span><span class="desc">' + m.desc + "</span></span>" +
+        '<span class="state">' + (open ? "Geschafft" : "Noch offen") + "</span>";
+      list.appendChild(li);
     });
-    var matched = false;
-    rangeChips.querySelectorAll("button[data-min]").forEach(function (btn) {
-      var on = !settings.custom && Number(btn.dataset.min) === settings.min && Number(btn.dataset.max) === settings.max;
-      btn.setAttribute("aria-pressed", String(on));
-      if (on) matched = true;
-    });
-    customChip.setAttribute("aria-pressed", String(settings.custom || !matched));
-    customRange.hidden = !(settings.custom || !matched);
-    if (settings.custom) { customMin.value = settings.min; customMax.value = settings.max; }
   }
 
   function renderStats() {
@@ -319,15 +484,11 @@
 
   function renderSlots() {
     var slots = slotsEl.children;
-    for (var i = 0; i < slots.length; i++) {
-      slots[i].textContent = entry[i] || "";
-    }
+    for (var i = 0; i < slots.length; i++) slots[i].textContent = entry[i] || "";
   }
 
   function clearMarks() {
-    Array.prototype.forEach.call(slotsEl.children, function (s) {
-      s.classList.remove("wrong", "ok");
-    });
+    Array.prototype.forEach.call(slotsEl.children, function (s) { s.classList.remove("wrong", "ok"); });
   }
 
   function newProblem() {
@@ -352,6 +513,9 @@
       slotsEl.appendChild(slot);
     }
     feedbackEl.textContent = "";
+    rewardEl.hidden = true;
+    rewardEl.innerHTML = "";
+    proposalEl.hidden = true;
     nextBtn.hidden = true;
   }
 
@@ -363,17 +527,62 @@
     return "Tipp: Beginne bei " + a + " und zähle " + b + " zurück.";
   }
 
+  function showReward(xpGain, medalsBefore, levelBefore) {
+    var lines = ["+" + xpGain + " XP"];
+    var li = levelIndex(stats.xp);
+    if (li > levelBefore) lines.push("Neues Level: " + LEVELS[li].name);
+    unlockedIds().forEach(function (id) {
+      if (medalsBefore.indexOf(id) === -1) {
+        var m = MEDALS.filter(function (x) { return x.id === id; })[0];
+        lines.push("Medaille: " + m.name);
+      }
+    });
+    rewardEl.innerHTML = lines.map(function (l) { return "<p>" + l + "</p>"; }).join("");
+    rewardEl.hidden = false;
+  }
+
+  function maybePropose() {
+    var target = LADDER[rangeKey()];
+    if (!target || stats.firstTryStreak < PROPOSE_AFTER) return false;
+    proposedMax = target;
+    proposalText.textContent = "Das klappt richtig gut. Möchtest du bis " + target + " rechnen?";
+    proposeYes.textContent = "Ja, bis " + target;
+    proposalEl.hidden = false;
+    proposeYes.focus();
+    return true;
+  }
+
+  function finishTask(xpGain, solvedByLearner) {
+    var medalsBefore = unlockedIds();
+    var levelBefore = levelIndex(stats.xp);
+    if (solvedByLearner) {
+      stats.solved++;
+      stats.streak++;
+      if (attempts === 0) stats.firstTryStreak++; else { stats.retriedSolved++; stats.firstTryStreak = 0; }
+      if (settings.op === "-") stats.minusSolved++;
+      if (settings.max >= 100) stats.max100Solved++;
+      var key = rangeKey();
+      if (key !== "custom") stats.rangesSolved[key] = (stats.rangesSolved[key] || 0) + 1;
+    } else {
+      stats.streak = 0;
+      stats.firstTryStreak = 0;
+    }
+    stats.xp += xpGain;
+    save();
+    renderStats();
+    showReward(xpGain, medalsBefore, levelBefore);
+    if (!solvedByLearner || !maybePropose()) {
+      nextBtn.hidden = false;
+      nextBtn.focus();
+    }
+  }
+
   function evaluate() {
     if (entry === answerStr) {
       locked = true;
       Array.prototype.forEach.call(slotsEl.children, function (s) { s.classList.add("ok"); });
       feedbackEl.textContent = "Richtig. " + a + " " + (settings.op === "+" ? "+" : "−") + " " + b + " = " + correct + ".";
-      stats.solved++;
-      stats.streak++;
-      save();
-      renderStats();
-      nextBtn.hidden = false;
-      nextBtn.focus();
+      finishTask(xpForSolve(), true);
       return;
     }
     attempts++;
@@ -390,11 +599,7 @@
       renderSlots();
       clearMarks();
       feedbackEl.textContent = "Die Lösung ist " + correct + ". Schau sie dir an und mach dann weiter.";
-      stats.streak = 0;
-      save();
-      renderStats();
-      nextBtn.hidden = false;
-      nextBtn.focus();
+      finishTask(1, false);
     }
   }
 
@@ -403,6 +608,7 @@
     if (entry.length >= answerStr.length) return;
     clearMarks();
     entry += d;
+    stats.digitsTyped++;
     renderSlots();
     if (entry.length === answerStr.length) evaluate();
   }
@@ -416,17 +622,36 @@
 
   function showSetup() {
     quizEl.hidden = true;
+    medalScreen.hidden = true;
     setupEl.hidden = false;
     instructionEl.textContent = "Wähle Rechenart und Zahlenbereich.";
     reflectSettings();
+    renderProgress();
   }
 
   function showQuiz() {
     setupEl.hidden = true;
+    medalScreen.hidden = true;
     quizEl.hidden = false;
     instructionEl.textContent = "Rechne die Aufgabe und tippe die Antwort ein.";
+    stats.firstTryStreak = 0;
     renderStats();
     newProblem();
+  }
+
+  function reflectSettings() {
+    opChips.querySelectorAll("button").forEach(function (btn) {
+      btn.setAttribute("aria-pressed", String(btn.dataset.op === settings.op));
+    });
+    var matched = false;
+    rangeChips.querySelectorAll("button[data-min]").forEach(function (btn) {
+      var on = !settings.custom && Number(btn.dataset.min) === settings.min && Number(btn.dataset.max) === settings.max;
+      btn.setAttribute("aria-pressed", String(on));
+      if (on) matched = true;
+    });
+    customChip.setAttribute("aria-pressed", String(settings.custom || !matched));
+    customRange.hidden = !(settings.custom || !matched);
+    if (settings.custom) { customMin.value = settings.min; customMax.value = settings.max; }
   }
 
   opChips.addEventListener("click", function (e) {
@@ -468,6 +693,13 @@
   });
 
   document.getElementById("change-settings").addEventListener("click", showSetup);
+  document.getElementById("show-medals").addEventListener("click", function () {
+    setupEl.hidden = true;
+    medalScreen.hidden = false;
+    instructionEl.textContent = "Deine Medaillen. Offene Ziele bleiben sichtbar.";
+    renderMedals();
+  });
+  document.getElementById("medals-back").addEventListener("click", showSetup);
 
   keypadEl.addEventListener("click", function (e) {
     var btn = e.target.closest("button");
@@ -478,15 +710,34 @@
 
   nextBtn.addEventListener("click", newProblem);
 
+  proposeYes.addEventListener("click", function () {
+    settings.custom = false;
+    settings.min = 0;
+    settings.max = proposedMax;
+    stats.firstTryStreak = 0;
+    save();
+    newProblem();
+  });
+
+  proposeLater.addEventListener("click", function () {
+    stats.firstTryStreak = 0;
+    save();
+    newProblem();
+  });
+
   document.addEventListener("keydown", function (e) {
     if (quizEl.hidden) return;
     if (e.key >= "0" && e.key <= "9") { pressDigit(e.key); }
     else if (e.key === "Backspace") { backspace(); e.preventDefault(); }
-    else if (e.key === "Enter" && !nextBtn.hidden) { newProblem(); }
+    else if (e.key === "Enter") {
+      if (!proposalEl.hidden) proposeLater.click();
+      else if (!nextBtn.hidden) newProblem();
+    }
   });
 
   reflectSettings();
   renderStats();
+  renderProgress();
 })();
 </script>
 </body>

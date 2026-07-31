@@ -167,6 +167,43 @@ try {
   }
   check("results and operands stay within the chosen range", outOfRange.length === 0, outOfRange.join(" | "));
 
+  // ── Gamification: XP, stats strip, medal gallery ──────────────────
+  check("XP accumulated in storage",
+    await page.evaluate(() => JSON.parse(localStorage.getItem("add-subtract.stats")).xp > 0));
+  await page.click("#change-settings");
+  check("stats strip shows a level name", (await page.textContent("#level-name")).length > 0);
+  check("level progress bar present", await page.isVisible("#level-bar"));
+  await page.click("#show-medals");
+  check("medal gallery lists all medals", await page.evaluate(() => document.querySelectorAll(".medal").length === 8));
+  check("locked medals stay visible with name",
+    await page.evaluate(() => [...document.querySelectorAll(".medal.locked .name")].every(n => n.textContent.length > 0)));
+  check("first medal unlocked after solving",
+    await page.evaluate(() => {
+      const first = [...document.querySelectorAll(".medal")].find(m => m.querySelector(".name").textContent === "Startklar");
+      return first && !first.classList.contains("locked");
+    }));
+  await page.screenshot({ path: join(SHOTS_DIR, "04-medals.png") });
+  await page.click("#medals-back");
+
+  // ── Difficulty proposal after 10 first-try solves ─────────────────
+  await page.click('#range-chips button[data-min="0"][data-max="10"]');
+  await page.click("#start");
+  for (let i = 0; i < 10; i++) {
+    const { answer: ans } = await readProblem();
+    await typeAnswer(String(ans));
+    if (i === 0) check("reward block appears after a solve",
+      (await page.textContent("#reward")).includes("XP"));
+    if (i < 9) await page.click("#next");
+  }
+  check("proposal appears after 10 first-try solves", await page.isVisible("#proposal"));
+  check("proposal offers the next ladder step", (await page.textContent("#propose-yes")).includes("20"));
+  check("Weiter hidden while proposal shows", !(await page.isVisible("#next")));
+  await page.screenshot({ path: join(SHOTS_DIR, "05-proposal.png") });
+  await page.click("#propose-yes");
+  check("accepting raises the range to 0-20",
+    await page.evaluate(() => JSON.parse(localStorage.getItem("add-subtract.settings")).max === 20));
+  check("quiz continues after accepting", (await page.textContent("#feedback")).trim() === "");
+
   check("no console errors", consoleErrors.length === 0, consoleErrors.join(" | "));
 } finally {
   await browser.close();
