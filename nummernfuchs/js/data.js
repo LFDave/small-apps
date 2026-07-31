@@ -141,7 +141,30 @@ export const STRINGS = {
   quizPracticed: "geübt",
 
   padBackspace: "Ziffer löschen",
-  padAutoHint: "Bei der letzten Ziffer siehst du sofort, ob es stimmt."
+  padAutoHint: "Bei der letzten Ziffer siehst du sofort, ob es stimmt.",
+
+  statsLevel: "Level {n} · {title}",
+  statsXp: "{xp} von {next} XP",
+  statsXpMax: "{xp} XP · höchstes Level",
+  statsMedals: "{k} von {n} Medaillen",
+  statsOpen: "Level und Medaillen ansehen",
+  medalsTitle: "Medaillen",
+  rewardXp: "+{xp} XP",
+  rewardLevelUp: "Neues Level: {title}!",
+  rewardMedal: "Neue Medaille: {name}"
+};
+
+// Medal names and descriptions, keyed by the ids in game.js.
+export const MEDAL_TEXT = {
+  "erste-uebung": { name: "Erste Übung", desc: "Schliesse deine erste Übung ab." },
+  "drei-uebungen": { name: "Fleissiger Fuchs", desc: "Schliesse 3 Übungen ab." },
+  "acht-uebungen": { name: "Übungsfuchs", desc: "Schliesse 8 Übungen ab." },
+  "einundzwanzig-uebungen": { name: "Trainingsmeister", desc: "Schliesse 21 Übungen ab." },
+  "sitzt": { name: "Sitzt!", desc: "Eine gespeicherte Nummer sitzt richtig gut." },
+  "notruf-profi": { name: "Notruf-Profi", desc: "Alle sechs Notfallnummern sitzen." },
+  "international": { name: "International", desc: "Lerne eine Nummer mit Landesvorwahl." },
+  "riesenzahl": { name: "Riesenzahl", desc: "Schaffe eine Zufallszahl mit 10 oder mehr Ziffern." },
+  "tippfuchs": { name: "Tippfuchs", desc: "Tippe insgesamt 500 Ziffern." }
 };
 
 // Fills {placeholders} in a string template.

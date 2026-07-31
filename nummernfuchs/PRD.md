@@ -27,6 +27,8 @@ cells, not from a mono font).
    quiz: 112 Notruf Europa, 117 Polizei, 118 Feuerwehr, 144 Sanität,
    145 Tox Info, 1414 Rega.
 4. **Zufallszahl** — random-number training with selectable length.
+5. **Quiet gamification** — XP, levels and medals that reward practice,
+   never speed or perfection.
 
 Out of scope (planned later): spaced review scheduling, adaptive
 digit-span progression (auto-growing random-number length), sounds,
@@ -126,13 +128,46 @@ Entry status from `completions`: 0 = Neu, 1 to 2 = Geübt, 3+ = Sitzt!
    emergency grid with practice button, storage note
    ("Alle Nummern bleiben auf diesem Gerät.") and reset link
    (confirm dialog).
-2. **Form** — type choice (Code / Telefonnummer), label, number input
+2. **Medaillen** — level panel with progress bar plus the medal grid
+   (unlocked and locked), reached from the home stats strip.
+3. **Form** — type choice (Code / Telefonnummer), label, number input
    with chunking hint, international checkbox + country code + live
    preview (phones only), save, delete (edit mode, confirm dialog).
-3. **Ladder** — back, entry label, step dots, instruction, cells,
-   pad/OK or Weiter, persistent feedback area.
-4. **Quiz** — back, progress line, situation card, cells, pad/OK,
+4. **Ladder** — back, entry label, step dots, instruction, cells,
+   pad or Weiter, persistent feedback area.
+5. **Quiz** — back, progress line, situation card, cells, pad,
    persistent feedback area, summary panel.
+
+## Gamification (quiet)
+
+XP measures practice, not perfection: mistakes never subtract XP,
+retries cost nothing, and speed never matters.
+
+- **XP awards**: completed ladder = 10 + digit count, +5 when the run
+  included the international step (applies to entries and random
+  training alike, so longer numbers earn more). Completed quiz
+  session = 3 XP per first-try answer + 1 XP per corrected answer
+  (effort still counts) + 5 for finishing.
+- **Levels** (cumulative XP): 1 Fuchswelpe 0, 2 Schlaufuchs 30,
+  3 Zahlenfuchs 80, 4 Merkfuchs 160, 5 Superfuchs 280,
+  6 Meisterfuchs 450. Beyond the last level XP keeps counting.
+- **Medals** (9, all checks are pure functions of the stored data):
+  Erste Übung / Fleissiger Fuchs / Übungsfuchs / Trainingsmeister at
+  1, 3, 8 and 21 completed exercises (ladders and quiz sessions);
+  Sitzt! when an entry reaches 3 completions; Notruf-Profi when all
+  six emergency numbers have streak 3; International after the first
+  completed international ladder; Riesenzahl for a completed random
+  number with 10+ digits; Tippfuchs at 500 typed digits (effort
+  medal, GeoTriad-style).
+- **Display**: a stats strip on home (level badge, title, progress bar
+  to the next level, medal count) opens the medal gallery view; locked
+  medals stay visible with their description so the goal is clear.
+  Rewards appear only on completion panels as a quiet block (+XP,
+  level up, new medals) — no modals, no celebratory animation, in
+  line with the baseline motion rules.
+- **Counters** stored under `game` in `nummernfuchs.state`: `xp`,
+  `exercises`, `digitsTyped` (every pad press), `bestTraining`
+  (longest completed random number), `medals`. Reset clears them.
 
 ## Persistence and privacy
 

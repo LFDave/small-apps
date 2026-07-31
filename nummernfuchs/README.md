@@ -16,6 +16,8 @@ Notfallnummern (112, 117, 118, 144, 145, 1414).
    richtige Nummer.
 4. Zufallszahl: Training mit zufälligen Zahlen in wählbarer Länge
    (3 bis 16 Ziffern). Am Ende wartet gleich die nächste Zahl.
+5. Für jede Übung gibt es XP, Levels (vom Fuchswelpen zum Meisterfuchs)
+   und Medaillen. Fehler kosten nichts, Tempo zählt nicht.
 
 Alle Nummern bleiben auf dem Gerät (localStorage). Keine Konten, kein
 Tracking, keine externen Anfragen.

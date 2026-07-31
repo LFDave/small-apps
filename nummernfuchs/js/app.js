@@ -1,14 +1,15 @@
 // app.js — controller: owns the state, handles all interactions via
 // event delegation, persists through storage.js and renders via ui.js.
 
-import { render, intlPreviewText } from "./ui.js?v=3";
-import { STRINGS as S } from "./data.js?v=3";
-import * as storage from "./storage.js?v=3";
-import { parseNumberInput, autoChunk, randomDigits } from "./util.js?v=3";
+import { render, intlPreviewText } from "./ui.js?v=4";
+import { STRINGS as S } from "./data.js?v=4";
+import * as storage from "./storage.js?v=4";
+import { parseNumberInput, autoChunk, randomDigits } from "./util.js?v=4";
 import {
   buildLadder, expectedChars, checkTyped, stepNeedsInput, stepAllowsPlus,
   buildQuiz
-} from "./practice.js?v=3";
+} from "./practice.js?v=4";
+import { award, xpForLadder, xpForQuiz } from "./game.js?v=4";
 
 const state = {
   view: "home",
@@ -114,12 +115,18 @@ function ladderAdvance() {
   l.wrong = 0;
   l.phase = "input";
   if (l.i >= l.steps.length) {
-    if (!l.trainEntry) {
-      const entry = state.data.entries.find((e) => e.id === l.entryId);
+    const entry = l.trainEntry || state.data.entries.find((e) => e.id === l.entryId);
+    const digits = entry.chunks.join("").length;
+    if (l.trainEntry) {
+      state.data.game.bestTraining = Math.max(state.data.game.bestTraining, digits);
+    } else {
       entry.completions += 1;
       entry.lastDone = Date.now();
-      storage.save(state.data);
     }
+    const hadIntl = l.steps.some((s) => s.kind === "intl-full");
+    state.data.game.exercises += 1;
+    l.reward = award(state.data, xpForLadder(digits, hadIntl));
+    storage.save(state.data);
     l.phase = "done";
   }
   render(state);
@@ -135,6 +142,7 @@ function ladderCheck() {
     l.wrong += 1;
     l.phase = "wrong";
   }
+  storage.save(state.data);
   render(state);
 }
 
@@ -168,6 +176,7 @@ function quizCheck() {
     q.copyAgain = true;
     q.typed = [];
   }
+  storage.save(state.data);
   render(state);
 }
 
@@ -178,6 +187,13 @@ function quizNext() {
   q.wrongThisRound = false;
   q.copyAgain = false;
   q.phase = q.i >= q.rounds.length ? "done" : "ask";
+  if (q.phase === "done") {
+    const results = Object.values(q.firstTry);
+    const firstTry = results.filter(Boolean).length;
+    state.data.game.exercises += 1;
+    q.reward = award(state.data, xpForQuiz(firstTry, results.length - firstTry));
+    storage.save(state.data);
+  }
   render(state);
 }
 
@@ -214,9 +230,11 @@ function pressKey(key) {
   } else if (key === "+") {
     if (!input.allowPlus || input.typed.length >= input.max) return;
     input.typed.push("+");
+    state.data.game.digitsTyped += 1;
   } else {
     if (input.typed.length >= input.max) return;
     input.typed.push(key);
+    state.data.game.digitsTyped += 1;
   }
   if (input.typed.length >= input.max) {
     if (state.view === "ladder") ladderCheck();
@@ -280,6 +298,7 @@ document.addEventListener("click", (e) => {
     }
     case "train-start": startTraining(); break;
     case "train-again": startTraining(); break;
+    case "nav-medals": go("medals"); break;
     case "step-next": ladderAdvance(); break;
     case "retry": {
       state.ladder.typed = [];

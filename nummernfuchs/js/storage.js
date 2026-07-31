@@ -11,11 +11,24 @@ export function load() {
     return {
       entries: Array.isArray(data.entries) ? data.entries : [],
       emergency: data.emergency && typeof data.emergency === "object" ? data.emergency : {},
-      trainingLength: clampLength(data.trainingLength)
+      trainingLength: clampLength(data.trainingLength),
+      game: sanitizeGame(data.game)
     };
   } catch {
     return emptyState();
   }
+}
+
+function sanitizeGame(g) {
+  const num = (v) => (Number.isFinite(v) && v >= 0 ? v : 0);
+  g = g && typeof g === "object" ? g : {};
+  return {
+    xp: num(g.xp),
+    exercises: num(g.exercises),
+    digitsTyped: num(g.digitsTyped),
+    bestTraining: num(g.bestTraining),
+    medals: Array.isArray(g.medals) ? g.medals.filter((m) => typeof m === "string") : []
+  };
 }
 
 function clampLength(n) {
@@ -32,5 +45,10 @@ export function reset() {
 }
 
 function emptyState() {
-  return { entries: [], emergency: {}, trainingLength: 6 };
+  return {
+    entries: [],
+    emergency: {},
+    trainingLength: 6,
+    game: sanitizeGame(null)
+  };
 }

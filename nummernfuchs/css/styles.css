@@ -6,14 +6,14 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=3") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=4") format("woff2");
 }
 @font-face {
   font-family: "Atkinson Hyperlegible";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=3") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=4") format("woff2");
 }
 
 :root {
@@ -621,6 +621,153 @@ input:focus-visible {
   text-align: center;
   max-width: 20rem;
 }
+
+/* ── Level, XP, medals ───────────────────────────────────────────── */
+
+.stats-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-background-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+.stats-strip:hover { background: var(--color-background-surface-raised); }
+
+.level-badge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: var(--size-lg);
+  font-weight: 700;
+}
+
+.stats-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.stats-title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.stats-xp {
+  font-size: var(--size-xs);
+  color: var(--color-text-muted);
+}
+
+.progress {
+  display: block;
+  height: 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-background-surface-soft);
+  overflow: hidden;
+}
+
+.progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+}
+
+.stats-medals {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--size-sm);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+.stats-medals .icon { color: var(--color-accent); }
+
+.reward-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--color-accent-soft);
+  border-radius: var(--radius-md);
+}
+
+.reward-xp {
+  font-size: var(--size-lg);
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.reward-row {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.reward-row .icon { color: var(--color-accent); }
+
+.medal-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.medal-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--color-background-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.medal-card .medal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+.medal-card .medal-icon .icon { width: 1.5rem; height: 1.5rem; }
+
+.medal-name { font-weight: 700; }
+
+.medal-desc {
+  font-size: var(--size-xs);
+  color: var(--color-text-muted);
+}
+
+.medal-card.locked {
+  background: var(--color-background-surface-soft);
+}
+.medal-card.locked .medal-icon {
+  background: var(--color-background-surface-raised);
+  color: var(--color-text-disabled);
+}
+.medal-card.locked .medal-name { color: var(--color-text-muted); }
 
 /* ── Random-number training (home) ───────────────────────────────── */
 

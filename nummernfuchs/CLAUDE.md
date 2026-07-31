@@ -23,6 +23,11 @@ spec-sync rules, cache-busting convention) applies as well.
 - Random-number training reuses the ladder via a transient entry in
   `state.ladder.trainEntry` (no id, never persisted). Anything that
   writes progress must guard on `trainEntry` first.
+- Gamification lives in `js/game.js` (pure, no DOM): XP formulas,
+  LEVELS, MEDALS. Medal checks must stay pure functions of the data
+  object — never event flags — so they cannot drift from stored state.
+  Rewards render only on completion panels (quiet block, no modals,
+  no celebration motion). XP never decreases; no speed bonuses.
 - Icons: `js/icons.js` is generated from lucide-static SVGs; add icons
   by appending to `PATHS`, keep the Lucide names.
 - Tests: `cd tests && npm install && node e2e.test.mjs` — must pass

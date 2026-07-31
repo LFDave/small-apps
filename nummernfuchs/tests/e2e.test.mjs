@@ -15,9 +15,9 @@ import { readFile } from "node:fs/promises";
 import { mkdirSync, existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildLadder, expectedChars } from "../js/practice.js?v=3";
-import { autoChunk } from "../js/util.js?v=3";
-import { EMERGENCY } from "../js/data.js?v=3";
+import { buildLadder, expectedChars } from "../js/practice.js?v=4";
+import { autoChunk } from "../js/util.js?v=4";
+import { EMERGENCY } from "../js/data.js?v=4";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -127,6 +127,9 @@ try {
   check("empty state shown", await page.locator(".empty-panel").count() === 1);
   check("six emergency numbers listed", await page.locator(".emg-item").count() === 6);
   check("storage note visible", (await text(".app-footer .hint")).includes("auf diesem Gerät"));
+  check("stats strip starts at level 1", (await text(".stats-title")).includes("Level 1"));
+  check("stats strip shows 0 XP", (await text(".stats-xp")) === "0 von 30 XP");
+  check("no medals unlocked yet", (await text(".stats-medals")) === "0/9");
   await shot("01-home-empty");
 
   /* ── Add a door code ───────────────────────────────────────────── */
@@ -181,6 +184,9 @@ try {
   await page.waitForSelector(".feedback-success");
   await page.click('[data-action="step-next"]');
   check("ladder completion panel", (await text(".done-panel .feedback")).includes("Geschafft"));
+  // XP: 10 base + 6 digits = 16; first exercise unlocks the first medal.
+  check("reward shows +16 XP", (await text(".reward-xp")) === "+16 XP");
+  check("first medal in reward block", (await text(".reward-block")).includes("Erste Übung"));
   await shot("06-ladder-done");
   door.completions = 1;
   await page.click('[data-action="nav-home"]');
@@ -190,11 +196,18 @@ try {
   await page.click(".entry-card");
   check("second run skips duplicate tail step", await page.locator(".dot").count() === 3);
   await solveLadder(door);
+  // 32 XP crosses the level 2 threshold (30).
+  check("level up announced quietly", (await text(".reward-block")).includes("Schlaufuchs"));
   await page.click('[data-action="nav-home"]');
   await page.click(".entry-card");
   await solveLadder(door);
+  // Third exercise and third completion: two medals at once.
+  check("effort medal at 3 exercises", (await text(".reward-block")).includes("Fleissiger Fuchs"));
+  check("Sitzt medal at 3 completions", (await text(".reward-block")).includes("Sitzt!"));
   await page.click('[data-action="nav-home"]');
   check("entry Sitzt after three runs", (await text(".pill")) === "Sitzt!");
+  check("home shows level 2", (await text(".stats-title")).includes("Schlaufuchs"));
+  check("home shows 48 XP", (await text(".stats-xp")) === "48 von 80 XP");
 
   /* ── Phone number with international form ──────────────────────── */
   await page.click('[data-action="nav-add"]');
@@ -237,6 +250,9 @@ try {
     }
   }
   check("phone ladder completed", (await text(".done-panel .feedback")).includes("Mami"));
+  // XP: 10 + 10 digits + 5 international = 25 (total 73).
+  check("international ladder rewards +25 XP", (await text(".reward-xp")) === "+25 XP");
+  check("International medal unlocked", (await text(".reward-block")).includes("International"));
   await page.click('[data-action="nav-home"]');
 
   /* ── Emergency quiz: one wrong first, rest correct ─────────────── */
@@ -262,6 +278,8 @@ try {
   check("quiz summary counts first-try answers",
     (await text(".done-panel .feedback")).includes("5 von 6"));
   check("five numbers tagged as known", await page.locator(".quiz-result.known").count() === 5);
+  // XP: 5 first-try x 3 + 1 corrected + 5 session = 21 (total 94, level 3).
+  check("quiz rewards +21 XP", (await text(".reward-xp")) === "+21 XP");
   await shot("10-quiz-done");
   await page.click('[data-action="nav-home"]');
   await shot("11-home-filled");
@@ -298,6 +316,8 @@ try {
   }
   check("training completion offers a new random number",
     await page.locator('[data-action="train-again"]').count() === 1);
+  // XP: 10 + 5 digits = 15 (total 109).
+  check("training rewards +15 XP", (await text(".reward-xp")) === "+15 XP");
   await shot("14-training-done");
   await page.click('[data-action="train-again"]');
   const trainDigits2 = await page.$$eval(".cell.shown", (els) => els.map((el) => el.textContent).join(""));
@@ -307,6 +327,19 @@ try {
   await page.reload();
   check("chosen training length persists", (await text(".train-len-value")) === "5 Ziffern");
 
+  /* ── Level, XP and medal gallery ───────────────────────────────── */
+  check("home shows level 3", (await text(".stats-title")).includes("Zahlenfuchs"));
+  check("home shows 109 XP", (await text(".stats-xp")) === "109 von 160 XP");
+  check("four medals unlocked", (await text(".stats-medals")) === "4/9");
+  await page.click(".stats-strip");
+  check("medal gallery opens", (await text("h1")) === "Medaillen");
+  check("gallery lists all medals", await page.locator(".medal-card").count() === 9);
+  check("gallery shows four unlocked", await page.locator(".medal-card:not(.locked)").count() === 4);
+  check("locked medals keep their description visible",
+    (await text(".medal-card.locked .medal-desc")).length > 0);
+  await shot("15-medals");
+  await page.click('[data-action="nav-home"]');
+
   /* ── Desktop layout ────────────────────────────────────────────── */
   await page.setViewportSize({ width: 1280, height: 800 });
   await shot("12-home-desktop");
@@ -315,6 +348,7 @@ try {
   /* ── Reset ─────────────────────────────────────────────────────── */
   await page.click('[data-action="reset-all"]');
   check("reset clears entries", await page.locator(".empty-panel").count() === 1);
+  check("reset clears XP and level", (await text(".stats-xp")) === "0 von 30 XP");
   await page.reload();
   check("reset persists", await page.locator(".empty-panel").count() === 1);
 

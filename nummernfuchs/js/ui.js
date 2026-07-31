@@ -2,10 +2,11 @@
 // No state mutation here; all interactions go through data-action
 // attributes handled in app.js.
 
-import { icon } from "./icons.js?v=3";
-import { STRINGS as S, EMERGENCY, fmt } from "./data.js?v=3";
-import { intlChunks, statusOf, escapeHtml } from "./util.js?v=3";
-import { checkTyped, stepNeedsInput, stepAllowsPlus, serviceByNumber } from "./practice.js?v=3";
+import { icon } from "./icons.js?v=4";
+import { STRINGS as S, EMERGENCY, MEDAL_TEXT, fmt } from "./data.js?v=4";
+import { intlChunks, statusOf, escapeHtml } from "./util.js?v=4";
+import { checkTyped, stepNeedsInput, stepAllowsPlus, serviceByNumber } from "./practice.js?v=4";
+import { MEDALS, levelFor } from "./game.js?v=4";
 
 export function render(state) {
   const app = document.getElementById("app");
@@ -14,6 +15,7 @@ export function render(state) {
   else if (state.view === "form") html = renderForm(state);
   else if (state.view === "ladder") html = renderLadder(state);
   else if (state.view === "quiz") html = renderQuiz(state);
+  else if (state.view === "medals") html = renderMedals(state);
   app.innerHTML = `<div class="shell">${html}</div>`;
   const auto = app.querySelector("[data-autofocus]");
   if (auto) auto.focus();
@@ -65,6 +67,7 @@ function renderHome(state) {
       <h1>${S.appTitle}</h1>
       <p class="tagline">${S.appTagline}</p>
     </header>
+    ${statsStrip(state)}
     <section class="section">
       <h2>${S.homeMyNumbers}</h2>
       ${myNumbers}
@@ -94,6 +97,76 @@ function renderHome(state) {
       <p class="hint">${S.homeStorageNote}</p>
       <button type="button" class="btn-link" data-action="reset-all">${S.homeReset}</button>
     </footer>`;
+}
+
+/* ── Level, XP and medals ────────────────────────────────────────── */
+
+function xpLine(game) {
+  const lv = levelFor(game.xp);
+  return lv.nextXp
+    ? fmt(S.statsXp, { xp: game.xp, next: lv.nextXp })
+    : fmt(S.statsXpMax, { xp: game.xp });
+}
+
+function progressBar(game) {
+  const lv = levelFor(game.xp);
+  const pct = Math.round(lv.progress * 100);
+  return `<span class="progress" role="img" aria-label="${xpLine(game)}"><span class="progress-fill" style="width: ${pct}%"></span></span>`;
+}
+
+function statsStrip(state) {
+  const g = state.data.game;
+  const lv = levelFor(g.xp);
+  return `
+    <button type="button" class="stats-strip" data-action="nav-medals" aria-label="${S.statsOpen}">
+      <span class="level-badge" aria-hidden="true">${lv.level}</span>
+      <span class="stats-main">
+        <span class="stats-title">${fmt(S.statsLevel, { n: lv.level, title: lv.title })}</span>
+        ${progressBar(g)}
+        <span class="stats-xp">${xpLine(g)}</span>
+      </span>
+      <span class="stats-medals" aria-label="${fmt(S.statsMedals, { k: g.medals.length, n: MEDALS.length })}">${icon("medal")} ${g.medals.length}/${MEDALS.length}</span>
+      ${icon("chevron-right", "muted")}
+    </button>`;
+}
+
+// Quiet reward block for completion panels: XP gained, level up, new
+// medals. No modal, no celebration animation.
+function rewardBlock(reward) {
+  if (!reward) return "";
+  const medals = reward.newMedals.map((m) =>
+    `<span class="reward-row">${icon(m.icon)}<span>${fmt(S.rewardMedal, { name: MEDAL_TEXT[m.id].name })}</span></span>`).join("");
+  const levelUp = reward.levelUp
+    ? `<span class="reward-row">${icon("medal")}<span>${fmt(S.rewardLevelUp, { title: reward.levelUp.title })}</span></span>` : "";
+  return `
+    <div class="reward-block">
+      <span class="reward-xp">${fmt(S.rewardXp, { xp: reward.xp })}</span>
+      ${levelUp}
+      ${medals}
+    </div>`;
+}
+
+function renderMedals(state) {
+  const g = state.data.game;
+  const lv = levelFor(g.xp);
+  const cards = MEDALS.map((m) => {
+    const unlocked = g.medals.includes(m.id);
+    const t = MEDAL_TEXT[m.id];
+    return `
+      <li class="medal-card ${unlocked ? "" : "locked"}">
+        <span class="medal-icon">${icon(m.icon)}</span>
+        <span class="medal-name">${t.name}</span>
+        <span class="medal-desc">${t.desc}</span>
+      </li>`;
+  }).join("");
+  return `
+    ${viewHeader(S.medalsTitle)}
+    <div class="panel">
+      <p class="stats-title">${fmt(S.statsLevel, { n: lv.level, title: lv.title })}</p>
+      ${progressBar(g)}
+      <p class="hint">${xpLine(g)}</p>
+    </div>
+    <ul class="medal-grid">${cards}</ul>`;
 }
 
 /* ── Add / edit form ─────────────────────────────────────────────── */
@@ -178,6 +251,7 @@ function renderLadder(state) {
         ${viewHeader(title)}
         <div class="panel done-panel">
           ${feedback("success", `<strong>${S.ladderDoneTitle}</strong> ${fmt(S.trainingDoneMsg, { n })}`)}
+          ${rewardBlock(l.reward)}
           <button type="button" class="btn btn-primary btn-wide" data-action="train-again" data-autofocus>${S.trainingAgain}</button>
           <button type="button" class="btn btn-secondary btn-wide" data-action="nav-home">${S.ladderHome}</button>
         </div>`;
@@ -187,6 +261,7 @@ function renderLadder(state) {
       ${viewHeader(title)}
       <div class="panel done-panel">
         ${feedback("success", `<strong>${S.ladderDoneTitle}</strong> ${fmt(S.ladderDoneMsg, { label: escapeHtml(entry.label) })}${sitzt ? " " + S.ladderDoneSitzt : ""}`)}
+        ${rewardBlock(l.reward)}
         <button type="button" class="btn btn-primary btn-wide" data-action="nav-home" data-autofocus>${S.ladderHome}</button>
         <button type="button" class="btn btn-secondary btn-wide" data-action="ladder-again" data-id="${entry.id}">${S.ladderAgain}</button>
       </div>`;
@@ -253,6 +328,7 @@ function renderQuiz(state) {
       ${viewHeader(S.quizTitle)}
       <div class="panel done-panel">
         ${feedback("success", `<strong>${S.quizDoneTitle}</strong> ${msg}`)}
+        ${rewardBlock(q.reward)}
         <ul class="quiz-results">${items}</ul>
         <button type="button" class="btn btn-primary btn-wide" data-action="nav-home" data-autofocus>${S.ladderHome}</button>
         <button type="button" class="btn btn-secondary btn-wide" data-action="quiz-start">${S.ladderAgain}</button>

@@ -61,6 +61,7 @@ A calm memory trainer (German) that helps kids learn real numbers by heart: door
 - Phone numbers optionally practiced in international form (+41 79 ...)
 - Built-in Swiss emergency pack: 112, 117, 118, 144, 145, 1414 with a situation quiz
 - Random-number training with selectable length (3-16 digits)
+- Quiet gamification: XP, fox levels and medals that reward practice, never speed
 - Supportive feedback, no time pressure while typing
 - Progress saved locally on the device (no sign-up, no tracking)
 
