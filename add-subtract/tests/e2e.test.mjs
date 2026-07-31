@@ -152,6 +152,21 @@ try {
   check("stats persisted across reload",
     await page.evaluate(() => JSON.parse(localStorage.getItem("add-subtract.stats")).solved >= 2));
 
+  // ── Range bounds the result, not just the operands ────────────────
+  await page.click("#start");
+  let outOfRange = [];
+  for (let i = 0; i < 8; i++) {
+    const p = await page.evaluate(() => {
+      const m = document.getElementById("problem").textContent.match(/(\d+)\s*([+−])\s*(\d+)/);
+      return { a: Number(m[1]), op: m[2], b: Number(m[3]) };
+    });
+    const res = p.op === "+" ? p.a + p.b : p.a - p.b;
+    if (res < 0 || res > 10 || p.a > 10 || p.b > 10) outOfRange.push(`${p.a} ${p.op} ${p.b}`);
+    await typeAnswer(String(res));
+    await page.click("#next");
+  }
+  check("results and operands stay within the chosen range", outOfRange.length === 0, outOfRange.join(" | "));
+
   check("no console errors", consoleErrors.length === 0, consoleErrors.join(" | "));
 } finally {
   await browser.close();

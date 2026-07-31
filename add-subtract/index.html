@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mathe-Trainer</title>
 <meta name="description" content="Plus und Minus üben. Ruhig, ohne Zeitdruck.">
-<link rel="icon" href="favicon.svg?v=1" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
 <style>
   :root {
     --color-background-app: #0E141D;
@@ -101,6 +101,7 @@
     padding: 0 var(--space-3);
   }
   .form-error { color: var(--color-text-secondary); margin: var(--space-3) 0 0; min-height: 1.5em; }
+  .range-note { color: var(--color-text-muted); font-size: 0.875rem; margin: var(--space-3) 0 0; }
   .toolbar {
     display: flex;
     justify-content: space-between;
@@ -205,6 +206,7 @@
       <button type="button" data-min="50" data-max="100" aria-pressed="false">50 bis 100</button>
       <button type="button" id="custom-chip" aria-pressed="false">Eigener Bereich</button>
     </div>
+    <p class="range-note">Auch das Ergebnis bleibt in diesem Bereich.</p>
     <div class="custom-range" id="custom-range" hidden>
       <div>
         <label for="custom-min">Von</label>
@@ -330,10 +332,14 @@
 
   function newProblem() {
     var span = settings.max - settings.min;
-    a = settings.min + Math.floor(Math.random() * (span + 1));
-    b = settings.min + Math.floor(Math.random() * (span + 1));
-    if (settings.op === "-" && a < b) { var tmp = a; a = b; b = tmp; }
-    correct = settings.op === "+" ? a + b : a - b;
+    correct = settings.min + Math.floor(Math.random() * (span + 1));
+    if (settings.op === "+") {
+      a = Math.floor(Math.random() * (correct + 1));
+      b = correct - a;
+    } else {
+      b = Math.floor(Math.random() * (settings.max - correct + 1));
+      a = correct + b;
+    }
     answerStr = String(correct);
     entry = "";
     attempts = 0;

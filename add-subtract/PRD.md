@@ -16,7 +16,9 @@ Practice addition and subtraction. German UI, dark theme, sage accent, no accoun
 
 ## Quiz screen
 
-- Problem shown as `a + b =` or `a − b =`. For minus, a >= b (operands swap), so results are never negative.
+- Problem shown as `a + b =` or `a − b =`.
+- The chosen range bounds the result, not the operands. The result is drawn from [min, max], then the operands are derived from it: for plus, a random split a + b = result; for minus, a = result + b with a <= max. Every number in the task stays within [0, max], and results never leave the range and are never negative.
+- The setup screen states this next to the range chips: "Auch das Ergebnis bleibt in diesem Bereich."
 - Answer input follows the known-length input pattern from PRODUCT.md:
   - One slot per digit of the correct answer; digit count is visible.
   - On-screen keypad 0-9 plus backspace; physical digit keys, Backspace, and Enter also work.
