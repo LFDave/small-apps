@@ -3,8 +3,8 @@
 Merk dir Nummern und Codes: eine kleine Lern-App für Kinder.
 
 Kinder lernen damit echte Nummern auswendig: den Türcode, Mamis
-Handynummer (auch international mit +41) und die Schweizer
-Notfallnummern (112, 117, 118, 144, 145, 1414).
+Handynummer (auch international mit +41) und die Notfallnummern ihres
+Landes.
 
 ## So funktioniert es
 
@@ -21,8 +21,22 @@ Notfallnummern (112, 117, 118, 144, 145, 1414).
 5. Für jede Übung gibt es XP, Levels (vom Fuchswelpen zum Meisterfuchs)
    und Medaillen. Fehler kosten nichts, Tempo zählt nicht.
 
-Alle Nummern bleiben auf dem Gerät (localStorage). Keine Konten, kein
-Tracking, keine externen Anfragen.
+## Einstellungen
+
+Über das Zahnrad oben rechts:
+
+- **Sprache**: Deutsch (Standard), Français, Italiano, Rumantsch,
+  English. Die Wahl bleibt gespeichert.
+- **Land**: Schweiz (Standard), Deutschland, Österreich, Frankreich,
+  Italien, Liechtenstein. Das Land bestimmt die Notfallnummern und die
+  Landesvorwahl für neue Telefonnummern.
+
+Wo ein Land für etwas keine kurze Notrufnummer hat, sagt die App das
+und erklärt, was man stattdessen wählt. Sie erfindet keine Nummer.
+
+Alle Nummern und Einstellungen bleiben auf dem Gerät (localStorage).
+Keine Konten, kein Tracking. Die einzige externe Anfrage sind die
+Landesflaggen von flagcdn; ohne Netz bleiben sie einfach weg.
 
 ## Starten
 

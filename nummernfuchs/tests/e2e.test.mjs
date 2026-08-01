@@ -13,11 +13,12 @@ import { chromium } from "playwright";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { mkdirSync, existsSync, readFileSync, readdirSync } from "node:fs";
-import { dirname, join, extname } from "node:path";
+import { dirname, join, extname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildLadder, expectedChars } from "../js/practice.js?v=6";
-import { autoChunk } from "../js/util.js?v=6";
-import { EMERGENCY } from "../js/data.js?v=6";
+import { buildLadder, expectedChars } from "../js/practice.js?v=7";
+import { autoChunk } from "../js/util.js?v=7";
+import { COUNTRIES, countryByCode } from "../js/data.js?v=7";
+import { TABLES, t, setLanguage, keyPart } from "../js/i18n.js?v=7";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -41,13 +42,16 @@ function check(name, condition, detail = "") {
    Every local asset reference (index.html, inter-module imports and
    css url()s) must carry the same ?v= — a partial bump would serve
    mixed stale/new files. */
+const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+  e.isDirectory() ? jsFiles(join(dir, e.name))
+    : e.name.endsWith(".js") ? [join(dir, e.name)] : []);
+
 {
   const sources = [
     ["index.html", readFileSync(join(APP_DIR, "index.html"), "utf8")],
     ["css/styles.css", readFileSync(join(APP_DIR, "css", "styles.css"), "utf8")],
-    ...readdirSync(join(APP_DIR, "js"))
-      .filter((f) => f.endsWith(".js"))
-      .map((f) => [`js/${f}`, readFileSync(join(APP_DIR, "js", f), "utf8")])
+    ...jsFiles(join(APP_DIR, "js"))
+      .map((f) => [relative(APP_DIR, f), readFileSync(f, "utf8")])
   ];
   const versions = new Set();
   const unversioned = [];
@@ -64,6 +68,50 @@ function check(name, condition, detail = "") {
   }
   check("all asset URLs carry a ?v= version", unversioned.length === 0, unversioned.join(" | "));
   check("cache-busting version is identical everywhere", versions.size === 1, [...versions].join(", "));
+}
+
+/* ── String tables ──────────────────────────────────────────────────
+   German is the reference. Every other language must carry exactly the
+   same keys with the same placeholders, or a screen silently falls
+   back to German mid-sentence. */
+{
+  const base = Object.keys(TABLES.de);
+  const holes = (s) => [...String(s).matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort().join(",");
+  const problems = [];
+  for (const [code, table] of Object.entries(TABLES)) {
+    for (const key of base) {
+      if (typeof table[key] !== "string" || !table[key].trim()) problems.push(`${code}.${key} missing`);
+      else if (holes(table[key]) !== holes(TABLES.de[key])) problems.push(`${code}.${key} placeholders`);
+      else if (table[key].includes("ß")) problems.push(`${code}.${key} uses sharp s`);
+    }
+    for (const key of Object.keys(table)) {
+      if (!base.includes(key)) problems.push(`${code}.${key} not in German`);
+    }
+  }
+  check(`all ${Object.keys(TABLES).length} languages carry the same ${base.length} keys`,
+    problems.length === 0, problems.slice(0, 8).join(" | "));
+}
+
+/* ── Country packs ────────────────────────────────────────────────── */
+{
+  const problems = [];
+  for (const country of COUNTRIES) {
+    const situations = new Set();
+    for (const svc of country.numbers) {
+      // A quiz round is a situation, so two numbers in one pack may
+      // never share one, or the question has two right answers.
+      const situation = TABLES.de["emgSituation" + keyPart(svc.key)];
+      if (!situation) problems.push(`${country.code}:${svc.key} has no strings`);
+      if (situations.has(situation)) problems.push(`${country.code}:${svc.key} duplicate situation`);
+      situations.add(situation);
+      if (!/^\d+$/.test(svc.number)) problems.push(`${country.code}:${svc.number} not digits`);
+    }
+    for (const gap of country.gaps) {
+      if (!TABLES.de[gap]) problems.push(`${country.code} gap ${gap} has no text`);
+    }
+    if (!/^\d{1,3}$/.test(country.cc)) problems.push(`${country.code} dialling code`);
+  }
+  check(`all ${COUNTRIES.length} country packs are usable`, problems.length === 0, problems.join(" | "));
 }
 
 /* ── Static server (no python dependency) ─────────────────────────── */
@@ -93,9 +141,13 @@ try {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   const consoleErrors = [];
   page.on("pageerror", (e) => consoleErrors.push("pageerror: " + e.message));
+  // flagcdn is the one allowed external request and the only thing that
+  // needs the network, so a sandbox without egress must not fail the
+  // run. The flag fallback is checked explicitly further down instead.
   page.on("console", (m) => {
-    if (m.type() === "error" && !m.text().includes("favicon")) {
-      consoleErrors.push("console: " + m.text());
+    const url = m.location() ? m.location().url : "";
+    if (m.type() === "error" && !m.text().includes("favicon") && !url.includes("flagcdn.com")) {
+      consoleErrors.push("console: " + m.text() + (url ? ` (${url})` : ""));
     }
   });
   page.on("dialog", (d) => d.accept());
@@ -256,12 +308,20 @@ try {
   await page.click('[data-action="nav-home"]');
 
   /* ── Emergency quiz: one wrong first, rest correct ─────────────── */
+  // Rounds are matched by their situation text, resolved through the
+  // same string table the app renders from, so the test cannot drift.
+  setLanguage("de");
+  const situationOf = (svc) => t("emgSituation" + keyPart(svc.key));
+  const packOf = (code) => countryByCode(code).numbers;
+  const findRound = (pack, situation) => pack.find((s) => situationOf(s) === situation);
+
+  const swiss = packOf("ch");
   await page.click('[data-action="quiz-start"]');
   check("quiz progress starts at 1", (await text(".quiz-progress")).startsWith("Nummer 1"));
   await shot("09-quiz-ask");
-  for (let round = 0; round < 6; round++) {
+  for (let round = 0; round < swiss.length; round++) {
     const situation = await text(".quiz-situation");
-    const svc = EMERGENCY.find((s) => s.situation === situation);
+    const svc = findRound(swiss, situation);
     check(`round ${round + 1} shows a known situation`, Boolean(svc), situation);
     if (round === 0) {
       const wrong = svc.number.split("").map((d) => String((Number(d) + 1) % 10)).join("");
@@ -379,12 +439,156 @@ try {
   await shot("12-home-desktop");
   await page.setViewportSize({ width: 390, height: 844 });
 
-  /* ── Reset ─────────────────────────────────────────────────────── */
+  /* ── Settings: language ────────────────────────────────────────── */
+  check("home has a settings button", await page.locator('[data-action="nav-settings"]').count() === 1);
+  await page.click('[data-action="nav-settings"]');
+  check("settings view opens", (await text("h1")) === "Einstellungen");
+  check("five languages offered", await page.locator('[data-action="set-lang"]').count() === 5);
+  check("six countries offered", await page.locator('[data-action="set-country"]').count() === 6);
+  check("current language is marked",
+    (await page.getAttribute('[data-lang="de"]', "aria-pressed")) === "true");
+  check("no save button in settings",
+    await page.locator('[data-action="settings-save"]').count() === 0);
+  check("every country choice carries a flag", await page.locator(".choice-country .flag").count() === 6);
+  // Offline, or with flagcdn unreachable, no broken image may remain.
+  await page.waitForFunction(() =>
+    [...document.querySelectorAll(".flag")].every((el) => el.complete));
+  const flagState = await page.$$eval(".flag", (els) =>
+    els.map((el) => ({ loaded: el.naturalWidth > 0, hidden: el.hidden })));
+  check("flags either load or hide themselves",
+    flagState.every((f) => f.loaded || f.hidden),
+    JSON.stringify(flagState));
+  await shot("17-settings");
+
+  await page.click('[data-action="set-lang"][data-lang="en"]');
+  check("language applies without a confirm step", (await text("h1")) === "Settings");
+  check("document language follows the setting",
+    (await page.locator("html").getAttribute("lang")) === "en");
+  await page.click('[data-action="nav-home"]');
+  check("home renders in English", (await text(".section h2")) === "My numbers");
+  check("stats strip is translated", (await text(".stats-xp")).includes("of"));
+  check("level title is translated", (await text(".stats-title")).includes("Memory Fox"));
+  await shot("18-home-english");
+  await page.reload();
+  check("language survives a reload", (await text(".section h2")) === "My numbers");
+
+  // Every language on the narrowest supported width: nothing may spill
+  // sideways, and no key may fall through to its raw id.
+  for (const lang of ["de", "fr", "it", "rm", "en"]) {
+    await page.click('[data-action="nav-settings"]');
+    await page.click(`[data-action="set-lang"][data-lang="${lang}"]`);
+    await page.click('[data-action="nav-home"]');
+    const overflow = await page.evaluate(() =>
+      document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    check(`${lang}: home fits the narrow viewport`, overflow <= 0, `${overflow}px wider`);
+    const body = await text(".shell");
+    const rawIds = Object.keys(TABLES.de).filter((k) => body.includes(k));
+    check(`${lang}: no untranslated key leaks into the page`, rawIds.length === 0, rawIds.join(","));
+    await shot(`18-home-${lang}`);
+  }
+  check("last language selection is English", (await text(".section h2")) === "My numbers");
+
+  /* ── Settings: country ─────────────────────────────────────────── */
+  await page.click('[data-action="nav-settings"]');
+  await page.click('[data-action="set-country"][data-country="de"]');
+  check("country choice is marked",
+    (await page.getAttribute('[data-country="de"]', "aria-pressed")) === "true");
+  await page.click('[data-action="nav-home"]');
+  const german = packOf("de");
+  check("German pack replaces the Swiss one",
+    await page.locator(".emg-item").count() === german.length);
+  check("German pack lists the police number",
+    (await text(".emg-grid")).includes("110"));
+  check("Swiss-only numbers are gone", !(await text(".emg-grid")).includes("1414"));
+  check("missing services are named, not blank",
+    await page.locator(".emg-gaps li").count() === countryByCode("de").gaps.length);
+  check("the poison gap says what to do instead",
+    (await text(".emg-gaps")).includes("112"));
+  await shot("19-home-country-de");
+
+  // A quiz on the German pack must not touch the Swiss streaks: 118 is
+  // the fire brigade in Switzerland and the ambulance in Italy.
+  setLanguage("en");
+  await page.click('[data-action="quiz-start"]');
+  for (let round = 0; round < german.length; round++) {
+    const situation = await text(".quiz-situation");
+    const svc = findRound(german, situation);
+    check(`German round ${round + 1} shows a known situation`, Boolean(svc), situation);
+    await page.keyboard.type(svc.number);
+    await page.waitForSelector(".feedback-success");
+    await page.click('[data-action="quiz-next"]');
+  }
+  check("German quiz summary is complete and English",
+    (await text(".done-panel .feedback")).includes("every number"));
+  await shot("20-quiz-done-de");
+  await page.click('[data-action="nav-home"]');
+
+  const streakKeys = await page.evaluate(() =>
+    Object.keys(JSON.parse(localStorage.getItem("nummernfuchs.state")).emergency));
+  check("emergency streaks are country-scoped",
+    streakKeys.every((k) => k.includes(":")), streakKeys.join(","));
+  check("the same digits stay separate per country",
+    streakKeys.includes("ch:112") && streakKeys.includes("de:112"), streakKeys.join(","));
+
+  await page.click('[data-action="nav-settings"]');
+  await page.click('[data-action="set-country"][data-country="ch"]');
+  await page.click('[data-action="nav-home"]');
+  check("switching back restores the Swiss pack",
+    await page.locator(".emg-item").count() === swiss.length);
+  check("Switzerland has no gaps to report",
+    await page.locator(".emg-gaps").count() === 0);
+  check("German practice did not mark Swiss numbers as known",
+    await page.locator(".emg-known").count() === 0);
+
+  // Every pack rendered once: the numbers a country has, and the ones
+  // it has no short number for.
+  for (const country of COUNTRIES) {
+    await page.click('[data-action="nav-settings"]');
+    await page.click(`[data-action="set-country"][data-country="${country.code}"]`);
+    await page.click('[data-action="nav-home"]');
+    check(`${country.code}: pack size matches the data`,
+      await page.locator(".emg-item").count() === country.numbers.length);
+    check(`${country.code}: gaps match the data`,
+      await page.locator(".emg-gaps li").count() === country.gaps.length);
+    await page.locator(".emg-grid").scrollIntoViewIfNeeded();
+    await page.locator(".section:last-of-type").screenshot({
+      path: join(SHOTS_DIR, `21-pack-${country.code}.png`)
+    });
+  }
+  await page.click('[data-action="nav-settings"]');
+  await page.click('[data-action="set-country"][data-country="ch"]');
+  await page.click('[data-action="nav-home"]');
+
+  /* ── Reset keeps settings, clears progress ─────────────────────── */
   await page.click('[data-action="reset-all"]');
   check("reset clears entries", await page.locator(".empty-panel").count() === 1);
-  check("reset clears XP and level", (await text(".stats-xp")) === "0 von 30 XP");
+  check("reset clears XP and level", (await text(".stats-xp")) === "0 of 30 XP");
+  check("reset keeps the chosen language", (await text(".section h2")) === "My numbers");
   await page.reload();
   check("reset persists", await page.locator(".empty-panel").count() === 1);
+  check("language still set after reset and reload",
+    (await text(".section h2")) === "My numbers");
+
+  /* ── Migration of pre-country saves ────────────────────────────── */
+  // Before the country setting, streaks were bare numbers from the
+  // Swiss pack. They must be read as Swiss, not dropped.
+  await page.evaluate((numbers) => {
+    localStorage.setItem("nummernfuchs.state", JSON.stringify({
+      entries: [], trainingLength: 6,
+      emergency: Object.fromEntries(numbers.map((n) => [n, 3])),
+      game: { xp: 120, exercises: 6, digitsTyped: 200, bestTraining: 8, medals: ["erste-uebung"] }
+    }));
+  }, swiss.map((s) => s.number));
+  await page.reload();
+  check("an old save still opens", await page.locator(".empty-panel").count() === 1);
+  check("old saves default back to German", (await text(".section h2")) === "Meine Nummern");
+  check("old emergency streaks survive as Swiss",
+    await page.locator(".emg-known").count() === swiss.length);
+  check("old XP survives", (await text(".stats-xp")) === "120 von 160 XP");
+  const migrated = await page.evaluate(() =>
+    Object.keys(JSON.parse(localStorage.getItem("nummernfuchs.state")).emergency));
+  check("migrated keys are country-scoped",
+    migrated.every((k) => k.startsWith("ch:")), migrated.join(","));
 
   check("no console errors", consoleErrors.length === 0, consoleErrors.join(" | "));
 } finally {

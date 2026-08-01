@@ -1,175 +1,112 @@
-// data.js — static app data: Swiss emergency numbers and all UI strings.
-// Strings live here keyed by stable IDs so an English toggle can be added
-// later without touching markup or logic (foundation language rule).
+// data.js — structural app data: the supported languages and the
+// per-country emergency packs. No copy lives here; every name,
+// situation and explanation is a string id resolved through i18n.js,
+// so a pack is identical in all five languages.
+//
+// Sources for the number tables are listed in PRD.md. Where a country
+// has no equivalent of a service another country has, the pack carries
+// a `gaps` entry instead of a made-up or borrowed number.
 
-export const EMERGENCY = [
+export const LANGUAGES = [
+  { code: "de", label: "Deutsch", htmlLang: "de-CH" },
+  { code: "fr", label: "Français", htmlLang: "fr-CH" },
+  { code: "it", label: "Italiano", htmlLang: "it-CH" },
+  { code: "rm", label: "Rumantsch", htmlLang: "rm-CH" },
+  { code: "en", label: "English", htmlLang: "en" }
+];
+
+export const DEFAULT_LANGUAGE = "de";
+export const DEFAULT_COUNTRY = "ch";
+
+// One entry per number a child should know. `key` selects the name,
+// situation and explanation strings; `cc` is the dialling code used as
+// the default for new international phone entries.
+export const COUNTRIES = [
   {
-    number: "112",
-    name: "Notruf Europa",
-    icon: "phone-call",
-    situation: "Der allgemeine Notruf. Er funktioniert in ganz Europa.",
-    explain: "112 ist der Notruf in ganz Europa."
+    code: "ch",
+    cc: "41",
+    numbers: [
+      { key: "euro", number: "112", icon: "phone-call" },
+      { key: "police", number: "117", icon: "shield" },
+      { key: "fire", number: "118", icon: "flame" },
+      { key: "medical", number: "144", icon: "ambulance" },
+      { key: "toxCh", number: "145", icon: "flask-conical" },
+      { key: "rega", number: "1414", icon: "mountain" }
+    ],
+    gaps: [],
+    note: null
   },
   {
-    number: "117",
-    name: "Polizei",
-    icon: "shield",
-    situation: "Du brauchst die Polizei.",
-    explain: "117 ist die Polizei."
+    code: "de",
+    cc: "49",
+    numbers: [
+      { key: "deNotruf", number: "112", icon: "flame" },
+      { key: "police", number: "110", icon: "shield" },
+      { key: "deDoctor", number: "116117", icon: "stethoscope" }
+    ],
+    gaps: ["gapDePoison", "gapDeRescue"],
+    note: null
   },
   {
-    number: "118",
-    name: "Feuerwehr",
-    icon: "flame",
-    situation: "Es brennt.",
-    explain: "118 ist die Feuerwehr."
+    code: "at",
+    cc: "43",
+    numbers: [
+      { key: "euro", number: "112", icon: "phone-call" },
+      { key: "police", number: "133", icon: "shield" },
+      { key: "fire", number: "122", icon: "flame" },
+      { key: "medical", number: "144", icon: "ambulance" },
+      { key: "atRescue", number: "140", icon: "mountain" }
+    ],
+    gaps: ["gapAtPoison"],
+    note: null
   },
   {
-    number: "144",
-    name: "Sanität",
-    icon: "ambulance",
-    situation: "Jemand ist verletzt und braucht schnell Hilfe.",
-    explain: "144 ist die Sanität."
+    code: "fr",
+    cc: "33",
+    numbers: [
+      { key: "euro", number: "112", icon: "phone-call" },
+      { key: "police", number: "17", icon: "shield" },
+      { key: "fire", number: "18", icon: "flame" },
+      { key: "medical", number: "15", icon: "ambulance" }
+    ],
+    gaps: ["gapFrPoison", "gapFrRescue"],
+    note: null
   },
   {
-    number: "145",
-    name: "Tox Info",
-    icon: "flask-conical",
-    situation: "Jemand hat etwas Giftiges geschluckt.",
-    explain: "145 ist Tox Info Suisse. Sie hilft bei Vergiftungen."
+    code: "it",
+    cc: "39",
+    numbers: [
+      { key: "itEuro", number: "112", icon: "phone-call" },
+      { key: "police", number: "113", icon: "shield" },
+      { key: "fire", number: "115", icon: "flame" },
+      { key: "medical", number: "118", icon: "ambulance" }
+    ],
+    gaps: ["gapItPoison", "gapItRescue"],
+    note: "noteIt"
   },
   {
-    number: "1414",
-    name: "Rega",
-    icon: "mountain",
-    situation: "Jemand braucht Hilfe in den Bergen.",
-    explain: "1414 ist die Rega, die Rettung aus der Luft."
+    code: "li",
+    cc: "423",
+    numbers: [
+      { key: "euro", number: "112", icon: "phone-call" },
+      { key: "police", number: "117", icon: "shield" },
+      { key: "fire", number: "118", icon: "flame" },
+      { key: "medical", number: "144", icon: "ambulance" },
+      { key: "toxLi", number: "145", icon: "flask-conical" },
+      { key: "rega", number: "1414", icon: "mountain" }
+    ],
+    gaps: [],
+    note: "noteLi"
   }
 ];
 
-export const STRINGS = {
-  appTitle: "Nummernfuchs",
-  appTagline: "Merk dir Nummern und Codes.",
+export function countryByCode(code) {
+  return COUNTRIES.find((c) => c.code === code) || COUNTRIES[0];
+}
 
-  homeMyNumbers: "Meine Nummern",
-  homeEmpty: "Noch keine Nummern gespeichert. Füge die erste hinzu, zum Beispiel Mamis Handynummer oder den Code der Haustür.",
-  homeAdd: "Nummer hinzufügen",
-  homeTraining: "Zufallszahl",
-  homeTrainingIntro: "Übe mit einer zufälligen Zahl. Wähle, wie lang sie sein soll.",
-  trainingDigits: "{n} Ziffern",
-  trainingFewer: "Weniger Ziffern",
-  trainingMore: "Mehr Ziffern",
-  trainingStart: "Zufallszahl üben",
-  trainingTitle: "Zufallszahl",
-  trainingDoneMsg: "Du hast dir eine Zufallszahl mit {n} Ziffern gemerkt.",
-  trainingAgain: "Neue Zufallszahl",
-  trainingSuggest: "Das klappt richtig gut. Probier es mit {n} Ziffern!",
-  trainingSuggestBtn: "Mit {n} Ziffern üben",
-
-  homeEmergency: "Notfallnummern",
-  homeEmergencyIntro: "Diese Nummern helfen dir im Notfall. Kennst du sie auswendig?",
-  homeEmergencyPractice: "Notfallnummern üben",
-  homePractice: "Üben",
-  homeStorageNote: "Alle Nummern bleiben auf diesem Gerät.",
-  homeReset: "Alles zurücksetzen",
-  resetConfirm: "Alle Nummern und Fortschritte löschen? Die Daten liegen nur auf diesem Gerät.",
-
-  statusNeu: "Neu",
-  statusGeuebt: "Geübt",
-  statusSitzt: "Sitzt!",
-
-  formTitleNew: "Neue Nummer",
-  formTitleEdit: "Nummer bearbeiten",
-  formTypeLabel: "Was für eine Nummer ist es?",
-  formTypeCode: "Code",
-  formTypeCodeHint: "Türcode, Briefkasten, Veloschloss",
-  formTypePhone: "Telefonnummer",
-  formTypePhoneHint: "Handy oder Festnetz",
-  formLabelLabel: "Für wen oder was?",
-  formLabelPlaceholderCode: "Haustür",
-  formLabelPlaceholderPhone: "Mami Handy",
-  formNumberLabel: "Die Nummer",
-  formNumberHint: "Mit Leerzeichen in Gruppen teilen, so wie du sie sprichst. Zum Beispiel: 640 132",
-  formNumberPlaceholderCode: "640 132",
-  formNumberPlaceholderPhone: "079 640 13 21",
-  formIntlLabel: "Auch international üben",
-  formIntlCc: "Landesvorwahl",
-  formIntlPreview: "International:",
-  formSave: "Speichern",
-  formDelete: "Löschen",
-  formDeleteConfirm: "Diese Nummer löschen? Die Daten liegen nur auf diesem Gerät.",
-  formBack: "Zurück",
-
-  errLabelEmpty: "Gib der Nummer einen Namen, zum Beispiel Mami Handy.",
-  errLabelLong: "Der Name ist zu lang. Höchstens 24 Zeichen.",
-  errNumberEmpty: "Gib die Nummer ein.",
-  errNumberInvalid: "Nur Ziffern und Leerzeichen sind erlaubt.",
-  errNumberShort: "Die Nummer ist zu kurz. Mindestens 3 Ziffern.",
-  errNumberLong: "Die Nummer ist zu lang. Höchstens 16 Ziffern.",
-  errChunkLong: "Mach kleinere Gruppen. Höchstens 5 Ziffern pro Gruppe.",
-  errCcInvalid: "Die Landesvorwahl braucht 1 bis 3 Ziffern.",
-
-  ladderStepView: "Schau dir die Nummer gut an. Lies sie laut in Gruppen.",
-  ladderStepCloze: "Eine Gruppe fehlt. Tipp sie ein.",
-  ladderStepTail: "Jetzt fehlt fast alles. Tipp die fehlenden Gruppen ein.",
-  ladderStepFull: "Und jetzt ganz aus dem Kopf. Tipp die ganze Nummer ein.",
-  ladderStepIntlView: "So wählst du die Nummer aus dem Ausland. Schau sie dir gut an.",
-  ladderStepIntlFull: "Tipp die internationale Nummer ein. Sie beginnt mit +.",
-  ladderReady: "Ich bin bereit",
-  ladderNext: "Weiter",
-  ladderRetry: "Nochmals versuchen",
-  ladderReveal: "Nummer nochmals anschauen",
-  ladderRevealMsg: "Schau genau hin. Dann versuch es nochmals.",
-  ladderRevealDone: "Weiter üben",
-  ladderCorrect: "Richtig.",
-  ladderWrong: "Fast. Versuch es noch einmal.",
-  ladderWrongAgain: "Fast. Schau dir die Nummer nochmals an, wenn du willst.",
-  ladderDoneTitle: "Geschafft!",
-  ladderDoneMsg: "Du hast dir «{label}» gemerkt.",
-  ladderDoneSitzt: "Diese Nummer sitzt jetzt richtig gut.",
-  ladderAgain: "Nochmals üben",
-  ladderHome: "Zur Übersicht",
-
-  quizTitle: "Notfallnummern",
-  quizQuestion: "Welche Nummer rufst du?",
-  quizProgress: "Nummer {i} von {n}",
-  quizCorrect: "Richtig. {explain}",
-  quizWrongCopy: "Fast. {explain} Tipp sie zum Merken nochmals ein.",
-  quizCopyAgain: "Schau: {number}. Versuch es nochmals.",
-  quizDoneTitle: "Gut gemacht!",
-  quizDoneMsg: "{k} von {n} Nummern hast du direkt gewusst.",
-  quizDoneAll: "Alle Nummern gewusst. Stark!",
-  quizKnown: "gewusst",
-  quizPracticed: "geübt",
-
-  padBackspace: "Ziffer löschen",
-  padAutoHint: "Bei der letzten Ziffer siehst du sofort, ob es stimmt.",
-
-  statsLevel: "Level {n} · {title}",
-  statsXp: "{xp} von {next} XP",
-  statsXpMax: "{xp} XP · höchstes Level",
-  statsMedals: "{k} von {n} Medaillen",
-  statsOpen: "Level und Medaillen ansehen",
-  medalsTitle: "Medaillen",
-  rewardXp: "+{xp} XP",
-  rewardLevelUp: "Neues Level: {title}!",
-  rewardMedal: "Neue Medaille: {name}"
-};
-
-// Medal names and descriptions, keyed by the ids in game.js.
-export const MEDAL_TEXT = {
-  "erste-uebung": { name: "Erste Übung", desc: "Schliesse deine erste Übung ab." },
-  "drei-uebungen": { name: "Fleissiger Fuchs", desc: "Schliesse 3 Übungen ab." },
-  "acht-uebungen": { name: "Übungsfuchs", desc: "Schliesse 8 Übungen ab." },
-  "einundzwanzig-uebungen": { name: "Trainingsmeister", desc: "Schliesse 21 Übungen ab." },
-  "sitzt": { name: "Sitzt!", desc: "Eine gespeicherte Nummer sitzt richtig gut." },
-  "notruf-profi": { name: "Notruf-Profi", desc: "Alle sechs Notfallnummern sitzen." },
-  "international": { name: "International", desc: "Lerne eine Nummer mit Landesvorwahl." },
-  "riesenzahl": { name: "Riesenzahl", desc: "Schaffe eine Zufallszahl mit 10 oder mehr Ziffern." },
-  "tippfuchs": { name: "Tippfuchs", desc: "Tippe insgesamt 500 Ziffern." }
-};
-
-// Fills {placeholders} in a string template.
-export function fmt(template, values) {
-  return template.replace(/\{(\w+)\}/g, (_, k) => (k in values ? values[k] : `{${k}}`));
+// Streak key for one emergency number. Country-scoped on purpose: 118
+// is the fire brigade in Switzerland and the ambulance in Italy, so a
+// bare number would merge two different lessons.
+export function emergencyKey(countryCode, number) {
+  return `${countryCode}:${number}`;
 }
