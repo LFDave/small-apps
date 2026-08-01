@@ -1,15 +1,16 @@
 // app.js — controller: owns the state, handles all interactions via
 // event delegation, persists through storage.js and renders via ui.js.
 
-import { render, intlPreviewText } from "./ui.js?v=6";
-import { STRINGS as S } from "./data.js?v=6";
-import * as storage from "./storage.js?v=6";
-import { parseNumberInput, autoChunk, randomDigits } from "./util.js?v=6";
+import { render, intlPreviewText } from "./ui.js?v=7";
+import { countryByCode, emergencyKey } from "./data.js?v=7";
+import { t, setLanguage } from "./i18n.js?v=7";
+import * as storage from "./storage.js?v=7";
+import { parseNumberInput, autoChunk, randomDigits } from "./util.js?v=7";
 import {
   buildLadder, expectedChars, checkTyped, stepNeedsInput, stepAllowsPlus,
   buildQuiz
-} from "./practice.js?v=6";
-import { award, xpForLadder, xpForQuiz } from "./game.js?v=6";
+} from "./practice.js?v=7";
+import { award, xpForLadder, xpForQuiz } from "./game.js?v=7";
 
 const state = {
   view: "home",
@@ -18,6 +19,8 @@ const state = {
   ladder: null,
   quiz: null
 };
+
+setLanguage(state.data.settings.language);
 
 function go(view) {
   state.view = view;
@@ -31,19 +34,34 @@ function goHome() {
   go("home");
 }
 
+/* ── Settings ────────────────────────────────────────────────────── */
+
+// Settings apply and persist immediately: no save button, no confirm
+// (shared settings pattern in PRODUCT.md).
+function setSetting(key, value) {
+  state.data.settings[key] = value;
+  if (key === "language") setLanguage(value);
+  storage.save(state.data);
+  render(state);
+}
+
 /* ── Form ────────────────────────────────────────────────────────── */
+
+function defaultCc() {
+  return countryByCode(state.data.settings.country).cc;
+}
 
 function newForm(entry) {
   if (entry) {
     return {
       editingId: entry.id, type: entry.type, label: entry.label,
       numberRaw: entry.chunks.join(" "), intl: entry.intl !== false,
-      cc: entry.cc || "41", error: null, parsedChunks: entry.chunks
+      cc: entry.cc || defaultCc(), error: null, parsedChunks: entry.chunks
     };
   }
   return {
     editingId: null, type: "code", label: "", numberRaw: "",
-    intl: true, cc: "41", error: null, parsedChunks: null
+    intl: true, cc: defaultCc(), error: null, parsedChunks: null
   };
 }
 
@@ -65,13 +83,13 @@ function saveForm() {
       entry.type = f.type;
       entry.chunks = parsed.chunks;
       entry.intl = f.type === "phone" ? f.intl : false;
-      entry.cc = cc || "41";
+      entry.cc = cc || defaultCc();
     }
   } else {
     state.data.entries.push({
       id: "e" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
       type: f.type, label, chunks: parsed.chunks,
-      intl: f.type === "phone" ? f.intl : false, cc: cc || "41",
+      intl: f.type === "phone" ? f.intl : false, cc: cc || defaultCc(),
       completions: 0, lastDone: null
     });
   }
@@ -157,9 +175,12 @@ function ladderCheck() {
 
 /* ── Quiz ────────────────────────────────────────────────────────── */
 
+// The country is pinned to the session, so a quiz always finishes with
+// the pack it started with.
 function startQuiz() {
+  const country = state.data.settings.country;
   state.quiz = {
-    rounds: buildQuiz(), i: 0, typed: [], phase: "ask",
+    country, rounds: buildQuiz(country), i: 0, typed: [], phase: "ask",
     firstTry: {}, wrongThisRound: false, copyAgain: false
   };
   go("quiz");
@@ -167,16 +188,16 @@ function startQuiz() {
 
 function quizCheck() {
   const q = state.quiz;
-  const number = q.rounds[q.i];
-  if (q.typed.length < number.length) return;
-  const correct = q.typed.join("") === number;
+  const svc = q.rounds[q.i];
+  if (q.typed.length < svc.number.length) return;
+  const correct = q.typed.join("") === svc.number;
   if (correct) {
     q.phase = "correct";
     const firstTry = !q.wrongThisRound;
-    q.firstTry[number] = firstTry;
-    const streak = state.data.emergency[number] || 0;
-    state.data.emergency[number] = firstTry ? streak + 1 : 0;
-    storage.save(state.data);
+    q.firstTry[svc.number] = firstTry;
+    const key = emergencyKey(q.country, svc.number);
+    const streak = state.data.emergency[key] || 0;
+    state.data.emergency[key] = firstTry ? streak + 1 : 0;
   } else if (q.phase === "ask") {
     q.wrongThisRound = true;
     q.phase = "copy";
@@ -221,7 +242,7 @@ function activeInput() {
   if (state.view === "quiz" && (state.quiz.phase === "ask" || state.quiz.phase === "copy")) {
     return {
       typed: state.quiz.typed,
-      max: state.quiz.rounds[state.quiz.i].length,
+      max: state.quiz.rounds[state.quiz.i].number.length,
       allowPlus: false
     };
   }
@@ -266,6 +287,9 @@ document.addEventListener("click", (e) => {
   const id = el.dataset.id;
   switch (el.dataset.action) {
     case "nav-home": goHome(); break;
+    case "nav-settings": go("settings"); break;
+    case "set-lang": setSetting("language", el.dataset.lang); break;
+    case "set-country": setSetting("country", el.dataset.country); break;
     case "nav-add": state.form = newForm(null); go("form"); break;
     case "nav-edit": {
       const entry = state.data.entries.find((en) => en.id === id);
@@ -282,7 +306,7 @@ document.addEventListener("click", (e) => {
     }
     case "form-save": saveForm(); break;
     case "form-delete": {
-      if (confirm(S.formDeleteConfirm)) {
+      if (confirm(t("formDeleteConfirm"))) {
         state.data.entries = state.data.entries.filter((en) => en.id !== state.form.editingId);
         storage.save(state.data);
         goHome();
@@ -290,8 +314,8 @@ document.addEventListener("click", (e) => {
       break;
     }
     case "reset-all": {
-      if (confirm(S.resetConfirm)) {
-        state.data = storage.reset();
+      if (confirm(t("resetConfirm"))) {
+        state.data = storage.reset(state.data.settings);
         render(state);
       }
       break;
@@ -335,6 +359,15 @@ document.addEventListener("click", (e) => {
     case "quiz-next": quizNext(); break;
   }
 });
+
+// Flags are the one external request and the only thing that needs the
+// network. They render hidden and appear here once loaded, so a blocked
+// flagcdn leaves no empty box and no broken icon. Load events do not
+// bubble, so this listens in the capture phase.
+document.addEventListener("load", (e) => {
+  const el = e.target;
+  if (el instanceof HTMLImageElement && el.classList.contains("flag")) el.hidden = false;
+}, true);
 
 document.addEventListener("input", (e) => {
   if (!state.form) return;

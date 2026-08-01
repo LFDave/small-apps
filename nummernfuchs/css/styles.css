@@ -6,14 +6,14 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=6") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=7") format("woff2");
 }
 @font-face {
   font-family: "Atkinson Hyperlegible";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=6") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=7") format("woff2");
 }
 
 :root {
@@ -135,9 +135,23 @@ h1, h2, h3 {
   font-size: var(--size-display-sm);
 }
 
+.app-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
 .tagline {
   margin: var(--space-2) 0 0;
   color: var(--color-text-secondary);
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
 }
 
 .view-header {
@@ -373,6 +387,58 @@ h1, h2, h3 {
   display: inline-flex;
 }
 
+/* Services this country has no short number for. Quiet, factual, and
+   always visible: a blank would read as "there is nothing here". */
+
+.emg-gaps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.emg-gaps h3 {
+  font-size: var(--size-sm);
+  color: var(--color-text-secondary);
+}
+
+.emg-gaps ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.emg-gaps li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--size-sm);
+  color: var(--color-text-muted);
+}
+
+.emg-gaps .icon {
+  margin-top: 0.2rem;
+  color: var(--color-warning);
+}
+
+/* ── Flags (flagcdn, the one allowed external request) ───────────── */
+
+.flag {
+  display: block;
+  width: 2.5rem;
+  height: auto;
+  border-radius: var(--radius-sm);
+  background: var(--color-background-surface-soft);
+}
+
+.flag-sm { width: 1.75rem; }
+
+.flag[hidden] { display: none; }
+
 /* ── Form ────────────────────────────────────────────────────────── */
 
 .type-choice {
@@ -413,11 +479,41 @@ h1, h2, h3 {
   background: var(--color-accent-soft);
 }
 
-.choice-title { font-weight: 700; }
+.choice-title {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
 
 .choice-hint {
   font-size: var(--size-xs);
   color: var(--color-text-muted);
+}
+
+/* ── Settings choices ────────────────────────────────────────────── */
+
+.choice-grid-lang {
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+}
+
+/* Country rows carry a flag and a long label (Liechtenstein), so they
+   stay one per row until there is width for two. */
+.choice-grid-country { grid-template-columns: 1fr; }
+
+@media (min-width: 30rem) {
+  .choice-grid-country { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.choice-country {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.choice-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
 }
 
 .field {

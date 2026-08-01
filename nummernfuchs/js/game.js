@@ -1,33 +1,45 @@
-// game.js — quiet gamification: XP, levels, medals. Pure logic, no DOM.
+// game.js — quiet gamification: XP, levels, medals. Pure logic, no DOM
+// and no strings: level and medal names are string ids resolved by the
+// UI, so the progression layer works in every language.
 // XP measures practice, not perfection: mistakes never subtract, speed
 // never matters. Medal checks are pure functions of the data object so
 // they can never drift from the stored state.
 
-import { EMERGENCY } from "./data.js?v=6";
+import { countryByCode, emergencyKey } from "./data.js?v=7";
 
 // Cumulative XP thresholds. Beyond the last level XP keeps counting.
 export const LEVELS = [
-  { xp: 0, title: "Fuchswelpe" },
-  { xp: 30, title: "Schlaufuchs" },
-  { xp: 80, title: "Zahlenfuchs" },
-  { xp: 160, title: "Merkfuchs" },
-  { xp: 280, title: "Superfuchs" },
-  { xp: 450, title: "Meisterfuchs" }
+  { xp: 0, titleKey: "level1" },
+  { xp: 30, titleKey: "level2" },
+  { xp: 80, titleKey: "level3" },
+  { xp: 160, titleKey: "level4" },
+  { xp: 280, titleKey: "level5" },
+  { xp: 450, titleKey: "level6" }
 ];
 
 // Medal thresholds follow GeoTriad's pattern: cumulative counters,
-// with effort (digits typed) rewarded alongside success.
+// with effort (digits typed) rewarded alongside success. `key` is the
+// suffix of the medalName.../medalDesc... string ids.
 export const MEDALS = [
-  { id: "erste-uebung", icon: "sparkles", check: (d) => d.game.exercises >= 1 },
-  { id: "drei-uebungen", icon: "star", check: (d) => d.game.exercises >= 3 },
-  { id: "acht-uebungen", icon: "award", check: (d) => d.game.exercises >= 8 },
-  { id: "einundzwanzig-uebungen", icon: "trophy", check: (d) => d.game.exercises >= 21 },
-  { id: "sitzt", icon: "target", check: (d) => d.entries.some((e) => e.completions >= 3) },
-  { id: "notruf-profi", icon: "circle-check", check: (d) => EMERGENCY.every((s) => (d.emergency[s.number] || 0) >= 3) },
-  { id: "international", icon: "plane", check: (d) => d.entries.some((e) => e.intl && e.completions >= 1) },
-  { id: "riesenzahl", icon: "gem", check: (d) => d.game.bestTraining >= 10 },
-  { id: "tippfuchs", icon: "zap", check: (d) => d.game.digitsTyped >= 500 }
+  { id: "erste-uebung", key: "ErsteUebung", icon: "sparkles", check: (d) => d.game.exercises >= 1 },
+  { id: "drei-uebungen", key: "DreiUebungen", icon: "star", check: (d) => d.game.exercises >= 3 },
+  { id: "acht-uebungen", key: "AchtUebungen", icon: "award", check: (d) => d.game.exercises >= 8 },
+  { id: "einundzwanzig-uebungen", key: "EinundzwanzigUebungen", icon: "trophy", check: (d) => d.game.exercises >= 21 },
+  { id: "sitzt", key: "Sitzt", icon: "target", check: (d) => d.entries.some((e) => e.completions >= 3) },
+  { id: "notruf-profi", key: "NotrufProfi", icon: "circle-check", check: emergencyPro },
+  { id: "international", key: "International", icon: "plane", check: (d) => d.entries.some((e) => e.intl && e.completions >= 1) },
+  { id: "riesenzahl", key: "Riesenzahl", icon: "gem", check: (d) => d.game.bestTraining >= 10 },
+  { id: "tippfuchs", key: "Tippfuchs", icon: "zap", check: (d) => d.game.digitsTyped >= 500 }
 ];
+
+// Every emergency number of the country the child is currently set to.
+// Packs differ in size, so this is a per-country goal by design.
+function emergencyPro(d) {
+  const country = countryByCode(d.settings.country);
+  return country.numbers.every(
+    (n) => (d.emergency[emergencyKey(country.code, n.number)] || 0) >= 3
+  );
+}
 
 // XP for one completed ladder: base 10, plus one per digit, plus 5
 // when the run included the international form.
@@ -49,7 +61,7 @@ export function levelFor(xp) {
   const next = LEVELS[index + 1] || null;
   return {
     level: index + 1,
-    title: LEVELS[index].title,
+    titleKey: LEVELS[index].titleKey,
     nextXp: next ? next.xp : null,
     progress: next
       ? (xp - LEVELS[index].xp) / (next.xp - LEVELS[index].xp)

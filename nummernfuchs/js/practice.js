@@ -2,8 +2,8 @@
 // emergency-number quiz. No DOM access; app.js owns the state, ui.js
 // renders it.
 
-import { intlChunks, shuffle } from "./util.js?v=6";
-import { EMERGENCY } from "./data.js?v=6";
+import { intlChunks, shuffle } from "./util.js?v=7";
+import { countryByCode } from "./data.js?v=7";
 
 // Builds the ladder steps for one entry. Each step has the chunks to
 // display and the set of hidden chunk indices the child must type.
@@ -51,11 +51,9 @@ export function stepAllowsPlus(step) {
   return step.kind === "intl-full";
 }
 
-// Quiz session: all emergency numbers in random order.
-export function buildQuiz() {
-  return shuffle(EMERGENCY.map((svc) => svc.number));
-}
-
-export function serviceByNumber(number) {
-  return EMERGENCY.find((svc) => svc.number === number);
+// Quiz session: every emergency number of the chosen country, in random
+// order. Rounds carry the whole entry, because the same digits mean
+// different services in different countries.
+export function buildQuiz(countryCode) {
+  return shuffle(countryByCode(countryCode).numbers);
 }
