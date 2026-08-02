@@ -26,7 +26,8 @@ spec-sync rules, cache-busting convention) applies as well.
   looks familiar — 118 is the fire brigade in Switzerland and the
   ambulance in Italy. Where a country lacks a service, add a `gaps`
   entry naming what to do instead; never a blank, never a borrowed
-  number.
+  number. The trap is real in both directions: 110 is the police in
+  Germany and the fire brigade in Norway.
 - Two numbers in one pack may not share a situation string, or a quiz
   round has two right answers. The e2e suite checks this.
 - Emergency streaks are keyed `"<country>:<number>"`. Anything reading
@@ -43,7 +44,7 @@ spec-sync rules, cache-busting convention) applies as well.
   `app.js` plus `revealLoadedFlags()` after each render. Never make a
   flag load-bearing for meaning: the country name sits next to it.
 - `js/practice.js` is DOM-free ladder/quiz logic; the e2e suite imports
-  it directly (`from "../js/practice.js?v=7"`) to derive the expected
+  it directly (`from "../js/practice.js?v=8"`) to derive the expected
   answers, so tests never drift from the step builder. Keep it pure.
 - The cloze step hides chunk `completions % chunkCount` — deterministic
   on purpose (rotation across runs, and the tests rely on it).

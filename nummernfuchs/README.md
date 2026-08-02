@@ -28,8 +28,8 @@ Landes.
 - **Sprache**: Deutsch (Standard), Français, Italiano, Rumantsch,
   English. Die Wahl bleibt gespeichert.
 - **Land**: Schweiz (Standard), Deutschland, Österreich, Frankreich,
-  Italien, Liechtenstein. Das Land bestimmt die Notfallnummern und die
-  Landesvorwahl für neue Telefonnummern.
+  Italien, Liechtenstein, Norwegen. Das Land bestimmt die
+  Notfallnummern und die Landesvorwahl für neue Telefonnummern.
 
 Wo ein Land für etwas keine kurze Notrufnummer hat, sagt die App das
 und erklärt, was man stattdessen wählt. Sie erfindet keine Nummer.

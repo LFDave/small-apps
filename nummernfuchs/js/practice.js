@@ -2,8 +2,8 @@
 // emergency-number quiz. No DOM access; app.js owns the state, ui.js
 // renders it.
 
-import { intlChunks, shuffle } from "./util.js?v=7";
-import { countryByCode } from "./data.js?v=7";
+import { intlChunks, shuffle } from "./util.js?v=8";
+import { countryByCode } from "./data.js?v=8";
 
 // Builds the ladder steps for one entry. Each step has the chunks to
 // display and the set of hidden chunk indices the child must type.

@@ -1,7 +1,7 @@
 // storage.js — localStorage persistence. Single key, app-prefixed per
 // foundation convention. All data stays on the device.
 
-import { LANGUAGES, COUNTRIES, DEFAULT_LANGUAGE, DEFAULT_COUNTRY } from "./data.js?v=7";
+import { LANGUAGES, COUNTRIES, DEFAULT_LANGUAGE, DEFAULT_COUNTRY } from "./data.js?v=8";
 
 const KEY = "nummernfuchs.state";
 

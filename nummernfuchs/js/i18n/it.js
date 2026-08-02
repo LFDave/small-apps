@@ -50,12 +50,14 @@ export const it = {
   countryFr: "Francia",
   countryIt: "Italia",
   countryLi: "Liechtenstein",
+  countryNo: "Norvegia",
   countryInCh: "in Svizzera",
   countryInDe: "in Germania",
   countryInAt: "in Austria",
   countryInFr: "in Francia",
   countryInIt: "in Italia",
   countryInLi: "nel Liechtenstein",
+  countryInNo: "in Norvegia",
 
   /* Form */
   formTitleNew: "Nuovo numero",
@@ -214,6 +216,14 @@ export const it = {
   emgSituationAtRescue: "Qualcuno ha bisogno di aiuto in montagna.",
   emgExplainAtRescue: "{number} è il soccorso alpino.",
 
+  emgNameNoLegevakt: "Legevakt",
+  emgSituationNoLegevakt: "Qualcuno è malato e ha bisogno di un medico oggi stesso.",
+  emgExplainNoLegevakt: "{number} è la Legevakt, il servizio medico di guardia.",
+
+  emgNameNoSeaRescue: "Soccorso in mare",
+  emgSituationNoSeaRescue: "Qualcuno ha bisogno di aiuto sull'acqua.",
+  emgExplainNoSeaRescue: "{number} è la radio costiera. Manda i soccorsi in mare.",
+
   /* Gaps: services this country has no short number for */
   gapDePoison: "In Germania non c'è un numero valido in tutto il paese per gli avvelenamenti. Ogni Land ha il suo centro antiveleni. Se c'è pericolo di vita, chiama il 112.",
   gapDeRescue: "In Germania non c'è un numero proprio per il soccorso alpino. Lo raggiungi con il 112.",
@@ -222,8 +232,11 @@ export const it = {
   gapFrRescue: "In Francia non c'è un numero proprio per il soccorso alpino. Lo raggiungi con il 112.",
   gapItPoison: "In Italia non c'è un numero valido in tutto il paese per gli avvelenamenti. Ogni regione ha il suo Centro antiveleni. Se c'è pericolo di vita, chiama il 112.",
   gapItRescue: "In Italia non c'è un numero proprio per il soccorso alpino. Lo raggiungi con il 112.",
+  gapNoPoison: "In Norvegia non c'è un numero di emergenza corto per gli avvelenamenti. La Giftinformasjonen ha il numero 22 59 13 00.",
+  gapNoRescue: "In Norvegia non c'è un numero proprio per il soccorso alpino. Lo raggiungi con il 112.",
 
   /* Country notes */
   noteIt: "In Italia il 112 raccoglie tutte le chiamate di emergenza. I vecchi numeri 113, 115 e 118 funzionano ancora.",
-  noteLi: "Il Liechtenstein usa gli stessi numeri di emergenza della Svizzera."
+  noteLi: "Il Liechtenstein usa gli stessi numeri di emergenza della Svizzera.",
+  noteNo: "In Norvegia il 112 è la polizia e allo stesso tempo il numero di emergenza di tutta l'Europa."
 };

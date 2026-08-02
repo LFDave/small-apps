@@ -55,12 +55,14 @@ export const rm = {
   countryFr: "Frantscha",
   countryIt: "Italia",
   countryLi: "Liechtenstein",
+  countryNo: "Norvegia",
   countryInCh: "en Svizra",
   countryInDe: "en Germania",
   countryInAt: "en Austria",
   countryInFr: "en Frantscha",
   countryInIt: "en Italia",
   countryInLi: "en Liechtenstein",
+  countryInNo: "en Norvegia",
 
   /* Form */
   formTitleNew: "Nov numer",
@@ -219,6 +221,14 @@ export const rm = {
   emgSituationAtRescue: "Insatgi dovra agid en las muntognas.",
   emgExplainAtRescue: "{number} è il salvament da muntogna.",
 
+  emgNameNoLegevakt: "Legevakt",
+  emgSituationNoLegevakt: "Insatgi è malsaun e dovra oz anc in medi.",
+  emgExplainNoLegevakt: "{number} è la Legevakt, il servetsch medicinal da pichet.",
+
+  emgNameNoSeaRescue: "Salvament en mar",
+  emgSituationNoSeaRescue: "Insatgi dovra agid sin l'aua.",
+  emgExplainNoSeaRescue: "{number} è la radio da costa. Ella tramet agid sin il mar.",
+
   /* Gaps: services this country has no short number for */
   gapDePoison: "En Germania n'exista nagin numer valaivel en tut il pajais per intoxicaziuns. Mintga Land ha ses agen center da tissis. En cas da privel da mort clamas ti 112.",
   gapDeRescue: "En Germania n'exista nagin agen numer per il salvament da muntogna. Ti al cuntanschas via 112.",
@@ -227,8 +237,11 @@ export const rm = {
   gapFrRescue: "En Frantscha n'exista nagin agen numer per il salvament da muntogna. Ti al cuntanschas via 112.",
   gapItPoison: "En Italia n'exista nagin numer valaivel en tut il pajais per intoxicaziuns. Mintga regiun ha ses agen Centro antiveleni. En cas da privel da mort clamas ti 112.",
   gapItRescue: "En Italia n'exista nagin agen numer per il salvament da muntogna. Ti al cuntanschas via 112.",
+  gapNoPoison: "En Norvegia n'exista nagin curt numer d'urgenza per intoxicaziuns. La Giftinformasjonen ha il numer 22 59 13 00.",
+  gapNoRescue: "En Norvegia n'exista nagin agen numer per il salvament da muntogna. Ti al cuntanschas via 112.",
 
   /* Country notes */
   noteIt: "En Italia unescha 112 tut las clamadas d'urgenza. Ils vegls numers 113, 115 e 118 funcziunan vinavant.",
-  noteLi: "Liechtenstein dovra ils medems numers d'urgenza sco la Svizra."
+  noteLi: "Liechtenstein dovra ils medems numers d'urgenza sco la Svizra.",
+  noteNo: "En Norvegia è 112 la polizia ed al medem mument il numer d'urgenza per tut l'Europa."
 };

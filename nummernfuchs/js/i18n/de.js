@@ -52,12 +52,14 @@ export const de = {
   countryFr: "Frankreich",
   countryIt: "Italien",
   countryLi: "Liechtenstein",
+  countryNo: "Norwegen",
   countryInCh: "in der Schweiz",
   countryInDe: "in Deutschland",
   countryInAt: "in Österreich",
   countryInFr: "in Frankreich",
   countryInIt: "in Italien",
   countryInLi: "in Liechtenstein",
+  countryInNo: "in Norwegen",
 
   /* Form */
   formTitleNew: "Neue Nummer",
@@ -216,6 +218,14 @@ export const de = {
   emgSituationAtRescue: "Jemand braucht Hilfe in den Bergen.",
   emgExplainAtRescue: "{number} ist die Bergrettung.",
 
+  emgNameNoLegevakt: "Legevakt",
+  emgSituationNoLegevakt: "Jemand ist krank und braucht heute noch eine Ärztin.",
+  emgExplainNoLegevakt: "{number} ist die Legevakt, der ärztliche Notdienst.",
+
+  emgNameNoSeaRescue: "Seenot",
+  emgSituationNoSeaRescue: "Jemand braucht Hilfe auf dem Wasser.",
+  emgExplainNoSeaRescue: "{number} ist die Küstenfunkstelle. Sie holt Hilfe aufs Meer.",
+
   /* Gaps: services this country has no short number for */
   gapDePoison: "Für Vergiftungen gibt es in Deutschland keine bundesweite Nummer. Jedes Bundesland hat einen eigenen Giftnotruf. Bei Lebensgefahr wählst du 112.",
   gapDeRescue: "Für die Bergrettung gibt es in Deutschland keine eigene Nummer. Du erreichst sie über 112.",
@@ -224,8 +234,11 @@ export const de = {
   gapFrRescue: "Für die Bergrettung gibt es in Frankreich keine eigene Nummer. Du erreichst sie über 112.",
   gapItPoison: "Für Vergiftungen gibt es in Italien keine landesweite Nummer. Jede Region hat ein eigenes Centro antiveleni. Bei Lebensgefahr wählst du 112.",
   gapItRescue: "Für die Bergrettung gibt es in Italien keine eigene Nummer. Du erreichst sie über 112.",
+  gapNoPoison: "Für Vergiftungen gibt es in Norwegen keine kurze Notrufnummer. Die Giftinformasjonen hat die Nummer 22 59 13 00.",
+  gapNoRescue: "Für die Bergrettung gibt es in Norwegen keine eigene Nummer. Du erreichst sie über 112.",
 
   /* Country notes */
   noteIt: "In Italien führt 112 alle Notrufe zusammen. Die alten Nummern 113, 115 und 118 funktionieren weiterhin.",
-  noteLi: "Liechtenstein nutzt dieselben Notfallnummern wie die Schweiz."
+  noteLi: "Liechtenstein nutzt dieselben Notfallnummern wie die Schweiz.",
+  noteNo: "In Norwegen ist 112 die Polizei und zugleich der Notruf für ganz Europa."
 };
