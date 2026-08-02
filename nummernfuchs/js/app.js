@@ -1,16 +1,16 @@
 // app.js — controller: owns the state, handles all interactions via
 // event delegation, persists through storage.js and renders via ui.js.
 
-import { render, intlPreviewText } from "./ui.js?v=7";
-import { countryByCode, emergencyKey } from "./data.js?v=7";
-import { t, setLanguage } from "./i18n.js?v=7";
-import * as storage from "./storage.js?v=7";
-import { parseNumberInput, autoChunk, randomDigits } from "./util.js?v=7";
+import { render, intlPreviewText } from "./ui.js?v=8";
+import { countryByCode, emergencyKey } from "./data.js?v=8";
+import { t, setLanguage } from "./i18n.js?v=8";
+import * as storage from "./storage.js?v=8";
+import { parseNumberInput, autoChunk, randomDigits } from "./util.js?v=8";
 import {
   buildLadder, expectedChars, checkTyped, stepNeedsInput, stepAllowsPlus,
   buildQuiz
-} from "./practice.js?v=7";
-import { award, xpForLadder, xpForQuiz } from "./game.js?v=7";
+} from "./practice.js?v=8";
+import { award, xpForLadder, xpForQuiz } from "./game.js?v=8";
 
 const state = {
   view: "home",

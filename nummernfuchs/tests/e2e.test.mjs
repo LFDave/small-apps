@@ -15,10 +15,10 @@ import { readFile } from "node:fs/promises";
 import { mkdirSync, existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, extname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildLadder, expectedChars } from "../js/practice.js?v=7";
-import { autoChunk } from "../js/util.js?v=7";
-import { COUNTRIES, countryByCode } from "../js/data.js?v=7";
-import { TABLES, t, setLanguage, keyPart } from "../js/i18n.js?v=7";
+import { buildLadder, expectedChars } from "../js/practice.js?v=8";
+import { autoChunk } from "../js/util.js?v=8";
+import { COUNTRIES, countryByCode } from "../js/data.js?v=8";
+import { TABLES, t, setLanguage, keyPart } from "../js/i18n.js?v=8";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -444,12 +444,14 @@ try {
   await page.click('[data-action="nav-settings"]');
   check("settings view opens", (await text("h1")) === "Einstellungen");
   check("five languages offered", await page.locator('[data-action="set-lang"]').count() === 5);
-  check("six countries offered", await page.locator('[data-action="set-country"]').count() === 6);
+  check(`${COUNTRIES.length} countries offered`,
+    await page.locator('[data-action="set-country"]').count() === COUNTRIES.length);
   check("current language is marked",
     (await page.getAttribute('[data-lang="de"]', "aria-pressed")) === "true");
   check("no save button in settings",
     await page.locator('[data-action="settings-save"]').count() === 0);
-  check("every country choice carries a flag", await page.locator(".choice-country .flag").count() === 6);
+  check("every country choice carries a flag",
+    await page.locator(".choice-country .flag").count() === COUNTRIES.length);
   // Offline, or with flagcdn unreachable, no broken image may remain.
   await page.waitForFunction(() =>
     [...document.querySelectorAll(".flag")].every((el) => el.complete));
@@ -539,6 +541,49 @@ try {
     await page.locator(".emg-gaps").count() === 0);
   check("German practice did not mark Swiss numbers as known",
     await page.locator(".emg-known").count() === 0);
+
+  /* ── Norway: the same digits, a different service ──────────────── */
+  // 110 is the police in Germany and the fire brigade in Norway, so the
+  // pack has to pair the number with the right name, not the familiar one.
+  await page.click('[data-action="nav-settings"]');
+  await page.click('[data-action="set-country"][data-country="no"]');
+  await page.click('[data-action="nav-home"]');
+  const norwegian = packOf("no");
+  const shown = Object.fromEntries(await page.$$eval(".emg-item", (items) =>
+    items.map((li) => [
+      li.querySelector(".emg-num").textContent.trim(),
+      li.querySelector(".emg-name").textContent.trim()
+    ])));
+  check("Norway pairs 110 with the fire brigade", shown["110"] === "Fire brigade", JSON.stringify(shown));
+  check("Norway pairs 112 with the police", shown["112"] === "Police", JSON.stringify(shown));
+  check("Norway pairs 113 with the ambulance", shown["113"] === "Ambulance", JSON.stringify(shown));
+  check("the Legevakt number is in the pack", shown["116117"] === "Legevakt", JSON.stringify(shown));
+  check("the sea rescue number is in the pack", shown["120"] === "Sea rescue", JSON.stringify(shown));
+  check("Norway explains that 112 is also the European number",
+    (await text(".emg-grid + .hint")).includes("Europe"));
+  check("the Norwegian poison gap names the long number",
+    (await text(".emg-gaps")).includes("22 59 13 00"));
+  await shot("20b-home-country-no");
+
+  // A full Norwegian quiz: every situation must resolve to exactly one
+  // number, and the pack must not reuse a German or Swiss meaning.
+  await page.click('[data-action="quiz-start"]');
+  for (let round = 0; round < norwegian.length; round++) {
+    const situation = await text(".quiz-situation");
+    const svc = findRound(norwegian, situation);
+    check(`Norwegian round ${round + 1} shows a known situation`, Boolean(svc), situation);
+    await page.keyboard.type(svc.number);
+    await page.waitForSelector(".feedback-success");
+    await page.click('[data-action="quiz-next"]');
+  }
+  check("Norwegian quiz summary is complete",
+    (await text(".done-panel .feedback")).includes("every number"));
+  await shot("20c-quiz-done-no");
+  await page.click('[data-action="nav-home"]');
+  check("Norwegian streaks stay on their own keys", await page.evaluate(() => {
+    const emg = JSON.parse(localStorage.getItem("nummernfuchs.state")).emergency;
+    return emg["no:112"] === 1 && emg["de:112"] === 1 && emg["no:110"] === 1;
+  }));
 
   // Every pack rendered once: the numbers a country has, and the ones
   // it has no short number for.

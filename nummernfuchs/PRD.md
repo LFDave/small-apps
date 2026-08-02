@@ -74,7 +74,7 @@ Follows the shared settings pattern in the repo PRODUCT.md.
 
 ## Countries
 
-Six countries, Switzerland by default. Each pack lists the numbers a
+Seven countries, Switzerland by default. Each pack lists the numbers a
 child there should know, with the dialling code used as the default for
 new international phone entries.
 
@@ -86,6 +86,7 @@ new international phone entries.
 | Frankreich | fr | +33 | 112 Notruf Europa, 17 Police secours, 18 Sapeurs-pompiers, 15 SAMU |
 | Italien | it | +39 | 112 Numero unico, 113 Polizia, 115 Vigili del fuoco, 118 Emergenza sanitaria |
 | Liechtenstein | li | +423 | 112 Notruf Europa, 117 Polizei, 118 Feuerwehr, 144 Sanität, 145 Tox Info, 1414 Rega |
+| Norwegen | no | +47 | 110 Feuerwehr, 112 Polizei, 113 Sanität, 116117 Legevakt, 120 Seenot |
 
 Numbers carry a `key`, not their own copy: the name, the situation and
 the explanation come from the string tables, so one pack reads the same
@@ -110,14 +111,17 @@ with a warning icon, and name what to do instead.
 | fr | mountain rescue | no separate number, reached through 112 |
 | it | poison | no nationwide number, regional Centri antiveleni, call 112 |
 | it | mountain rescue | no separate number, reached through 112 |
+| no | poison | no short number, Giftinformasjonen is 22 59 13 00 |
+| no | mountain rescue | no separate number, reached through 112 |
 
 Switzerland and Liechtenstein have no gaps.
 
 ### Country notes
 
-Two packs carry one extra line of context, shown as a quiet hint under
+Three packs carry one extra line of context, shown as a quiet hint under
 the grid: Italy (112 brings all emergency calls together, 113/115/118
-still work) and Liechtenstein (same numbers as Switzerland).
+still work), Liechtenstein (same numbers as Switzerland) and Norway
+(112 is the police and the European emergency number at the same time).
 
 ### Sources
 
@@ -143,6 +147,16 @@ citing those same official sources.
 - Italy: NUE 112 is the single emergency number and routes police, fire
   and medical calls; 113, 115 and 118 still work. Poison control runs
   through regional Centri antiveleni.
+- Norway: 110 brann, 112 politi and 113 ambulanse are the three national
+  emergency numbers. 116 117 reaches the local legevakt, the
+  out-of-hours medical service, confirmed by helsenorge.no. 120 reaches
+  the coastal radio to report an assistance need at sea; it appears on
+  the Kystverket VHF channel plan and stayed in place when the state
+  took the coastal radio service over from Telenor on 1 January 2026.
+  Giftinformasjonen, run by the Folkehelseinstituttet, is the single
+  national poison centre but has no short number: it is 22 59 13 00.
+  Land and mountain rescue is coordinated by the police through 112, so
+  there is no separate number.
 
 Do not extend or change a pack without a source. Never carry a number
 across a border because it looks familiar.
@@ -265,7 +279,7 @@ Entry status from `completions`: 0 = Neu, 1 to 2 = Geübt, 3+ = Sitzt!
    storage note ("Alle Nummern bleiben auf diesem Gerät.") and reset
    link (confirm dialog).
 2. **Einstellungen** — Sprache panel (5 options) and Land panel
-   (6 options with flag and dialling code).
+   (7 options with flag and dialling code).
 3. **Medaillen** — level panel with progress bar plus the medal grid
    (unlocked and locked), reached from the home stats strip.
 4. **Form** — type choice (Code / Telefonnummer), label, number input
@@ -363,6 +377,6 @@ retries cost nothing, and speed never matters.
 - Cache busting: every local asset URL carries the same `?v=N`
   (stylesheet link, script tag, inter-module imports, font urls).
   Bump N in all files on every release; the e2e suite enforces
-  consistency and walks `js/` recursively. Current: `?v=7`.
+  consistency and walks `js/` recursively. Current: `?v=8`.
 - Tests: `tests/e2e.test.mjs` (Playwright, self-contained static
   server, no python dependency).

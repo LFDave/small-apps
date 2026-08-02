@@ -50,12 +50,14 @@ export const fr = {
   countryFr: "France",
   countryIt: "Italie",
   countryLi: "Liechtenstein",
+  countryNo: "Norvège",
   countryInCh: "en Suisse",
   countryInDe: "en Allemagne",
   countryInAt: "en Autriche",
   countryInFr: "en France",
   countryInIt: "en Italie",
   countryInLi: "au Liechtenstein",
+  countryInNo: "en Norvège",
 
   /* Form */
   formTitleNew: "Nouveau numéro",
@@ -214,6 +216,14 @@ export const fr = {
   emgSituationAtRescue: "Quelqu'un a besoin d'aide en montagne.",
   emgExplainAtRescue: "{number}, c'est le secours en montagne.",
 
+  emgNameNoLegevakt: "Legevakt",
+  emgSituationNoLegevakt: "Quelqu'un est malade et a besoin d'un médecin aujourd'hui.",
+  emgExplainNoLegevakt: "{number}, c'est la Legevakt, le service médical de garde.",
+
+  emgNameNoSeaRescue: "Secours en mer",
+  emgSituationNoSeaRescue: "Quelqu'un a besoin d'aide sur l'eau.",
+  emgExplainNoSeaRescue: "{number}, c'est la radio côtière. Elle envoie les secours en mer.",
+
   /* Gaps: services this country has no short number for */
   gapDePoison: "L'Allemagne n'a pas de numéro national pour les empoisonnements. Chaque Land a son propre centre antipoison. En cas de danger de mort, appelle le 112.",
   gapDeRescue: "L'Allemagne n'a pas de numéro propre pour le secours en montagne. Tu l'atteins par le 112.",
@@ -222,8 +232,11 @@ export const fr = {
   gapFrRescue: "La France n'a pas de numéro propre pour le secours en montagne. Tu l'atteins par le 112.",
   gapItPoison: "L'Italie n'a pas de numéro national pour les empoisonnements. Chaque région a son propre Centro antiveleni. En cas de danger de mort, appelle le 112.",
   gapItRescue: "L'Italie n'a pas de numéro propre pour le secours en montagne. Tu l'atteins par le 112.",
+  gapNoPoison: "La Norvège n'a pas de numéro d'urgence court pour les empoisonnements. La Giftinformasjonen a le numéro 22 59 13 00.",
+  gapNoRescue: "La Norvège n'a pas de numéro propre pour le secours en montagne. Tu l'atteins par le 112.",
 
   /* Country notes */
   noteIt: "En Italie, le 112 regroupe toutes les urgences. Les anciens numéros 113, 115 et 118 fonctionnent toujours.",
-  noteLi: "Le Liechtenstein utilise les mêmes numéros d'urgence que la Suisse."
+  noteLi: "Le Liechtenstein utilise les mêmes numéros d'urgence que la Suisse.",
+  noteNo: "En Norvège, le 112 est à la fois la police et le numéro d'urgence de toute l'Europe."
 };

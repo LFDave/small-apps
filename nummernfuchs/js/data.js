@@ -97,6 +97,19 @@ export const COUNTRIES = [
     ],
     gaps: [],
     note: "noteLi"
+  },
+  {
+    code: "no",
+    cc: "47",
+    numbers: [
+      { key: "fire", number: "110", icon: "flame" },
+      { key: "police", number: "112", icon: "shield" },
+      { key: "medical", number: "113", icon: "ambulance" },
+      { key: "noLegevakt", number: "116117", icon: "stethoscope" },
+      { key: "noSeaRescue", number: "120", icon: "life-buoy" }
+    ],
+    gaps: ["gapNoPoison", "gapNoRescue"],
+    note: "noteNo"
   }
 ];
 

@@ -2,12 +2,12 @@
 // No state mutation here; all interactions go through data-action
 // attributes handled in app.js. Every visible string comes from i18n.
 
-import { icon } from "./icons.js?v=7";
-import { LANGUAGES, COUNTRIES, countryByCode, emergencyKey } from "./data.js?v=7";
-import { t, keyPart, currentLanguage } from "./i18n.js?v=7";
-import { intlChunks, statusOf, escapeHtml } from "./util.js?v=7";
-import { checkTyped, stepNeedsInput, stepAllowsPlus } from "./practice.js?v=7";
-import { MEDALS, levelFor } from "./game.js?v=7";
+import { icon } from "./icons.js?v=8";
+import { LANGUAGES, COUNTRIES, countryByCode, emergencyKey } from "./data.js?v=8";
+import { t, keyPart, currentLanguage } from "./i18n.js?v=8";
+import { intlChunks, statusOf, escapeHtml } from "./util.js?v=8";
+import { checkTyped, stepNeedsInput, stepAllowsPlus } from "./practice.js?v=8";
+import { MEDALS, levelFor } from "./game.js?v=8";
 
 export function render(state) {
   const app = document.getElementById("app");

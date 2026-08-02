@@ -50,12 +50,14 @@ export const en = {
   countryFr: "France",
   countryIt: "Italy",
   countryLi: "Liechtenstein",
+  countryNo: "Norway",
   countryInCh: "in Switzerland",
   countryInDe: "in Germany",
   countryInAt: "in Austria",
   countryInFr: "in France",
   countryInIt: "in Italy",
   countryInLi: "in Liechtenstein",
+  countryInNo: "in Norway",
 
   /* Form */
   formTitleNew: "New number",
@@ -214,6 +216,14 @@ export const en = {
   emgSituationAtRescue: "Someone needs help in the mountains.",
   emgExplainAtRescue: "{number} is the mountain rescue service.",
 
+  emgNameNoLegevakt: "Legevakt",
+  emgSituationNoLegevakt: "Someone is ill and needs a doctor today.",
+  emgExplainNoLegevakt: "{number} is the Legevakt, the out-of-hours medical service.",
+
+  emgNameNoSeaRescue: "Sea rescue",
+  emgSituationNoSeaRescue: "Someone needs help out on the water.",
+  emgExplainNoSeaRescue: "{number} is the coastal radio. It sends help out to sea.",
+
   /* Gaps: services this country has no short number for */
   gapDePoison: "Germany has no nationwide number for poisoning. Each federal state runs its own poison centre. If life is in danger, call 112.",
   gapDeRescue: "Germany has no separate number for mountain rescue. You reach it through 112.",
@@ -222,8 +232,11 @@ export const en = {
   gapFrRescue: "France has no separate number for mountain rescue. You reach it through 112.",
   gapItPoison: "Italy has no nationwide number for poisoning. Each region has its own Centro antiveleni. If life is in danger, call 112.",
   gapItRescue: "Italy has no separate number for mountain rescue. You reach it through 112.",
+  gapNoPoison: "Norway has no short emergency number for poisoning. The Giftinformasjonen has the number 22 59 13 00.",
+  gapNoRescue: "Norway has no separate number for mountain rescue. You reach it through 112.",
 
   /* Country notes */
   noteIt: "In Italy 112 brings all emergency calls together. The older numbers 113, 115 and 118 still work.",
-  noteLi: "Liechtenstein uses the same emergency numbers as Switzerland."
+  noteLi: "Liechtenstein uses the same emergency numbers as Switzerland.",
+  noteNo: "In Norway 112 is the police and the emergency number for all of Europe at the same time."
 };
