@@ -113,7 +113,8 @@ export const de = {
   feedbackReveal: "So wird es geschrieben. Präg es dir ein.",
 
   actionCheck: "Fertig",
-  writeConfirmHint: "Schreib den ganzen Satz. Wenn du fertig bist, tipp auf Fertig.",
+  writeConfirmHint: "Schreib den ganzen Satz.",
+  writeAutoHint: "Sobald der Satz fertig aussieht, prüft die App ihn. Sonst tipp auf Fertig.",
   memoryTypedWords: "Du hast geschrieben. Die markierten Wörter stimmen noch nicht:",
   actionRetry: "Nochmals versuchen",
   actionReveal: "Lösung zeigen",

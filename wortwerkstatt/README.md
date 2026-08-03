@@ -26,9 +26,11 @@ stehen darum auf beiden Listen.
 5. Schreibst du ein einzelnes Wort, siehst du beim letzten Zeichen
    sofort, ob es stimmt. Kein Bestätigen-Knopf: die Zahl der Zeichen
    steht darunter, du kannst sie zählen.
-6. Schreibst du einen ganzen Satz, tippst du am Ende auf Fertig. Bei
-   45 Zeichen zählt niemand mit, und ein fehlendes Komma würde sonst
-   nie geprüft. Stimmt etwas nicht, siehst du genau, welches Wort.
+6. Schreibst du einen ganzen Satz, prüft die App ihn, sobald er fertig
+   aussieht: wenn er stimmt, oder wenn er gleich viele Wörter hat und
+   mit einem Satzzeichen endet. Sonst tippst du auf Fertig. Stimmt
+   etwas nicht, siehst du genau, welches Wort, und dein Satz bleibt
+   stehen, damit du nur das eine Wort ändern musst.
 7. Nach der Antwort erscheint die Regel. Vorher wäre sie nur eine
    Tabelle zum Abschreiben.
 8. Für jede Runde gibt es XP, Levels (vom Schreiblehrling zur

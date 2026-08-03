@@ -4,18 +4,18 @@
 // i18n; every practice string comes from the content pack and is
 // marked with the content language so screen readers switch voice.
 
-import { icon } from "./icons.js?v=3";
+import { icon } from "./icons.js?v=4";
 import {
   LANGUAGES, CONTENT_LANGUAGES, CYCLES,
   contentByCode, topicsForCycle, topicById, topicKey,
   textsForCycle, textById, textKey, LEHRPLAN_VERSION
-} from "./data.js?v=3";
-import { t, currentLanguage } from "./i18n.js?v=3";
-import { escapeHtml, statusOf, topicStatus } from "./util.js?v=3";
+} from "./data.js?v=4";
+import { t, currentLanguage } from "./i18n.js?v=4";
+import { escapeHtml, statusOf, topicStatus } from "./util.js?v=4";
 import {
   fillTask, expectedAnswer, letterDiff, wordDiff, isTyped, needsConfirm, ROUND_SIZE
-} from "./round.js?v=3";
-import { MEDALS, levelFor } from "./game.js?v=3";
+} from "./round.js?v=4";
+import { MEDALS, levelFor } from "./game.js?v=4";
 
 // Sentinel put in place of the answer so the blank lands exactly where
 // round.js says it does, spacing included. A control character, because
@@ -33,7 +33,14 @@ export function render(state) {
   else if (state.view === "settings") html = renderSettings(state);
   app.innerHTML = `<div class="shell">${html}</div>`;
   const auto = app.querySelector("[data-autofocus]");
-  if (auto) auto.focus();
+  if (auto) {
+    auto.focus();
+    // A retry keeps the sentence, so the caret belongs after it rather
+    // than in front of what the child already wrote.
+    if (auto instanceof HTMLInputElement && auto.value) {
+      auto.setSelectionRange(auto.value.length, auto.value.length);
+    }
+  }
 }
 
 /* ── Content language marking ────────────────────────────────────── */
@@ -525,7 +532,7 @@ function renderTypedTask(state, task, r) {
                autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"
                inputmode="text" data-autofocus${contentLangAttr(state)}>
         <p class="hint">${confirm ? t("writeConfirmHint") : t("memoryLetters", { n: answer.length })}</p>
-        ${confirm ? "" : `<p class="hint">${t("memoryAutoHint")}</p>`}
+        <p class="hint">${confirm ? t("writeAutoHint") : t("memoryAutoHint")}</p>
       </div>
       ${confirm ? `<button type="button" class="btn btn-primary btn-wide" data-action="check">${t("actionCheck")}</button>` : ""}`;
   } else if (r.phase === "correct") {

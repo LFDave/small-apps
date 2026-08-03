@@ -113,7 +113,8 @@ export const en = {
   feedbackReveal: "This is how it is written. Remember it.",
 
   actionCheck: "Done",
-  writeConfirmHint: "Write the whole sentence. When you are finished, tap Done.",
+  writeConfirmHint: "Write the whole sentence.",
+  writeAutoHint: "As soon as the sentence looks finished, the app checks it. Otherwise tap Done.",
   memoryTypedWords: "What you wrote. The marked words are not right yet:",
   actionRetry: "Try again",
   actionReveal: "Show the answer",

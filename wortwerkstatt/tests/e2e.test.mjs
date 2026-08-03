@@ -22,12 +22,13 @@ import { fileURLToPath } from "node:url";
 import {
   CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey,
   textsForCycle, textKey, LEHRPLAN_VERSION
-} from "../js/data.js?v=3";
-import { TABLES } from "../js/i18n.js?v=3";
+} from "../js/data.js?v=4";
+import { TABLES } from "../js/i18n.js?v=4";
 import {
-  fillTask, expectedAnswer, solutionText, isTyped, needsConfirm, wordDiff, ROUND_SIZE
-} from "../js/round.js?v=3";
-import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=3";
+  fillTask, expectedAnswer, solutionText, isTyped, needsConfirm, wordDiff,
+  looksComplete, ROUND_SIZE
+} from "../js/round.js?v=4";
+import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=4";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -239,6 +240,24 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
     commaSentences.length > 0 && commaProblems.length === 0, commaProblems.slice(0, 4).join(" | "));
   check("every text sentence needs confirming, never a self-check",
     needsConfirm("text") && !needsConfirm("memory") && !needsConfirm("write"));
+
+  // The auto-accept rule may never fire on a sentence that is still
+  // being typed, or recall degrades into judging characters.
+  const halfProblems = [];
+  for (const item of CONTENT.texts.flatMap((text) => text.sentences)) {
+    const answer = item.answer;
+    if (!looksComplete(answer, answer)) halfProblems.push(`${answer}: right answer not accepted`);
+    if (!looksComplete(answer, answer + " ")) halfProblems.push(`${answer}: trailing space rejected`);
+    // Every prefix of the right answer is a sentence mid-typing.
+    for (let i = 1; i < answer.length; i++) {
+      if (looksComplete(answer, answer.slice(0, i))) {
+        halfProblems.push(`${answer}: judged at ${i} characters`);
+        break;
+      }
+    }
+  }
+  check("no half-typed sentence is ever judged on its own", halfProblems.length === 0,
+    halfProblems.slice(0, 4).join(" | "));
   const perCycle = CYCLES.map((c) => textsForCycle(CONTENT.code, c).length);
   check("every cycle has texts to write", perCycle.every((n) => n > 0), perCycle.join("/"));
 }
@@ -306,8 +325,15 @@ try {
   // checks itself on the last character, a whole sentence waits for the
   // Fertig button.
   const writeAnswer = async (kind, value) => {
+    // A retry keeps the sentence on screen, so a fresh answer starts
+    // from an empty field.
+    await page.fill("#answer", "");
     await page.type("#answer", value);
-    if (needsConfirm(kind)) await page.click('[data-action="check"]');
+    if (!needsConfirm(kind)) return;
+    // A finished-looking sentence judges itself; anything else waits
+    // for the button.
+    if (await count(".feedback-success, .feedback-warn")) return;
+    await page.click('[data-action="check"]');
   };
 
   const answerTask = async ({ wrong = false } = {}) => {
@@ -616,6 +642,7 @@ try {
     (await count('[data-action="check"]')) === 1);
   check("the field leaves room to overshoot, so a too-long answer is possible",
     Number(await page.getAttribute("#answer", "maxlength")) > full.length);
+  await page.fill("#answer", "");
   await page.type("#answer", shortOne);
   check("an answer one character short does not judge itself",
     (await count(".feedback-warn")) === 0 && (await count(".feedback-success")) === 0);
@@ -629,12 +656,49 @@ try {
   await shot("28b-text-missing-character");
   await page.click('[data-action="retry"]');
 
-  // Enter is the same button where one exists. Checked on a wrong
-  // answer, so the round stays where it is.
+  // A sentence that looks finished is judged without the button. The
+  // button exists for everything that cannot be told apart from a
+  // sentence still being typed.
+  await page.fill("#answer", "");
+  const smallStart = full.replace(/^(\S+)/, (w) => w.toLowerCase());
+  await page.type("#answer", smallStart);
+  check("a finished sentence with a small letter is judged without the button",
+    (await count(".feedback-warn")) === 1);
+  check("and it marks only the word that is wrong",
+    (await count(".word.miss")) === 1, `${await count(".word.miss")} marked`);
+  await page.click('[data-action="retry"]');
+  check("a retry keeps the sentence, so one slip is not a full retype",
+    (await page.inputValue("#answer")) === smallStart);
+  check("the caret sits after what was written", await page.evaluate(() => {
+    const el = document.getElementById("answer");
+    return el.selectionStart === el.value.length;
+  }));
+
+  // Enter is the same button where one exists. Driven on an answer the
+  // auto-check deliberately leaves alone, so it is Enter doing the work.
+  await page.fill("#answer", "");
   await page.type("#answer", shortOne);
+  check("the answer Enter is tested on is not auto-judged",
+    (await count(".feedback-warn, .feedback-success")) === 0);
   await page.keyboard.press("Enter");
   check("Enter confirms a sentence", (await count(".feedback-warn")) === 1);
   await page.click('[data-action="retry"]');
+
+  // Exactly right needs no button at all, which is the path a child who
+  // writes it correctly actually takes.
+  await page.fill("#answer", "");
+  await page.type("#answer", full);
+  check("an exactly right sentence is accepted without the button",
+    (await count(".feedback-success")) === 1);
+  check("a right sentence never shows a wrong word",
+    (await count(".word.miss")) === 0);
+  await shot("29b-text-auto-accepted");
+
+  // Back to the start of the text, so the write-through below runs from
+  // sentence one.
+  await backHome();
+  await page.click(`[data-action="start-text"][data-id="${firstText.id}"]`);
+  await page.waitForSelector(".para-line");
 
   for (const [i, sentence] of firstText.sentences.entries()) {
     if (i > 0) {
@@ -651,11 +715,15 @@ try {
   await page.waitForSelector(".done-panel");
   check("the finished text is shown as a text",
     (await count(".done-panel .para-line.done")) === firstText.sentences.length);
+  const doneLine = await text(".done-panel .feedback");
   check("the completion counts sentences, not tasks",
-    (await text(".done-panel .feedback")).includes(`von ${firstText.sentences.length} Sätzen`),
-    await text(".done-panel .feedback"));
+    /Sätze|Sätzen/.test(doneLine) && !doneLine.includes("Aufgaben"), doneLine);
+  // Written from the start with no miss, so every sentence is first
+  // try and the whole round carries the writing bonus.
+  const sentenceCount = firstText.sentences.length;
   check("a text is written entirely by hand, so it earns the writing bonus",
-    (await text(".reward-xp")) === `+${xpForRound(1, firstText.sentences.length - 1, 1, true)} XP`);
+    (await text(".reward-xp")) === `+${xpForRound(1, sentenceCount, 0, true)} XP`,
+    await text(".reward-xp"));
   check("a finished text is recorded on its own", await page.evaluate((id) =>
     JSON.parse(localStorage.getItem("wortwerkstatt.state")).texts[id].rounds === 1, firstText.id));
   await shot("30-text-done");

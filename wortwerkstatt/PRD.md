@@ -220,9 +220,34 @@ can count eight letters. For a 45-character sentence it is not.
 - `memory` and `write` (a single word): **no confirm button**, the
   answer is checked the moment the last character lands, with the
   character count and the advisory line under the field.
-- `copy` and `text` (a whole sentence): **a Fertig button**, and Enter
-  does the same. PRODUCT.md covers this case directly — keep a confirm
+- `copy` and `text` (a whole sentence): judged on its own **as soon as
+  it looks finished**, with a **Fertig** button (and Enter) for
+  everything else. PRODUCT.md covers this case directly — keep a confirm
   button where the input length is unknown.
+
+A sentence looks finished in exactly two cases, both in `looksComplete`:
+
+1. **It is exactly right.** The answer ends in a sentence mark, so
+   passing through it means the child is done. Writing correctly never
+   needs the button, which is the path most children take.
+2. **Same word count, ending on a sentence mark.** That is what a
+   finished sentence looks like, and it covers the whole common error
+   class: a missing comma, a small letter, one letter short in a word.
+
+Anything else waits for the button, because a sentence with too few or
+too many words cannot be told apart from one still being typed. The
+suite proves the boundary by feeding every prefix of every right answer
+through `looksComplete` and requiring that none of them is judged.
+
+Leading, trailing and doubled spaces are normalised away before
+anything is judged (`normaliseTyped`): spacing is a slip of the thumb,
+not a spelling mistake.
+
+**A retry keeps the sentence.** A wrong verdict on a 45-character
+sentence must not cost the whole sentence, so the field comes back with
+what was written and the caret after it; the child fixes the marked
+word. A single word is three to ten characters, so it still starts
+fresh.
 
 Without the button a sentence written one character short — one missing
 comma, one missing letter in "stattfand" — never reaches the expected
