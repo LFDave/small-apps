@@ -4,6 +4,19 @@ small apps for various use cases
 
 ## Apps Available
 
+### 🧭 Lehrplan-Kompass
+A calm curriculum explorer for the Swiss Lehrplan 21 (Bern edition). Kids and parents pick a school cycle, browse all subject areas, and tick off competencies they already master: "Das kann ich schon."
+
+**Features:**
+- All 16 subject and module areas of Lehrplan 21 with 90 competence areas and 358 competencies, for all three cycles (kindergarten to 9th grade)
+- Child-friendly German paraphrases in Ich-form, with the official Lehrplan 21 code next to every entry for parents and teachers
+- Self-assessment checklist per cycle with per-subject progress bars
+- Checks are stored separately per cycle, so moving up a cycle starts a fresh round on the same competencies
+- German (Swiss standard), dark, quiet design; works offline after first load
+- Progress saved locally on the device (no sign-up, no tracking)
+
+**Open:** [lfdave.github.io/small-apps/lehrplan-kompass](https://lfdave.github.io/small-apps/lehrplan-kompass)
+
 ### 🃏 Jass Scoreboard (Schiefertafel Z/Z)
 A browser-based digital Jass scoreboard that replicates a traditional Swiss chalk slate board with the classic Z/Z layout.
 
