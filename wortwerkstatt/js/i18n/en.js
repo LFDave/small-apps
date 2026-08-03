@@ -112,6 +112,8 @@ export const en = {
   feedbackWrongAgain: "Almost. Read the rule slowly.",
   feedbackReveal: "This is how it is written. Remember it.",
 
+  wordsMissingOne: "One word is still missing.",
+  wordsMissingMany: "{n} words are still missing.",
   actionCheck: "Done",
   writeConfirmHint: "Write the whole sentence.",
   writeAutoHint: "As soon as the sentence looks finished, the app checks it. Otherwise tap Done.",

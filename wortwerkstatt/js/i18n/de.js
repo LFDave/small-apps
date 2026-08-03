@@ -112,6 +112,8 @@ export const de = {
   feedbackWrongAgain: "Fast. Lies die Regel langsam durch.",
   feedbackReveal: "So wird es geschrieben. Präg es dir ein.",
 
+  wordsMissingOne: "Ein Wort fehlt noch.",
+  wordsMissingMany: "{n} Wörter fehlen noch.",
   actionCheck: "Fertig",
   writeConfirmHint: "Schreib den ganzen Satz.",
   writeAutoHint: "Sobald der Satz fertig aussieht, prüft die App ihn. Sonst tipp auf Fertig.",
