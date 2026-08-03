@@ -53,6 +53,29 @@ await new Promise(r => setTimeout(r, 800));
 
 const browser = await chromium.launch({ executablePath: CHROMIUM });
 const page = await browser.newPage({ viewport: { width: 420, height: 900 } });
+
+// Lets a test queue the exact numbers the generator should draw next.
+// With an empty queue the app uses real randomness, so every other check
+// still runs against ordinary problems.
+await page.addInitScript(() => {
+  const real = Math.random;
+  window.__rand = [];
+  Math.random = () => (window.__rand.length ? window.__rand.shift() : real());
+});
+// The generator draws the result first, then one operand, both from
+// [0, max]. These are the two draws that produce a given task.
+const drawsFor = (op, a, b, max) => {
+  const result = op === "+" ? a + b : a - b;
+  return op === "+"
+    ? [(result + 0.5) / (max + 1), (a + 0.5) / (result + 1)]
+    : [(result + 0.5) / (max + 1), (b + 0.5) / (max - result + 1)];
+};
+const forceProblem = (op, a, b, max) =>
+  page.evaluate(d => { window.__rand = d; }, drawsFor(op, a, b, max));
+// Queues several tasks in a row, so a test can tell one advance from two.
+const forceProblems = (list) =>
+  page.evaluate(d => { window.__rand = d; }, list.flatMap(p => drawsFor(...p)));
+
 const consoleErrors = [];
 page.on("console", msg => { if (msg.type() === "error") consoleErrors.push(msg.text()); });
 page.on("pageerror", err => consoleErrors.push(String(err)));
@@ -203,6 +226,143 @@ try {
   check("accepting raises the range to 0-20",
     await page.evaluate(() => JSON.parse(localStorage.getItem("add-subtract.settings")).max === 20));
   check("quiz continues after accepting", (await page.textContent("#feedback")).trim() === "");
+
+  // ── Rechenweg hints ───────────────────────────────────────────────
+  const hintSteps = () => page.$$eval(".hint-steps li", els => els.map(e => e.textContent));
+
+  await page.click("#change-settings");
+  await page.click('#op-chips button[data-op="-"]');
+  await page.click('#range-chips button[data-min="0"][data-max="100"]');
+  await forceProblem("-", 45, 7, 100);
+  await page.click("#start");
+  check("test can force a specific problem", (await page.textContent("#problem")).trim() === "45 − 7 =");
+  check("hint stays closed until asked", (await page.textContent("#hint")).trim() === "");
+  check("hint toggle starts collapsed", await page.getAttribute("#hint-toggle", "aria-expanded") === "false");
+  await page.click("#hint-toggle");
+  check("45 − 7 steps down to the ten first",
+    (await hintSteps()).join(" | ") === "45 − 5 = 40 | 40 − 2 = ?");
+  check("hint names the strategy", (await page.textContent(".hint-title")) === "Gehe zuerst auf die Zehn.");
+  check("hint leaves the answer to the learner", !(await page.textContent("#hint")).includes("38"));
+  check("hint region is a status region (WCAG 4.1.3)", await page.getAttribute("#hint", "role") === "status");
+  check("toggle reports the expanded state", await page.getAttribute("#hint-toggle", "aria-expanded") === "true");
+  await page.screenshot({ path: join(SHOTS_DIR, "06-hint-minus-small.png") });
+  await page.click("#hint-toggle");
+  check("hint can be collapsed again",
+    (await page.textContent("#hint")).trim() === ""
+    && await page.getAttribute("#hint-toggle", "aria-expanded") === "false");
+
+  await typeAnswer("38");
+  await forceProblem("-", 45, 17, 100);
+  await page.click("#next");
+  check("second forced problem is 45 − 17", (await page.textContent("#problem")).trim() === "45 − 17 =");
+  await page.click("#hint-toggle");
+  check("45 − 17 counts up from the subtrahend",
+    (await hintSteps()).join(" | ") === "17 + 3 = 20 | 20 + 25 = 45 | Zusammen: 3 + 25 = ?");
+  check("counting-up hint leaves the answer open", !(await page.textContent("#hint")).includes("28"));
+  await page.screenshot({ path: join(SHOTS_DIR, "07-hint-minus-crossing.png") });
+
+  // Enter on a focused button does that button's job and nothing else,
+  // even while Weiter is on screen and listening for Enter.
+  await page.click("#hint-toggle");
+  await typeAnswer("28");
+  await forceProblems([["-", 45, 7, 100], ["-", 20, 5, 100]]);
+  await page.focus("#hint-toggle");
+  await page.keyboard.press("Enter");
+  check("Enter on the hint toggle does not skip the solved task",
+    (await page.textContent("#problem")).trim() === "45 − 17 =",
+    await page.textContent("#problem"));
+  check("Enter on the hint toggle opens the hint",
+    await page.getAttribute("#hint-toggle", "aria-expanded") === "true");
+
+  // Two tasks are queued, so a double advance would show the second one.
+  await page.focus("#next");
+  await page.keyboard.press("Enter");
+  check("Enter on Weiter advances exactly one task",
+    (await page.textContent("#problem")).trim() === "45 − 7 =",
+    await page.textContent("#problem"));
+  check("Weiter via Enter clears the feedback", (await page.textContent("#feedback")).trim() === "");
+  await page.evaluate(() => { window.__rand = []; });
+
+  await page.click("#change-settings");
+  await page.click('#op-chips button[data-op="+"]');
+  await page.click('#range-chips button[data-min="0"][data-max="20"]');
+  await forceProblem("+", 8, 7, 20);
+  await page.click("#start");
+  check("plus problem forced to 8 + 7", (await page.textContent("#problem")).trim() === "8 + 7 =");
+  await page.click("#hint-toggle");
+  check("8 + 7 fills up to the next ten",
+    (await hintSteps()).join(" | ") === "8 + 2 = 10 | 10 + 5 = ?");
+  await page.click("#hint-toggle");
+
+  // Second miss opens the hint by itself.
+  for (let i = 0; i < 2; i++) {
+    await typeAnswer("16");
+    if (i === 0) for (const _ of "16") await page.click("#backspace");
+  }
+  check("second miss opens the hint automatically",
+    await page.getAttribute("#hint-toggle", "aria-expanded") === "true"
+    && (await page.textContent(".hint-title")).length > 0);
+  check("feedback points at the hint instead of repeating it",
+    (await page.textContent("#feedback")).includes("Rechenweg"));
+  await page.screenshot({ path: join(SHOTS_DIR, "08-hint-after-second-miss.png") });
+  for (const _ of "16") await page.click("#backspace");
+  await typeAnswer("15");
+  check("solving after the hint still counts and pays full XP",
+    (await page.textContent("#reward")).includes("XP"));
+
+  // A hint costs nothing but does not feed the mastery streak.
+  await page.click("#change-settings");
+  await forceProblem("+", 8, 7, 20);
+  await page.click("#start");
+  await page.click("#hint-toggle");
+  await typeAnswer("15");
+  check("a hinted task does not raise the clean-run streak",
+    await page.evaluate(() => JSON.parse(localStorage.getItem("add-subtract.stats")).firstTryStreak === 0));
+  const solvedBefore = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("add-subtract.stats")).solved);
+  await page.click("#next");
+  ({ answer } = await readProblem());
+  await typeAnswer(String(answer));
+  check("an unhinted solve raises the clean-run streak",
+    await page.evaluate(() => JSON.parse(localStorage.getItem("add-subtract.stats")).firstTryStreak === 1));
+  check("hinted solves still count as solved",
+    await page.evaluate(() => JSON.parse(localStorage.getItem("add-subtract.stats")).solved) === solvedBefore + 1);
+
+  // ── Alles zurücksetzen ────────────────────────────────────────────
+  await page.click("#change-settings");
+  check("reset lives in the home footer, not in the quiz",
+    await page.isVisible(".app-footer #reset-all") && !(await page.isVisible("#quiz")));
+
+  let dialogText = "";
+  page.once("dialog", d => { dialogText = d.message(); d.dismiss(); });
+  await page.click("#reset-all");
+  check("reset asks before deleting", dialogText.length > 0);
+  check("confirmation says the data lives on this device", dialogText.includes("Gerät"), dialogText);
+  check("cancelling keeps the progress",
+    await page.evaluate(() => JSON.parse(localStorage.getItem("add-subtract.stats")).solved > 0));
+
+  page.once("dialog", d => d.accept());
+  await page.click("#reset-all");
+  const after = await page.evaluate(() => JSON.parse(localStorage.getItem("add-subtract.stats")));
+  check("reset clears XP, solves and streak", after.xp === 0 && after.solved === 0 && after.streak === 0);
+  check("reset clears the medal counters",
+    after.digitsTyped === 0 && after.minusSolved === 0 && Object.keys(after.rangesSolved).length === 0);
+  check("reset keeps the settings",
+    await page.evaluate(() => {
+      const s = JSON.parse(localStorage.getItem("add-subtract.settings"));
+      return s.op === "+" && s.max === 20;
+    }));
+  check("progress box shows the first level again",
+    (await page.textContent("#level-name")) === "Zahlenstart");
+  check("medal count is back to zero", (await page.textContent("#medal-count")).includes("0 von 8"));
+  check("reset is announced in a status region",
+    await page.getAttribute("#reset-status", "role") === "status"
+    && (await page.textContent("#reset-status")).length > 0);
+  await page.screenshot({ path: join(SHOTS_DIR, "09-reset.png"), fullPage: true });
+  await page.click("#show-medals");
+  check("medals are locked again after the reset",
+    await page.evaluate(() => document.querySelectorAll(".medal.locked").length === 8));
+  await page.click("#medals-back");
 
   check("no console errors", consoleErrors.length === 0, consoleErrors.join(" | "));
 } finally {
