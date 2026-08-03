@@ -267,6 +267,15 @@ word is shown back character by character, because its letters are the
 lesson. A sentence is shown back **word by word**, and the two sentences
 are **aligned** rather than compared position by position.
 
+**A punctuation mark is judged on its own**, not as part of the word it
+hangs off. Writing `leicht` for `leicht.` spells the word perfectly and
+forgets the full stop; marking the word red would say the child got the
+word wrong and hide which of the two rules they actually missed. End
+marks and commas are their own lesson in this app, so they are their own
+token, rendered in their own narrow cell tight against the word so the
+sentence still reads as a sentence. A missing comma now leaves `wusste`
+green and puts the gap where the comma belongs.
+
 Position by position, one word dropped in the middle shifts everything
 after it and the rest of the sentence turns red — which tells a child
 nothing except that they failed. Aligned (`wordDiff`, longest common

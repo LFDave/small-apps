@@ -6,14 +6,14 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=6") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=7") format("woff2");
 }
 @font-face {
   font-family: "Atkinson Hyperlegible";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=6") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=7") format("woff2");
 }
 
 :root {
@@ -982,6 +982,22 @@ h1, h2, h3 {
 
 /* A word the child left out: the gap is shown where it belongs rather
    than shifting every later word out of place. */
+/* A word and the mark after it sit together, so the sentence still
+   reads as a sentence while each is judged on its own. */
+.word-group {
+  display: inline-flex;
+  gap: 2px;
+}
+
+/* A mark is one character wide, so its cell does not need a word's
+   worth of room. */
+.word.punct {
+  min-width: 1.5rem;
+  padding-left: var(--space-1);
+  padding-right: var(--space-1);
+  text-align: center;
+}
+
 .word.gap::before {
   content: "·";
   color: var(--color-danger);

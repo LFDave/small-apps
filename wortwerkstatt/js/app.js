@@ -1,17 +1,17 @@
 // app.js — controller: owns the state, handles all interactions via
 // event delegation, persists through storage.js and renders via ui.js.
 
-import { render } from "./ui.js?v=6";
+import { render } from "./ui.js?v=7";
 import {
   topicById, chapterById, chaptersForCycle, topicKey, textById, textKey
-} from "./data.js?v=6";
-import { t, setLanguage } from "./i18n.js?v=6";
-import * as storage from "./storage.js?v=6";
+} from "./data.js?v=7";
+import { t, setLanguage } from "./i18n.js?v=7";
+import * as storage from "./storage.js?v=7";
 import {
   buildRound, buildTextRound, isCorrect, needsStudyStep, expectedAnswer,
   isTyped, needsConfirm, looksComplete, normaliseTyped
-} from "./round.js?v=6";
-import { award, xpForRound } from "./game.js?v=6";
+} from "./round.js?v=7";
+import { award, xpForRound } from "./game.js?v=7";
 
 // Consecutive clean rounds before the app offers the next cycle. The
 // offer is a suggestion, never a forced step (GAMIFICATION.md).

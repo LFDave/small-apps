@@ -22,13 +22,13 @@ import { fileURLToPath } from "node:url";
 import {
   CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey,
   textsForCycle, textKey, LEHRPLAN_VERSION
-} from "../js/data.js?v=6";
-import { TABLES } from "../js/i18n.js?v=6";
+} from "../js/data.js?v=7";
+import { TABLES } from "../js/i18n.js?v=7";
 import {
   fillTask, expectedAnswer, solutionText, isTyped, needsConfirm, wordDiff,
   looksComplete, ROUND_SIZE
-} from "../js/round.js?v=6";
-import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=6";
+} from "../js/round.js?v=7";
+import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=7";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -266,11 +266,14 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
   for (const item of CONTENT.texts.flatMap((text) => text.sentences)) {
     const words = item.answer.split(" ");
     if (words.length < 4) continue;
+    // Drop a word that carries no mark of its own: deleting "wusste,"
+    // would remove a word and a comma, which is two slips, not one.
+    const plain = words.findIndex((w, k) => k > 0 && k < words.length - 1 && !/[.,!?;:]$/.test(w));
     const cases = [
       ["a small first letter", words.map((w, k) => (k ? w : w.toLowerCase())).join(" ")],
-      ["a word left out", words.filter((_, k) => k !== 1).join(" ")],
       ["a word too many", [...words.slice(0, 2), "sehr", ...words.slice(2)].join(" ")]
     ];
+    if (plain > 0) cases.push(["a word left out", words.filter((_, k) => k !== plain).join(" ")]);
     for (const [name, typed] of cases) {
       const { rows, missing } = wordDiff(item.answer, typed);
       const red = rows.filter((w) => !w.ok).length + missing;
@@ -293,11 +296,24 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
     check("replaced words never draw a gap where nothing is missing", gaps === 0, `${gaps} gaps`);
     check("the word that is genuinely missing is counted instead", missing === 1, String(missing));
     check("the marks carry back what the child actually wrote",
-      rows.map((w) => w.word).join(" ") === "das lernen fiel im schwer.",
-      rows.map((w) => w.word).join(" "));
+      rows.filter((w) => !w.ok && !w.gap).map((w) => w.word).join(" ") === "das lernen im schwer",
+      rows.filter((w) => !w.ok && !w.gap).map((w) => w.word).join(" "));
     const pure = wordDiff(answer, "Das Lernen fiel ihm leicht.");
     check("a word left out with nothing in its place still shows a gap",
       pure.rows.filter((w) => w.gap).length === 1 && pure.missing === 0);
+
+    // A mark is its own lesson, so it is judged on its own: forgetting
+    // the full stop must not call the word in front of it misspelled.
+    const noStop = wordDiff(answer, "Das Lernen fiel ihm diesmal leicht");
+    check("a missing end mark leaves the word before it right",
+      noStop.rows.every((w) => w.ok || w.gap) && noStop.rows.filter((w) => w.gap).length === 1,
+      noStop.rows.map((w) => (w.ok ? w.word : "[" + (w.word || "\u00b7") + "]")).join(" "));
+    check("the gap left by a mark is marked as a mark",
+      noStop.rows.find((w) => w.gap).punct === true);
+    const noComma = wordDiff("Er wusste, dass es regnet.", "Er wusste dass es regnet.");
+    check("a missing comma leaves the word before it right",
+      noComma.rows.every((w) => w.ok || w.gap) && noComma.rows.filter((w) => w.gap).length === 1,
+      noComma.rows.map((w) => (w.ok ? w.word : "[" + (w.word || "\u00b7") + "]")).join(" "));
   }
   const perCycle = CYCLES.map((c) => textsForCycle(CONTENT.code, c).length);
   check("every cycle has texts to write", perCycle.every((n) => n > 0), perCycle.join("/"));

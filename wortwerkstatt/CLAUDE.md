@@ -121,7 +121,12 @@ All enforced by the e2e suite unless noted:
   dropped. **Never replace it with a positional compare**; the suite
   requires that a small first letter, a word left out and a word too
   many each mark exactly one thing in every text sentence.
-  `wordDiff` returns `{rows, missing}`. A **gap cell is only ever drawn
+  `wordDiff` returns `{rows, missing}` over **tokens, not words**: a
+  trailing mark is split off (`splitTokens`), so forgetting a full stop
+  marks the mark and leaves the word before it green. End marks and
+  commas are their own rules here — never fold them back into the word.
+  Marks render in a narrow cell grouped tight against their word so the
+  sentence still reads as one. A **gap cell is only ever drawn
   where nothing was written in its place**; where words were replaced
   too, the missing word's position is a guess, so it goes into `missing`
   and is said in words. Do not draw gaps straight from the raw
