@@ -69,6 +69,25 @@ A calm memory trainer that helps kids learn real numbers by heart: door codes, f
 
 **Play:** [lfdave.github.io/small-apps/nummernfuchs](https://lfdave.github.io/small-apps/nummernfuchs)
 
+### ✏️ Wortwerkstatt
+A calm spelling trainer for kids, built around the three Lehrplan 21 cycles. One rule at a time, with the explanation appearing after the answer instead of before it.
+
+**Features:**
+- 17 orthography rules across the three cycles (1./2. Klasse, 3.-6. Klasse, 7.-9. Klasse)
+- Cycle 2 covers the classic stumbling blocks: sch, sp/st, ng/nk, abstract nouns, end-of-sentence marks
+- Four kinds of task: letters missing inside a word, a word missing from a sentence, a punctuation mark, and memory words written from memory
+- Distractors are the mistakes children really make (`Schport`, `Beischpiel`), so only the rule decides
+- Rounds of six tasks per rule, or mixed practice across the whole cycle
+- Memory words check themselves on the last letter, no confirm button
+- Supportive feedback that stays on screen, with the rule shown once the answer is in
+- Quiet gamification: XP, levels and medals that reward practice, never speed or perfection
+- After five clean rounds the app suggests the next cycle, and never forces it
+- German and English interface; the practice material stays German, because German spelling cannot be taught with English sentences
+- No external requests at all, works offline after the first load
+- Progress saved locally on the device (no sign-up, no tracking)
+
+**Play:** [lfdave.github.io/small-apps/wortwerkstatt](https://lfdave.github.io/small-apps/wortwerkstatt)
+
 ### ➕➖ Math Trainer
 Simple math practice game for addition and subtraction.
 
