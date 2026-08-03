@@ -4,7 +4,7 @@
 // module directly to derive the expected answers, so the tests can
 // never drift from the engine.
 
-import { shuffle } from "./util.js?v=2";
+import { shuffle } from "./util.js?v=3";
 
 export const ROUND_SIZE = 6;
 
@@ -18,8 +18,38 @@ export function isTyped(kind) {
   return TYPED_KINDS.includes(kind);
 }
 
+// Whole sentences are confirmed, single words check themselves.
+//
+// The known-length pattern only works while the length is knowable by
+// the person typing. For a word with "8 Buchstaben" under the field it
+// is: you can count eight letters. For a 45-character sentence it is
+// not — and a child who leaves out one comma then types a sentence that
+// looks finished, never reaches the expected length, and gets no
+// response at all. PRODUCT.md covers exactly this case: keep a confirm
+// button where the input length is unknown.
+export const CONFIRM_KINDS = ["copy", "text"];
+
+export function needsConfirm(kind) {
+  return CONFIRM_KINDS.includes(kind);
+}
+
 // Only the memory kind hides the answer first and asks for it back.
 // Write derives it from the rule, copy has it on screen the whole time.
+// Which words of a sentence are right, word by word. A sentence is
+// compared by word rather than by character on purpose: one missing
+// comma shifts every later character, and a wall of red for a single
+// slip tells a child nothing. By word, a missing comma marks exactly
+// "wusste," and nothing else.
+export function wordDiff(expected, typed) {
+  const want = expected.split(" ");
+  const got = typed.trim() === "" ? [] : typed.split(/\s+/);
+  const rows = [];
+  for (let i = 0; i < Math.max(want.length, got.length); i++) {
+    rows.push({ word: got[i] === undefined ? "" : got[i], ok: got[i] === want[i] });
+  }
+  return rows;
+}
+
 export function needsStudyStep(task) {
   return task.kind === "memory";
 }

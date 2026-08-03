@@ -212,6 +212,34 @@ words, and no other part of the app asks for a whole text.
 
 ### Input model
 
+**Which answers check themselves, and which are confirmed.** The
+known-length pattern only works while the length is knowable by the
+person typing. For a word with "8 Zeichen" under the field it is: you
+can count eight letters. For a 45-character sentence it is not.
+
+- `memory` and `write` (a single word): **no confirm button**, the
+  answer is checked the moment the last character lands, with the
+  character count and the advisory line under the field.
+- `copy` and `text` (a whole sentence): **a Fertig button**, and Enter
+  does the same. PRODUCT.md covers this case directly — keep a confirm
+  button where the input length is unknown.
+
+Without the button a sentence written one character short — one missing
+comma, one missing letter in "stattfand" — never reaches the expected
+length, so the check never fires and the child sits in front of a
+finished-looking sentence with no response at all. The field for a
+confirmed answer also allows 15 characters of overshoot, so a sentence
+with one character too many can still be finished and told apart from a
+right one.
+
+**How a wrong answer comes back** depends on the same split. A single
+word is shown back character by character, because its letters are the
+lesson. A sentence is shown back **word by word**: one missing comma
+shifts every later character, and a wall of red for a single slip tells
+a child nothing. By word, a missing comma marks exactly `wusste,` and
+nothing else.
+
+
 - **Choice tasks**: large option buttons, no confirm step. A single
   punctuation mark gets display size, or a comma disappears in a button
   built for words. The empty option of a comma rule renders as

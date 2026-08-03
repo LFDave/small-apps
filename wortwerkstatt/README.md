@@ -23,11 +23,15 @@ stehen darum auf beiden Listen.
    **Kapitel 3, Selber schreiben**: gleiche Regel, aber selber tippen.
 4. Eine Runde sind sechs Aufgaben. Am Ende schlägt die App gleich das
    nächste Kapitel vor.
-5. Beim Schreiben siehst du beim letzten Zeichen sofort, ob es stimmt.
-   Kein Bestätigen-Knopf.
-6. Nach der Antwort erscheint die Regel. Vorher wäre sie nur eine
+5. Schreibst du ein einzelnes Wort, siehst du beim letzten Zeichen
+   sofort, ob es stimmt. Kein Bestätigen-Knopf: die Zahl der Zeichen
+   steht darunter, du kannst sie zählen.
+6. Schreibst du einen ganzen Satz, tippst du am Ende auf Fertig. Bei
+   45 Zeichen zählt niemand mit, und ein fehlendes Komma würde sonst
+   nie geprüft. Stimmt etwas nicht, siehst du genau, welches Wort.
+7. Nach der Antwort erscheint die Regel. Vorher wäre sie nur eine
    Tabelle zum Abschreiben.
-7. Für jede Runde gibt es XP, Levels (vom Schreiblehrling zur
+8. Für jede Runde gibt es XP, Levels (vom Schreiblehrling zur
    Meisterfeder) und Medaillen. Fehler kosten nichts, Tempo zählt nicht.
 
 Klappen fünf Runden hintereinander ohne Fehler, schlägt die App den

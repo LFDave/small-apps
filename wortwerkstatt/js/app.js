@@ -1,16 +1,17 @@
 // app.js — controller: owns the state, handles all interactions via
 // event delegation, persists through storage.js and renders via ui.js.
 
-import { render } from "./ui.js?v=2";
+import { render } from "./ui.js?v=3";
 import {
   topicById, chapterById, chaptersForCycle, topicKey, textById, textKey
-} from "./data.js?v=2";
-import { t, setLanguage } from "./i18n.js?v=2";
-import * as storage from "./storage.js?v=2";
+} from "./data.js?v=3";
+import { t, setLanguage } from "./i18n.js?v=3";
+import * as storage from "./storage.js?v=3";
 import {
-  buildRound, buildTextRound, isCorrect, needsStudyStep, expectedAnswer, isTyped
-} from "./round.js?v=2";
-import { award, xpForRound } from "./game.js?v=2";
+  buildRound, buildTextRound, isCorrect, needsStudyStep, expectedAnswer,
+  isTyped, needsConfirm
+} from "./round.js?v=3";
+import { award, xpForRound } from "./game.js?v=3";
 
 // Consecutive clean rounds before the app offers the next cycle. The
 // offer is a suggestion, never a forced step (GAMIFICATION.md).
@@ -162,10 +163,14 @@ function choose(value) {
 
 // Known-length input: evaluated as a whole answer the moment the last
 // character lands, never character by character while typing.
-function checkWritten() {
+function checkWritten({ confirmed = false } = {}) {
   const r = state.round;
+  if (!r || r.phase !== "ask") return;
   const task = r.tasks[r.i];
-  if (r.typed.length < expectedAnswer(task).length) return;
+  // A confirmed answer is judged exactly as written, however long it
+  // is. An auto-checked one waits for the last character.
+  if (!confirmed && r.typed.length < expectedAnswer(task).length) return;
+  if (confirmed && r.typed.trim() === "") return;
   if (isCorrect(task, r.typed)) {
     r.phase = "correct";
     r.firstTry[r.i] = !r.missed;
@@ -261,6 +266,7 @@ document.addEventListener("click", (e) => {
     case "start-topic-mixed": startTopicMixed(el.dataset.id); break;
     case "start-cycle-mixed": startCycleMixed(); break;
     case "start-text": startText(el.dataset.id); break;
+    case "check": checkWritten({ confirmed: true }); break;
     case "choose": choose(el.dataset.value); break;
     case "study-done": r.phase = "ask"; render(state); break;
     case "next": nextTask(); break;
@@ -314,14 +320,20 @@ document.addEventListener("input", (e) => {
     state.data.game.charsTyped += value.length - r.typed.length;
   }
   r.typed = value;
-  checkWritten();
+  // A sentence is confirmed by hand, so nothing is judged while typing.
+  if (!needsConfirm(r.tasks[r.i].kind)) checkWritten();
 });
 
-// Enter must not submit anything: the answer checks itself on the last
-// character, and an early Enter would look like a confirm button.
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && e.target instanceof HTMLElement && e.target.id === "answer") {
-    e.preventDefault();
+  if (e.key !== "Enter") return;
+  if (!(e.target instanceof HTMLElement) || e.target.id !== "answer") return;
+  e.preventDefault();
+  // Where a confirm button exists, Enter is the same button. Where the
+  // answer checks itself, Enter must do nothing, or it would read as a
+  // confirm button that is not there.
+  const r = state.round;
+  if (r && r.phase === "ask" && needsConfirm(r.tasks[r.i].kind)) {
+    checkWritten({ confirmed: true });
   }
 });
 

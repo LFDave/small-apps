@@ -4,16 +4,18 @@
 // i18n; every practice string comes from the content pack and is
 // marked with the content language so screen readers switch voice.
 
-import { icon } from "./icons.js?v=2";
+import { icon } from "./icons.js?v=3";
 import {
   LANGUAGES, CONTENT_LANGUAGES, CYCLES,
   contentByCode, topicsForCycle, topicById, topicKey,
   textsForCycle, textById, textKey, LEHRPLAN_VERSION
-} from "./data.js?v=2";
-import { t, currentLanguage } from "./i18n.js?v=2";
-import { escapeHtml, statusOf, topicStatus } from "./util.js?v=2";
-import { fillTask, expectedAnswer, letterDiff, isTyped, ROUND_SIZE } from "./round.js?v=2";
-import { MEDALS, levelFor } from "./game.js?v=2";
+} from "./data.js?v=3";
+import { t, currentLanguage } from "./i18n.js?v=3";
+import { escapeHtml, statusOf, topicStatus } from "./util.js?v=3";
+import {
+  fillTask, expectedAnswer, letterDiff, wordDiff, isTyped, needsConfirm, ROUND_SIZE
+} from "./round.js?v=3";
+import { MEDALS, levelFor } from "./game.js?v=3";
 
 // Sentinel put in place of the answer so the blank lands exactly where
 // round.js says it does, spacing included. A control character, because
@@ -502,24 +504,30 @@ function renderTypedTask(state, task, r) {
     <div class="panel task-panel task-${task.kind}">
       ${frame}
       ${task.kind === "text" ? `<p class="task-clue">${t("textIntro")}</p>` : clueLine(state, task)}
-      ${r.phase === "wrong" ? typedLetters(state, answer, r.typed) : ""}
+      ${r.phase === "wrong" ? typedBack(state, task, answer, r.typed) : ""}
     </div>`;
 
   let feedback = "";
   let actions = "";
   if (r.phase === "ask") {
-    // Known-length input: no confirm button, the answer is checked the
-    // moment the last letter lands. The advisory line under the field
-    // announces that before the field is used (WCAG 3.2.2 On Input).
+    // A single word checks itself on the last character, because its
+    // length is stated and countable. A whole sentence is confirmed:
+    // nobody counts 45 characters, and a child one comma short would
+    // otherwise wait forever for a check that can never fire.
+    const confirm = needsConfirm(task.kind);
+    // Room to overshoot, so a sentence with one character too many can
+    // still be finished and told apart from one that is right.
+    const cap = confirm ? answer.length + 15 : answer.length;
     actions = `
       <div class="answer-field">
         <label class="sr-only" for="answer">${t("memoryInputLabel")}</label>
-        <input id="answer" type="text" value="${escapeHtml(r.typed)}" maxlength="${answer.length}"
+        <input id="answer" type="text" value="${escapeHtml(r.typed)}" maxlength="${cap}"
                autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"
                inputmode="text" data-autofocus${contentLangAttr(state)}>
-        <p class="hint">${t("memoryLetters", { n: answer.length })}</p>
-        <p class="hint">${t("memoryAutoHint")}</p>
-      </div>`;
+        <p class="hint">${confirm ? t("writeConfirmHint") : t("memoryLetters", { n: answer.length })}</p>
+        ${confirm ? "" : `<p class="hint">${t("memoryAutoHint")}</p>`}
+      </div>
+      ${confirm ? `<button type="button" class="btn btn-primary btn-wide" data-action="check">${t("actionCheck")}</button>` : ""}`;
   } else if (r.phase === "correct") {
     feedback = feedbackBlock("success", t("feedbackCorrect"));
     actions = primaryBtn("next", t("actionNext"), true);
@@ -556,6 +564,24 @@ function paragraph(state, r, shown) {
 function clueLine(state, task) {
   return task.item.clue
     ? `<p class="task-clue"${contentLangAttr(state)}>${escapeHtml(task.item.clue)}</p>` : "";
+}
+
+// A single word comes back letter by letter, because its letters are
+// the lesson. A whole sentence comes back word by word: one missing
+// comma shifts every later character, and a wall of red for a single
+// slip tells a child nothing.
+function typedBack(state, task, answer, typed) {
+  return needsConfirm(task.kind)
+    ? typedWords(state, answer, typed)
+    : typedLetters(state, answer, typed);
+}
+
+function typedWords(state, answer, typed) {
+  const cells = wordDiff(answer, typed).map(({ word, ok }) =>
+    `<span class="word ${ok ? "ok" : "miss"}">${escapeHtml(word || "\u00b7")}</span>`).join("");
+  return `
+    <p class="hint">${t("memoryTypedWords")}</p>
+    <div class="words"${contentLangAttr(state)}>${cells}</div>`;
 }
 
 // What the child wrote, letter by letter, with the misses marked. The

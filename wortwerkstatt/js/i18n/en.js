@@ -112,6 +112,9 @@ export const en = {
   feedbackWrongAgain: "Almost. Read the rule slowly.",
   feedbackReveal: "This is how it is written. Remember it.",
 
+  actionCheck: "Done",
+  writeConfirmHint: "Write the whole sentence. When you are finished, tap Done.",
+  memoryTypedWords: "What you wrote. The marked words are not right yet:",
   actionRetry: "Try again",
   actionReveal: "Show the answer",
   actionRevealDone: "Keep practising",

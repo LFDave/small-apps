@@ -4,7 +4,7 @@
 import {
   LANGUAGES, CONTENT_LANGUAGES, CYCLES,
   DEFAULT_LANGUAGE, DEFAULT_CONTENT_LANGUAGE, DEFAULT_CYCLE
-} from "./data.js?v=2";
+} from "./data.js?v=3";
 
 const KEY = "wortwerkstatt.state";
 

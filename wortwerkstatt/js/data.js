@@ -2,7 +2,7 @@
 // three Lehrplan 21 cycles. No copy lives here; everything visible
 // resolves through the string tables in js/i18n/.
 
-import { de as contentDe } from "./content/de.js?v=2";
+import { de as contentDe } from "./content/de.js?v=3";
 
 export const LANGUAGES = [
   { code: "de", htmlLang: "de-CH", label: "Deutsch" },

@@ -112,6 +112,9 @@ export const de = {
   feedbackWrongAgain: "Fast. Lies die Regel langsam durch.",
   feedbackReveal: "So wird es geschrieben. Präg es dir ein.",
 
+  actionCheck: "Fertig",
+  writeConfirmHint: "Schreib den ganzen Satz. Wenn du fertig bist, tipp auf Fertig.",
+  memoryTypedWords: "Du hast geschrieben. Die markierten Wörter stimmen noch nicht:",
   actionRetry: "Nochmals versuchen",
   actionReveal: "Lösung zeigen",
   actionRevealDone: "Weiter üben",
