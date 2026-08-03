@@ -48,30 +48,46 @@ A hint shows how to get to the answer, not the answer itself.
 - The hint block sits between the toggle and the keypad and is a `role="status"` region, so opening it is announced. It holds a title naming the strategy, the steps as an unnumbered ordered list, and an optional short note.
 - Every hint breaks the task into steps small enough to do in the head and leaves exactly the last one open with "?", so the learner still makes the closing move. A hint never writes out the solved task.
 - The hint stays until "Weiter" and stays available after the task is solved.
-- The strategy follows from the numbers of the current task:
+- The learner can open it at any time. Nothing has to go wrong first.
 
-| Task shape | Strategy | Example |
+### Choosing the way, minus
+
+Four questions in order, the way a child would pick a way through. The first one that fits wins. Each hint carries the id of the rule that produced it, so the tests and this table stay in step.
+
+| # | Question | Rule id | Way | Example |
+| --- | --- | --- | --- | --- |
+| 1 | Is the number to take away close to the first one, at most 10 below it? | close | Count up from it, over the next ten and the next hundred. | 25 − 17 → 17 + 3 = 20, 20 + 5 = 25, Zusammen: 3 + 5 = ? |
+| 2 | Is it 1 or 2 below a whole ten? | round | Round it up, take that away, give the difference back. | 82 − 29 → 82 − 30 = 52, 52 + 1 = ? |
+| 3 | Do the ones cross a ten? | bridge | Take the tens away first, then step onto the ten, then the rest. | 42 − 7 → 42 − 2 = 40, 40 − 5 = ?<br>45 − 17 → 45 − 10 = 35, 35 − 5 = 30, 30 − 2 = ? |
+| 4 | Otherwise | steps | Tens first, then the ones. | 82 − 31 → 82 − 30 = 52, 52 − 1 = ? |
+
+Question 1 asks about closeness, not about size: 45 − 17 is 28 apart, so it bridges rather than counting up.
+
+Before the four questions, three shapes answer themselves:
+
+| Task shape | Rule id | Way |
 | --- | --- | --- |
-| plus, one part 0 | nothing changes | 7 + 0 |
-| plus, small part crosses a ten | fill up to the ten | 8 + 7 → 8 + 2 = 10, 10 + 5 = ? |
-| plus, small part lands on the ten | named, no steps | 5 + 5 |
-| plus, both parts under ten, no crossing | count on from the larger part | 3 + 4 |
-| plus, no crossing, tens present | ones only, the tens stay | 45 + 3 → 5 + 3 = ? |
-| plus, both parts whole tens | tens only, then a zero | 40 + 20 → 4 + 2 = ? |
-| plus, second part a whole ten | split the other number | 23 + 40 → 40 + 20 = 60, 60 + 3 = ? |
-| plus, two parts of ten or more | split the smaller into tens and ones | 23 + 45 → 45 + 20 = 65, 65 + 3 = ? |
-| minus 0, or a number from itself | named, no steps | 8 − 0, 8 − 8 |
-| minus, both under ten, no crossing | count back | 8 − 3 |
-| minus, no crossing, tens present | ones only, the tens stay | 48 − 3 → 8 − 3 = ? |
-| minus under ten from a whole ten | take it out of the last ten | 40 − 7 → 10 − 7 = 3, 30 + 3 = ? |
-| minus under ten from exactly 10 | count up | 10 − 7 → 7 + ? = 10 |
-| minus under ten crossing a ten | step down to the ten first | 45 − 7 → 45 − 5 = 40, 40 − 2 = ? |
-| minus ten or more, ones fit | take the tens away first | 95 − 12 → 95 − 10 = 85, 85 − 2 = ? |
-| minus a whole ten | split the first number | 45 − 20 → 40 − 20 = 20, 20 + 5 = ? |
-| minus, both whole tens | tens only, then a zero | 40 − 20 → 4 − 2 = ? |
-| minus ten or more, ones too small | count up from the smaller number over the next ten, then the next hundred | 45 − 17 → 17 + 3 = 20, 20 + 25 = 45, Zusammen: 3 + 25 = ? |
+| minus 0, or a number from itself | trivial | Named in one line, no steps. |
+| both numbers under ten | simple | Count back from the first one. |
+| standing exactly on 10 | close | The number pair to ten: 10 − 7 → 7 + ? = 10 |
 
-- Custom ranges up to 1000 use the same strategies. The counting-up ladder adds the hundred stone when it helps, for example 345 − 178 → 178 + 2 = 180, 180 + 20 = 200, 200 + 145 = 345.
+Inside question 3 and 4 the wording follows the numbers: the ones alone where the tens do not move (48 − 3 → 8 − 3 = ?), the tens alone where both are whole tens (40 − 20 → 4 − 2 = ?), splitting the first number where the second is a whole ten (45 − 20 → 40 − 20 = 20, 20 + 5 = ?), and taking the rest out of the last ten where the first number is a whole ten (40 − 7 → 10 − 7 = 3, 30 + 3 = ?).
+
+### Choosing the way, plus
+
+The same order without question 1, which has no meaning for addition.
+
+| # | Question | Rule id | Way | Example |
+| --- | --- | --- | --- | --- |
+| 2 | Is the smaller part 1 or 2 below a whole ten, and the larger part at least 10? | round | Round it up, add that, take the difference off again. | 45 + 19 → 45 + 20 = 65, 65 − 1 = ? |
+| 3 | Do the ones cross a ten? | fill | Fill up to the ten first. | 8 + 7 → 8 + 2 = 10, 10 + 5 = ? |
+| 4 | Otherwise | steps | Tens first, then the ones. | 23 + 45 → 45 + 20 = 65, 65 + 3 = ? |
+
+Plus 0 is named in one line (trivial), two single digits that do not cross are counted on from the larger part (simple), and a part that lands exactly on the ten is named rather than stepped (5 + 5, fill).
+
+### Range
+
+Custom ranges up to 1000 use the same questions. Counting up adds the hundred stone when it helps, for example 345 − 338 → 338 + 2 = 340, 340 + 5 = 345. No hint is longer than three steps.
 
 ## Accessibility
 

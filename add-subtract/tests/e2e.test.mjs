@@ -230,40 +230,72 @@ try {
   // ── Rechenweg hints ───────────────────────────────────────────────
   const hintSteps = () => page.$$eval(".hint-steps li", els => els.map(e => e.textContent));
 
-  await page.click("#change-settings");
-  await page.click('#op-chips button[data-op="-"]');
-  await page.click('#range-chips button[data-min="0"][data-max="100"]');
-  await forceProblem("-", 45, 7, 100);
-  await page.click("#start");
-  check("test can force a specific problem", (await page.textContent("#problem")).trim() === "45 − 7 =");
-  check("hint stays closed until asked", (await page.textContent("#hint")).trim() === "");
-  check("hint toggle starts collapsed", await page.getAttribute("#hint-toggle", "aria-expanded") === "false");
-  await page.click("#hint-toggle");
-  check("45 − 7 steps down to the ten first",
-    (await hintSteps()).join(" | ") === "45 − 5 = 40 | 40 − 2 = ?");
-  check("hint names the strategy", (await page.textContent(".hint-title")) === "Gehe zuerst auf die Zehn.");
-  check("hint leaves the answer to the learner", !(await page.textContent("#hint")).includes("38"));
+  // The strategy is picked by four questions in order: is the second
+  // number close to the first, is it close to a whole ten, do the ones
+  // cross a ten, otherwise tens first and then ones.
+  const CASES = [
+    { op: "-", a: 82, b: 31, rule: "tens first, then ones",
+      title: "Ziehe zuerst die Zehner ab.", steps: ["82 − 30 = 52", "52 − 1 = ?"], shot: null },
+    { op: "-", a: 25, b: 17, rule: "close to the first number, count up",
+      title: "Zähle von 17 hinauf bis 25.", steps: ["17 + 3 = 20", "20 + 5 = 25", "Zusammen: 3 + 5 = ?"],
+      shot: "07-hint-count-up.png" },
+    { op: "-", a: 42, b: 7, rule: "ones cross a ten, bridge",
+      title: "Gehe zuerst auf die Zehn.", steps: ["42 − 2 = 40", "40 − 5 = ?"], shot: null },
+    { op: "-", a: 82, b: 29, rule: "close to a whole ten, round and give back",
+      title: "Runde die 29 auf 30.", steps: ["82 − 30 = 52", "52 + 1 = ?"], shot: "06-hint-round.png" },
+    { op: "-", a: 45, b: 17, rule: "not close, so bridge instead of counting up",
+      title: "Gehe zuerst auf die Zehn.", steps: ["45 − 10 = 35", "35 − 5 = 30", "30 − 2 = ?"], shot: null },
+    { op: "-", a: 10, b: 7, rule: "number pair to ten",
+      title: "Zähle von 7 hinauf bis 10.", steps: ["7 + ? = 10"], shot: null },
+    { op: "-", a: 60, b: 45, rule: "tens away, then out of the last ten",
+      title: "Ziehe zuerst die Zehner ab.", steps: ["60 − 40 = 20", "10 − 5 = 5", "10 + 5 = ?"], shot: null },
+    { op: "+", a: 45, b: 19, rule: "plus close to a whole ten, round and take back",
+      title: "Runde die 19 auf 20.", steps: ["45 + 20 = 65", "65 − 1 = ?"], shot: "08-hint-plus-round.png" },
+    { op: "+", a: 8, b: 7, rule: "plus crossing a ten, fill up",
+      title: "Fülle zuerst auf die nächste Zehn.", steps: ["8 + 2 = 10", "10 + 5 = ?"], shot: null }
+  ];
+
+  for (const c of CASES) {
+    const sign = c.op === "+" ? "+" : "−";
+    await page.click("#change-settings");
+    await page.click(`#op-chips button[data-op="${c.op}"]`);
+    await page.click('#range-chips button[data-min="0"][data-max="100"]');
+    await forceProblem(c.op, c.a, c.b, 100);
+    await page.click("#start");
+    check(`task forced to ${c.a} ${sign} ${c.b}`,
+      (await page.textContent("#problem")).trim() === `${c.a} ${sign} ${c.b} =`,
+      await page.textContent("#problem"));
+    check(`${c.a} ${sign} ${c.b}: hint stays closed until asked`,
+      (await page.textContent("#hint")).trim() === ""
+      && await page.getAttribute("#hint-toggle", "aria-expanded") === "false");
+    await page.click("#hint-toggle");
+    check(`${c.a} ${sign} ${c.b}: ${c.rule}`,
+      (await page.textContent(".hint-title")) === c.title, await page.textContent(".hint-title"));
+    check(`${c.a} ${sign} ${c.b}: steps`,
+      (await hintSteps()).join(" | ") === c.steps.join(" | "), (await hintSteps()).join(" | "));
+    const answer = c.op === "+" ? c.a + c.b : c.a - c.b;
+    check(`${c.a} ${sign} ${c.b}: the answer stays the learner's move`,
+      !new RegExp(`(^|\\D)${answer}(\\D|$)`).test(await page.textContent("#hint")),
+      await page.textContent("#hint"));
+    if (c.shot) await page.screenshot({ path: join(SHOTS_DIR, c.shot) });
+  }
+
   check("hint region is a status region (WCAG 4.1.3)", await page.getAttribute("#hint", "role") === "status");
   check("toggle reports the expanded state", await page.getAttribute("#hint-toggle", "aria-expanded") === "true");
-  await page.screenshot({ path: join(SHOTS_DIR, "06-hint-minus-small.png") });
   await page.click("#hint-toggle");
   check("hint can be collapsed again",
     (await page.textContent("#hint")).trim() === ""
     && await page.getAttribute("#hint-toggle", "aria-expanded") === "false");
 
-  await typeAnswer("38");
-  await forceProblem("-", 45, 17, 100);
-  await page.click("#next");
-  check("second forced problem is 45 − 17", (await page.textContent("#problem")).trim() === "45 − 17 =");
-  await page.click("#hint-toggle");
-  check("45 − 17 counts up from the subtrahend",
-    (await hintSteps()).join(" | ") === "17 + 3 = 20 | 20 + 25 = 45 | Zusammen: 3 + 25 = ?");
-  check("counting-up hint leaves the answer open", !(await page.textContent("#hint")).includes("28"));
-  await page.screenshot({ path: join(SHOTS_DIR, "07-hint-minus-crossing.png") });
+  // The hint is available before any wrong answer: nothing above asked
+  // for one, and every task opened it straight from the toggle.
 
   // Enter on a focused button does that button's job and nothing else,
   // even while Weiter is on screen and listening for Enter.
-  await page.click("#hint-toggle");
+  await page.click("#change-settings");
+  await page.click('#op-chips button[data-op="-"]');
+  await forceProblem("-", 45, 17, 100);
+  await page.click("#start");
   await typeAnswer("28");
   await forceProblems([["-", 45, 7, 100], ["-", 20, 5, 100]]);
   await page.focus("#hint-toggle");
@@ -288,11 +320,6 @@ try {
   await page.click('#range-chips button[data-min="0"][data-max="20"]');
   await forceProblem("+", 8, 7, 20);
   await page.click("#start");
-  check("plus problem forced to 8 + 7", (await page.textContent("#problem")).trim() === "8 + 7 =");
-  await page.click("#hint-toggle");
-  check("8 + 7 fills up to the next ten",
-    (await hintSteps()).join(" | ") === "8 + 2 = 10 | 10 + 5 = ?");
-  await page.click("#hint-toggle");
 
   // Second miss opens the hint by itself.
   for (let i = 0; i < 2; i++) {
@@ -304,7 +331,7 @@ try {
     && (await page.textContent(".hint-title")).length > 0);
   check("feedback points at the hint instead of repeating it",
     (await page.textContent("#feedback")).includes("Rechenweg"));
-  await page.screenshot({ path: join(SHOTS_DIR, "08-hint-after-second-miss.png") });
+  await page.screenshot({ path: join(SHOTS_DIR, "09-hint-after-second-miss.png") });
   for (const _ of "16") await page.click("#backspace");
   await typeAnswer("15");
   check("solving after the hint still counts and pays full XP",
@@ -358,7 +385,7 @@ try {
   check("reset is announced in a status region",
     await page.getAttribute("#reset-status", "role") === "status"
     && (await page.textContent("#reset-status")).length > 0);
-  await page.screenshot({ path: join(SHOTS_DIR, "09-reset.png"), fullPage: true });
+  await page.screenshot({ path: join(SHOTS_DIR, "10-reset.png"), fullPage: true });
   await page.click("#show-medals");
   check("medals are locked again after the reset",
     await page.evaluate(() => document.querySelectorAll(".medal.locked").length === 8));

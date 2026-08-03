@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mathe-Trainer</title>
 <meta name="description" content="Plus und Minus üben. Ruhig, ohne Zeitdruck.">
-<link rel="icon" href="favicon.svg?v=4" type="image/svg+xml">
+<link rel="icon" href="favicon.svg?v=5" type="image/svg+xml">
 <style>
   :root {
     --color-background-app: #0E141D;
@@ -600,23 +600,63 @@
     return list;
   }
 
+  // How far a number sits below the next whole ten. 1 or 2 means it is
+  // close enough to round up and give the difference back afterwards.
+  function toNextTen(n) { return (10 - (n % 10)) % 10; }
+
+  // Counting up from the smaller number to the larger one.
+  function countUp(from, to) {
+    var marks = stones(from, to);
+    if (marks.length < 2) {
+      return {
+        rule: "close",
+        title: "Zähle von " + from + " hinauf bis " + to + ".",
+        steps: [from + " + ? = " + to]
+      };
+    }
+    var lines = [], parts = [], cur = from;
+    marks.forEach(function (m) {
+      lines.push(cur + " + " + (m - cur) + " = " + m);
+      parts.push(m - cur);
+      cur = m;
+    });
+    lines.push("Zusammen: " + parts.join(" + ") + " = ?");
+    return { rule: "close", title: "Zähle von " + from + " hinauf bis " + to + ".", steps: lines };
+  }
+
   function plusHint(x, y) {
     var big = Math.max(x, y), small = Math.min(x, y);
     var ones = big % 10;
     if (small === 0) {
-      return { title: "Wenn du nichts dazuzählst, bleibt die Zahl gleich.", steps: [] };
+      return { rule: "trivial", title: "Wenn du nichts dazuzählst, bleibt die Zahl gleich.", steps: [] };
+    }
+    // Close to a whole ten: round up, then take the extra back off.
+    var up = toNextTen(small);
+    if (up > 0 && up <= 2 && big >= 10) {
+      return {
+        rule: "round",
+        title: "Runde die " + small + " auf " + (small + up) + ".",
+        steps: [
+          big + " + " + (small + up) + " = " + (big + small + up),
+          (big + small + up) + " − " + up + " = ?"
+        ],
+        note: "Du hast " + up + " zu viel dazugezählt, darum kommt " + up + " wieder weg."
+      };
     }
     if (small < 10) {
       var toTen = 10 - ones;
       if (ones + small === 10) {
         return {
+          rule: "fill",
           title: "Das ergibt genau eine Zehn.",
           steps: [],
           note: big + " und " + small + " füllen die nächste Zehn ganz auf."
         };
       }
+      // The ones cross a ten: fill up to it first.
       if (ones + small > 10) {
         return {
+          rule: "fill",
           title: "Fülle zuerst auf die nächste Zehn.",
           steps: [
             big + " + " + toTen + " = " + (big + toTen),
@@ -627,12 +667,22 @@
       }
       if (big < 10) {
         return {
+          rule: "simple",
           title: "Zähle von der grösseren Zahl weiter.",
           steps: [],
           note: "Beginne bei " + big + " und zähle " + small + " weiter."
         };
       }
+      if (ones === 0) {
+        return {
+          rule: "steps",
+          title: "Die Einer kommen einfach dazu.",
+          steps: [],
+          note: "Die " + big + " bleibt gleich, die " + small + " stellst du dahinter."
+        };
+      }
       return {
+        rule: "steps",
         title: "Rechne nur die Einer.",
         steps: [ones + " + " + small + " = ?"],
         note: "Die " + tensOf(big) + " davor bleibt gleich."
@@ -641,12 +691,14 @@
     if (small % 10 === 0) {
       if (ones === 0) {
         return {
+          rule: "steps",
           title: "Rechne nur die Zehner.",
           steps: [(big / 10) + " + " + (small / 10) + " = ?"],
           note: "An das Ergebnis kommt noch eine Null."
         };
       }
       return {
+        rule: "steps",
         title: "Zerlege die " + big + " in " + tensOf(big) + " und " + ones + ".",
         steps: [
           tensOf(big) + " + " + small + " = " + (tensOf(big) + small),
@@ -654,7 +706,9 @@
         ]
       };
     }
+    // Tens first, then the ones.
     return {
+      rule: "steps",
       title: "Zerlege die " + small + " in " + tensOf(small) + " und " + (small % 10) + ".",
       steps: [
         big + " + " + tensOf(small) + " = " + (big + tensOf(small)),
@@ -663,85 +717,108 @@
     };
   }
 
+  // Four questions in order, the way a child would pick a way through:
+  // 1. Is the number to take away close to the first one? Count up.
+  // 2. Is it close to a whole ten? Round it and give the rest back.
+  // 3. Do the ones cross a ten? Go over the ten in steps.
+  // 4. Otherwise take the tens away first, then the ones.
   function minusHint(x, y) {
     var aOnes = x % 10, bOnes = y % 10;
+    var bTens = tensOf(y);
     if (y === 0) {
-      return { title: "Wenn du nichts abziehst, bleibt die Zahl gleich.", steps: [] };
+      return { rule: "trivial", title: "Wenn du nichts abziehst, bleibt die Zahl gleich.", steps: [] };
     }
     if (x === y) {
-      return { title: "Du ziehst die ganze Zahl ab.", steps: [], note: "Es bleibt nichts übrig." };
+      return { rule: "trivial", title: "Du ziehst die ganze Zahl ab.", steps: [], note: "Es bleibt nichts übrig." };
     }
-    if (y < 10) {
-      if (aOnes >= y) {
-        if (x < 10) {
-          return {
-            title: "Zähle in kleinen Schritten zurück.",
-            steps: [],
-            note: "Beginne bei " + x + " und zähle " + y + " zurück."
-          };
-        }
-        return {
-          title: "Rechne nur die Einer.",
-          steps: [aOnes + " − " + y + " = ?"],
-          note: "Die " + tensOf(x) + " davor bleibt gleich."
-        };
-      }
-      if (x === 10) {
-        return {
-          title: "Zähle von " + y + " hinauf bis 10.",
-          steps: [y + " + ? = 10"]
-        };
+    if (x < 10) {
+      return {
+        rule: "simple",
+        title: "Zähle in kleinen Schritten zurück.",
+        steps: [],
+        note: "Beginne bei " + x + " und zähle " + y + " zurück."
+      };
+    }
+    // Standing exactly on the ten: this is the number pair to 10.
+    if (x === 10) return countUp(y, 10);
+    // 1. Close to the first number: counting up is shorter than taking away.
+    if (y >= 10 && x - y <= 10) return countUp(y, x);
+    // 2. Close to a whole ten: round up, then give the difference back.
+    var up = toNextTen(y);
+    if (up > 0 && up <= 2) {
+      return {
+        rule: "round",
+        title: "Runde die " + y + " auf " + (y + up) + ".",
+        steps: [
+          x + " − " + (y + up) + " = " + (x - y - up),
+          (x - y - up) + " + " + up + " = ?"
+        ],
+        note: "Du hast " + up + " zu viel abgezogen, darum kommt " + up + " wieder dazu."
+      };
+    }
+    // 3. The ones cross a ten: take the tens away, then step over the ten.
+    if (aOnes < bOnes) {
+      var lines = [];
+      var cur = x;
+      if (bTens > 0) {
+        cur = x - bTens;
+        lines.push(x + " − " + bTens + " = " + cur);
       }
       if (aOnes === 0) {
+        // Standing on a whole ten: take the rest out of the last ten.
+        lines.push("10 − " + bOnes + " = " + (10 - bOnes));
+        lines.push((cur - 10) + " + " + (10 - bOnes) + " = ?");
         return {
-          title: "Nimm es von der letzten Zehn weg.",
-          steps: ["10 − " + y + " = " + (10 - y), (x - 10) + " + " + (10 - y) + " = ?"],
-          note: "Zerlege die " + x + " in " + (x - 10) + " und 10."
+          rule: "bridge",
+          title: bTens > 0 ? "Ziehe zuerst die Zehner ab." : "Nimm es von der letzten Zehn weg.",
+          steps: lines,
+          note: "Zerlege die " + cur + " in " + (cur - 10) + " und 10."
         };
       }
+      lines.push(cur + " − " + aOnes + " = " + tensOf(cur));
+      lines.push(tensOf(cur) + " − " + (bOnes - aOnes) + " = ?");
       return {
+        rule: "bridge",
         title: "Gehe zuerst auf die Zehn.",
-        steps: [x + " − " + aOnes + " = " + tensOf(x), tensOf(x) + " − " + (y - aOnes) + " = ?"],
-        note: "Zerlege die " + y + " in " + aOnes + " und " + (y - aOnes) + "."
+        steps: lines,
+        note: bTens > 0
+          ? "Zerlege die " + y + " in " + bTens + ", " + aOnes + " und " + (bOnes - aOnes) + "."
+          : "Zerlege die " + y + " in " + aOnes + " und " + (bOnes - aOnes) + "."
       };
     }
-    if (aOnes >= bOnes) {
-      if (bOnes === 0) {
-        if (aOnes === 0) {
-          return {
-            title: "Rechne nur die Zehner.",
-            steps: [(x / 10) + " − " + (y / 10) + " = ?"],
-            note: "An das Ergebnis kommt noch eine Null."
-          };
-        }
+    // 4. Nothing crosses: tens first, then the ones.
+    if (y < 10) {
+      return {
+        rule: "steps",
+        title: "Rechne nur die Einer.",
+        steps: [aOnes + " − " + y + " = ?"],
+        note: "Die " + tensOf(x) + " davor bleibt gleich."
+      };
+    }
+    if (bOnes === 0) {
+      if (aOnes === 0) {
         return {
-          title: "Zerlege die " + x + " in " + tensOf(x) + " und " + aOnes + ".",
-          steps: [tensOf(x) + " − " + y + " = " + (tensOf(x) - y), (tensOf(x) - y) + " + " + aOnes + " = ?"]
+          rule: "steps",
+          title: "Rechne nur die Zehner.",
+          steps: [(x / 10) + " − " + (y / 10) + " = ?"],
+          note: "An das Ergebnis kommt noch eine Null."
         };
       }
       return {
-        title: "Ziehe zuerst die Zehner ab.",
-        steps: [
-          x + " − " + tensOf(y) + " = " + (x - tensOf(y)),
-          (x - tensOf(y)) + " − " + bOnes + " = ?"
-        ],
-        note: "Zerlege die " + y + " in " + tensOf(y) + " und " + bOnes + "."
+        rule: "steps",
+        title: "Zerlege die " + x + " in " + tensOf(x) + " und " + aOnes + ".",
+        steps: [tensOf(x) + " − " + y + " = " + (tensOf(x) - y), (tensOf(x) - y) + " + " + aOnes + " = ?"]
       };
     }
-    // The ones digit is too small to take away: count up from the
-    // smaller number instead of subtracting.
-    var marks = stones(y, x);
-    if (marks.length < 2) {
-      return { title: "Zähle von " + y + " hinauf bis " + x + ".", steps: [y + " + ? = " + x] };
-    }
-    var lines = [], parts = [], cur = y;
-    marks.forEach(function (m) {
-      lines.push(cur + " + " + (m - cur) + " = " + m);
-      parts.push(m - cur);
-      cur = m;
-    });
-    lines.push("Zusammen: " + parts.join(" + ") + " = ?");
-    return { title: "Zähle von " + y + " hinauf bis " + x + ".", steps: lines };
+    return {
+      rule: "steps",
+      title: "Ziehe zuerst die Zehner ab.",
+      steps: [
+        x + " − " + bTens + " = " + (x - bTens),
+        (x - bTens) + " − " + bOnes + " = ?"
+      ],
+      note: "Zerlege die " + y + " in " + bTens + " und " + bOnes + "."
+    };
   }
 
   function renderHint() {
