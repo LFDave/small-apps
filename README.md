@@ -8,10 +8,10 @@ small apps for various use cases
 A calm curriculum explorer for the Swiss Lehrplan 21 (Bern edition). Kids and parents pick a school cycle, browse all subject areas, and tick off competencies they already master: "Das kann ich schon."
 
 **Features:**
-- All 16 subject and module areas of Lehrplan 21 with 90 competence areas and 358 competencies, for all three cycles (kindergarten to 9th grade)
-- Child-friendly German paraphrases in Ich-form, with the official Lehrplan 21 code next to every entry for parents and teachers
+- All 16 subject and module areas of Lehrplan 21 with 90 competence areas and 363 competencies, for all three cycles (kindergarten to 9th grade)
+- 721 cycle-specific, child-friendly German texts in Ich-form, each written at the level of that cycle's Grundanspruch, with the official Lehrplan 21 code next to every entry for parents and teachers
 - Self-assessment checklist per cycle with per-subject progress bars
-- Checks are stored separately per cycle, so moving up a cycle starts a fresh round on the same competencies
+- Checks are stored separately per cycle, so moving up a cycle starts a fresh round on the same competencies at their higher level
 - German (Swiss standard), dark, quiet design; works offline after first load
 - Progress saved locally on the device (no sign-up, no tracking)
 
