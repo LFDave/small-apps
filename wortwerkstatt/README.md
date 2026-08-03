@@ -31,7 +31,9 @@ stehen darum auf beiden Listen.
    mit einem Satzzeichen endet. Sonst tippst du auf Fertig. Stimmt
    etwas nicht, siehst du genau, welches Wort, und dein Satz bleibt
    stehen, damit du nur das eine Wort ändern musst. Ein Fehler färbt
-   immer nur ein Wort, auch wenn er am Anfang des Satzes steht.
+   immer nur ein Wort, auch wenn er am Anfang des Satzes steht. Fehlt
+   ein Satzzeichen, ist das Wort davor grün und ein roter Punkt zeigt,
+   wo das Zeichen hingehört.
 7. Nach der Antwort erscheint die Regel. Vorher wäre sie nur eine
    Tabelle zum Abschreiben.
 8. Für jede Runde gibt es XP, Levels (vom Schreiblehrling zur

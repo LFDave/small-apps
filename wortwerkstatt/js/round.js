@@ -4,7 +4,7 @@
 // module directly to derive the expected answers, so the tests can
 // never drift from the engine.
 
-import { shuffle } from "./util.js?v=6";
+import { shuffle } from "./util.js?v=7";
 
 export const ROUND_SIZE = 6;
 
@@ -69,22 +69,29 @@ export function looksComplete(expected, typed) {
 // Which of the child's words are right, and how many are missing.
 // Returns { rows, missing }.
 //
+// A **punctuation mark is judged on its own**, not as part of the word
+// it hangs off. Writing "leicht" for "leicht." spells the word
+// perfectly and forgets the full stop; marking the word red would say
+// the child got the word wrong and hide which of the two rules they
+// actually missed. End marks and commas are their own lesson here, so
+// they are their own token.
+//
 // The two sentences are aligned rather than walked position by
 // position: position by position, one word dropped in the middle
 // shifts everything after it and the rest of the sentence turns red.
 //
-// Between two words that match, the child's unmatched words are paired
-// against the expected ones that went with them — those are words
-// written differently, not words lost and words gained, so each shows
-// as one mark carrying what the child actually wrote.
+// Between two tokens that match, the child's unmatched tokens are
+// paired against the expected ones that went with them — those are
+// words written differently, not words lost and words gained, so each
+// shows as one mark carrying what the child actually wrote.
 //
 // A gap is only ever drawn where it is genuinely known: a stretch with
-// words expected and nothing written in their place. Where words were
+// tokens expected and nothing written in their place. Where tokens were
 // replaced as well, the position of the missing one is a guess, so it
 // is counted and said in words instead of drawn in the wrong spot.
 export function wordDiff(expected, typed) {
-  const want = splitWords(expected);
-  const got = splitWords(typed);
+  const want = splitTokens(expected);
+  const got = splitTokens(typed);
   const n = want.length;
   const m = got.length;
 
@@ -92,7 +99,7 @@ export function wordDiff(expected, typed) {
   const lcs = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
   for (let i = n - 1; i >= 0; i--) {
     for (let j = m - 1; j >= 0; j--) {
-      lcs[i][j] = want[i] === got[j]
+      lcs[i][j] = want[i].text === got[j].text
         ? lcs[i + 1][j + 1] + 1
         : Math.max(lcs[i + 1][j], lcs[i][j + 1]);
     }
@@ -104,11 +111,13 @@ export function wordDiff(expected, typed) {
   let added = [];
 
   const flush = () => {
-    for (const word of added) rows.push({ word, ok: false });
+    for (const token of added) rows.push({ word: token.text, ok: false, punct: token.punct });
     const short = dropped.length - added.length;
     if (short > 0) {
       if (added.length === 0) {
-        for (let k = 0; k < short; k++) rows.push({ word: "", ok: false, gap: true });
+        for (const token of dropped) {
+          rows.push({ word: "", ok: false, gap: true, punct: token.punct });
+        }
       } else {
         missing += short;
       }
@@ -120,10 +129,11 @@ export function wordDiff(expected, typed) {
   let i = 0;
   let j = 0;
   while (i < n && j < m) {
-    if (want[i] === got[j]) {
+    if (want[i].text === got[j].text) {
       flush();
-      rows.push({ word: got[j++], ok: true });
+      rows.push({ word: got[j].text, ok: true, punct: got[j].punct });
       i += 1;
+      j += 1;
     } else if (lcs[i + 1][j] >= lcs[i][j + 1]) {
       dropped.push(want[i++]);
     } else {
@@ -135,6 +145,21 @@ export function wordDiff(expected, typed) {
   flush();
 
   return { rows, missing };
+}
+
+// A word and the mark that follows it are two things to get right, so
+// they are two tokens: "leicht." becomes "leicht" and ".".
+function splitTokens(value) {
+  const tokens = [];
+  for (const chunk of splitWords(value)) {
+    const match = /^(.*?)([.,!?;:]+)$/.exec(chunk);
+    if (!match) tokens.push({ text: chunk, punct: false });
+    else {
+      if (match[1]) tokens.push({ text: match[1], punct: false });
+      tokens.push({ text: match[2], punct: true });
+    }
+  }
+  return tokens;
 }
 
 function splitWords(value) {

@@ -4,18 +4,18 @@
 // i18n; every practice string comes from the content pack and is
 // marked with the content language so screen readers switch voice.
 
-import { icon } from "./icons.js?v=6";
+import { icon } from "./icons.js?v=7";
 import {
   LANGUAGES, CONTENT_LANGUAGES, CYCLES,
   contentByCode, topicsForCycle, topicById, topicKey,
   textsForCycle, textById, textKey, LEHRPLAN_VERSION
-} from "./data.js?v=6";
-import { t, currentLanguage } from "./i18n.js?v=6";
-import { escapeHtml, statusOf, topicStatus } from "./util.js?v=6";
+} from "./data.js?v=7";
+import { t, currentLanguage } from "./i18n.js?v=7";
+import { escapeHtml, statusOf, topicStatus } from "./util.js?v=7";
 import {
   fillTask, expectedAnswer, letterDiff, wordDiff, isTyped, needsConfirm, ROUND_SIZE
-} from "./round.js?v=6";
-import { MEDALS, levelFor } from "./game.js?v=6";
+} from "./round.js?v=7";
+import { MEDALS, levelFor } from "./game.js?v=7";
 
 // Sentinel put in place of the answer so the blank lands exactly where
 // round.js says it does, spacing included. A control character, because
@@ -592,9 +592,18 @@ function typedBack(state, task, answer, typed) {
 
 function typedWords(state, answer, typed) {
   const { rows, missing } = wordDiff(answer, typed);
-  const cells = rows.map(({ word, ok, gap }) =>
-    `<span class="word ${ok ? "ok" : "miss"}${gap ? " gap" : ""}">${escapeHtml(word)}</span>`).join("");
-  // Where the missing word's position is a guess, it is said in words
+  // A mark belongs against the word it follows, so the sentence still
+  // reads as a sentence even though the two are judged separately.
+  const groups = [];
+  for (const row of rows) {
+    if (row.punct && groups.length) groups[groups.length - 1].push(row);
+    else groups.push([row]);
+  }
+  const cell = ({ word, ok, gap, punct }) =>
+    `<span class="word ${ok ? "ok" : "miss"}${gap ? " gap" : ""}${punct ? " punct" : ""}">${escapeHtml(word)}</span>`;
+  const cells = groups
+    .map((group) => `<span class="word-group">${group.map(cell).join("")}</span>`).join("");
+  // Where a missing token's position is a guess, it is said in words
   // rather than drawn somewhere it probably does not belong.
   const shortfall = missing === 0 ? ""
     : `<p class="hint">${missing === 1 ? t("wordsMissingOne") : t("wordsMissingMany", { n: missing })}</p>`;
