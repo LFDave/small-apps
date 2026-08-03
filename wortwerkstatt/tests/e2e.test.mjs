@@ -22,13 +22,13 @@ import { fileURLToPath } from "node:url";
 import {
   CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey,
   textsForCycle, textKey, LEHRPLAN_VERSION
-} from "../js/data.js?v=7";
-import { TABLES } from "../js/i18n.js?v=7";
+} from "../js/data.js?v=8";
+import { TABLES } from "../js/i18n.js?v=8";
 import {
   fillTask, expectedAnswer, solutionText, isTyped, needsConfirm, wordDiff,
   looksComplete, ROUND_SIZE
-} from "../js/round.js?v=7";
-import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=7";
+} from "../js/round.js?v=8";
+import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=8";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -275,8 +275,9 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
     ];
     if (plain > 0) cases.push(["a word left out", words.filter((_, k) => k !== plain).join(" ")]);
     for (const [name, typed] of cases) {
-      const { rows, missing } = wordDiff(item.answer, typed);
-      const red = rows.filter((w) => !w.ok).length + missing;
+      // Every mark is a row: a word shown wrong, or a gap where one
+      // belongs. `missing` counts a subset of those, so it is not added.
+      const red = wordDiff(item.answer, typed).rows.filter((w) => !w.ok).length;
       if (red !== 1) markProblems.push(`${item.answer} with ${name}: ${red} marked`);
     }
     if (wordDiff(item.answer, item.answer).rows.some((w) => !w.ok)) {
@@ -291,29 +292,37 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
   // written in its place, or the dots land where no word is missing.
   {
     const answer = "Das Lernen fiel ihm diesmal leicht.";
-    const { rows, missing } = wordDiff(answer, "das lernen fiel im schwer.");
-    const gaps = rows.filter((w) => w.gap).length;
-    check("replaced words never draw a gap where nothing is missing", gaps === 0, `${gaps} gaps`);
-    check("the word that is genuinely missing is counted instead", missing === 1, String(missing));
-    check("the marks carry back what the child actually wrote",
-      rows.filter((w) => !w.ok && !w.gap).map((w) => w.word).join(" ") === "das lernen im schwer",
-      rows.filter((w) => !w.ok && !w.gap).map((w) => w.word).join(" "));
-    const pure = wordDiff(answer, "Das Lernen fiel ihm leicht.");
-    check("a word left out with nothing in its place still shows a gap",
-      pure.rows.filter((w) => w.gap).length === 1 && pure.missing === 0);
+    const shape = (typed) => wordDiff(answer, typed).rows
+      .map((w) => (w.ok ? w.word : "[" + (w.word || "\u00b7") + "]")).join(" ");
 
-    // A mark is its own lesson, so it is judged on its own: forgetting
-    // the full stop must not call the word in front of it misspelled.
-    const noStop = wordDiff(answer, "Das Lernen fiel ihm diesmal leicht");
+    // Reported: "fil" is an attempt at "fiel" and "im" at "ihm", so the
+    // words with nothing standing in for them are "Lernen" and
+    // "diesmal" — and that is exactly where the dots belong. Pairing by
+    // position instead would match "fil" to "Lernen" and scatter them.
+    check("dots land where the missing words belong",
+      shape("das fil im leicht") === "[das] [\u00b7] [fil] [im] [\u00b7] leicht [\u00b7]",
+      shape("das fil im leicht"));
+    check("the missing words are counted as words, the mark apart",
+      wordDiff(answer, "das fil im leicht").missing === 2);
+
+    // A word left out with nothing in its place: one dot, in place.
+    check("a word left out shows one dot where it belongs",
+      shape("Das Lernen fiel ihm leicht.") === "Das Lernen fiel ihm [\u00b7] leicht .",
+      shape("Das Lernen fiel ihm leicht."));
+
+    // A mark is its own lesson: forgetting the full stop must not call
+    // the word in front of it misspelled.
     check("a missing end mark leaves the word before it right",
-      noStop.rows.every((w) => w.ok || w.gap) && noStop.rows.filter((w) => w.gap).length === 1,
-      noStop.rows.map((w) => (w.ok ? w.word : "[" + (w.word || "\u00b7") + "]")).join(" "));
-    check("the gap left by a mark is marked as a mark",
-      noStop.rows.find((w) => w.gap).punct === true);
-    const noComma = wordDiff("Er wusste, dass es regnet.", "Er wusste dass es regnet.");
+      shape("Das Lernen fiel ihm diesmal leicht") === "Das Lernen fiel ihm diesmal leicht [\u00b7]",
+      shape("Das Lernen fiel ihm diesmal leicht"));
+    const noStop = wordDiff(answer, "Das Lernen fiel ihm diesmal leicht");
+    check("a missing mark is marked as a mark, never counted as a word",
+      noStop.rows.find((w) => w.gap).punct === true && noStop.missing === 0);
+
+    const commaShape = wordDiff("Er wusste, dass es regnet.", "Er wusste dass es regnet.").rows
+      .map((w) => (w.ok ? w.word : "[" + (w.word || "\u00b7") + "]")).join(" ");
     check("a missing comma leaves the word before it right",
-      noComma.rows.every((w) => w.ok || w.gap) && noComma.rows.filter((w) => w.gap).length === 1,
-      noComma.rows.map((w) => (w.ok ? w.word : "[" + (w.word || "\u00b7") + "]")).join(" "));
+      commaShape === "Er wusste [\u00b7] dass es regnet .", commaShape);
   }
   const perCycle = CYCLES.map((c) => textsForCycle(CONTENT.code, c).length);
   check("every cycle has texts to write", perCycle.every((n) => n > 0), perCycle.join("/"));

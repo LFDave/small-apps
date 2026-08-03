@@ -4,18 +4,18 @@
 // i18n; every practice string comes from the content pack and is
 // marked with the content language so screen readers switch voice.
 
-import { icon } from "./icons.js?v=7";
+import { icon } from "./icons.js?v=8";
 import {
   LANGUAGES, CONTENT_LANGUAGES, CYCLES,
   contentByCode, topicsForCycle, topicById, topicKey,
   textsForCycle, textById, textKey, LEHRPLAN_VERSION
-} from "./data.js?v=7";
-import { t, currentLanguage } from "./i18n.js?v=7";
-import { escapeHtml, statusOf, topicStatus } from "./util.js?v=7";
+} from "./data.js?v=8";
+import { t, currentLanguage } from "./i18n.js?v=8";
+import { escapeHtml, statusOf, topicStatus } from "./util.js?v=8";
 import {
   fillTask, expectedAnswer, letterDiff, wordDiff, isTyped, needsConfirm, ROUND_SIZE
-} from "./round.js?v=7";
-import { MEDALS, levelFor } from "./game.js?v=7";
+} from "./round.js?v=8";
+import { MEDALS, levelFor } from "./game.js?v=8";
 
 // Sentinel put in place of the answer so the blank lands exactly where
 // round.js says it does, spacing included. A control character, because
