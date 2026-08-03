@@ -4,7 +4,7 @@
 // module directly to derive the expected answers, so the tests can
 // never drift from the engine.
 
-import { shuffle } from "./util.js?v=4";
+import { shuffle } from "./util.js?v=5";
 
 export const ROUND_SIZE = 6;
 
@@ -66,19 +66,62 @@ export function looksComplete(expected, typed) {
 
 // Only the memory kind hides the answer first and asks for it back.
 // Write derives it from the rule, copy has it on screen the whole time.
-// Which words of a sentence are right, word by word. A sentence is
-// compared by word rather than by character on purpose: one missing
-// comma shifts every later character, and a wall of red for a single
-// slip tells a child nothing. By word, a missing comma marks exactly
-// "wusste," and nothing else.
+// Which of the child's words are right.
+//
+// The comparison aligns the two sentences rather than walking them
+// position by position. Position by position, one word dropped in the
+// middle shifts everything after it and the rest of the sentence turns
+// red, which tells a child nothing except that they failed. Aligned, a
+// word they got right stays right no matter what happened around it.
+//
+// A dropped word immediately followed by an unexpected one is one word
+// written differently, not one lost and one gained, so the two collapse
+// into a single marked word.
 export function wordDiff(expected, typed) {
-  const want = expected.split(" ");
-  const got = typed.trim() === "" ? [] : typed.split(/\s+/);
-  const rows = [];
-  for (let i = 0; i < Math.max(want.length, got.length); i++) {
-    rows.push({ word: got[i] === undefined ? "" : got[i], ok: got[i] === want[i] });
+  const want = splitWords(expected);
+  const got = splitWords(typed);
+  const n = want.length;
+  const m = got.length;
+
+  // Longest common subsequence over the suffixes of both sentences.
+  const lcs = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = m - 1; j >= 0; j--) {
+      lcs[i][j] = want[i] === got[j]
+        ? lcs[i + 1][j + 1] + 1
+        : Math.max(lcs[i + 1][j], lcs[i][j + 1]);
+    }
   }
-  return rows;
+
+  const rows = [];
+  let i = 0;
+  let j = 0;
+  while (i < n && j < m) {
+    if (want[i] === got[j]) rows.push({ word: got[j++], ok: true, i: i++ });
+    else if (lcs[i + 1][j] >= lcs[i][j + 1]) rows.push({ word: "", ok: false, dropped: true, i: i++ });
+    else rows.push({ word: got[j++], ok: false });
+  }
+  while (j < m) rows.push({ word: got[j++], ok: false });
+  while (i < n) rows.push({ word: "", ok: false, dropped: true, i: i++ });
+
+  const merged = [];
+  for (let k = 0; k < rows.length; k++) {
+    const a = rows[k];
+    const b = rows[k + 1];
+    const pair = b && !a.ok && !b.ok && a.dropped !== b.dropped;
+    if (pair) {
+      merged.push({ word: a.dropped ? b.word : a.word, ok: false });
+      k += 1;
+    } else {
+      merged.push({ word: a.word, ok: a.ok });
+    }
+  }
+  return merged;
+}
+
+function splitWords(value) {
+  const t = normaliseTyped(value);
+  return t === "" ? [] : t.split(" ");
 }
 
 export function needsStudyStep(task) {

@@ -153,7 +153,7 @@ export const de = {
   textRounds: "{n} mal geschrieben",
   textRules: "Übt: {rules}",
   textProgress: "Satz {i} von {n}",
-  instructionText: "Schreib den Satz richtig auf.",
+  instructionText: "Schreib Satz {i} von {n} richtig auf.",
   textIntro: "So hat es jemand schnell getippt. Setz die grossen Buchstaben, die Satzzeichen und die Kommas.",
   medalNameTextschreiber: "Textschreiber",
   medalDescTextschreiber: "Drei ganze Texte geschrieben.",

@@ -89,10 +89,10 @@ A calm spelling trainer for kids, built on one Lehrplan 21 competency (D.4 Schre
 - 22 rules, 66 chapters, 484 tasks across the three cycles, plus 9 texts of 42 sentences
 - Three chapters per rule that rise in difficulty and always end in writing: tap the answer, then tap a harder one, then type it yourself
 - A writing-only mode: whole texts written out sentence by sentence, mixing capitals, end marks and commas, with the paragraph taking shape on screen
-- Seven kinds of task: letters missing in a word, a word missing from a sentence, a punctuation mark, the missing word typed out, a whole sentence written correctly, and memory words written from memory
+- Seven kinds of task: letters missing in a word, a word missing from a sentence, a punctuation mark, the missing word typed out, a whole sentence written correctly, memory words written from memory, and one sentence of a text in the writing mode
 - Rules that straddle a cycle boundary in the source appear on both cycle lists and share one set of counters
 - Distractors are the mistakes children really make (`Schport`, `Beischpiel`), so only the rule decides
-- Written answers check themselves on the last character, no confirm button
+- A written word checks itself on the last character; a written sentence is judged as soon as it looks finished, with a Fertig button for anything still ambiguous, and a wrong sentence comes back word by word so one missing comma marks one word
 - Supportive feedback that stays on screen, with the rule shown once the answer is in
 - Quiet gamification: XP, levels and eleven medals that reward practice, never speed or perfection
 - After five clean rounds the app suggests the next cycle, and never forces it; no chapter is ever locked

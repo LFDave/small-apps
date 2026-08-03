@@ -153,7 +153,7 @@ export const en = {
   textRounds: "written {n} times",
   textRules: "Practises: {rules}",
   textProgress: "Sentence {i} of {n}",
-  instructionText: "Write the sentence correctly.",
+  instructionText: "Write sentence {i} of {n} correctly.",
   textIntro: "This is how someone typed it in a hurry. Add the capital letters, the end marks and the commas.",
   medalNameTextschreiber: "Text Writer",
   medalDescTextschreiber: "Wrote three whole texts.",

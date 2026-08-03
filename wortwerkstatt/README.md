@@ -30,7 +30,8 @@ stehen darum auf beiden Listen.
    aussieht: wenn er stimmt, oder wenn er gleich viele Wörter hat und
    mit einem Satzzeichen endet. Sonst tippst du auf Fertig. Stimmt
    etwas nicht, siehst du genau, welches Wort, und dein Satz bleibt
-   stehen, damit du nur das eine Wort ändern musst.
+   stehen, damit du nur das eine Wort ändern musst. Ein Fehler färbt
+   immer nur ein Wort, auch wenn er am Anfang des Satzes steht.
 7. Nach der Antwort erscheint die Regel. Vorher wäre sie nur eine
    Tabelle zum Abschreiben.
 8. Für jede Runde gibt es XP, Levels (vom Schreiblehrling zur
@@ -47,7 +48,8 @@ ganzen Text richtig auf, Satz für Satz. Der Text steht als schnell
 getippter Entwurf da, ganz klein geschrieben und ohne Satzzeichen. Du
 setzt die grossen Buchstaben, die Satzzeichen und die Kommas.
 
-Der Text wächst dabei vor deinen Augen: Was du geschrieben hast, steht
+Über dem Text steht, welchen Satz du gerade schreibst, und ein Pfeil
+zeigt auf die Zeile. Der Text wächst dabei vor deinen Augen: Was du geschrieben hast, steht
 schon richtig da, der Satz an der Reihe ist hervorgehoben, der Rest
 wartet noch.
 
