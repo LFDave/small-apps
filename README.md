@@ -8,14 +8,27 @@ small apps for various use cases
 A calm curriculum explorer for the Swiss Lehrplan 21 (Bern edition). Kids and parents pick a school cycle, browse all subject areas, and tick off competencies they already master: "Das kann ich schon."
 
 **Features:**
-- All 16 subject and module areas of Lehrplan 21 with 90 competence areas and 358 competencies, for all three cycles (kindergarten to 9th grade)
-- Child-friendly German paraphrases in Ich-form, with the official Lehrplan 21 code next to every entry for parents and teachers
+- All 16 subject and module areas of Lehrplan 21 with 90 competence areas and 363 competencies, for all three cycles (kindergarten to 9th grade)
+- 721 cycle-specific, child-friendly German texts in Ich-form, each written at the level of that cycle's Grundanspruch, with the official Lehrplan 21 code next to every entry for parents and teachers
 - Self-assessment checklist per cycle with per-subject progress bars
-- Checks are stored separately per cycle, so moving up a cycle starts a fresh round on the same competencies
+- Checks are stored separately per cycle, so moving up a cycle starts a fresh round on the same competencies at their higher level
 - German (Swiss standard), dark, quiet design; works offline after first load
 - Progress saved locally on the device (no sign-up, no tracking)
 
 **Open:** [lfdave.github.io/small-apps/lehrplan-kompass](https://lfdave.github.io/small-apps/lehrplan-kompass)
+
+### 👣 Zahlensprung
+A calm counting trainer that implements exactly one Lehrplan 21 competency: MA.1.A.2 "flexibel zählen, Zahlen ordnen, Ergebnisse überschlagen" (Bern edition). Its ten difficulty levels are the official Kompetenzstufen a-j of that competency; the Grundansprüche of the three cycles are marked as badges.
+
+**Features:**
+- Four procedurally generated task forms straight from the step texts: counting dots, continuing number sequences (forwards/backwards, step sizes per Stufe), ordering numbers (decimals, fractions territory, negatives), and estimation (Überschlagen with order-of-magnitude distractors)
+- Number ranges from the Lehrplan bound every number in a task, including the answer (20 / 100 / 1000 / 1 million / decimals)
+- Typed answers check themselves on the last character; ordering evaluates once all numbers are picked — whole-answer evaluation, never per character
+- Quiet gamification per GAMIFICATION.md: XP, five levels, medals for rounds, effort and the three Grundansprüche; five clean rounds suggest the next Stufe, never forced, nothing locked
+- Swiss number formatting (13'567), German (Swiss standard), dark amber design, works offline after first load
+- Progress saved locally on the device (no sign-up, no tracking)
+
+**Open:** [lfdave.github.io/small-apps/zahlensprung](https://lfdave.github.io/small-apps/zahlensprung)
 
 ### 🃏 Jass Scoreboard (Schiefertafel Z/Z)
 A browser-based digital Jass scoreboard that replicates a traditional Swiss chalk slate board with the classic Z/Z layout.
