@@ -5,7 +5,7 @@
 // never matters. Medal checks are pure functions of the data object so
 // they can never drift from the stored state.
 
-import { topicsForCycle } from "./data.js?v=1";
+import { topicsForCycle, contentByCode } from "./data.js?v=2";
 
 // Cumulative XP thresholds. Beyond the last level XP keeps counting.
 export const LEVELS = [
@@ -26,25 +26,37 @@ export const MEDALS = [
   { id: "drei-runden", key: "DreiRunden", icon: "star", check: (d) => d.game.rounds >= 3 },
   { id: "acht-runden", key: "AchtRunden", icon: "award", check: (d) => d.game.rounds >= 8 },
   { id: "einundzwanzig-runden", key: "EinundzwanzigRunden", icon: "trophy", check: (d) => d.game.rounds >= 21 },
-  { id: "regelfest", key: "Regelfest", icon: "target", check: (d) => Object.values(d.topics).some((p) => p.clean >= 3) },
+  { id: "regelfest", key: "Regelfest", icon: "target", check: (d) => Object.values(d.chapters).some((p) => p.clean >= 3) },
+  { id: "kapitelmeister", key: "Kapitelmeister", icon: "book-open", check: ruleComplete },
   { id: "alleskoenner", key: "Alleskoenner", icon: "layers", check: cycleComplete },
   { id: "wortschmied", key: "Wortschmied", icon: "hammer", check: (d) => d.game.charsTyped >= 400 },
-  { id: "blitzmerker", key: "Blitzmerker", icon: "zap", check: (d) => d.game.memoryWords >= 20 },
+  { id: "selberschreiber", key: "Selberschreiber", icon: "zap", check: (d) => d.game.written >= 20 },
   { id: "zyklusreise", key: "Zyklusreise", icon: "graduation-cap", check: (d) => d.game.cycles.length >= 3 }
 ];
+
+// Every chapter of one rule practised at least once, anywhere in the
+// pack. This is the medal that rewards working a rule all the way to
+// its writing chapter.
+function ruleComplete(d) {
+  return contentByCode(d.settings.contentLanguage).topics.some((topic) =>
+    topic.chapters.every((chapter) => (d.chapters[chapter.id] || {}).rounds >= 1));
+}
 
 // Every rule of the cycle the child is currently set to. Cycles differ
 // in size, so this is a per-cycle goal by design.
 function cycleComplete(d) {
   const topics = topicsForCycle(d.settings.contentLanguage, d.settings.cycle);
-  return topics.length > 0 && topics.every((topic) => (d.topics[topic.id] || {}).rounds >= 1);
+  return topics.length > 0 && topics.every((topic) =>
+    topic.chapters.some((chapter) => (d.chapters[chapter.id] || {}).rounds >= 1));
 }
 
 // XP for one finished round: 5 for finishing, 2 per answer that was
 // right first time, 1 per answer that took a correction (effort still
-// counts), plus 2 per cycle step because the later cycles are harder.
-export function xpForRound(cycle, firstTryCount, correctedCount) {
-  return 5 + firstTryCount * 2 + correctedCount + (cycle - 1) * 2;
+// counts), plus 2 per cycle step because the later cycles are harder,
+// plus 3 when the round was a writing chapter, which asks more than
+// picking from options.
+export function xpForRound(cycle, firstTryCount, correctedCount, wasTyped) {
+  return 5 + firstTryCount * 2 + correctedCount + (cycle - 1) * 2 + (wasTyped ? 3 : 0);
 }
 
 export function levelFor(xp) {

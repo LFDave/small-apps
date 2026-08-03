@@ -6,116 +6,156 @@ change as any behavior change.
 ## Goal
 
 Kids practise writing correctly: the orthography rules of Lehrplan 21,
-one rule at a time. The method is rule discrimination (choosing between
-spellings that sound identical), retrieval practice (writing a word
-from memory instead of copying it) and a rule explanation that appears
-exactly when it explains something, which is after the answer is in.
+one rule at a time, from recognising a rule to writing it themselves.
+The method is rule discrimination (choosing between spellings that
+sound identical), retrieval practice (writing from memory instead of
+copying), and a rule explanation that appears exactly when it explains
+something, which is after the answer is in.
 
 Follows the repo baseline (PRODUCT.md and DESIGN.md at the repo root):
 dark-only token system, blue accent family, Atkinson Hyperlegible
 self-hosted, Lucide icons inlined.
 
-## Scope
+## Source
 
-1. **Zyklen** — the three Lehrplan 21 cycles as a setting; each holds
-   its own set of rules.
-2. **Regel-Runden** — a round of six tasks from one rule.
-3. **Gemischte Übung** — a round of six tasks across every rule of the
-   current cycle.
-4. **Merkwörter** — words studied and then written from memory.
-5. **Quiet gamification** — XP, levels and medals that reward practice,
-   never speed or perfection.
-6. **Einstellungen** — interface language, learning language, cycle.
+The curriculum follows one competency of Lehrplan 21:
 
-Out of scope (possible later): spaced review scheduling, sound,
-dictation of whole sentences, free writing with correction, sibling
-profiles.
+> **D.4 Schreiben**, aspect **F: Schreibprozess: sprachformal
+> überarbeiten**, competency **D.4.F.1** — "Die Schülerinnen und
+> Schüler können ihren Text in Bezug auf Rechtschreibung und Grammatik
+> überarbeiten."
+>
+> Fachbereichslehrplan Deutsch, Kompetenzaufbau, **Kanton Bern,
+> 23.06.2016**.
+
+The edition string lives in `data.js` as `LEHRPLAN_VERSION` and is
+shown on every rule view next to the step reference. **A later revision
+means a new date there and a re-check of every `step` in the content
+pack.** `be.lehrplan.ch` refuses automated requests (HTTP 403), so the
+ladder below was read from the PDF of that edition, not from the site.
+
+### The ladder, and which cycle each step sits in
+
+The cycle bars in the competency table are what place a step. A step
+whose bar spans a boundary belongs to **both** cycles.
+
+| Step | Cycles | Rules named in the text |
+| --- | --- | --- |
+| a | 1 | lautgetreue Schreibweise, Wortgrenzen, Eigennamen und konkrete Nomen gross, Satzanfang gross, Punkt am Satzende |
+| b | **1 and 2** | sch-Schreibung, sp-/st-Schreibung, ng-Schreibung, gebräuchliche abstrakte Nomen gross, Satzschlusszeichen |
+| c | 2 | ie-Schreibung, e-/ä-Schreibung, Komma bei Aufzählungen |
+| d | 2 | Wortstammregel, Doppelkonsonantenregel, Grossschreibung typischer abstrakter Nomen, Kommas zwischen Teilsätzen, Zeichen bei der direkten Rede |
+| e | 2 | Grossschreibung abgeleiteter Nomen mit häufigen Nachmorphemen (Frei-heit, Entdeck-ung) |
+| f | 3 | the same rules "inklusive wichtiger Ausnahmen" |
+| g | 3 | selbstständig überarbeiten, no new rules |
+
+Step b straddles the cycle 1 / cycle 2 boundary, so its five rules
+appear on **both** cycle lists, sharing one set of progress counters.
+That is why cycle 2 shows 13 rules while owning 8 of them.
+
+### What is grounded and what is selected
+
+Each rule carries a `step` field. Where it names a step, the rule is in
+that step's text word for word, and the rule view says so. Where it is
+`null`, the rule is standard orthography for the band that the document
+does not spell out, and the rule view says **"Ergänzende Übung. Diese
+Regel steht nicht im Lehrplan-Text."** rather than borrowing authority.
+
+Two things are deliberately **not** implemented:
+
+- **Zeichen bei der direkten Rede** (step d). Swiss usage sets
+  guillemets («…»), which are impractical to type on the keyboards
+  children use, and a choice-only version would be the one rule that
+  never reaches its writing chapter.
+- **Cycle 3 has no step-linked rules.** Steps f and g add exceptions
+  and self-correction to rules already covered, not new rules. Cycle 3
+  therefore holds standard cycle-3 orthography, all marked as extra
+  practice, and a learner who wants the f-level work practises the
+  cycle 2 rules, which stay one tap away.
 
 ## Curriculum
 
-Lehrplan 21 splits compulsory school into three cycles:
+22 rules, 66 chapters, 484 tasks.
 
-| Cycle | School years |
-| --- | --- |
-| 1 | 1. und 2. Klasse |
-| 2 | 3. bis 6. Klasse |
-| 3 | 7. bis 9. Klasse |
-
-The brief for this app named the cycle 2 spelling competency at
-`https://be.lehrplan.ch/index.php?code=a|1|11|4|6|1` and quoted it:
-
-> Sie können dabei folgende Regeln in typischen Fällen beachten:
-> sch-Schreibung, sp-/st-Schreibung, ng-Schreibung, gebräuchliche
-> abstrakte Nomen gross, Satzschlusszeichen.
-
-All five named rules ship as cycle 2 topics. The lehrplan.ch server
-refuses automated requests (HTTP 403), so nothing beyond that quoted
-wording and the cycle-to-school-year mapping above was read from the
-source. The remaining topics are standard German orthography for the
-band and are listed below so a parent or teacher can check them; they
-are not presented as verbatim Lehrplan wording, and no competency codes
-are claimed.
-
-**Cycle 1 (4 rules, 32 tasks)**
-
-| Rule | Kind | What it practises |
+| Cycle | Rules on the list | Owned by the cycle |
 | --- | --- | --- |
-| `nomen-gross` | sentence | concrete nouns take a capital |
-| `satzanfang` | sentence | a sentence starts with a capital |
-| `satzschluss-punkt` | punct | full stop or question mark |
-| `merkwort-1` | memory | eight short everyday words |
+| 1 (1./2. Klasse) | 9 | 9 |
+| 2 (3.–6. Klasse) | 13 | 8, plus the 5 spanning rules of step b |
+| 3 (7.–9. Klasse) | 5 | 5 |
 
-**Cycle 2 (8 rules, 64 tasks)** — the five named competencies plus
-three rules from the same band
+**Cycle 1** — nomen-gross (a), satzanfang (a), wortgrenzen (a),
+merkwort-1 (a), satzschluss (a and b), sch (b), sp-st (b), ng-nk (b),
+abstrakte-nomen (b).
 
-| Rule | Kind | What it practises |
-| --- | --- | --- |
-| `sch` | word | the sch sound written with three letters |
-| `sp-st` | word | sp and st where schp and scht are heard |
-| `ng-nk` | word | ng against nk |
-| `doppelkonsonant` | word | short vowel, doubled consonant |
-| `dehnung` | word | long vowel: ie, silent h, doubled vowel |
-| `abstrakte-nomen` | sentence | abstract nouns take a capital |
-| `satzschluss` | punct | full stop, question mark, exclamation mark |
-| `merkwort-2` | memory | eight words with tricky spellings |
+**Cycle 2** — ie (c), e-ae (c), komma-aufzaehlung (c), wortstamm (d),
+doppelkonsonant (d), komma-teilsatz (d), nachmorpheme (e), merkwort-2
+(extra), plus the five step b rules above.
 
-**Cycle 3 (5 rules, 40 tasks)**
-
-| Rule | Kind | What it practises |
-| --- | --- | --- |
-| `das-dass` | sentence | das against dass |
-| `nominalisierung` | sentence | verbs and adjectives used as nouns |
-| `komma` | punct | comma before a subclause, and where none belongs |
-| `endung` | word | endings ig and lich |
-| `fremdwort` | memory | eight loan words |
-
-Every rule carries at least as many tasks as a round, so no task
-repeats inside a round.
+**Cycle 3** — dehnung, nominalisierung, das-dass, endung, fremdwort,
+all extra practice.
 
 ### Content rules
 
-- Swiss standard German throughout: ss, never sharp s (Strasse, gross).
-  The e2e suite fails on a sharp s anywhere in the strings.
 - Exactly one option may produce a correct German word or sentence.
-  Where two options are both real words (`singen` / `sinken`), the task
-  carries a clue that decides it.
-- Distractors are the mistakes children really make (`Schport`,
-  `Beischpiel`), not random letters. That is the whole point of the
+  Where two options are both real (`singen` / `sinken`, `Rad` / `Rat`),
+  the task carries a clue that decides it.
+- **A written answer must have exactly one correct spelling.** No word
+  with an accepted variant may be an answer. `Biografie` was removed
+  for this reason: Duden gives "Alternative Schreibung: Biographie", so
+  a child writing `Biographie` would be marked wrong. Duden is the
+  arbiter for any future candidate.
+- The `fremdwort` rule holds Fremdwörter, words that keep foreign
+  spelling or pronunciation (Rhythmus, Restaurant, Ingenieur), not
+  assimilated Lehnwörter. `Adresse` and `Maschine` are Lehnwörter and
+  moved to the rules they actually illustrate, `doppelkonsonant` and
+  `sch`.
+- Swiss standard German: ss, never sharp s.
+- Every distractor is a mistake children really make (`Schport`,
+  `Beischpiel`), not a random letter. That is the whole point of the
   sp/st rule: both spellings sound identical, so only the rule decides.
 - No two tasks may read the same way while the blank is open, or one
-  question would have two right answers. The e2e suite enforces this.
+  question would have two right answers. The e2e suite enforces this
+  across the whole pack.
+
+## Chapters
+
+Every rule has three chapters. They rise in difficulty and always end
+in writing, because recognition and production are different skills and
+production is the harder one.
+
+| # | Name | What changes |
+| --- | --- | --- |
+| 1 | Zum Aufwärmen | the rule on common words, answer by choosing |
+| 2 | Schon schwieriger | rarer or longer words, answer by choosing |
+| 3 | Selber schreiben | the same rule, answer by writing |
+
+Chapters are never locked. A completion panel points at the next
+chapter of the same rule, so the chapters read as a path, but any
+chapter can be started at any time from the rule view.
+
+Chapter names are shared across all rules and describe what changes,
+rather than being themed. A name that tells a child what is different
+is worth more than a decorative one, and the baseline keeps game chrome
+quiet.
 
 ## Task kinds
 
-Four kinds share one engine. Three of them are a choice between
-spellings; the fourth is written from memory.
+Six kinds share one engine. Three are answered by choosing, three by
+writing.
 
 | Kind | Task shape | Answer |
 | --- | --- | --- |
-| `word` | letter group missing inside a word: `Bei ··· iel` | choice |
+| `word` | letters missing inside a word: `Bei ··· iel` | choice |
 | `sentence` | one word missing from a sentence | choice |
 | `punct` | a mark missing, joined without a space | choice |
-| `memory` | study the word, then write it | typed |
+| `write` | the missing word, typed into the sentence frame | typed |
+| `copy` | a whole short sentence written out correctly | typed |
+| `memory` | study the word, then write it from memory | typed |
+
+`copy` is the writing chapter of the punctuation rules, where typing a
+lone "?" would be a thin exercise. It is also what makes the comma rule
+work at all: "no comma" has zero length and could never trigger a
+known-length check, but the same answer inside a whole sentence can.
 
 `round.js` owns the spacing rules in one function, `fillTask`. Word
 fragments are glued together, an end-of-sentence mark sits tight
@@ -125,10 +165,10 @@ never disagree about a space.
 
 ## Round
 
-- A round is six tasks (`ROUND_SIZE`). A rule round draws from one
-  rule; a mixed round draws round robin across every rule of the
-  cycle, so six tasks spread over the rules instead of landing three
-  times in the same one.
+- A round is six tasks (`ROUND_SIZE`), drawn from one chapter, from all
+  chapters of one rule, or from every chapter of the cycle. Items are
+  taken round robin across shuffled chapters, so a mixed round spreads
+  instead of landing three times in the same place.
 - Option order is shuffled per task, so the answer never sits in the
   same place twice.
 - Step dots show the position in the round.
@@ -137,18 +177,19 @@ never disagree about a space.
 
 - **Choice tasks**: large option buttons, no confirm step. A single
   punctuation mark gets display size, or a comma disappears in a button
-  built for words. The empty option of the comma rule renders as
+  built for words. The empty option of a comma rule renders as
   "kein Komma", never as a blank button.
-- **Memory tasks**: two steps. The word is shown ("Schau dir das Wort
-  gut an."), then hidden, then written into a text field. The field is
-  capped at the word length and checks itself the moment the last
-  letter lands, the known-length pattern from PRODUCT.md. A visible
-  advisory line announces that before the field is used ("Beim letzten
-  Buchstaben siehst du sofort, ob es stimmt.", WCAG 3.2.2 On Input).
-  The whole word is evaluated, never a letter at a time. The field is
-  set to `autocapitalize="none"` and `spellcheck="false"`: capitals are
-  part of the lesson, and a browser must not spell it for the child.
-  Typing does not re-render, so the caret and the focus stay put.
+- **Written tasks**: a field capped at the answer length that checks
+  itself the moment the last character lands, the known-length pattern
+  from PRODUCT.md. A visible advisory line announces that before the
+  field is used (WCAG 3.2.2 On Input). The whole answer is evaluated,
+  never a character at a time. The field is set to
+  `autocapitalize="none"` and `spellcheck="false"`: capitals are part
+  of the lesson, and a browser must not spell it for the child. Typing
+  does not re-render, so the caret and the focus stay put.
+- `memory` hides the word after a study step; `write` shows the
+  sentence around the gap; `copy` keeps the sentence on screen to be
+  written out.
 
 ### Feedback
 
@@ -156,29 +197,37 @@ Persistent until the child moves on, never "Falsch".
 
 - Correct: "Richtig.", the solution fills the blank in the success
   tone, and a Weiter button appears.
-- Wrong: the chosen answer stays visible in the blank with a line
-  through it, wrong letters of a written word are marked by colour and
-  an underline, "Fast. Schau die Regel an und versuch es nochmals." and
-  a retry. From the second miss on the same task, an extra option shows
-  the solution (`reveal`); afterwards practice continues with the miss
-  counter reset, while the task still counts as corrected.
-- **The rule text appears only after an answer**, in a quiet box under
-  the task. Before the answer it would be a lookup table; after it, it
-  explains what just happened.
+- Wrong: the chosen answer stays visible with a line through it; a
+  written answer is shown back character by character with the misses
+  marked by colour **and** an underline; "Fast. Schau die Regel an und
+  versuch es nochmals." and a retry. From the second miss on the same
+  task an extra option shows the solution (`reveal`); afterwards
+  practice continues with the miss counter reset, while the task still
+  counts as corrected.
+- **The rule text appears only after an answer** during a round. Before
+  the answer it would be a lookup table. It is always readable in full
+  on the rule view for anyone who wants it first.
 
 ### Completion
 
 - "{k} von {n} Aufgaben hast du direkt gewusst." plus a per-task list
   showing every solution with a gewusst/geübt tag.
 - Quiet reward block: XP gained, level reached, medals unlocked.
+- A pointer to the next chapter, or to the next cycle when the mastery
+  streak calls for it.
 
 ## Progress and status
 
-- Every rule the round drew from is credited, so mixed practice moves
-  the rule cards too. A rule counts as clean for that round only when
-  all of its tasks in the round were right first time.
-- Status from the stored counters: 0 rounds = Neu, 1+ rounds = Geübt,
-  3+ clean rounds = Sitzt!
+- Progress is counted **per chapter**. Every chapter a round drew from
+  is credited, so mixed practice moves the chapter cards too. A chapter
+  counts as clean for that round only when all of its tasks in the
+  round were right first time.
+- Chapter status: 0 rounds = Neu, 1+ rounds = Geübt, 3+ clean rounds =
+  Sitzt!
+- Rule status: Sitzt! only when every chapter is, including the writing
+  chapter; Geübt when any chapter has been touched.
+- A rule that spans two cycles has one set of counters, so progress
+  made in cycle 1 is the same progress in cycle 2.
 
 ## Gamification (quiet)
 
@@ -187,60 +236,53 @@ retries cost nothing, and speed never matters.
 
 - **XP per round**: 5 for finishing, 2 per answer right first time,
   1 per corrected answer, plus 2 per cycle step because the later
-  cycles are harder. A clean cycle 2 round is 19 XP.
+  cycles are harder, plus 3 when every task in the round was written
+  rather than tapped. A clean cycle 1 choice round is 17 XP; the same
+  round in a writing chapter is 20.
 - **Levels** (cumulative XP): 1 Schreiblehrling 0, 2 Wortsammler 30,
   3 Satzbauer 80, 4 Regelprofi 160, 5 Schreibprofi 280,
   6 Meisterfeder 450. Beyond the last level XP keeps counting. The
   titles are string ids, so they translate with the rest of the UI.
-- **Medals** (9, every check a pure function of the stored data):
+- **Medals** (10, every check a pure function of the stored data):
   Erste Runde / Dranbleiber / Wortarbeiter / Werkstattmeister at 1, 3,
-  8 and 21 finished rounds; Regelfest when a rule reaches 3 clean
-  rounds; Rundum when every rule of the **currently selected cycle**
-  has been practised at least once; Wortschmied at 400 typed letters
-  (effort medal, counts the tries that missed); Blitzmerker at 20
-  memory words written from memory; Zyklusreise after practising in
-  all three cycles.
-- **Display**: a stats strip on home (level badge, title, progress bar,
-  medal count) opens the medal gallery; locked medals stay visible with
-  their description so the goal is clear. Rewards appear only on the
-  completion panel as a quiet block, with no modal and no celebration
-  motion.
-- **Counters** stored under `game`: `xp`, `rounds`, `charsTyped`
-  (every letter typed into an answer field), `memoryWords` (words
-  written correctly from memory), `cleanCycle`/`cleanCount` (the
-  clean-run streak), `cycles` (which cycles have been practised),
-  `medals`. Reset clears them.
+  8 and 21 finished rounds; Regelfest when a chapter reaches 3 clean
+  rounds; Kapitelmeister when every chapter of one rule has been
+  practised, writing chapter included; Rundum when every rule of the
+  **currently selected cycle** has been practised; Wortschmied at 400
+  typed characters (effort medal, counts the tries that missed);
+  Selberschreiber at 20 written answers; Zyklusreise after practising
+  in all three cycles.
+- **Display**: a stats strip on home opens the medal gallery; locked
+  medals stay visible with their description. Rewards appear only on
+  the completion panel as a quiet block, with no modal and no
+  celebration motion.
+- **Counters** stored under `game`: `xp`, `rounds`, `charsTyped`,
+  `written`, `cleanCycle`/`cleanCount`, `cycles`, `medals`. Reset
+  clears them.
 
 ## Adaptive difficulty
 
 - A round is clean when it finished without a single wrong answer.
 - After five consecutive clean rounds in the current cycle, the
-  completion panel suggests the next one ("Das klappt richtig gut.
-  Probier Zyklus 3!") and offers a one-tap action that switches the
-  setting and starts a mixed round in it immediately.
+  completion panel suggests the next one and offers a one-tap action
+  that switches the setting and starts a mixed round immediately.
 - A round with mistakes resets the streak silently. No message, no lost
   progress, full XP: struggling at a cycle is practising, not failing.
-- The app never steps down on its own, and never locks a cycle behind
-  progression. Any cycle is one tap away in the settings, which also
-  resets the streak.
+- The app never steps down on its own and never locks a cycle or a
+  chapter behind progression.
 
 ## Settings
 
 Follows the shared settings pattern in the repo PRODUCT.md.
 
-- Entry point: a gear button in the home header (`nav-settings`).
-- Own view with a back button. One panel per setting, each with a short
-  heading and one line saying what it changes.
-- Options are a choice grid with `aria-pressed`; the selected one gets
-  an accent border. No save button, no confirm, no toast: a change
-  applies and is written to localStorage at once.
-- Panel order: **Sprache** first, then **Lernsprache** (see below),
-  then **Zyklus**.
-- Defaults: German interface, German learning language, cycle 2. Cycle
-  2 is the default because it covers the widest band and holds the
-  rules the brief named; cycles 1 and 3 are one tap away.
-- Reset is not in settings. It stays in the home footer with its
-  confirmation, clears progress and keeps every setting.
+- Gear button in the home header, own view with a back button, one
+  panel per setting, `aria-pressed` on the options, no save button.
+- Panel order: **Sprache**, then **Lernsprache** (see below), then
+  **Zyklus**.
+- Defaults: German interface, German learning language, cycle 1. Cycle
+  1 is the default because it is where the source places the rules the
+  brief named; the other cycles are one tap away.
+- Reset stays in the home footer, clears progress, keeps every setting.
 
 ## Languages
 
@@ -249,74 +291,75 @@ Two dimensions, deliberately separate.
 **Interface language** — German (default, Swiss standard German) and
 English. One table per language in `js/i18n/<code>.js`, keyed by the
 same stable ids. German is the reference and the fallback; `t()`
-returns the key id when a key is missing, so a hole is visible rather
-than silently German. `document.documentElement.lang` follows the
-setting. The e2e suite enforces identical keys, identical
-`{placeholders}`, no sharp s, and that no raw key id reaches the screen
-in either language.
+returns the key id when a key is missing, so a hole is visible. The
+e2e suite enforces identical keys, identical `{placeholders}`, no sharp
+s, and that no raw key id reaches the screen in either language.
 
 **Learning language** — the language whose orthography is practised.
 One content pack per language in `js/content/<code>.js`. The app ships
 German. Every code path is generic, so a second pack drops in by adding
 a file and registering it in `data.js`. The setting is stored and used
-either way; its settings panel appears with the second pack, because a
-panel that offers no choice is noise.
+either way; its panel appears with the second pack, because a panel
+that offers no choice is noise.
 
 **Where the split runs.** Rule titles and rule explanations live in the
 interface tables, so an English-speaking child gets the German sp/st
 rule explained in English. The practice material itself (words,
-sentence frames, clues) stays in the language it teaches, because you
-cannot teach German end-of-sentence marks with English sentences. Every
-element carrying that material is marked with the content pack's
-language (WCAG 3.1.2 Language of Parts), so a screen reader switches
-voice for it.
+sentence frames, clues, prompts) stays in the language it teaches,
+because you cannot teach German end-of-sentence marks with English
+sentences. Every element carrying that material is marked with the
+content pack's language (WCAG 3.1.2), so a screen reader switches voice.
 
-Adding a content pack means adding its topic title and rule ids to
-every interface table. Topic ids are unique across packs for that
-reason.
+Adding a content pack means adding its rule title and rule ids to every
+interface table. Topic ids are unique across packs for that reason.
 
 ## Screens
 
-1. **Home** — header with the app title and the settings button, stats
-   strip, "Üben" panel (which cycle, mixed practice button, what a
-   round is), rule cards (icon, title, rounds practised, status pill),
-   storage note and reset link.
-2. **Einstellungen** — Sprache, optional Lernsprache, Zyklus.
+1. **Home** — title and settings button, stats strip, "Üben" panel
+   (which cycle, mixed practice), rule cards (icon, title, chapters
+   practised, status), storage note and reset.
+2. **Regel** — the rule text in full, the source line naming the
+   competency step and the Lehrplan edition, the three chapter cards
+   with the writing chapter tagged, and mixed practice across the rule.
 3. **Runde** — back, rule title, step dots, instruction, task panel,
    options or the writing field, rule box after the answer, persistent
    feedback area, actions.
 4. **Abschluss** — completion feedback, reward block, optional cycle
-   suggestion, per-task summary, actions.
-5. **Medaillen** — level panel with progress bar plus the medal grid,
-   reached from the home stats strip.
+   suggestion, per-task summary, next chapter, actions.
+5. **Einstellungen** — Sprache, optional Lernsprache, Zyklus.
+6. **Medaillen** — level panel with progress bar plus the medal grid.
+
+Back walks one step up the path: a round returns to its rule, a rule
+returns home.
 
 ## Persistence and privacy
 
 - Everything in `localStorage` under `wortwerkstatt.state`: `settings`
-  (`language`, `contentLanguage`, `cycle`), `topics` (per rule:
+  (`language`, `contentLanguage`, `cycle`), `chapters` (per chapter:
   `rounds`, `clean`) and `game`. No accounts, no analytics, no cookies.
 - Loading sanitises every field: an unknown language, an unknown cycle
   or a negative counter falls back to the default, and progress stored
-  for a rule that no longer exists is kept without breaking anything.
-  When the loaded state does not serialise back to what was stored, the
-  normalised state is written once, so a migration runs once instead of
-  on every load. A first-time visitor is never written to before they
-  act.
+  for a chapter that no longer exists is kept without breaking
+  anything. When the loaded state does not serialise back to what was
+  stored, the normalised state is written once.
+- **Migration**: progress used to be stored per rule under `topics`.
+  Those keys do not map onto chapters, so they are dropped rather than
+  guessed at. XP, medals and settings survive, which is the part a
+  child would notice.
 - Reset confirms first and says the data lives on the device.
 - **No external requests at all.** Fonts and icons ship with the app,
   so it keeps working offline after the first load.
 
 ## Design
 
-- Tokens copied from the repo root `DESIGN.md` into `css/styles.css`
-  custom properties. Dark only. Accent family: **blue** (recorded in
-  the `PRODUCT.md` app registry). Blue was chosen over amber, sage and
-  coral because those sit close to the warning, success and danger
-  tones this app shows constantly; the accent has to stay clearly
-  distinct from "you got it wrong".
-- Atkinson Hyperlegible (self-hosted woff2, 400/700) for everything.
-  It was designed to keep similar letterforms apart, which is the
-  entire job on a spelling screen.
+- Tokens copied from the repo root `DESIGN.md` into `css/styles.css`.
+  Dark only. Accent family: **blue**, chosen over amber, sage and coral
+  because those sit close to the warning, success and danger tones this
+  app shows constantly; the accent has to stay clearly distinct from
+  "you got it wrong".
+- Atkinson Hyperlegible (self-hosted woff2, 400/700) throughout. It was
+  designed to keep similar letterforms apart, which is the entire job
+  on a spelling screen.
 - Lucide icons inlined as SVG (`js/icons.js`, generated from
   lucide-static).
 - Motion: opacity and transform only, 120 to 240 ms, reduced-motion
@@ -325,26 +368,24 @@ reason.
   2.75rem.
 - Accessibility (WCAG 2.1 AA): auto-check is announced before use
   (SC 3.2.2), results are announced through the persistent feedback
-  area with `role="status"` instead of a forced focus jump (SC 4.1.3),
-  no time limits are involved (SC 2.2.1), wrong answers are identified
-  in text and by shape as well as colour (SC 1.4.1, SC 3.3.1), and the
-  practice material is marked with its own language (SC 3.1.2). The
-  open blank carries an `aria-label` so it is announced as a gap rather
-  than as three middle dots.
+  area with `role="status"` (SC 4.1.3), no time limits (SC 2.2.1),
+  wrong answers are identified in text and by shape as well as colour
+  (SC 1.4.1, SC 3.3.1), and practice material is marked with its own
+  language (SC 3.1.2). The open blank carries an `aria-label` so it is
+  announced as a gap rather than as three middle dots.
 
 ## Structure
 
 - `index.html`, `css/styles.css`, `fonts/`, `js/`:
-  `data.js` (registries, no copy), `i18n.js` (`t`, `setLanguage`,
-  fallback), `i18n/de|en.js` (string tables), `content/de.js` (the
-  curriculum), `util.js` (shuffle, escaping, status), `storage.js`
-  (persistence and sanitising), `round.js` (round building, spacing and
-  checking, no DOM), `game.js` (XP, levels, medals, no DOM and no
-  copy), `ui.js` (rendering), `app.js` (state and events), `icons.js`.
-- Cache busting: every local asset URL carries the same `?v=N`
-  (stylesheet link, script tag, inter-module imports, font urls).
+  `data.js` (registries, cycle lookup, Lehrplan edition), `i18n.js`,
+  `i18n/de|en.js`, `content/de.js` (the curriculum), `util.js`
+  (shuffle, escaping, status), `storage.js`, `round.js` (round
+  building, spacing and checking, no DOM), `game.js` (XP, levels,
+  medals, no DOM and no copy), `ui.js` (rendering), `app.js` (state and
+  events), `icons.js`.
+- Cache busting: every local asset URL carries the same `?v=N`.
   Bump N in all files on every release; the e2e suite enforces
-  consistency and walks `js/` recursively. Current: `?v=1`.
+  consistency and walks `js/` recursively. Current: `?v=2`.
 - Tests: `tests/e2e.test.mjs` (Playwright, self-contained static
   server, no python dependency). The expected answers are derived from
   the content pack through `round.js`, the module the app renders from,

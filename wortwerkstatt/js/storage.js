@@ -4,7 +4,7 @@
 import {
   LANGUAGES, CONTENT_LANGUAGES, CYCLES,
   DEFAULT_LANGUAGE, DEFAULT_CONTENT_LANGUAGE, DEFAULT_CYCLE
-} from "./data.js?v=1";
+} from "./data.js?v=2";
 
 const KEY = "wortwerkstatt.state";
 
@@ -15,7 +15,7 @@ export function load() {
     const data = JSON.parse(raw);
     const state = {
       settings: sanitizeSettings(data.settings),
-      topics: sanitizeTopics(data.topics),
+      chapters: sanitizeChapters(data.chapters),
       game: sanitizeGame(data.game)
     };
     // A save from an older version comes back in a different shape.
@@ -39,10 +39,14 @@ function sanitizeSettings(s) {
   };
 }
 
-function sanitizeTopics(topics) {
-  if (!topics || typeof topics !== "object") return {};
+// Progress is counted per chapter. Saves written before chapters
+// existed stored it per rule under `topics`; those keys do not map onto
+// chapters, so they are dropped rather than guessed at. XP, medals and
+// settings survive, which is the part a child would notice.
+function sanitizeChapters(chapters) {
+  if (!chapters || typeof chapters !== "object") return {};
   const out = {};
-  for (const [id, value] of Object.entries(topics)) {
+  for (const [id, value] of Object.entries(chapters)) {
     if (!value || typeof value !== "object") continue;
     out[id] = { rounds: num(value.rounds), clean: num(value.clean) };
   }
@@ -55,7 +59,7 @@ function sanitizeGame(g) {
     xp: num(g.xp),
     rounds: num(g.rounds),
     charsTyped: num(g.charsTyped),
-    memoryWords: num(g.memoryWords),
+    written: num(g.written),
     cleanCycle: num(g.cleanCycle),
     cleanCount: num(g.cleanCount),
     cycles: Array.isArray(g.cycles) ? g.cycles.filter((c) => CYCLES.includes(c)) : [],
@@ -73,7 +77,7 @@ export function save(data) {
 
 // Reset clears progress. Language, learning language and cycle are
 // settings, not progress, so they survive: a child in cycle 3 should
-// not land back in cycle 2 after clearing their XP.
+// not land back in cycle 1 after clearing their XP.
 export function reset(settings) {
   localStorage.removeItem(KEY);
   const state = emptyState();
@@ -85,7 +89,7 @@ export function reset(settings) {
 function emptyState() {
   return {
     settings: sanitizeSettings(null),
-    topics: {},
+    chapters: {},
     game: sanitizeGame(null)
   };
 }

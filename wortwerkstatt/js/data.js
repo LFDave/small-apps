@@ -2,7 +2,7 @@
 // three Lehrplan 21 cycles. No copy lives here; everything visible
 // resolves through the string tables in js/i18n/.
 
-import { de as contentDe } from "./content/de.js?v=1";
+import { de as contentDe } from "./content/de.js?v=2";
 
 export const LANGUAGES = [
   { code: "de", htmlLang: "de-CH", label: "Deutsch" },
@@ -20,25 +20,50 @@ export const CONTENT_LANGUAGES = [contentDe];
 
 export const DEFAULT_CONTENT_LANGUAGE = "de";
 
-// Lehrplan 21 cycles. 1 = 1./2. Klasse, 2 = 3. bis 6. Klasse,
-// 3 = 7. bis 9. Klasse.
+// Lehrplan 21 cycles, as the competency table places them (see PRD.md).
+// 1 = 1./2. Klasse, 2 = 3. bis 6. Klasse, 3 = 7. bis 9. Klasse.
 export const CYCLES = [1, 2, 3];
 
-// Cycle 2 covers the widest band and holds the rules most children
-// stumble over (sch, sp/st, ng, abstract nouns, end-of-sentence marks).
-// Cycle 1 and 3 are one tap away in the settings.
-export const DEFAULT_CYCLE = 2;
+// The exact edition the rule references point at. A later revision of
+// the Lehrplan means a new date here and a re-check of every `step` in
+// the content pack.
+export const LEHRPLAN_VERSION = "Kanton Bern, 23.06.2016";
+
+// Cycle 1 holds the rules the source document lists first, including
+// the sch, sp/st and ng spellings. Stepping up is suggested after five
+// clean rounds; stepping down is always a tap away in the settings.
+export const DEFAULT_CYCLE = 1;
 
 export function contentByCode(code) {
   return CONTENT_LANGUAGES.find((c) => c.code === code) || CONTENT_LANGUAGES[0];
 }
 
+// A rule can span two cycles. The competency table draws a step that
+// straddles a cycle boundary across both bars, and step b does exactly
+// that: sch, sp/st, ng, abstract nouns and end-of-sentence marks are
+// introduced in cycle 1 and consolidated in cycle 2, so they belong on
+// both lists rather than only the earlier one.
 export function topicsForCycle(contentCode, cycle) {
-  return contentByCode(contentCode).topics.filter((topic) => topic.cycle === cycle);
+  return contentByCode(contentCode).topics.filter((topic) => topic.cycles.includes(cycle));
 }
 
 export function topicById(contentCode, id) {
   return contentByCode(contentCode).topics.find((topic) => topic.id === id) || null;
+}
+
+// Chapter ids are unique across the pack, so a chapter can be looked up
+// without knowing its rule. Returns { topic, chapter, index } or null.
+export function chapterById(contentCode, chapterId) {
+  for (const topic of contentByCode(contentCode).topics) {
+    const index = topic.chapters.findIndex((c) => c.id === chapterId);
+    if (index >= 0) return { topic, chapter: topic.chapters[index], index };
+  }
+  return null;
+}
+
+export function chaptersForCycle(contentCode, cycle) {
+  return topicsForCycle(contentCode, cycle).flatMap((topic) =>
+    topic.chapters.map((chapter) => ({ topic, chapter })));
 }
 
 // Turns a topic id into the PascalCase part of its string ids:
