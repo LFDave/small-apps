@@ -22,13 +22,13 @@ import { fileURLToPath } from "node:url";
 import {
   CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey,
   textsForCycle, textKey, LEHRPLAN_VERSION
-} from "../js/data.js?v=5";
-import { TABLES } from "../js/i18n.js?v=5";
+} from "../js/data.js?v=6";
+import { TABLES } from "../js/i18n.js?v=6";
 import {
   fillTask, expectedAnswer, solutionText, isTyped, needsConfirm, wordDiff,
   looksComplete, ROUND_SIZE
-} from "../js/round.js?v=5";
-import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=5";
+} from "../js/round.js?v=6";
+import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=6";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -231,10 +231,10 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
   for (const item of commaSentences) {
     const without = item.answer.replace(",", "");
     if (without.length >= item.answer.length) commaProblems.push(`${item.answer}: not shorter`);
-    const wrong = wordDiff(item.answer, without).filter((w) => !w.ok);
-    if (wrong.length !== 1) {
-      commaProblems.push(`${item.answer}: ${wrong.length} words marked, expected 1`);
-    }
+    // A mark is either a word shown as wrong or a word reported missing.
+    const { rows, missing } = wordDiff(item.answer, without);
+    const marks = rows.filter((w) => !w.ok).length + missing;
+    if (marks !== 1) commaProblems.push(`${item.answer}: ${marks} marks, expected 1`);
   }
   check(`a missing comma marks one word in all ${commaSentences.length} comma sentences`,
     commaSentences.length > 0 && commaProblems.length === 0, commaProblems.slice(0, 4).join(" | "));
@@ -272,15 +272,33 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
       ["a word too many", [...words.slice(0, 2), "sehr", ...words.slice(2)].join(" ")]
     ];
     for (const [name, typed] of cases) {
-      const red = wordDiff(item.answer, typed).filter((w) => !w.ok).length;
+      const { rows, missing } = wordDiff(item.answer, typed);
+      const red = rows.filter((w) => !w.ok).length + missing;
       if (red !== 1) markProblems.push(`${item.answer} with ${name}: ${red} marked`);
     }
-    if (wordDiff(item.answer, item.answer).some((w) => !w.ok)) {
+    if (wordDiff(item.answer, item.answer).rows.some((w) => !w.ok)) {
       markProblems.push(`${item.answer}: marked despite being right`);
     }
   }
   check("one slip marks one word, in every text sentence", markProblems.length === 0,
     markProblems.slice(0, 4).join(" | "));
+
+  // The reported shape: several words written differently and one word
+  // genuinely left out. A gap may only be drawn where nothing was
+  // written in its place, or the dots land where no word is missing.
+  {
+    const answer = "Das Lernen fiel ihm diesmal leicht.";
+    const { rows, missing } = wordDiff(answer, "das lernen fiel im schwer.");
+    const gaps = rows.filter((w) => w.gap).length;
+    check("replaced words never draw a gap where nothing is missing", gaps === 0, `${gaps} gaps`);
+    check("the word that is genuinely missing is counted instead", missing === 1, String(missing));
+    check("the marks carry back what the child actually wrote",
+      rows.map((w) => w.word).join(" ") === "das lernen fiel im schwer.",
+      rows.map((w) => w.word).join(" "));
+    const pure = wordDiff(answer, "Das Lernen fiel ihm leicht.");
+    check("a word left out with nothing in its place still shows a gap",
+      pure.rows.filter((w) => w.gap).length === 1 && pure.missing === 0);
+  }
   const perCycle = CYCLES.map((c) => textsForCycle(CONTENT.code, c).length);
   check("every cycle has texts to write", perCycle.every((n) => n > 0), perCycle.join("/"));
 }
@@ -657,7 +675,7 @@ try {
   // later character red.
   // Cell count comes from the aligner, not from the sentence length: a
   // dropped word shows a gap, so the two need not match.
-  const backCells = wordDiff(firstText.sentences[0].answer, firstText.sentences[0].prompt + ".").length;
+  const backCells = wordDiff(firstText.sentences[0].answer, firstText.sentences[0].prompt + ".").rows.length;
   check("the whole sentence is shown back word by word",
     (await count(".word")) === backCells, `${await count(".word")} cells, expected ${backCells}`);
   check("the missed words are marked", (await count(".word.miss")) > 0);

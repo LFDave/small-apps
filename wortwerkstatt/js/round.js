@@ -4,7 +4,7 @@
 // module directly to derive the expected answers, so the tests can
 // never drift from the engine.
 
-import { shuffle } from "./util.js?v=5";
+import { shuffle } from "./util.js?v=6";
 
 export const ROUND_SIZE = 6;
 
@@ -66,17 +66,22 @@ export function looksComplete(expected, typed) {
 
 // Only the memory kind hides the answer first and asks for it back.
 // Write derives it from the rule, copy has it on screen the whole time.
-// Which of the child's words are right.
+// Which of the child's words are right, and how many are missing.
+// Returns { rows, missing }.
 //
-// The comparison aligns the two sentences rather than walking them
-// position by position. Position by position, one word dropped in the
-// middle shifts everything after it and the rest of the sentence turns
-// red, which tells a child nothing except that they failed. Aligned, a
-// word they got right stays right no matter what happened around it.
+// The two sentences are aligned rather than walked position by
+// position: position by position, one word dropped in the middle
+// shifts everything after it and the rest of the sentence turns red.
 //
-// A dropped word immediately followed by an unexpected one is one word
-// written differently, not one lost and one gained, so the two collapse
-// into a single marked word.
+// Between two words that match, the child's unmatched words are paired
+// against the expected ones that went with them — those are words
+// written differently, not words lost and words gained, so each shows
+// as one mark carrying what the child actually wrote.
+//
+// A gap is only ever drawn where it is genuinely known: a stretch with
+// words expected and nothing written in their place. Where words were
+// replaced as well, the position of the missing one is a guess, so it
+// is counted and said in words instead of drawn in the wrong spot.
 export function wordDiff(expected, typed) {
   const want = splitWords(expected);
   const got = splitWords(typed);
@@ -94,29 +99,42 @@ export function wordDiff(expected, typed) {
   }
 
   const rows = [];
+  let missing = 0;
+  let dropped = [];
+  let added = [];
+
+  const flush = () => {
+    for (const word of added) rows.push({ word, ok: false });
+    const short = dropped.length - added.length;
+    if (short > 0) {
+      if (added.length === 0) {
+        for (let k = 0; k < short; k++) rows.push({ word: "", ok: false, gap: true });
+      } else {
+        missing += short;
+      }
+    }
+    dropped = [];
+    added = [];
+  };
+
   let i = 0;
   let j = 0;
   while (i < n && j < m) {
-    if (want[i] === got[j]) rows.push({ word: got[j++], ok: true, i: i++ });
-    else if (lcs[i + 1][j] >= lcs[i][j + 1]) rows.push({ word: "", ok: false, dropped: true, i: i++ });
-    else rows.push({ word: got[j++], ok: false });
-  }
-  while (j < m) rows.push({ word: got[j++], ok: false });
-  while (i < n) rows.push({ word: "", ok: false, dropped: true, i: i++ });
-
-  const merged = [];
-  for (let k = 0; k < rows.length; k++) {
-    const a = rows[k];
-    const b = rows[k + 1];
-    const pair = b && !a.ok && !b.ok && a.dropped !== b.dropped;
-    if (pair) {
-      merged.push({ word: a.dropped ? b.word : a.word, ok: false });
-      k += 1;
+    if (want[i] === got[j]) {
+      flush();
+      rows.push({ word: got[j++], ok: true });
+      i += 1;
+    } else if (lcs[i + 1][j] >= lcs[i][j + 1]) {
+      dropped.push(want[i++]);
     } else {
-      merged.push({ word: a.word, ok: a.ok });
+      added.push(got[j++]);
     }
   }
-  return merged;
+  while (j < m) added.push(got[j++]);
+  while (i < n) dropped.push(want[i++]);
+  flush();
+
+  return { rows, missing };
 }
 
 function splitWords(value) {

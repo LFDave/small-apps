@@ -271,10 +271,20 @@ Position by position, one word dropped in the middle shifts everything
 after it and the rest of the sentence turns red — which tells a child
 nothing except that they failed. Aligned (`wordDiff`, longest common
 subsequence), a word they got right stays right whatever happened
-around it, a dropped word shows as a gap where it belongs, and an extra
-word is marked on its own. A dropped word immediately followed by an
-unexpected one collapses into a single mark, because that is one word
-written differently, not one lost and one gained.
+around it.
+
+Between two words that match, the child's unmatched words are paired
+against the expected ones that went with them: those are words written
+differently, not words lost and words gained, so each shows as one mark
+carrying **what the child actually wrote**.
+
+**A gap is only drawn where it is genuinely known** — a stretch with
+words expected and nothing written in their place. Where words were
+replaced as well, the position of a missing word is a guess, so it is
+counted and said in words ("Ein Wort fehlt noch.") instead of drawn
+somewhere it probably does not belong. Dots scattered through a
+sentence that also has replacements point at spots where nothing is
+missing, which reads as noise.
 
 The suite holds this to one mark per slip: for every sentence in the
 pack, a small first letter, a word left out and a word too many must
