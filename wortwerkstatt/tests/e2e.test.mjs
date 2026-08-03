@@ -22,13 +22,13 @@ import { fileURLToPath } from "node:url";
 import {
   CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey,
   textsForCycle, textKey, LEHRPLAN_VERSION
-} from "../js/data.js?v=4";
-import { TABLES } from "../js/i18n.js?v=4";
+} from "../js/data.js?v=5";
+import { TABLES } from "../js/i18n.js?v=5";
 import {
   fillTask, expectedAnswer, solutionText, isTyped, needsConfirm, wordDiff,
   looksComplete, ROUND_SIZE
-} from "../js/round.js?v=4";
-import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=4";
+} from "../js/round.js?v=5";
+import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=5";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -258,6 +258,29 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
   }
   check("no half-typed sentence is ever judged on its own", halfProblems.length === 0,
     halfProblems.slice(0, 4).join(" | "));
+
+  // Marking is aligned, not positional. One slip must cost one mark,
+  // however early in the sentence it happens, or a child sees a wall of
+  // red and learns nothing from it.
+  const markProblems = [];
+  for (const item of CONTENT.texts.flatMap((text) => text.sentences)) {
+    const words = item.answer.split(" ");
+    if (words.length < 4) continue;
+    const cases = [
+      ["a small first letter", words.map((w, k) => (k ? w : w.toLowerCase())).join(" ")],
+      ["a word left out", words.filter((_, k) => k !== 1).join(" ")],
+      ["a word too many", [...words.slice(0, 2), "sehr", ...words.slice(2)].join(" ")]
+    ];
+    for (const [name, typed] of cases) {
+      const red = wordDiff(item.answer, typed).filter((w) => !w.ok).length;
+      if (red !== 1) markProblems.push(`${item.answer} with ${name}: ${red} marked`);
+    }
+    if (wordDiff(item.answer, item.answer).some((w) => !w.ok)) {
+      markProblems.push(`${item.answer}: marked despite being right`);
+    }
+  }
+  check("one slip marks one word, in every text sentence", markProblems.length === 0,
+    markProblems.slice(0, 4).join(" | "));
   const perCycle = CYCLES.map((c) => textsForCycle(CONTENT.code, c).length);
   check("every cycle has texts to write", perCycle.every((n) => n > 0), perCycle.join("/"));
 }
@@ -618,6 +641,13 @@ try {
     (await count(".para-line.pending")) === firstText.sentences.length - 1);
   check("nothing is shown as finished yet", (await count(".para-line.done")) === 0);
   check("the mode says what has to be added", (await text(".task-clue")).includes("grossen Buchstaben"));
+  // A paragraph of similar lines has to say which one is being asked,
+  // or a child writes the wrong line and every word comes back wrong.
+  check("the instruction names which sentence is being written",
+    (await text(".instruction")) === `Schreib Satz 1 von ${firstText.sentences.length} richtig auf.`,
+    await text(".instruction"));
+  check("the line in hand is pointed at, not only tinted",
+    (await count(".para-line.current .icon")) === 1);
   await shot("27-text-start");
 
   // A miss first: the letter comparison has to work on a whole sentence.
@@ -625,8 +655,11 @@ try {
   check("a wrong sentence is answered at once", (await count(".feedback-warn")) === 1);
   // A sentence comes back by word: a single slip must not paint every
   // later character red.
+  // Cell count comes from the aligner, not from the sentence length: a
+  // dropped word shows a gap, so the two need not match.
+  const backCells = wordDiff(firstText.sentences[0].answer, firstText.sentences[0].prompt + ".").length;
   check("the whole sentence is shown back word by word",
-    (await count(".word")) === firstText.sentences[0].answer.split(" ").length);
+    (await count(".word")) === backCells, `${await count(".word")} cells, expected ${backCells}`);
   check("the missed words are marked", (await count(".word.miss")) > 0);
   check("a sentence is never shown back character by character",
     (await count(".letter")) === 0);

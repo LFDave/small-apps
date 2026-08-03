@@ -103,14 +103,27 @@ All enforced by the e2e suite unless noted:
 - **A word checks itself; a sentence is confirmed** (`needsConfirm`,
   `CONFIRM_KINDS`). The known-length pattern needs a length the child
   can actually count. `memory` and `write` auto-check on the last
-  character with the count stated. `copy` and `text` get a Fertig button
-  and Enter, because a sentence one character short never reaches the
-  expected length and would hang forever with no feedback — the bug this
-  rule exists to prevent. **Never move a sentence kind to auto-check.**
-  Confirmed fields also allow overshoot, so a too-long answer stays
-  finishable. Wrong answers come back character by character for a word
-  and **word by word** for a sentence (`wordDiff`), so one missing comma
-  marks one word instead of everything after it. The advisory line under
+  character with the count stated. `copy` and `text` are judged as soon as
+  they **look finished** (`looksComplete`: exactly right, or the same
+  word count ending on a sentence mark), with a Fertig button and Enter
+  for everything else. Without that fallback a sentence one character
+  short never reaches the expected length and hangs forever with no
+  feedback — the bug this rule exists to prevent. **Never widen
+  `looksComplete` to a state a half-typed sentence can reach**; the
+  suite feeds every prefix of every answer through it. Confirmed fields
+  allow overshoot, so a too-long answer stays finishable, and
+  `normaliseTyped` strips stray spacing before anything is judged. A
+  retry keeps a sentence, so the child fixes the marked word instead of
+  retyping 45 characters; a single word starts fresh. Wrong answers come back character by character for a word
+  and **word by word** for a sentence. `wordDiff` **aligns** the two
+  (longest common subsequence) rather than comparing positions: a
+  positional walk turns the whole tail red as soon as one word is
+  dropped. **Never replace it with a positional compare**; the suite
+  requires that a small first letter, a word left out and a word too
+  many each mark exactly one thing in every text sentence.
+  In the writing mode the sentence in hand is named in the instruction
+  and pointed at with a chevron — without that a child writes the wrong
+  line of the paragraph and every word comes back wrong. The advisory line under
   the field says which of the two applies (WCAG 3.2.2). `autocapitalize="none"` and
   `spellcheck="false"` are load-bearing — capitals are the lesson and
   the browser must not spell it for the child. The `input` handler must

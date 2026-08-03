@@ -4,18 +4,18 @@
 // i18n; every practice string comes from the content pack and is
 // marked with the content language so screen readers switch voice.
 
-import { icon } from "./icons.js?v=4";
+import { icon } from "./icons.js?v=5";
 import {
   LANGUAGES, CONTENT_LANGUAGES, CYCLES,
   contentByCode, topicsForCycle, topicById, topicKey,
   textsForCycle, textById, textKey, LEHRPLAN_VERSION
-} from "./data.js?v=4";
-import { t, currentLanguage } from "./i18n.js?v=4";
-import { escapeHtml, statusOf, topicStatus } from "./util.js?v=4";
+} from "./data.js?v=5";
+import { t, currentLanguage } from "./i18n.js?v=5";
+import { escapeHtml, statusOf, topicStatus } from "./util.js?v=5";
 import {
   fillTask, expectedAnswer, letterDiff, wordDiff, isTyped, needsConfirm, ROUND_SIZE
-} from "./round.js?v=4";
-import { MEDALS, levelFor } from "./game.js?v=4";
+} from "./round.js?v=5";
+import { MEDALS, levelFor } from "./game.js?v=5";
 
 // Sentinel put in place of the answer so the blank lands exactly where
 // round.js says it does, spacing included. A control character, because
@@ -402,6 +402,11 @@ function renderRound(state) {
 }
 
 function instructionFor(task, r) {
+  // A paragraph of similar-looking lines needs the task named, or a
+  // child writes the wrong line and every word comes back wrong.
+  if (task.kind === "text") {
+    return t("instructionText", { i: r.i + 1, n: r.tasks.length });
+  }
   if (task.kind === "memory") {
     return r.phase === "study" ? t("instructionMemoryStudy") : t("instructionMemoryWrite");
   }
@@ -561,7 +566,9 @@ function paragraph(state, r, shown) {
       return `<span class="para-line done">${escapeHtml(task.item.answer)}</span>`;
     }
     if (i === r.i) {
-      return `<span class="para-line current">${escapeHtml(task.item.prompt)}</span>`;
+      // The line in hand is pointed at, not just tinted: colour alone
+      // would not separate it from four lines that look the same.
+      return `<span class="para-line current">${icon("chevron-right")}<span>${escapeHtml(task.item.prompt)}</span></span>`;
     }
     return `<span class="para-line pending">${escapeHtml(task.item.prompt)}</span>`;
   }).join("");

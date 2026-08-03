@@ -174,6 +174,11 @@ words, and no other part of the app asks for a whole text.
 
 - Nine texts, three per cycle, 42 sentences in total. A text is 4 to 5
   sentences and names on its card which rules it pulls together.
+- **The sentence being written is named and pointed at.** The
+  instruction reads "Schreib Satz 1 von 4 richtig auf." and a chevron
+  marks the line in hand. Five similar-looking lines with only a tint
+  between them is not enough: write the wrong line and every word comes
+  back wrong, which reads as a broken app rather than a misread.
 - The text is written **one sentence at a time, in order**. A paragraph
   that shuffles is not a paragraph, so a text round is as long as the
   text rather than `ROUND_SIZE`.
@@ -259,10 +264,21 @@ right one.
 
 **How a wrong answer comes back** depends on the same split. A single
 word is shown back character by character, because its letters are the
-lesson. A sentence is shown back **word by word**: one missing comma
-shifts every later character, and a wall of red for a single slip tells
-a child nothing. By word, a missing comma marks exactly `wusste,` and
-nothing else.
+lesson. A sentence is shown back **word by word**, and the two sentences
+are **aligned** rather than compared position by position.
+
+Position by position, one word dropped in the middle shifts everything
+after it and the rest of the sentence turns red — which tells a child
+nothing except that they failed. Aligned (`wordDiff`, longest common
+subsequence), a word they got right stays right whatever happened
+around it, a dropped word shows as a gap where it belongs, and an extra
+word is marked on its own. A dropped word immediately followed by an
+unexpected one collapses into a single mark, because that is one word
+written differently, not one lost and one gained.
+
+The suite holds this to one mark per slip: for every sentence in the
+pack, a small first letter, a word left out and a word too many must
+each mark exactly one thing, and a right sentence must mark nothing.
 
 
 - **Choice tasks**: large option buttons, no confirm step. A single

@@ -6,14 +6,14 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=4") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=5") format("woff2");
 }
 @font-face {
   font-family: "Atkinson Hyperlegible";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=4") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=5") format("woff2");
 }
 
 :root {
@@ -965,4 +965,25 @@ h1, h2, h3 {
   color: var(--color-danger);
   text-decoration: underline;
   text-decoration-thickness: 2px;
+}
+
+/* The line being written is pointed at, so it cannot be mistaken for
+   one of the lines around it. */
+.para-line.current {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.para-line.current .icon {
+  align-self: center;
+  color: var(--color-accent);
+}
+
+/* A word the child left out: the gap is shown where it belongs rather
+   than shifting every later word out of place. */
+.word:empty::before,
+.word.gap::before {
+  content: "·";
+  color: var(--color-danger);
 }
