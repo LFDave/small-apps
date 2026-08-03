@@ -4,7 +4,7 @@
 // module directly to derive the expected answers, so the tests can
 // never drift from the engine.
 
-import { shuffle } from "./util.js?v=2";
+import { shuffle } from "./util.js?v=4";
 
 export const ROUND_SIZE = 6;
 
@@ -18,8 +18,69 @@ export function isTyped(kind) {
   return TYPED_KINDS.includes(kind);
 }
 
+// Whole sentences are confirmed, single words check themselves.
+//
+// The known-length pattern only works while the length is knowable by
+// the person typing. For a word with "8 Buchstaben" under the field it
+// is: you can count eight letters. For a 45-character sentence it is
+// not — and a child who leaves out one comma then types a sentence that
+// looks finished, never reaches the expected length, and gets no
+// response at all. PRODUCT.md covers exactly this case: keep a confirm
+// button where the input length is unknown.
+export const CONFIRM_KINDS = ["copy", "text"];
+
+export function needsConfirm(kind) {
+  return CONFIRM_KINDS.includes(kind);
+}
+
+// Spacing is not the lesson. A trailing space or a double space between
+// two words is a slip of the thumb, not a spelling mistake, so it is
+// normalised away before anything is judged.
+export function normaliseTyped(value) {
+  return String(value).trim().replace(/\s+/g, " ");
+}
+
+function wordCount(value) {
+  const t = normaliseTyped(value);
+  return t === "" ? 0 : t.split(" ").length;
+}
+
+// Whether a sentence can be judged without waiting for the button.
+//
+// Two cases are safe. Exactly right is trivially safe: the answer ends
+// in a sentence mark, so passing through it means the child is done.
+// Same word count and ending on a sentence mark is the other: it is how
+// a finished sentence looks, and it catches the whole common error
+// class — a missing comma, a small letter, one letter short in a word.
+//
+// Everything else still waits for the button, because a sentence with
+// too few or too many words is indistinguishable from one that is still
+// being typed. Judging that would be judging characters as they are
+// typed, which recall must never become.
+export function looksComplete(expected, typed) {
+  const value = normaliseTyped(typed);
+  if (value === expected) return true;
+  if (!/[.!?]$/.test(value)) return false;
+  return wordCount(value) === wordCount(expected);
+}
+
 // Only the memory kind hides the answer first and asks for it back.
 // Write derives it from the rule, copy has it on screen the whole time.
+// Which words of a sentence are right, word by word. A sentence is
+// compared by word rather than by character on purpose: one missing
+// comma shifts every later character, and a wall of red for a single
+// slip tells a child nothing. By word, a missing comma marks exactly
+// "wusste," and nothing else.
+export function wordDiff(expected, typed) {
+  const want = expected.split(" ");
+  const got = typed.trim() === "" ? [] : typed.split(/\s+/);
+  const rows = [];
+  for (let i = 0; i < Math.max(want.length, got.length); i++) {
+    rows.push({ word: got[i] === undefined ? "" : got[i], ok: got[i] === want[i] });
+  }
+  return rows;
+}
+
 export function needsStudyStep(task) {
   return task.kind === "memory";
 }

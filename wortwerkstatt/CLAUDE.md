@@ -100,9 +100,18 @@ All enforced by the e2e suite unless noted:
   known-length check on its own.
 - The rule box renders only after an answer during a round. The full
   rule text is always on the rule view for anyone who wants it first.
-- Written answers use the known-length pattern: no confirm button, the
-  whole answer checked when the last character lands, the advisory line
-  kept under the field (WCAG 3.2.2). `autocapitalize="none"` and
+- **A word checks itself; a sentence is confirmed** (`needsConfirm`,
+  `CONFIRM_KINDS`). The known-length pattern needs a length the child
+  can actually count. `memory` and `write` auto-check on the last
+  character with the count stated. `copy` and `text` get a Fertig button
+  and Enter, because a sentence one character short never reaches the
+  expected length and would hang forever with no feedback — the bug this
+  rule exists to prevent. **Never move a sentence kind to auto-check.**
+  Confirmed fields also allow overshoot, so a too-long answer stays
+  finishable. Wrong answers come back character by character for a word
+  and **word by word** for a sentence (`wordDiff`), so one missing comma
+  marks one word instead of everything after it. The advisory line under
+  the field says which of the two applies (WCAG 3.2.2). `autocapitalize="none"` and
   `spellcheck="false"` are load-bearing — capitals are the lesson and
   the browser must not spell it for the child. The `input` handler must
   not re-render, or the caret jumps.

@@ -22,12 +22,13 @@ import { fileURLToPath } from "node:url";
 import {
   CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey,
   textsForCycle, textKey, LEHRPLAN_VERSION
-} from "../js/data.js?v=2";
-import { TABLES } from "../js/i18n.js?v=2";
+} from "../js/data.js?v=4";
+import { TABLES } from "../js/i18n.js?v=4";
 import {
-  fillTask, expectedAnswer, solutionText, isTyped, ROUND_SIZE
-} from "../js/round.js?v=2";
-import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=2";
+  fillTask, expectedAnswer, solutionText, isTyped, needsConfirm, wordDiff,
+  looksComplete, ROUND_SIZE
+} from "../js/round.js?v=4";
+import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=4";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -220,6 +221,43 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
   }
   check(`all ${CONTENT.texts.length} texts are usable`, problems.length === 0, problems.slice(0, 8).join(" | "));
   check(`the writing mode carries ${sentences} sentences`, sentences >= 40, String(sentences));
+
+  // The reported bug, pinned: a sentence written without its comma is
+  // one character short, so a self-checking field would wait forever.
+  // It has to be confirmable, and it has to mark exactly one word.
+  const commaSentences = CONTENT.texts
+    .flatMap((text) => text.sentences).filter((item) => item.answer.includes(","));
+  const commaProblems = [];
+  for (const item of commaSentences) {
+    const without = item.answer.replace(",", "");
+    if (without.length >= item.answer.length) commaProblems.push(`${item.answer}: not shorter`);
+    const wrong = wordDiff(item.answer, without).filter((w) => !w.ok);
+    if (wrong.length !== 1) {
+      commaProblems.push(`${item.answer}: ${wrong.length} words marked, expected 1`);
+    }
+  }
+  check(`a missing comma marks one word in all ${commaSentences.length} comma sentences`,
+    commaSentences.length > 0 && commaProblems.length === 0, commaProblems.slice(0, 4).join(" | "));
+  check("every text sentence needs confirming, never a self-check",
+    needsConfirm("text") && !needsConfirm("memory") && !needsConfirm("write"));
+
+  // The auto-accept rule may never fire on a sentence that is still
+  // being typed, or recall degrades into judging characters.
+  const halfProblems = [];
+  for (const item of CONTENT.texts.flatMap((text) => text.sentences)) {
+    const answer = item.answer;
+    if (!looksComplete(answer, answer)) halfProblems.push(`${answer}: right answer not accepted`);
+    if (!looksComplete(answer, answer + " ")) halfProblems.push(`${answer}: trailing space rejected`);
+    // Every prefix of the right answer is a sentence mid-typing.
+    for (let i = 1; i < answer.length; i++) {
+      if (looksComplete(answer, answer.slice(0, i))) {
+        halfProblems.push(`${answer}: judged at ${i} characters`);
+        break;
+      }
+    }
+  }
+  check("no half-typed sentence is ever judged on its own", halfProblems.length === 0,
+    halfProblems.slice(0, 4).join(" | "));
   const perCycle = CYCLES.map((c) => textsForCycle(CONTENT.code, c).length);
   check("every cycle has texts to write", perCycle.every((n) => n > 0), perCycle.join("/"));
 }
@@ -283,13 +321,28 @@ try {
 
   // Answers whatever task is on screen, choice or written. `wrong: true`
   // gives a wrong answer on purpose, so the miss path can be driven.
+  // Types an answer and gets it judged the way the app expects: a word
+  // checks itself on the last character, a whole sentence waits for the
+  // Fertig button.
+  const writeAnswer = async (kind, value) => {
+    // A retry keeps the sentence on screen, so a fresh answer starts
+    // from an empty field.
+    await page.fill("#answer", "");
+    await page.type("#answer", value);
+    if (!needsConfirm(kind)) return;
+    // A finished-looking sentence judges itself; anything else waits
+    // for the button.
+    if (await count(".feedback-success, .feedback-warn")) return;
+    await page.click('[data-action="check"]');
+  };
+
   const answerTask = async ({ wrong = false } = {}) => {
     // Memory: the word is shown, then hidden, then written.
     if (await count('[data-action="study-done"]')) {
       const word = await text(".memory-word");
       await page.click('[data-action="study-done"]');
       await page.fill("#answer", "");
-      await page.type("#answer", wrong ? scramble(word) : word);
+      await writeAnswer("memory", wrong ? scramble(word) : word);
       return { kind: "memory", answer: word, task: null };
     }
     // Copy: the sentence to write out stays on screen.
@@ -299,7 +352,7 @@ try {
       if (!task) throw new Error("unknown copy prompt: " + JSON.stringify(prompt));
       const answer = expectedAnswer(task);
       await page.fill("#answer", "");
-      await page.type("#answer", wrong ? scramble(answer) : answer);
+      await writeAnswer(task.kind, wrong ? scramble(answer) : answer);
       return { kind: "copy", answer, task };
     }
     const shownText = (await page.locator(".task-text").first().innerText()).trim();
@@ -309,7 +362,7 @@ try {
     // Write: the same frame as a choice task, but typed.
     if (await count("#answer")) {
       await page.fill("#answer", "");
-      await page.type("#answer", wrong ? scramble(answer) : answer);
+      await writeAnswer(task.kind, wrong ? scramble(answer) : answer);
       return { kind: "write", answer, task };
     }
     const values = await page.$$eval(".choice-option", (els) => els.map((el) => el.dataset.value));
@@ -452,7 +505,7 @@ try {
   check("no confirm button on a written answer",
     (await count('[data-action="ok"], [data-action="confirm"]')) === 0);
   check("the character count is stated", (await text(".answer-field .hint")).includes("Zeichen"));
-  check("auto-check advisory line shown",
+  check("auto-check advisory line shown for a single word",
     (await page.locator(".answer-field .hint").nth(1).textContent()).includes("letzten Zeichen"));
   await shot("07-round-write");
 
@@ -467,7 +520,7 @@ try {
   check("the input is capped at the answer length", writeMaxLength === write.answer.length);
   await shot("08-round-write-miss");
   await page.click('[data-action="retry"]');
-  await page.type("#answer", write.answer);
+  await writeAnswer(write.kind, write.answer);
   check("the last character auto-locks the right word", (await count(".feedback-success")) === 1);
   check("a written answer is counted", await page.evaluate(() =>
     JSON.parse(localStorage.getItem("wortwerkstatt.state")).game.written === 1));
@@ -568,15 +621,84 @@ try {
   await shot("27-text-start");
 
   // A miss first: the letter comparison has to work on a whole sentence.
-  await page.type("#answer", firstText.sentences[0].prompt + ".");
+  await writeAnswer("text", firstText.sentences[0].prompt + ".");
   check("a wrong sentence is answered at once", (await count(".feedback-warn")) === 1);
-  check("the whole sentence is shown back character by character",
-    (await count(".letter")) === firstText.sentences[0].answer.length);
-  check("the missed characters are marked", (await count(".letter.miss")) > 0);
-  check("the spaces inside a sentence read as gaps, not as empty boxes",
-    (await count(".letter-space")) > 0);
+  // A sentence comes back by word: a single slip must not paint every
+  // later character red.
+  check("the whole sentence is shown back word by word",
+    (await count(".word")) === firstText.sentences[0].answer.split(" ").length);
+  check("the missed words are marked", (await count(".word.miss")) > 0);
+  check("a sentence is never shown back character by character",
+    (await count(".letter")) === 0);
   await shot("28-text-miss");
   await page.click('[data-action="retry"]');
+
+  // The bug this guards: with a self-checking field an answer one
+  // character short never reaches the expected length, so the check
+  // never fires and the child is stuck with no response at all.
+  const full = firstText.sentences[0].answer;
+  const shortOne = full.replace(".", "");
+  check("a sentence is confirmed, not auto-checked",
+    (await count('[data-action="check"]')) === 1);
+  check("the field leaves room to overshoot, so a too-long answer is possible",
+    Number(await page.getAttribute("#answer", "maxlength")) > full.length);
+  await page.fill("#answer", "");
+  await page.type("#answer", shortOne);
+  check("an answer one character short does not judge itself",
+    (await count(".feedback-warn")) === 0 && (await count(".feedback-success")) === 0);
+  await page.click('[data-action="check"]');
+  check("confirming an answer one character short is answered",
+    (await count(".feedback-warn")) === 1);
+  check("a sentence comes back word by word, not character by character",
+    (await count(".word")) > 0 && (await count(".letter")) === 0);
+  check("only the word that is actually wrong is marked",
+    (await count(".word.miss")) === 1, `${await count(".word.miss")} marked`);
+  await shot("28b-text-missing-character");
+  await page.click('[data-action="retry"]');
+
+  // A sentence that looks finished is judged without the button. The
+  // button exists for everything that cannot be told apart from a
+  // sentence still being typed.
+  await page.fill("#answer", "");
+  const smallStart = full.replace(/^(\S+)/, (w) => w.toLowerCase());
+  await page.type("#answer", smallStart);
+  check("a finished sentence with a small letter is judged without the button",
+    (await count(".feedback-warn")) === 1);
+  check("and it marks only the word that is wrong",
+    (await count(".word.miss")) === 1, `${await count(".word.miss")} marked`);
+  await page.click('[data-action="retry"]');
+  check("a retry keeps the sentence, so one slip is not a full retype",
+    (await page.inputValue("#answer")) === smallStart);
+  check("the caret sits after what was written", await page.evaluate(() => {
+    const el = document.getElementById("answer");
+    return el.selectionStart === el.value.length;
+  }));
+
+  // Enter is the same button where one exists. Driven on an answer the
+  // auto-check deliberately leaves alone, so it is Enter doing the work.
+  await page.fill("#answer", "");
+  await page.type("#answer", shortOne);
+  check("the answer Enter is tested on is not auto-judged",
+    (await count(".feedback-warn, .feedback-success")) === 0);
+  await page.keyboard.press("Enter");
+  check("Enter confirms a sentence", (await count(".feedback-warn")) === 1);
+  await page.click('[data-action="retry"]');
+
+  // Exactly right needs no button at all, which is the path a child who
+  // writes it correctly actually takes.
+  await page.fill("#answer", "");
+  await page.type("#answer", full);
+  check("an exactly right sentence is accepted without the button",
+    (await count(".feedback-success")) === 1);
+  check("a right sentence never shows a wrong word",
+    (await count(".word.miss")) === 0);
+  await shot("29b-text-auto-accepted");
+
+  // Back to the start of the text, so the write-through below runs from
+  // sentence one.
+  await backHome();
+  await page.click(`[data-action="start-text"][data-id="${firstText.id}"]`);
+  await page.waitForSelector(".para-line");
 
   for (const [i, sentence] of firstText.sentences.entries()) {
     if (i > 0) {
@@ -585,7 +707,7 @@ try {
       check(`sentence ${i + 1}: the draft is the one in hand`,
         (await text(".para-line.current")) === sentence.prompt);
     }
-    await page.type("#answer", sentence.answer);
+    await writeAnswer("text", sentence.answer);
     await page.waitForSelector(".feedback-success");
     if (i === 0) await shot("29-text-correct");
     await page.click('[data-action="next"]');
@@ -593,11 +715,15 @@ try {
   await page.waitForSelector(".done-panel");
   check("the finished text is shown as a text",
     (await count(".done-panel .para-line.done")) === firstText.sentences.length);
+  const doneLine = await text(".done-panel .feedback");
   check("the completion counts sentences, not tasks",
-    (await text(".done-panel .feedback")).includes(`von ${firstText.sentences.length} Sätzen`),
-    await text(".done-panel .feedback"));
+    /Sätze|Sätzen/.test(doneLine) && !doneLine.includes("Aufgaben"), doneLine);
+  // Written from the start with no miss, so every sentence is first
+  // try and the whole round carries the writing bonus.
+  const sentenceCount = firstText.sentences.length;
   check("a text is written entirely by hand, so it earns the writing bonus",
-    (await text(".reward-xp")) === `+${xpForRound(1, firstText.sentences.length - 1, 1, true)} XP`);
+    (await text(".reward-xp")) === `+${xpForRound(1, sentenceCount, 0, true)} XP`,
+    await text(".reward-xp"));
   check("a finished text is recorded on its own", await page.evaluate((id) =>
     JSON.parse(localStorage.getItem("wortwerkstatt.state")).texts[id].rounds === 1, firstText.id));
   await shot("30-text-done");
