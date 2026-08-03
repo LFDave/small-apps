@@ -20,7 +20,8 @@ import { mkdirSync, existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, extname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey, LEHRPLAN_VERSION
+  CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey,
+  textsForCycle, textKey, LEHRPLAN_VERSION
 } from "../js/data.js?v=2";
 import { TABLES } from "../js/i18n.js?v=2";
 import {
@@ -179,6 +180,50 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
   check("the Lehrplan edition is recorded", /\d{2}\.\d{2}\.\d{4}/.test(LEHRPLAN_VERSION), LEHRPLAN_VERSION);
 }
 
+/* ── Writing mode: the texts ──────────────────────────────────────── */
+{
+  const problems = [];
+  const ids = new Set();
+  let sentences = 0;
+  for (const text of CONTENT.texts) {
+    if (ids.has(text.id)) problems.push(`${text.id} duplicate text id`);
+    ids.add(text.id);
+    if (!Array.isArray(text.cycles) || !text.cycles.every((c) => CYCLES.includes(c))) {
+      problems.push(`${text.id} unknown cycle`);
+    }
+    for (const table of Object.values(TABLES)) {
+      if (!table["text" + textKey(text.id) + "Title"]) problems.push(`${text.id} has no title`);
+    }
+    // A text names the rules it pulls together, and each has to exist.
+    if (!text.rules.length) problems.push(`${text.id} names no rules`);
+    for (const rule of text.rules) {
+      if (!CONTENT.topics.some((topic) => topic.id === rule)) problems.push(`${text.id} names an unknown rule ${rule}`);
+    }
+    if (text.sentences.length < 3) problems.push(`${text.id} is too short to be a text`);
+    for (const item of text.sentences) {
+      sentences += 1;
+      // The prompt is an unformatted draft, never a misspelling: a
+      // child must not be shown a wrongly spelled word. Lowercase, no
+      // punctuation, and the same letters as the answer.
+      if (item.prompt !== item.prompt.toLowerCase()) problems.push(`${text.id}: prompt is not lowercase`);
+      if (/[.,!?;:]/.test(item.prompt)) problems.push(`${text.id}: prompt carries punctuation`);
+      const bare = (str) => str.toLowerCase().replace(/[^a-zäöüß]/g, "");
+      if (bare(item.prompt) !== bare(item.answer)) {
+        problems.push(`${text.id}: prompt and answer differ in letters, not just in form`);
+      }
+      // One auto-check at the end has to stay a fair unit to be judged
+      // on, so a sentence stays short enough to hold in one go.
+      if (item.answer.length > 65) problems.push(`${text.id}: a sentence runs to ${item.answer.length} characters`);
+      if (!/[.!?]$/.test(item.answer)) problems.push(`${text.id}: a sentence has no end mark`);
+      if (item.answer[0] !== item.answer[0].toUpperCase()) problems.push(`${text.id}: a sentence starts lowercase`);
+    }
+  }
+  check(`all ${CONTENT.texts.length} texts are usable`, problems.length === 0, problems.slice(0, 8).join(" | "));
+  check(`the writing mode carries ${sentences} sentences`, sentences >= 40, String(sentences));
+  const perCycle = CYCLES.map((c) => textsForCycle(CONTENT.code, c).length);
+  check("every cycle has texts to write", perCycle.every((n) => n > 0), perCycle.join("/"));
+}
+
 /* ── Static server (no python dependency) ─────────────────────────── */
 
 const MIME = {
@@ -304,11 +349,15 @@ try {
   await page.waitForSelector(".topic-card");
   check("app title renders", (await text("h1")) === "Wortwerkstatt");
   check("cycle 1 is the default", (await text(".panel .hint")).includes("Zyklus 1"));
+  // Rule cards and text cards share a card class, so the rule counts
+  // key off the action instead.
   check("home lists the rules of the cycle",
-    (await count(".topic-card")) === topicsForCycle("de", 1).length);
+    (await count('[data-action="open-topic"]')) === topicsForCycle("de", 1).length);
   check("every rule starts as Neu",
-    (await page.$$eval(".pill", (els) => els.map((e) => e.textContent.trim()))).every((p) => p === "Neu"));
-  check("rule cards count their chapters", (await text(".topic-sub")) === "0 von 3 Kapiteln geübt");
+    (await page.$$eval('[data-action="open-topic"] .pill', (els) => els.map((e) => e.textContent.trim())))
+      .every((p) => p === "Neu"));
+  check("rule cards count their chapters",
+    (await text('[data-action="open-topic"] .topic-sub')) === "0 von 3 Kapiteln geübt");
   check("storage note visible", (await text(".app-footer .hint")).includes("auf diesem Gerät"));
   check("stats strip starts at level 1", (await text(".stats-title")).includes("Level 1"));
   check("no medals unlocked yet", (await text(".stats-medals")) === `0/${MEDALS.length}`);
@@ -497,6 +546,65 @@ try {
   await shot("14-mixed-done");
   await backHome();
 
+  /* ── The writing mode ──────────────────────────────────────────── */
+  const firstText = textsForCycle("de", 1)[0];
+  check("home offers the writing mode",
+    (await count('[data-action="start-text"]')) === textsForCycle("de", 1).length);
+  check("a text card names the rules it pulls together",
+    (await text('[data-action="start-text"] .topic-sub:last-child')).startsWith("Übt:"));
+  await page.click(`[data-action="start-text"][data-id="${firstText.id}"]`);
+  check("the text is titled", (await text("h1")) === TABLES.de["text" + textKey(firstText.id) + "Title"]);
+  check("one dot per sentence", (await count(".dot")) === firstText.sentences.length);
+  check("the writing mode never offers anything to tap",
+    (await count(".choice-option")) === 0);
+  check("the whole text is on screen from the start",
+    (await count(".para-line")) === firstText.sentences.length);
+  check("the sentence in hand is the draft version",
+    (await text(".para-line.current")) === firstText.sentences[0].prompt);
+  check("the sentences still to come are shown as drafts",
+    (await count(".para-line.pending")) === firstText.sentences.length - 1);
+  check("nothing is shown as finished yet", (await count(".para-line.done")) === 0);
+  check("the mode says what has to be added", (await text(".task-clue")).includes("grossen Buchstaben"));
+  await shot("27-text-start");
+
+  // A miss first: the letter comparison has to work on a whole sentence.
+  await page.type("#answer", firstText.sentences[0].prompt + ".");
+  check("a wrong sentence is answered at once", (await count(".feedback-warn")) === 1);
+  check("the whole sentence is shown back character by character",
+    (await count(".letter")) === firstText.sentences[0].answer.length);
+  check("the missed characters are marked", (await count(".letter.miss")) > 0);
+  check("the spaces inside a sentence read as gaps, not as empty boxes",
+    (await count(".letter-space")) > 0);
+  await shot("28-text-miss");
+  await page.click('[data-action="retry"]');
+
+  for (const [i, sentence] of firstText.sentences.entries()) {
+    if (i > 0) {
+      check(`sentence ${i + 1}: the text so far is written out`,
+        (await count(".para-line.done")) === i);
+      check(`sentence ${i + 1}: the draft is the one in hand`,
+        (await text(".para-line.current")) === sentence.prompt);
+    }
+    await page.type("#answer", sentence.answer);
+    await page.waitForSelector(".feedback-success");
+    if (i === 0) await shot("29-text-correct");
+    await page.click('[data-action="next"]');
+  }
+  await page.waitForSelector(".done-panel");
+  check("the finished text is shown as a text",
+    (await count(".done-panel .para-line.done")) === firstText.sentences.length);
+  check("the completion counts sentences, not tasks",
+    (await text(".done-panel .feedback")).includes(`von ${firstText.sentences.length} Sätzen`),
+    await text(".done-panel .feedback"));
+  check("a text is written entirely by hand, so it earns the writing bonus",
+    (await text(".reward-xp")) === `+${xpForRound(1, firstText.sentences.length - 1, 1, true)} XP`);
+  check("a finished text is recorded on its own", await page.evaluate((id) =>
+    JSON.parse(localStorage.getItem("wortwerkstatt.state")).texts[id].rounds === 1, firstText.id));
+  await shot("30-text-done");
+  await backHome();
+  check("the text card shows it was written",
+    (await text(`[data-action="start-text"][data-id="${firstText.id}"] .pill`)) === "Geübt");
+
   /* ── Persistence ───────────────────────────────────────────────── */
   const xpBefore = await text(".stats-xp");
   await page.reload();
@@ -540,7 +648,7 @@ try {
 
   /* ── A rule that spans two cycles is on both lists ─────────────── */
   check("cycle 2 lists its own rules",
-    (await count(".topic-card")) === topicsForCycle("de", 2).length);
+    (await count('[data-action="open-topic"]')) === topicsForCycle("de", 2).length);
   check("the step b rules are on the cycle 2 list too",
     (await count('.topic-card[data-id="sp-st"]')) === 1);
   check("progress made in cycle 1 is the same progress in cycle 2",
@@ -653,6 +761,9 @@ try {
   check("reset clears XP and level", (await text(".stats-xp")) === "0 of 30 XP");
   check("reset clears the rule progress",
     (await page.$$eval(".pill", (els) => els.map((e) => e.textContent.trim()))).every((p) => p === "New"));
+  check("reset clears the written texts too",
+    await page.evaluate(() =>
+      Object.keys(JSON.parse(localStorage.getItem("wortwerkstatt.state")).texts).length === 0));
   check("reset keeps the chosen language", (await text(".section h2")) === "Practise");
   check("reset keeps the chosen cycle",
     (await page.evaluate(() =>
@@ -684,7 +795,7 @@ try {
   check("progress for a chapter that still exists survives",
     (await text('.topic-card[data-id="sp-st"] .topic-sub')) === "1 von 3 Kapiteln geübt");
   check("progress for a chapter that is gone does no harm",
-    (await count(".topic-card")) === topicsForCycle("de", 1).length);
+    (await count('[data-action="open-topic"]')) === topicsForCycle("de", 1).length);
   await shot("26-home-migrated");
 
   check("no console errors", consoleErrors.length === 0, consoleErrors.join(" | "));

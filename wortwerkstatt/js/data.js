@@ -66,9 +66,20 @@ export function chaptersForCycle(contentCode, cycle) {
     topic.chapters.map((chapter) => ({ topic, chapter })));
 }
 
+export function textsForCycle(contentCode, cycle) {
+  return (contentByCode(contentCode).texts || []).filter((text) => text.cycles.includes(cycle));
+}
+
+export function textById(contentCode, id) {
+  return (contentByCode(contentCode).texts || []).find((text) => text.id === id) || null;
+}
+
 // Turns a topic id into the PascalCase part of its string ids:
 // "sp-st" -> "SpSt", resolved as topicSpStTitle / topicSpStRule.
 // Topic ids are unique across content packs for this reason.
 export function topicKey(id) {
   return id.split("-").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join("");
 }
+
+// Same convention for texts: "schulweg" -> textSchulwegTitle.
+export const textKey = topicKey;

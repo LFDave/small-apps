@@ -121,6 +121,8 @@ export const en = {
   doneTitle: "Round finished!",
   doneMsg: "You got {k} of {n} tasks right straight away.",
   doneAll: "You got all {n} tasks right straight away.",
+  doneTextMsg: "You wrote {k} of {n} sentences right straight away.",
+  doneTextAll: "You wrote all {n} sentences right straight away.",
   doneAgain: "Practise again",
   doneHome: "Back to the overview",
   doneNextChapter: "Carry on with {name}",
@@ -139,6 +141,28 @@ export const en = {
   settingsCycle: "Cycle",
   settingsCycleHint: "The cycle decides which rules you practise. You can switch at any time.",
   settingsCycleTopics: "{n} rules",
+
+  /* ── Writing mode ──────────────────────────────────────────────── */
+  homeTexts: "Write a text",
+  homeTextsHint: "Nothing to tap here. You write out a whole text correctly, one sentence at a time.",
+  textSentences: "{n} sentences",
+  textRounds: "written {n} times",
+  textRules: "Practises: {rules}",
+  textProgress: "Sentence {i} of {n}",
+  instructionText: "Write the sentence correctly.",
+  textIntro: "This is how someone typed it in a hurry. Add the capital letters, the end marks and the commas.",
+  medalNameTextschreiber: "Text Writer",
+  medalDescTextschreiber: "Wrote three whole texts.",
+
+  textSchulwegTitle: "The way to school",
+  textGartenTitle: "In the garden",
+  textKatzeTitle: "Our cat",
+  textEinkaufTitle: "The shopping",
+  textGewitterTitle: "The thunderstorm",
+  textAusflugTitle: "The day out",
+  textProbeTitle: "The test",
+  textMuseumTitle: "At the museum",
+  textVeloTitle: "The new bike",
 
   /* ── Rules: title and rule text ────────────────────────────────── */
   topicNomenGrossTitle: "Nouns take a capital",

@@ -16,6 +16,7 @@ export function load() {
     const state = {
       settings: sanitizeSettings(data.settings),
       chapters: sanitizeChapters(data.chapters),
+      texts: sanitizeChapters(data.texts),
       game: sanitizeGame(data.game)
     };
     // A save from an older version comes back in a different shape.
@@ -43,6 +44,8 @@ function sanitizeSettings(s) {
 // existed stored it per rule under `topics`; those keys do not map onto
 // chapters, so they are dropped rather than guessed at. XP, medals and
 // settings survive, which is the part a child would notice.
+// Chapters and texts are both "how often, and how often cleanly", so
+// they normalise the same way.
 function sanitizeChapters(chapters) {
   if (!chapters || typeof chapters !== "object") return {};
   const out = {};
@@ -90,6 +93,7 @@ function emptyState() {
   return {
     settings: sanitizeSettings(null),
     chapters: {},
+    texts: {},
     game: sanitizeGame(null)
   };
 }

@@ -2,11 +2,13 @@
 // event delegation, persists through storage.js and renders via ui.js.
 
 import { render } from "./ui.js?v=2";
-import { topicById, chapterById, chaptersForCycle, topicKey } from "./data.js?v=2";
+import {
+  topicById, chapterById, chaptersForCycle, topicKey, textById, textKey
+} from "./data.js?v=2";
 import { t, setLanguage } from "./i18n.js?v=2";
 import * as storage from "./storage.js?v=2";
 import {
-  buildRound, isCorrect, needsStudyStep, expectedAnswer, isTyped
+  buildRound, buildTextRound, isCorrect, needsStudyStep, expectedAnswer, isTyped
 } from "./round.js?v=2";
 import { award, xpForRound } from "./game.js?v=2";
 
@@ -65,14 +67,14 @@ function setSetting(key, value) {
 
 /* ── Rounds ──────────────────────────────────────────────────────── */
 
-function startRound({ entries, title, topicId, chapterId }) {
-  if (!entries.length) return;
-  const tasks = buildRound(entries);
+function startRound({ entries, title, topicId, chapterId, textId, tasks: given }) {
+  const tasks = given || (entries.length ? buildRound(entries) : []);
   if (!tasks.length) return;
   state.round = {
     title,
     topicId: topicId || null,
     chapterId: chapterId || null,
+    textId: textId || null,
     cycle: state.data.settings.cycle,
     tasks,
     i: 0,
@@ -119,9 +121,22 @@ function startCycleMixed() {
   });
 }
 
+// The writing mode: a whole text, sentence by sentence, in order.
+function startText(textId) {
+  const text = textById(state.data.settings.contentLanguage, textId);
+  if (!text) return;
+  startRound({
+    entries: [],
+    tasks: buildTextRound(text),
+    title: t("text" + textKey(text.id) + "Title"),
+    textId: text.id
+  });
+}
+
 function restartRound() {
   const r = state.round;
-  if (r.chapterId) startChapter(r.chapterId);
+  if (r.textId) startText(r.textId);
+  else if (r.chapterId) startChapter(r.chapterId);
   else if (r.topicId) startTopicMixed(r.topicId);
   else startCycleMixed();
 }
@@ -189,17 +204,18 @@ function finishRound() {
   // mixed practice moves the chapter cards too. A chapter counts as
   // clean only when all of its tasks in this round were right first
   // time.
-  const perChapter = new Map();
+  const bucket = r.textId ? state.data.texts : state.data.chapters;
+  const perUnit = new Map();
   r.tasks.forEach((task, i) => {
-    const acc = perChapter.get(task.chapterId) || { clean: true };
+    const id = r.textId || task.chapterId;
+    const acc = perUnit.get(id) || { clean: true };
     if (!r.firstTry[i]) acc.clean = false;
-    perChapter.set(task.chapterId, acc);
+    perUnit.set(id, acc);
   });
-  for (const [id, acc] of perChapter) {
-    if (!state.data.chapters[id]) state.data.chapters[id] = { rounds: 0, clean: 0 };
-    const progress = state.data.chapters[id];
-    progress.rounds += 1;
-    if (acc.clean) progress.clean += 1;
+  for (const [id, acc] of perUnit) {
+    if (!bucket[id]) bucket[id] = { rounds: 0, clean: 0 };
+    bucket[id].rounds += 1;
+    if (acc.clean) bucket[id].clean += 1;
   }
 
   // Clean runs at the current cycle build toward the suggestion to step
@@ -244,6 +260,7 @@ document.addEventListener("click", (e) => {
     case "start-chapter": startChapter(el.dataset.id); break;
     case "start-topic-mixed": startTopicMixed(el.dataset.id); break;
     case "start-cycle-mixed": startCycleMixed(); break;
+    case "start-text": startText(el.dataset.id); break;
     case "choose": choose(el.dataset.value); break;
     case "study-done": r.phase = "ask"; render(state); break;
     case "next": nextTask(); break;

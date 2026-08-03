@@ -27,12 +27,17 @@ export const MEDALS = [
   { id: "acht-runden", key: "AchtRunden", icon: "award", check: (d) => d.game.rounds >= 8 },
   { id: "einundzwanzig-runden", key: "EinundzwanzigRunden", icon: "trophy", check: (d) => d.game.rounds >= 21 },
   { id: "regelfest", key: "Regelfest", icon: "target", check: (d) => Object.values(d.chapters).some((p) => p.clean >= 3) },
-  { id: "kapitelmeister", key: "Kapitelmeister", icon: "book-open", check: ruleComplete },
-  { id: "alleskoenner", key: "Alleskoenner", icon: "layers", check: cycleComplete },
+  { id: "kapitelmeister", key: "Kapitelmeister", icon: "layers", check: ruleComplete },
+  { id: "alleskoenner", key: "Alleskoenner", icon: "list-checks", check: cycleComplete },
   { id: "wortschmied", key: "Wortschmied", icon: "hammer", check: (d) => d.game.charsTyped >= 400 },
   { id: "selberschreiber", key: "Selberschreiber", icon: "zap", check: (d) => d.game.written >= 20 },
+  { id: "textschreiber", key: "Textschreiber", icon: "book-open", check: (d) => textsWritten(d) >= 3 },
   { id: "zyklusreise", key: "Zyklusreise", icon: "graduation-cap", check: (d) => d.game.cycles.length >= 3 }
 ];
+
+function textsWritten(d) {
+  return Object.values(d.texts).filter((p) => p.rounds > 0).length;
+}
 
 // Every chapter of one rule practised at least once, anywhere in the
 // pack. This is the medal that rewards working a rule all the way to

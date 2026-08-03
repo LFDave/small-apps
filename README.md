@@ -73,14 +73,15 @@ A calm memory trainer that helps kids learn real numbers by heart: door codes, f
 A calm spelling trainer for kids, built on one Lehrplan 21 competency (D.4 Schreiben, D.4.F.1, Kanton Bern edition of 23.06.2016). Every rule shows the competency step it comes from — and says so plainly when a rule is extra practice the Lehrplan text does not name.
 
 **Features:**
-- 22 rules, 66 chapters, 484 tasks across the three cycles
+- 22 rules, 66 chapters, 484 tasks across the three cycles, plus 9 texts of 42 sentences
 - Three chapters per rule that rise in difficulty and always end in writing: tap the answer, then tap a harder one, then type it yourself
-- Six kinds of task: letters missing in a word, a word missing from a sentence, a punctuation mark, the missing word typed out, a whole sentence written correctly, and memory words written from memory
+- A writing-only mode: whole texts written out sentence by sentence, mixing capitals, end marks and commas, with the paragraph taking shape on screen
+- Seven kinds of task: letters missing in a word, a word missing from a sentence, a punctuation mark, the missing word typed out, a whole sentence written correctly, and memory words written from memory
 - Rules that straddle a cycle boundary in the source appear on both cycle lists and share one set of counters
 - Distractors are the mistakes children really make (`Schport`, `Beischpiel`), so only the rule decides
 - Written answers check themselves on the last character, no confirm button
 - Supportive feedback that stays on screen, with the rule shown once the answer is in
-- Quiet gamification: XP, levels and ten medals that reward practice, never speed or perfection
+- Quiet gamification: XP, levels and eleven medals that reward practice, never speed or perfection
 - After five clean rounds the app suggests the next cycle, and never forces it; no chapter is ever locked
 - German and English interface; the practice material stays German, because German spelling cannot be taught with English sentences
 - No external requests at all, works offline after the first load

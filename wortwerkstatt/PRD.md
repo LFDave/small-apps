@@ -75,7 +75,8 @@ Two things are deliberately **not** implemented:
 
 ## Curriculum
 
-22 rules, 66 chapters, 484 tasks.
+22 rules, 66 chapters, 484 tasks, plus 9 texts of 42 sentences for
+the writing mode.
 
 | Cycle | Rules on the list | Owned by the cycle |
 | --- | --- | --- |
@@ -151,6 +152,7 @@ writing.
 | `write` | the missing word, typed into the sentence frame | typed |
 | `copy` | a whole short sentence written out correctly | typed |
 | `memory` | study the word, then write it from memory | typed |
+| `text` | one sentence of a text, in a paragraph taking shape | typed |
 
 `copy` is the writing chapter of the punctuation rules, where typing a
 lone "?" would be a thin exercise. It is also what makes the comma rule
@@ -162,6 +164,41 @@ fragments are glued together, an end-of-sentence mark sits tight
 against the sentence, a following clause keeps its space. The rendered
 blank and the solution text both come from that function, so they can
 never disagree about a space.
+
+## Writing mode (Texte schreiben)
+
+A second mode alongside the rules, where **nothing is tapped**. It is
+the integration exercise the source competency is actually about:
+D.4.F.1 is "einen **Text** sprachformal überarbeiten", not isolated
+words, and no other part of the app asks for a whole text.
+
+- Nine texts, three per cycle, 42 sentences in total. A text is 4 to 5
+  sentences and names on its card which rules it pulls together.
+- The text is written **one sentence at a time, in order**. A paragraph
+  that shuffles is not a paragraph, so a text round is as long as the
+  text rather than `ROUND_SIZE`.
+- The whole text is on screen throughout: sentences already written
+  show their finished form, the sentence in hand shows the draft, the
+  rest wait in muted grey. Watching the paragraph take shape is what
+  makes it a text rather than a pile of sentences.
+- **The prompt is a draft, never a misspelling.** It is the text as
+  someone would type it in a hurry: all lowercase, no punctuation, and
+  otherwise exactly the letters of the answer. A child must never be
+  shown a wrongly spelled word, which is why the mode exercises
+  capitals, end marks and commas rather than letter spellings, and why
+  `text.rules` lists only those rules. Word spellings are still
+  practised, because every letter is typed by hand.
+- What each cycle mixes: cycle 1 combines Satzanfang, Nomen gross and
+  Satzschlusszeichen; cycle 2 adds Aufzählungskommas, abstrakte Nomen
+  and Nebensatzkommas; cycle 3 adds Nominalisierung and relative
+  clauses with two commas in one sentence.
+- A sentence stays under 65 characters, so one auto-check at the end
+  stays a fair unit to be judged on. On a miss the whole sentence is
+  shown back character by character with the misses marked, which
+  pinpoints the capitals and marks that went wrong.
+- Progress lives in its own `texts` bucket, keyed by text id, in the
+  same `{rounds, clean}` shape as chapters. The completion panel shows
+  the finished text in full.
 
 ## Round
 
@@ -243,15 +280,15 @@ retries cost nothing, and speed never matters.
   3 Satzbauer 80, 4 Regelprofi 160, 5 Schreibprofi 280,
   6 Meisterfeder 450. Beyond the last level XP keeps counting. The
   titles are string ids, so they translate with the rest of the UI.
-- **Medals** (10, every check a pure function of the stored data):
+- **Medals** (11, every check a pure function of the stored data):
   Erste Runde / Dranbleiber / Wortarbeiter / Werkstattmeister at 1, 3,
   8 and 21 finished rounds; Regelfest when a chapter reaches 3 clean
   rounds; Kapitelmeister when every chapter of one rule has been
   practised, writing chapter included; Rundum when every rule of the
   **currently selected cycle** has been practised; Wortschmied at 400
   typed characters (effort medal, counts the tries that missed);
-  Selberschreiber at 20 written answers; Zyklusreise after practising
-  in all three cycles.
+  Selberschreiber at 20 written answers; Textschreiber after three
+  whole texts; Zyklusreise after practising in all three cycles.
 - **Display**: a stats strip on home opens the medal gallery; locked
   medals stay visible with their description. Rewards appear only on
   the completion panel as a quiet block, with no modal and no
@@ -316,18 +353,21 @@ interface table. Topic ids are unique across packs for that reason.
 ## Screens
 
 1. **Home** — title and settings button, stats strip, "Üben" panel
-   (which cycle, mixed practice), rule cards (icon, title, chapters
-   practised, status), storage note and reset.
-2. **Regel** — the rule text in full, the source line naming the
+   (which cycle, mixed practice), "Texte schreiben" section (the
+   writing mode), rule cards (icon, title, chapters practised, status),
+   storage note and reset.
+2. **Text** — the writing mode: the paragraph taking shape, one
+   sentence being written, no options anywhere on screen.
+3. **Regel** — the rule text in full, the source line naming the
    competency step and the Lehrplan edition, the three chapter cards
    with the writing chapter tagged, and mixed practice across the rule.
-3. **Runde** — back, rule title, step dots, instruction, task panel,
+4. **Runde** — back, rule title, step dots, instruction, task panel,
    options or the writing field, rule box after the answer, persistent
    feedback area, actions.
-4. **Abschluss** — completion feedback, reward block, optional cycle
+5. **Abschluss** — completion feedback, reward block, optional cycle
    suggestion, per-task summary, next chapter, actions.
-5. **Einstellungen** — Sprache, optional Lernsprache, Zyklus.
-6. **Medaillen** — level panel with progress bar plus the medal grid.
+6. **Einstellungen** — Sprache, optional Lernsprache, Zyklus.
+7. **Medaillen** — level panel with progress bar plus the medal grid.
 
 Back walks one step up the path: a round returns to its rule, a rule
 returns home.

@@ -1130,5 +1130,132 @@ export const de = {
         }
       ]
     }
+
+  ],
+
+  // Texts for the writing mode. Nothing is tapped here: the child
+  // writes the whole thing, sentence by sentence, and the paragraph
+  // takes shape on screen as it goes.
+  //
+  // The prompt is the text as someone would type it in a hurry: all
+  // lowercase, no punctuation. It is never a misspelling — a child must
+  // not be shown a wrongly spelled word. That is why the writing mode
+  // exercises capitals, end marks and commas, and why `rules` lists
+  // only those. Word spellings are still practised, because every
+  // letter is typed out by hand.
+  //
+  // A sentence stays under about 65 characters, so one auto-check at
+  // the end stays a fair unit to be judged on.
+  texts: [
+    /* ── Zyklus 1 ── */
+    {
+      id: "schulweg",
+      cycles: [1],
+      rules: ["satzanfang", "nomen-gross", "satzschluss"],
+      sentences: [
+        { prompt: "am morgen gehe ich zur schule", answer: "Am Morgen gehe ich zur Schule." },
+        { prompt: "mein bruder kommt mit", answer: "Mein Bruder kommt mit." },
+        { prompt: "wir warten an der bushaltestelle", answer: "Wir warten an der Bushaltestelle." },
+        { prompt: "wo ist mein turnbeutel", answer: "Wo ist mein Turnbeutel?" }
+      ]
+    },
+    {
+      id: "garten",
+      cycles: [1],
+      rules: ["satzanfang", "nomen-gross", "satzschluss"],
+      sentences: [
+        { prompt: "die sonne scheint warm", answer: "Die Sonne scheint warm." },
+        { prompt: "im garten blühen viele blumen", answer: "Im Garten blühen viele Blumen." },
+        { prompt: "mein vater giesst die beete", answer: "Mein Vater giesst die Beete." },
+        { prompt: "hilfst du mir", answer: "Hilfst du mir?" }
+      ]
+    },
+    {
+      id: "katze",
+      cycles: [1],
+      rules: ["satzanfang", "nomen-gross", "satzschluss"],
+      sentences: [
+        { prompt: "unsere katze heisst mimi", answer: "Unsere Katze heisst Mimi." },
+        { prompt: "sie schläft den ganzen tag", answer: "Sie schläft den ganzen Tag." },
+        { prompt: "am abend will sie futter", answer: "Am Abend will sie Futter." },
+        { prompt: "komm schnell her", answer: "Komm schnell her!" }
+      ]
+    },
+
+    /* ── Zyklus 2 ── */
+    {
+      id: "einkauf",
+      cycles: [2],
+      rules: ["satzanfang", "nomen-gross", "komma-aufzaehlung", "satzschluss"],
+      sentences: [
+        { prompt: "wir gehen zusammen einkaufen", answer: "Wir gehen zusammen einkaufen." },
+        { prompt: "auf dem zettel stehen brot milch und butter", answer: "Auf dem Zettel stehen Brot, Milch und Butter." },
+        { prompt: "meine mutter nimmt noch äpfel birnen und nüsse mit", answer: "Meine Mutter nimmt noch Äpfel, Birnen und Nüsse mit." },
+        { prompt: "an der kasse ist eine lange schlange", answer: "An der Kasse ist eine lange Schlange." },
+        { prompt: "hast du das geld dabei", answer: "Hast du das Geld dabei?" }
+      ]
+    },
+    {
+      id: "gewitter",
+      cycles: [2],
+      rules: ["satzanfang", "nomen-gross", "abstrakte-nomen", "komma-teilsatz", "satzschluss"],
+      sentences: [
+        { prompt: "am nachmittag zog ein gewitter auf", answer: "Am Nachmittag zog ein Gewitter auf." },
+        { prompt: "wir blieben zu hause weil es stark regnete", answer: "Wir blieben zu Hause, weil es stark regnete." },
+        { prompt: "meine schwester hatte grosse angst", answer: "Meine Schwester hatte grosse Angst." },
+        { prompt: "nach einer stunde kam die sonne zurück", answer: "Nach einer Stunde kam die Sonne zurück." },
+        { prompt: "was für ein glück", answer: "Was für ein Glück!" }
+      ]
+    },
+    {
+      id: "ausflug",
+      cycles: [2],
+      rules: ["satzanfang", "nomen-gross", "komma-aufzaehlung", "komma-teilsatz", "satzschluss"],
+      sentences: [
+        { prompt: "am samstag machten wir einen ausflug", answer: "Am Samstag machten wir einen Ausflug." },
+        { prompt: "wir packten brote früchte und getränke ein", answer: "Wir packten Brote, Früchte und Getränke ein." },
+        { prompt: "wir waren müde weil der weg steil war", answer: "Wir waren müde, weil der Weg steil war." },
+        { prompt: "oben assen wir unser picknick", answer: "Oben assen wir unser Picknick." },
+        { prompt: "wann gehen wir wieder", answer: "Wann gehen wir wieder?" }
+      ]
+    },
+
+    /* ── Zyklus 3 ── */
+    {
+      id: "probe",
+      cycles: [3],
+      rules: ["nomen-gross", "nominalisierung", "komma-teilsatz", "satzschluss"],
+      sentences: [
+        { prompt: "das lernen fiel ihm diesmal leicht", answer: "Das Lernen fiel ihm diesmal leicht." },
+        { prompt: "er wusste dass die probe am montag stattfand", answer: "Er wusste, dass die Probe am Montag stattfand." },
+        { prompt: "beim üben hörte er musik", answer: "Beim Üben hörte er Musik." },
+        { prompt: "am morgen war er trotzdem nervös", answer: "Am Morgen war er trotzdem nervös." },
+        { prompt: "alles ging gut weil er sich vorbereitet hatte", answer: "Alles ging gut, weil er sich vorbereitet hatte." }
+      ]
+    },
+    {
+      id: "museum",
+      cycles: [3],
+      rules: ["nomen-gross", "nominalisierung", "komma-teilsatz", "satzschluss"],
+      sentences: [
+        { prompt: "am mittwoch besuchten wir das museum", answer: "Am Mittwoch besuchten wir das Museum." },
+        { prompt: "das buch das im schaufenster lag war sehr alt", answer: "Das Buch, das im Schaufenster lag, war sehr alt." },
+        { prompt: "beim betrachten der bilder wurde es still", answer: "Beim Betrachten der Bilder wurde es still." },
+        { prompt: "wir sahen viel interessantes", answer: "Wir sahen viel Interessantes." },
+        { prompt: "ich hoffe dass wir bald wiederkommen", answer: "Ich hoffe, dass wir bald wiederkommen." }
+      ]
+    },
+    {
+      id: "velo",
+      cycles: [3],
+      rules: ["nomen-gross", "nominalisierung", "komma-teilsatz", "satzschluss"],
+      sentences: [
+        { prompt: "zum geburtstag bekam sie das velo das sie sich wünschte", answer: "Zum Geburtstag bekam sie das Velo, das sie sich wünschte." },
+        { prompt: "das fahren machte ihr sofort spass", answer: "Das Fahren machte ihr sofort Spass." },
+        { prompt: "sie merkte dass die bremsen zu schwach waren", answer: "Sie merkte, dass die Bremsen zu schwach waren." },
+        { prompt: "ihr vater stellte sie ein damit alles sicher war", answer: "Ihr Vater stellte sie ein, damit alles sicher war." },
+        { prompt: "nichts schöneres hätte sie sich wünschen können", answer: "Nichts Schöneres hätte sie sich wünschen können." }
+      ]
+    }
   ]
 };

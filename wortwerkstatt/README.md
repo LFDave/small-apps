@@ -34,9 +34,25 @@ Klappen fünf Runden hintereinander ohne Fehler, schlägt die App den
 nächsten Zyklus vor. Sie wechselt nie von selbst, und kein Kapitel ist
 je gesperrt.
 
+## Texte schreiben
+
+Ein zweiter Modus, in dem nichts angetippt wird. Du schreibst einen
+ganzen Text richtig auf, Satz für Satz. Der Text steht als schnell
+getippter Entwurf da, ganz klein geschrieben und ohne Satzzeichen. Du
+setzt die grossen Buchstaben, die Satzzeichen und die Kommas.
+
+Der Text wächst dabei vor deinen Augen: Was du geschrieben hast, steht
+schon richtig da, der Satz an der Reihe ist hervorgehoben, der Rest
+wartet noch.
+
+Neun Texte, drei pro Zyklus, 42 Sätze. Jeder Text sagt auf der Karte,
+welche Regeln er zusammenbringt. Zyklus 1 mischt Satzanfang, Nomen und
+Satzschlusszeichen, Zyklus 2 nimmt Kommas dazu, Zyklus 3 Nebensätze und
+Nominalisierung.
+
 ## Regeln in der App
 
-22 Regeln, 66 Kapitel, 484 Aufgaben.
+22 Regeln, 66 Kapitel, 484 Aufgaben, dazu 9 Texte mit 42 Sätzen.
 
 - **Zyklus 1**: Nomen gross, Satzanfang, Wortgrenzen, Merkwörter,
   Satzschlusszeichen, sch, sp und st, ng und nk, abstrakte Nomen.

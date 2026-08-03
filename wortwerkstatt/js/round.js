@@ -12,7 +12,7 @@ export const ROUND_SIZE = 6;
 // by writing. Every item stores its solution in `answer`, so checking
 // is the same everywhere.
 export const CHOICE_KINDS = ["word", "sentence", "punct"];
-export const TYPED_KINDS = ["memory", "write", "copy"];
+export const TYPED_KINDS = ["memory", "write", "copy", "text"];
 
 export function isTyped(kind) {
   return TYPED_KINDS.includes(kind);
@@ -55,6 +55,21 @@ export function buildRound(entries, size = ROUND_SIZE) {
   }));
 }
 
+// A text is written in order: a paragraph that shuffles is not a
+// paragraph. Every sentence of it is one task, so the round is as long
+// as the text rather than ROUND_SIZE.
+export function buildTextRound(text) {
+  return text.sentences.map((item) => ({
+    topicId: null,
+    chapterId: null,
+    textId: text.id,
+    kind: "text",
+    emptyOptionKey: null,
+    item,
+    options: null
+  }));
+}
+
 export function expectedAnswer(task) {
   return task.item.answer;
 }
@@ -69,7 +84,7 @@ export function fillTask(task, filler) {
   const { kind, item } = task;
   // A memory word is the whole task, and a copy task types out a whole
   // sentence, so there is nothing to join around.
-  if (kind === "memory" || kind === "copy") return filler;
+  if (kind === "memory" || kind === "copy" || kind === "text") return filler;
   if (kind === "word") return item.before + filler + item.after;
   const head = kind === "punct"
     ? item.before + filler

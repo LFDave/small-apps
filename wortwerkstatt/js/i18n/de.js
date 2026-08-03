@@ -121,6 +121,8 @@ export const de = {
   doneTitle: "Runde geschafft!",
   doneMsg: "{k} von {n} Aufgaben hast du direkt gewusst.",
   doneAll: "Alle {n} Aufgaben hast du direkt gewusst.",
+  doneTextMsg: "{k} von {n} Sätzen hast du direkt richtig geschrieben.",
+  doneTextAll: "Alle {n} Sätze hast du direkt richtig geschrieben.",
   doneAgain: "Nochmals üben",
   doneHome: "Zur Übersicht",
   doneNextChapter: "Weiter mit {name}",
@@ -139,6 +141,28 @@ export const de = {
   settingsCycle: "Zyklus",
   settingsCycleHint: "Der Zyklus bestimmt, welche Regeln du übst. Du kannst jederzeit wechseln.",
   settingsCycleTopics: "{n} Regeln",
+
+  /* ── Writing mode ──────────────────────────────────────────────── */
+  homeTexts: "Texte schreiben",
+  homeTextsHint: "Hier wird nur geschrieben. Du schreibst einen ganzen Text richtig auf, Satz für Satz.",
+  textSentences: "{n} Sätze",
+  textRounds: "{n} mal geschrieben",
+  textRules: "Übt: {rules}",
+  textProgress: "Satz {i} von {n}",
+  instructionText: "Schreib den Satz richtig auf.",
+  textIntro: "So hat es jemand schnell getippt. Setz die grossen Buchstaben, die Satzzeichen und die Kommas.",
+  medalNameTextschreiber: "Textschreiber",
+  medalDescTextschreiber: "Drei ganze Texte geschrieben.",
+
+  textSchulwegTitle: "Der Schulweg",
+  textGartenTitle: "Im Garten",
+  textKatzeTitle: "Unsere Katze",
+  textEinkaufTitle: "Der Einkauf",
+  textGewitterTitle: "Das Gewitter",
+  textAusflugTitle: "Der Ausflug",
+  textProbeTitle: "Die Probe",
+  textMuseumTitle: "Im Museum",
+  textVeloTitle: "Das neue Velo",
 
   /* ── Rules: title and rule text ────────────────────────────────── */
   topicNomenGrossTitle: "Nomen gross",

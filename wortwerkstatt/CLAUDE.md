@@ -86,7 +86,15 @@ All enforced by the e2e suite unless noted:
   mark tight, a following clause spaced. The rendered blank and the
   solution text both go through it. `ui.js` splits on the `BLANK`
   sentinel rather than re-implementing the rules.
-- Six task kinds, three chosen and three typed (`isTyped`). `copy` is
+- **Writing mode** (`content.texts`, `kind: "text"`): nothing is tapped.
+  A text round is built by `buildTextRound` and is **never shuffled** —
+  a paragraph runs in order. Progress lands in the `texts` bucket, not
+  in `chapters`. The prompt of a sentence is a hurried draft (lowercase,
+  no punctuation) and **never a misspelling**; the e2e suite checks that
+  prompt and answer carry the same letters and differ only in form. Keep
+  sentences under 65 characters, or one auto-check at the end stops
+  being a fair unit to be judged on.
+- Seven task kinds, three chosen and four typed (`isTyped`). `copy` is
   the writing chapter of the punctuation rules — typing a lone "?" is
   thin, and the comma rule's empty answer could never trigger a
   known-length check on its own.
