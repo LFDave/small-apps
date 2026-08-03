@@ -1,12 +1,16 @@
 // app.js — controller: owns the state, handles all interactions via
 // event delegation, persists through storage.js and renders via ui.js.
 
-import { render } from "./ui.js?v=1";
-import { topicById, topicsForCycle } from "./data.js?v=1";
-import { t, setLanguage } from "./i18n.js?v=1";
-import * as storage from "./storage.js?v=1";
-import { buildRound, isCorrect, needsStudyStep, expectedAnswer } from "./round.js?v=1";
-import { award, xpForRound } from "./game.js?v=1";
+import { render } from "./ui.js?v=2";
+import {
+  topicById, chapterById, chaptersForCycle, topicKey, textById, textKey
+} from "./data.js?v=2";
+import { t, setLanguage } from "./i18n.js?v=2";
+import * as storage from "./storage.js?v=2";
+import {
+  buildRound, buildTextRound, isCorrect, needsStudyStep, expectedAnswer, isTyped
+} from "./round.js?v=2";
+import { award, xpForRound } from "./game.js?v=2";
 
 // Consecutive clean rounds before the app offers the next cycle. The
 // offer is a suggestion, never a forced step (GAMIFICATION.md).
@@ -14,6 +18,7 @@ const MASTERY_RUNS = 5;
 
 const state = {
   view: "home",
+  topicId: null,
   data: storage.load(),
   round: null
 };
@@ -27,7 +32,20 @@ function go(view) {
 
 function goHome() {
   state.round = null;
+  state.topicId = null;
   go("home");
+}
+
+// Back goes one step up the path the child came down: a round returns
+// to its rule, a rule returns home.
+function goBack() {
+  if (state.view === "round" && state.round && state.round.topicId) {
+    state.topicId = state.round.topicId;
+    state.round = null;
+    go("topic");
+    return;
+  }
+  goHome();
 }
 
 /* ── Settings ────────────────────────────────────────────────────── */
@@ -47,18 +65,17 @@ function setSetting(key, value) {
   render(state);
 }
 
-/* ── Round ───────────────────────────────────────────────────────── */
+/* ── Rounds ──────────────────────────────────────────────────────── */
 
-// topicId null means a mixed round over every rule of the cycle.
-function startRound(topicId) {
-  const { cycle, contentLanguage } = state.data.settings;
-  const topic = topicId ? topicById(contentLanguage, topicId) : null;
-  const topics = topic ? [topic] : topicsForCycle(contentLanguage, cycle);
-  if (topics.length === 0) return;
-  const tasks = buildRound(topics);
+function startRound({ entries, title, topicId, chapterId, textId, tasks: given }) {
+  const tasks = given || (entries.length ? buildRound(entries) : []);
+  if (!tasks.length) return;
   state.round = {
-    topicId: topic ? topic.id : null,
-    cycle,
+    title,
+    topicId: topicId || null,
+    chapterId: chapterId || null,
+    textId: textId || null,
+    cycle: state.data.settings.cycle,
     tasks,
     i: 0,
     phase: needsStudyStep(tasks[0]) ? "study" : "ask",
@@ -68,10 +85,63 @@ function startRound(topicId) {
     missed: false,
     firstTry: [],
     reward: null,
-    suggestCycle: null
+    suggestCycle: null,
+    nextChapterId: null,
+    nextChapterIndex: 0
   };
   go("round");
 }
+
+function startChapter(chapterId) {
+  const found = chapterById(state.data.settings.contentLanguage, chapterId);
+  if (!found) return;
+  startRound({
+    entries: [{ topic: found.topic, chapter: found.chapter }],
+    title: t("topic" + topicKey(found.topic.id) + "Title"),
+    topicId: found.topic.id,
+    chapterId: found.chapter.id
+  });
+}
+
+function startTopicMixed(topicId) {
+  const topic = topicById(state.data.settings.contentLanguage, topicId);
+  if (!topic) return;
+  startRound({
+    entries: topic.chapters.map((chapter) => ({ topic, chapter })),
+    title: t("topic" + topicKey(topic.id) + "Title"),
+    topicId: topic.id
+  });
+}
+
+function startCycleMixed() {
+  const { contentLanguage, cycle } = state.data.settings;
+  startRound({
+    entries: chaptersForCycle(contentLanguage, cycle),
+    title: t("roundMixed")
+  });
+}
+
+// The writing mode: a whole text, sentence by sentence, in order.
+function startText(textId) {
+  const text = textById(state.data.settings.contentLanguage, textId);
+  if (!text) return;
+  startRound({
+    entries: [],
+    tasks: buildTextRound(text),
+    title: t("text" + textKey(text.id) + "Title"),
+    textId: text.id
+  });
+}
+
+function restartRound() {
+  const r = state.round;
+  if (r.textId) startText(r.textId);
+  else if (r.chapterId) startChapter(r.chapterId);
+  else if (r.topicId) startTopicMixed(r.topicId);
+  else startCycleMixed();
+}
+
+/* ── Answering ───────────────────────────────────────────────────── */
 
 function choose(value) {
   const r = state.round;
@@ -90,8 +160,8 @@ function choose(value) {
   render(state);
 }
 
-// Known-length input: evaluated as a whole word the moment the last
-// letter lands, never letter by letter while typing.
+// Known-length input: evaluated as a whole answer the moment the last
+// character lands, never character by character while typing.
 function checkWritten() {
   const r = state.round;
   const task = r.tasks[r.i];
@@ -99,7 +169,7 @@ function checkWritten() {
   if (isCorrect(task, r.typed)) {
     r.phase = "correct";
     r.firstTry[r.i] = !r.missed;
-    state.data.game.memoryWords += 1;
+    state.data.game.written += 1;
   } else {
     r.wrong += 1;
     r.missed = true;
@@ -130,20 +200,22 @@ function finishRound() {
   g.rounds += 1;
   if (!g.cycles.includes(r.cycle)) g.cycles.push(r.cycle);
 
-  // Every rule the round actually drew from gets the credit, so mixed
-  // practice moves the topic cards too. A rule counts as clean only
-  // when all of its tasks in this round were right first time.
-  const perTopic = new Map();
+  // Every chapter the round actually drew from gets the credit, so
+  // mixed practice moves the chapter cards too. A chapter counts as
+  // clean only when all of its tasks in this round were right first
+  // time.
+  const bucket = r.textId ? state.data.texts : state.data.chapters;
+  const perUnit = new Map();
   r.tasks.forEach((task, i) => {
-    const acc = perTopic.get(task.topicId) || { clean: true };
+    const id = r.textId || task.chapterId;
+    const acc = perUnit.get(id) || { clean: true };
     if (!r.firstTry[i]) acc.clean = false;
-    perTopic.set(task.topicId, acc);
+    perUnit.set(id, acc);
   });
-  for (const [id, acc] of perTopic) {
-    if (!state.data.topics[id]) state.data.topics[id] = { rounds: 0, clean: 0 };
-    const progress = state.data.topics[id];
-    progress.rounds += 1;
-    if (acc.clean) progress.clean += 1;
+  for (const [id, acc] of perUnit) {
+    if (!bucket[id]) bucket[id] = { rounds: 0, clean: 0 };
+    bucket[id].rounds += 1;
+    if (acc.clean) bucket[id].clean += 1;
   }
 
   // Clean runs at the current cycle build toward the suggestion to step
@@ -156,7 +228,16 @@ function finishRound() {
   g.cleanCount = corrected === 0 ? g.cleanCount + 1 : 0;
   r.suggestCycle = g.cleanCount >= MASTERY_RUNS && r.cycle < 3 ? r.cycle + 1 : null;
 
-  r.reward = award(state.data, xpForRound(r.cycle, firstTry, corrected));
+  // Point at the next chapter of the same rule, so the chapters read as
+  // a path rather than a list.
+  const found = r.chapterId ? chapterById(state.data.settings.contentLanguage, r.chapterId) : null;
+  if (found && found.index + 1 < found.topic.chapters.length) {
+    r.nextChapterId = found.topic.chapters[found.index + 1].id;
+    r.nextChapterIndex = found.index + 1;
+  }
+
+  const wasTyped = r.tasks.every((task) => isTyped(task.kind));
+  r.reward = award(state.data, xpForRound(r.cycle, firstTry, corrected, wasTyped));
   r.phase = "done";
   storage.save(state.data);
 }
@@ -169,13 +250,17 @@ document.addEventListener("click", (e) => {
   const r = state.round;
   switch (el.dataset.action) {
     case "nav-home": goHome(); break;
+    case "nav-back": goBack(); break;
     case "nav-settings": go("settings"); break;
     case "nav-medals": go("medals"); break;
     case "set-lang": setSetting("language", el.dataset.lang); break;
     case "set-content": setSetting("contentLanguage", el.dataset.content); break;
     case "set-cycle": setSetting("cycle", Number(el.dataset.cycle)); break;
-    case "start-topic": startRound(el.dataset.id); break;
-    case "start-mixed": startRound(null); break;
+    case "open-topic": state.topicId = el.dataset.id; go("topic"); break;
+    case "start-chapter": startChapter(el.dataset.id); break;
+    case "start-topic-mixed": startTopicMixed(el.dataset.id); break;
+    case "start-cycle-mixed": startCycleMixed(); break;
+    case "start-text": startText(el.dataset.id); break;
     case "choose": choose(el.dataset.value); break;
     case "study-done": r.phase = "ask"; render(state); break;
     case "next": nextTask(); break;
@@ -197,14 +282,14 @@ document.addEventListener("click", (e) => {
       render(state);
       break;
     }
-    case "again": startRound(r.topicId); break;
+    case "again": restartRound(); break;
     case "accept-cycle": {
       const next = Number(el.dataset.cycle);
       state.data.settings.cycle = next;
       state.data.game.cleanCycle = next;
       state.data.game.cleanCount = 0;
       storage.save(state.data);
-      startRound(null);
+      startCycleMixed();
       break;
     }
     case "reset-all": {
@@ -233,7 +318,7 @@ document.addEventListener("input", (e) => {
 });
 
 // Enter must not submit anything: the answer checks itself on the last
-// letter, and an early Enter would look like a confirm button.
+// character, and an early Enter would look like a confirm button.
 document.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && e.target instanceof HTMLElement && e.target.id === "answer") {
     e.preventDefault();

@@ -6,14 +6,14 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=1") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-400.woff2?v=2") format("woff2");
 }
 @font-face {
   font-family: "Atkinson Hyperlegible";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=1") format("woff2");
+  src: url("../fonts/atkinson-hyperlegible-700.woff2?v=2") format("woff2");
 }
 
 :root {
@@ -562,6 +562,14 @@ h1, h2, h3 {
   text-decoration-thickness: 2px;
 }
 
+/* A whole sentence is written out letter by letter too, so the spaces
+   between its words need to read as gaps rather than empty boxes. */
+.letter-space {
+  min-width: 0.75rem;
+  border-color: transparent;
+  background: none;
+}
+
 /* ── Rule box ────────────────────────────────────────────────────── */
 
 .rule {
@@ -589,6 +597,55 @@ h1, h2, h3 {
   font-size: var(--size-sm);
   color: var(--color-text-secondary);
   max-width: 60ch;
+}
+
+/* Where the rule comes from. Quiet, but precise enough that a parent
+   or a teacher can look it up. */
+.rule-source {
+  margin: 0;
+  font-size: var(--size-xs);
+  color: var(--color-text-muted);
+  max-width: 60ch;
+}
+
+/* ── Chapters ────────────────────────────────────────────────────── */
+
+.chapter-number {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-background-surface-soft);
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.tag-write {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--size-xs);
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+.tag-write .icon { width: 1rem; height: 1rem; }
+
+/* Below the narrowest layouts the writing tag competes with the status
+   pill, so it steps aside and the pill keeps the row readable. */
+@media (max-width: 24rem) {
+  .tag-write span { display: none; }
+}
+
+/* The sentence to be written out, kept on screen while it is copied. */
+.copy-prompt {
+  display: block;
+  font-size: var(--size-lg);
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
 }
 
 /* ── Round progress, feedback, actions ───────────────────────────── */
@@ -848,3 +905,33 @@ h1, h2, h3 {
     transition: none !important;
   }
 }
+
+/* ── Writing mode: the text taking shape ─────────────────────────── */
+
+.para {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: left;
+  width: 100%;
+  font-size: var(--size-lg);
+  line-height: 1.5;
+}
+
+.para-line { overflow-wrap: anywhere; }
+
+/* Written already: the finished sentence, in full contrast. */
+.para-line.done { color: var(--color-text-primary); }
+
+/* The sentence being worked on, still as it was typed in a hurry. */
+.para-line.current {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* Still to come. Visible, so the child can see how much text is left,
+   but clearly not the sentence in hand. */
+.para-line.pending { color: var(--color-text-disabled); }
+
+.task-text .para { font-size: inherit; }

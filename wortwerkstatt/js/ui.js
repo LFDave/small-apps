@@ -4,24 +4,28 @@
 // i18n; every practice string comes from the content pack and is
 // marked with the content language so screen readers switch voice.
 
-import { icon } from "./icons.js?v=1";
+import { icon } from "./icons.js?v=2";
 import {
   LANGUAGES, CONTENT_LANGUAGES, CYCLES,
-  contentByCode, topicsForCycle, topicById, topicKey
-} from "./data.js?v=1";
-import { t, currentLanguage } from "./i18n.js?v=1";
-import { escapeHtml, statusOf } from "./util.js?v=1";
-import { fillTask, expectedAnswer, letterDiff, ROUND_SIZE } from "./round.js?v=1";
-import { MEDALS, levelFor } from "./game.js?v=1";
+  contentByCode, topicsForCycle, topicById, topicKey,
+  textsForCycle, textById, textKey, LEHRPLAN_VERSION
+} from "./data.js?v=2";
+import { t, currentLanguage } from "./i18n.js?v=2";
+import { escapeHtml, statusOf, topicStatus } from "./util.js?v=2";
+import { fillTask, expectedAnswer, letterDiff, isTyped, ROUND_SIZE } from "./round.js?v=2";
+import { MEDALS, levelFor } from "./game.js?v=2";
 
-// Marker put in place of the answer so the blank lands exactly where
-// round.js says it does, spacing included.
+// Sentinel put in place of the answer so the blank lands exactly where
+// round.js says it does, spacing included. A control character, because
+// it must never occur in the content itself.
 const BLANK = "\u0000";
+const DOTS = "···";
 
 export function render(state) {
   const app = document.getElementById("app");
   let html = "";
   if (state.view === "home") html = renderHome(state);
+  else if (state.view === "topic") html = renderTopic(state);
   else if (state.view === "round") html = renderRound(state);
   else if (state.view === "medals") html = renderMedals(state);
   else if (state.view === "settings") html = renderSettings(state);
@@ -47,12 +51,34 @@ function topicRule(topic) {
   return t("topic" + topicKey(topic.id) + "Rule");
 }
 
+function chapterName(index) {
+  return t("chapter" + (index + 1));
+}
+
 function cycleName(cycle) {
   return t("cycle" + cycle);
 }
 
 function cycleRange(cycle) {
   return t("cycle" + cycle + "Range");
+}
+
+// Where the rule comes from, named precisely enough to check. A rule
+// the document does not spell out says so instead of borrowing
+// authority it does not have.
+function ruleSourceLine(topic) {
+  const span = topic.cycles.length > 1
+    ? ` ${t("ruleSpan", { a: cycleName(topic.cycles[0]), b: cycleName(topic.cycles[1]) })}`
+    : "";
+  const source = topic.step
+    ? t("ruleSource", { step: topic.step, version: LEHRPLAN_VERSION })
+    : t("ruleSourceExtra");
+  return `<p class="rule-source">${source}${span}</p>`;
+}
+
+function statusPill(status) {
+  const label = { neu: t("statusNeu"), geuebt: t("statusGeuebt"), sitzt: t("statusSitzt") }[status];
+  return `<span class="pill pill-${status}">${label}</span>`;
 }
 
 /* ── Home ────────────────────────────────────────────────────────── */
@@ -62,21 +88,17 @@ function renderHome(state) {
   const topics = topicsForCycle(state.data.settings.contentLanguage, cycle);
 
   const cards = topics.map((topic) => {
-    const progress = state.data.topics[topic.id];
-    const status = statusOf(progress);
-    const statusLabel = { neu: t("statusNeu"), geuebt: t("statusGeuebt"), sitzt: t("statusSitzt") }[status];
-    const sub = progress && progress.rounds
-      ? t("topicRounds", { n: progress.rounds })
-      : t("topicNew");
+    const status = topicStatus(topic, state.data.chapters);
+    const done = topic.chapters.filter((c) => (state.data.chapters[c.id] || {}).rounds > 0).length;
     return `
       <li>
-        <button type="button" class="topic-card" data-action="start-topic" data-id="${topic.id}">
+        <button type="button" class="topic-card" data-action="open-topic" data-id="${topic.id}">
           <span class="topic-icon">${icon(topic.icon)}</span>
           <span class="topic-main">
             <span class="topic-title">${topicTitle(topic)}</span>
-            <span class="topic-sub">${sub}</span>
+            <span class="topic-sub">${t("topicChapters", { k: done, n: topic.chapters.length })}</span>
           </span>
-          <span class="pill pill-${status}">${statusLabel}</span>
+          ${statusPill(status)}
           ${icon("chevron-right", "muted")}
         </button>
       </li>`;
@@ -95,12 +117,13 @@ function renderHome(state) {
       <h2>${t("homePractice")}</h2>
       <div class="panel">
         <p class="hint">${t("homeIntro", { cycle: cycleName(cycle), range: cycleRange(cycle) })}</p>
-        <button type="button" class="btn btn-primary btn-wide" data-action="start-mixed">
+        <button type="button" class="btn btn-primary btn-wide" data-action="start-cycle-mixed">
           ${icon("shuffle")} ${t("homeMixed")}
         </button>
         <p class="hint">${t("homeMixedHint", { n: ROUND_SIZE })}</p>
       </div>
     </section>
+    ${textsSection(state, cycle)}
     <section class="section">
       <h2>${t("homeRules")}</h2>
       <ul class="topic-list">${cards}</ul>
@@ -109,6 +132,84 @@ function renderHome(state) {
       <p class="hint">${t("homeStorageNote")}</p>
       <button type="button" class="btn-link" data-action="reset-all">${t("homeReset")}</button>
     </footer>`;
+}
+
+// The writing mode: whole texts, nothing to tap. Each card names how
+// long the text is and which rules it pulls together, because mixing
+// them is the point.
+function textsSection(state, cycle) {
+  const texts = textsForCycle(state.data.settings.contentLanguage, cycle);
+  if (!texts.length) return "";
+  const cards = texts.map((text) => {
+    const progress = state.data.texts[text.id];
+    const status = statusOf(progress);
+    const rules = text.rules
+      .map((id) => t("topic" + topicKey(id) + "Title"))
+      .join(", ");
+    return `
+      <li>
+        <button type="button" class="topic-card" data-action="start-text" data-id="${text.id}">
+          <span class="topic-icon">${icon("book-open")}</span>
+          <span class="topic-main">
+            <span class="topic-title">${t("text" + textKey(text.id) + "Title")}</span>
+            <span class="topic-sub">${t("textSentences", { n: text.sentences.length })}${
+              progress && progress.rounds ? ` · ${t("textRounds", { n: progress.rounds })}` : ""}</span>
+            <span class="topic-sub">${t("textRules", { rules })}</span>
+          </span>
+          ${statusPill(status)}
+          ${icon("chevron-right", "muted")}
+        </button>
+      </li>`;
+  }).join("");
+  return `
+    <section class="section">
+      <h2>${t("homeTexts")}</h2>
+      <p class="hint">${t("homeTextsHint")}</p>
+      <ul class="topic-list">${cards}</ul>
+    </section>`;
+}
+
+/* ── Rule view: the chapters of one rule ─────────────────────────── */
+
+function renderTopic(state) {
+  const topic = topicById(state.data.settings.contentLanguage, state.topicId);
+  if (!topic) return "";
+
+  const cards = topic.chapters.map((chapter, i) => {
+    const progress = state.data.chapters[chapter.id];
+    const status = statusOf(progress);
+    const sub = progress && progress.rounds
+      ? t("chapterRounds", { n: progress.rounds })
+      : t("chapterNew", { n: chapter.items.length });
+    return `
+      <li>
+        <button type="button" class="topic-card" data-action="start-chapter" data-id="${chapter.id}">
+          <span class="chapter-number" aria-hidden="true">${i + 1}</span>
+          <span class="topic-main">
+            <span class="topic-title">${chapterName(i)}</span>
+            <span class="topic-sub">${sub}</span>
+          </span>
+          ${isTyped(chapter.kind) ? `<span class="tag-write">${icon("pen-line")} ${t("chapterWriting")}</span>` : ""}
+          ${statusPill(status)}
+          ${icon("chevron-right", "muted")}
+        </button>
+      </li>`;
+  }).join("");
+
+  return `
+    ${viewHeader(topicTitle(topic))}
+    <div class="rule">
+      <span class="rule-label">${icon("lightbulb")} ${t("roundRule")}</span>
+      <p class="rule-text">${topicRule(topic)}</p>
+      ${ruleSourceLine(topic)}
+    </div>
+    <section class="section">
+      <h2>${t("topicChaptersTitle")}</h2>
+      <ul class="topic-list">${cards}</ul>
+      <button type="button" class="btn btn-secondary btn-wide" data-action="start-topic-mixed" data-id="${topic.id}">
+        ${icon("shuffle")} ${t("topicMixed")}
+      </button>
+    </section>`;
 }
 
 /* ── Settings ────────────────────────────────────────────────────── */
@@ -249,10 +350,6 @@ function renderMedals(state) {
 
 /* ── Round ───────────────────────────────────────────────────────── */
 
-function taskTopic(state, task) {
-  return topicById(state.data.settings.contentLanguage, task.topicId);
-}
-
 // The task text with the answer slot in place. `slot` is the finished
 // HTML for the blank; everything around it is content and is escaped.
 function taskLine(state, task, slot) {
@@ -270,24 +367,24 @@ function blankSlot(text, extra = "", label = "") {
 
 function renderRound(state) {
   const r = state.round;
-  const title = r.topicId
-    ? topicTitle(topicById(state.data.settings.contentLanguage, r.topicId))
-    : t("roundMixed");
+  const title = r.title;
 
   if (r.phase === "done") return renderRoundDone(state, title);
 
   const task = r.tasks[r.i];
-  const topic = taskTopic(state, task);
+  const topic = topicById(state.data.settings.contentLanguage, task.topicId);
   const dots = r.tasks.map((_, i) =>
     `<span class="dot ${i < r.i ? "done" : i === r.i ? "current" : ""}"></span>`).join("");
 
-  const body = task.kind === "memory"
-    ? renderMemoryTask(state, task, r)
+  const body = isTyped(task.kind)
+    ? renderTypedTask(state, task, r)
     : renderChoiceTask(state, task, r);
 
   return `
     ${viewHeader(title)}
-    <div class="step-dots" role="img" aria-label="${t("roundStepProgress", { i: r.i + 1, n: r.tasks.length })}">${dots}</div>
+    <div class="step-dots" role="img" aria-label="${
+      r.textId ? t("textProgress", { i: r.i + 1, n: r.tasks.length })
+               : t("roundStepProgress", { i: r.i + 1, n: r.tasks.length })}">${dots}</div>
     <p class="instruction">${instructionFor(task, r)}</p>
     ${body.task}
     ${ruleBlock(topic, r)}
@@ -303,8 +400,10 @@ function instructionFor(task, r) {
 }
 
 // The rule stays out of the way while the child thinks and appears once
-// the answer is in, which is when it explains something.
+// the answer is in, which is when it explains something. It is always
+// available on the rule view for anyone who wants to read it first.
 function ruleBlock(topic, r) {
+  if (!topic) return "";
   if (r.phase === "ask" || r.phase === "study") return "";
   return `
     <div class="rule">
@@ -315,11 +414,10 @@ function ruleBlock(topic, r) {
 
 function renderChoiceTask(state, task, r) {
   const answer = expectedAnswer(task);
-  const topic = taskTopic(state, task);
   const optionLabel = (value) =>
-    value === "" && topic.emptyOptionKey ? t(topic.emptyOptionKey) : value;
+    value === "" && task.emptyOptionKey ? t(task.emptyOptionKey) : value;
 
-  let slot = blankSlot("···", "blank-open", t("blankLabel"));
+  let slot = blankSlot(DOTS, "blank-open", t("blankLabel"));
   if (r.phase === "correct" || r.phase === "reveal") slot = blankSlot(answer, "blank-ok");
   else if (r.phase === "wrong") slot = blankSlot(r.chosen, "blank-miss");
 
@@ -363,28 +461,48 @@ function renderChoiceTask(state, task, r) {
   return { task: taskHtml, feedback, actions };
 }
 
-function renderMemoryTask(state, task, r) {
-  const word = task.item.word;
-  const clue = `<p class="task-clue"${contentLangAttr(state)}>${escapeHtml(task.item.clue)}</p>`;
+// memory, write and copy all end in the same known-length field. What
+// differs is what the child can see while writing: a memory word is
+// hidden, a write frame shows the sentence around the gap, a copy task
+// keeps the sentence on screen to be written out correctly.
+function renderTypedTask(state, task, r) {
+  const answer = expectedAnswer(task);
+  const shown = r.phase === "correct" || r.phase === "reveal";
 
-  if (r.phase === "study") {
+  if (task.kind === "memory" && r.phase === "study") {
     return {
       task: `
         <div class="panel task-panel task-memory">
-          <span class="memory-word"${contentLangAttr(state)}>${escapeHtml(word)}</span>
-          ${clue}
+          <span class="memory-word"${contentLangAttr(state)}>${escapeHtml(answer)}</span>
+          ${clueLine(state, task)}
         </div>`,
       feedback: "",
       actions: primaryBtn("study-done", t("memoryReady"), true)
     };
   }
 
-  const shown = r.phase === "correct" || r.phase === "reveal";
+  let frame = "";
+  if (task.kind === "memory") {
+    frame = shown
+      ? `<span class="memory-word ${r.phase === "correct" ? "ok" : "reveal"}"${contentLangAttr(state)}>${escapeHtml(answer)}</span>`
+      : "";
+  } else if (task.kind === "text") {
+    frame = paragraph(state, r, shown);
+  } else if (task.kind === "copy") {
+    frame = `<span class="copy-prompt"${contentLangAttr(state)}>${escapeHtml(task.item.prompt)}</span>`
+      + (shown ? `<span class="memory-word ${r.phase === "correct" ? "ok" : "reveal"}"${contentLangAttr(state)}>${escapeHtml(answer)}</span>` : "");
+  } else {
+    const slot = shown
+      ? blankSlot(answer, "blank-ok")
+      : blankSlot(DOTS, "blank-open", t("blankLabel"));
+    frame = taskLine(state, task, slot);
+  }
+
   const taskHtml = `
-    <div class="panel task-panel task-memory">
-      ${shown ? `<span class="memory-word ${r.phase === "correct" ? "ok" : "reveal"}"${contentLangAttr(state)}>${escapeHtml(word)}</span>` : ""}
-      ${clue}
-      ${r.phase === "wrong" ? typedLetters(state, word, r.typed) : ""}
+    <div class="panel task-panel task-${task.kind}">
+      ${frame}
+      ${task.kind === "text" ? `<p class="task-clue">${t("textIntro")}</p>` : clueLine(state, task)}
+      ${r.phase === "wrong" ? typedLetters(state, answer, r.typed) : ""}
     </div>`;
 
   let feedback = "";
@@ -396,10 +514,10 @@ function renderMemoryTask(state, task, r) {
     actions = `
       <div class="answer-field">
         <label class="sr-only" for="answer">${t("memoryInputLabel")}</label>
-        <input id="answer" type="text" value="${escapeHtml(r.typed)}" maxlength="${word.length}"
+        <input id="answer" type="text" value="${escapeHtml(r.typed)}" maxlength="${answer.length}"
                autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"
                inputmode="text" data-autofocus${contentLangAttr(state)}>
-        <p class="hint">${t("memoryLetters", { n: word.length })}</p>
+        <p class="hint">${t("memoryLetters", { n: answer.length })}</p>
         <p class="hint">${t("memoryAutoHint")}</p>
       </div>`;
   } else if (r.phase === "correct") {
@@ -418,14 +536,37 @@ function renderMemoryTask(state, task, r) {
   return { task: taskHtml, feedback, actions };
 }
 
+// The whole text, with the sentences already written showing their
+// finished form, the current one as it was typed in a hurry, and the
+// rest waiting. Seeing the paragraph take shape is what makes this a
+// text rather than a pile of sentences.
+function paragraph(state, r, shown) {
+  const lines = r.tasks.map((task, i) => {
+    if (i < r.i || (i === r.i && shown)) {
+      return `<span class="para-line done">${escapeHtml(task.item.answer)}</span>`;
+    }
+    if (i === r.i) {
+      return `<span class="para-line current">${escapeHtml(task.item.prompt)}</span>`;
+    }
+    return `<span class="para-line pending">${escapeHtml(task.item.prompt)}</span>`;
+  }).join("");
+  return `<p class="para"${contentLangAttr(state)}>${lines}</p>`;
+}
+
+function clueLine(state, task) {
+  return task.item.clue
+    ? `<p class="task-clue"${contentLangAttr(state)}>${escapeHtml(task.item.clue)}</p>` : "";
+}
+
 // What the child wrote, letter by letter, with the misses marked. The
 // marking never rests on colour alone: a missed letter also carries a
 // line under it and is named in the feedback text.
-function typedLetters(state, word, typed) {
-  const diff = letterDiff(word, typed);
-  const cells = word.split("").map((_, i) => {
+function typedLetters(state, answer, typed) {
+  const diff = letterDiff(answer, typed);
+  const cells = answer.split("").map((_, i) => {
     const ch = typed[i] || " ";
-    return `<span class="letter ${diff[i] ? "ok" : "miss"}">${escapeHtml(ch)}</span>`;
+    const space = ch === " ";
+    return `<span class="letter ${diff[i] ? "ok" : "miss"} ${space ? "letter-space" : ""}">${escapeHtml(ch)}</span>`;
   }).join("");
   return `
     <p class="hint">${t("memoryTyped")}</p>
@@ -438,6 +579,10 @@ function renderRoundDone(state, title) {
   const total = r.tasks.length;
   const msg = known === total ? t("doneAll", { n: total }) : t("doneMsg", { k: known, n: total });
 
+  if (r.textId) {
+    return renderTextDone(state, title);
+  }
+
   const items = r.tasks.map((task, i) => `
     <li class="result-row ${r.firstTry[i] ? "known" : ""}">
       <span class="result-text"${contentLangAttr(state)}>${escapeHtml(fillTask(task, expectedAnswer(task)))}</span>
@@ -449,9 +594,16 @@ function renderRoundDone(state, title) {
   const suggestBtn = r.suggestCycle
     ? `<button type="button" class="btn btn-primary btn-wide" data-action="accept-cycle" data-cycle="${r.suggestCycle}" data-autofocus>${t("suggestCycleBtn", { cycle: cycleName(r.suggestCycle) })}</button>` : "";
 
-  const again = r.suggestCycle
-    ? secondaryBtn("again", t("doneAgain"))
-    : `<button type="button" class="btn btn-primary btn-wide" data-action="again" data-autofocus>${t("doneAgain")}</button>`;
+  // A finished chapter points at the next one, which is what "learn
+  // chapter 1, then chapter 2" needs to feel like a path.
+  const nextChapter = r.nextChapterId && !r.suggestCycle
+    ? `<button type="button" class="btn btn-primary btn-wide" data-action="start-chapter" data-id="${r.nextChapterId}" data-autofocus>${t("doneNextChapter", { name: chapterName(r.nextChapterIndex) })}</button>`
+    : "";
+
+  const againPrimary = !r.suggestCycle && !nextChapter;
+  const again = againPrimary
+    ? `<button type="button" class="btn btn-primary btn-wide" data-action="again" data-autofocus>${t("doneAgain")}</button>`
+    : secondaryBtn("again", t("doneAgain"));
 
   return `
     ${viewHeader(title)}
@@ -461,7 +613,30 @@ function renderRoundDone(state, title) {
       ${suggestion}
       <ul class="result-list">${items}</ul>
       ${suggestBtn}
+      ${nextChapter}
       ${again}
+      ${secondaryBtn("nav-home", t("doneHome"))}
+    </div>`;
+}
+
+// A finished text is worth showing as a text: the whole thing, right,
+// in the child's own writing.
+function renderTextDone(state, title) {
+  const r = state.round;
+  const known = r.firstTry.filter(Boolean).length;
+  const total = r.tasks.length;
+  const msg = known === total
+    ? t("doneTextAll", { n: total })
+    : t("doneTextMsg", { k: known, n: total });
+  const lines = r.tasks
+    .map((task) => `<span class="para-line done">${escapeHtml(task.item.answer)}</span>`).join("");
+  return `
+    ${viewHeader(title)}
+    <div class="panel done-panel">
+      ${feedbackBlock("success", `<strong>${t("doneTitle")}</strong> ${msg}`)}
+      ${rewardBlock(r.reward)}
+      <p class="para"${contentLangAttr(state)}>${lines}</p>
+      <button type="button" class="btn btn-primary btn-wide" data-action="again" data-autofocus>${t("doneAgain")}</button>
       ${secondaryBtn("nav-home", t("doneHome"))}
     </div>`;
 }
@@ -471,7 +646,7 @@ function renderRoundDone(state, title) {
 function viewHeader(title) {
   return `
     <header class="view-header">
-      <button type="button" class="btn-icon" data-action="nav-home" aria-label="${t("navBack")}">${icon("arrow-left")}</button>
+      <button type="button" class="btn-icon" data-action="nav-back" aria-label="${t("navBack")}">${icon("arrow-left")}</button>
       <h1>${title}</h1>
     </header>`;
 }

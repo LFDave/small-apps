@@ -19,10 +19,15 @@ import { readFile } from "node:fs/promises";
 import { mkdirSync, existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, extname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey } from "../js/data.js?v=1";
-import { TABLES } from "../js/i18n.js?v=1";
-import { fillTask, expectedAnswer, solutionText, ROUND_SIZE } from "../js/round.js?v=1";
-import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=1";
+import {
+  CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey,
+  textsForCycle, textKey, LEHRPLAN_VERSION
+} from "../js/data.js?v=2";
+import { TABLES } from "../js/i18n.js?v=2";
+import {
+  fillTask, expectedAnswer, solutionText, isTyped, ROUND_SIZE
+} from "../js/round.js?v=2";
+import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=2";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -102,40 +107,121 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
 /* ── Content pack ─────────────────────────────────────────────────── */
 {
   const problems = [];
-  const ids = new Set();
+  const topicIds = new Set();
+  const chapterIds = new Set();
   const shown = new Map();
+  let itemCount = 0;
+  let chapterCount = 0;
+
   for (const topic of CONTENT.topics) {
-    if (ids.has(topic.id)) problems.push(`${topic.id} duplicate topic id`);
-    ids.add(topic.id);
-    if (!CYCLES.includes(topic.cycle)) problems.push(`${topic.id} unknown cycle`);
+    if (topicIds.has(topic.id)) problems.push(`${topic.id} duplicate rule id`);
+    topicIds.add(topic.id);
+    if (!Array.isArray(topic.cycles) || topic.cycles.length === 0) problems.push(`${topic.id} has no cycles`);
+    else if (!topic.cycles.every((c) => CYCLES.includes(c))) problems.push(`${topic.id} unknown cycle`);
+    // A rule either names the competency step it comes from, or says
+    // nothing. It may never claim a step that does not exist.
+    if (topic.step !== null && !/^D\.4\.F\.1\.[a-g]( und \.[a-g])?$/.test(topic.step)) {
+      problems.push(`${topic.id} has an odd step reference: ${topic.step}`);
+    }
     for (const table of Object.values(TABLES)) {
       if (!table["topic" + topicKey(topic.id) + "Title"]) problems.push(`${topic.id} has no title`);
       if (!table["topic" + topicKey(topic.id) + "Rule"]) problems.push(`${topic.id} has no rule`);
     }
-    if (topic.items.length < ROUND_SIZE) problems.push(`${topic.id} has fewer items than a round`);
-    for (const item of topic.items) {
-      const task = { topicId: topic.id, kind: topic.kind, item };
-      if (topic.kind === "memory") {
-        if (!item.word || !item.clue) problems.push(`${topic.id} incomplete memory item`);
-        continue;
+
+    // Every rule ends in a chapter the child writes rather than taps.
+    if (!topic.chapters.some((c) => isTyped(c.kind))) problems.push(`${topic.id} has no writing chapter`);
+
+    for (const chapter of topic.chapters) {
+      chapterCount += 1;
+      if (chapterIds.has(chapter.id)) problems.push(`${chapter.id} duplicate chapter id`);
+      chapterIds.add(chapter.id);
+      if (chapter.items.length < ROUND_SIZE) problems.push(`${chapter.id} has fewer items than a round`);
+      for (const item of chapter.items) {
+        itemCount += 1;
+        const task = { topicId: topic.id, chapterId: chapter.id, kind: chapter.kind, item };
+        if (item.answer === undefined || item.answer === null) problems.push(`${chapter.id} item without an answer`);
+        if (isTyped(chapter.kind)) {
+          // A written answer has to be reachable: a copy task shows the
+          // sentence, everything else needs a clue naming the word.
+          if (chapter.kind === "copy" && !item.prompt) problems.push(`${chapter.id} copy item without a prompt`);
+          if (chapter.kind !== "copy" && !item.clue) problems.push(`${chapter.id} typed item without a clue`);
+          if (!item.answer) problems.push(`${chapter.id} typed item with an empty answer`);
+          continue;
+        }
+        // Exactly one option may be right, and the answer has to be
+        // among them, or the task is unanswerable.
+        if (!item.options.includes(item.answer)) problems.push(`${chapter.id}: ${item.answer} not offered`);
+        if (new Set(item.options).size !== item.options.length) problems.push(`${chapter.id} repeats an option`);
+        if (item.options.length < 2) problems.push(`${chapter.id} has a single option`);
+        if (item.answer === "" && !chapter.emptyOptionKey) problems.push(`${chapter.id} has no label for the empty option`);
+        // Two tasks that read identically would make the practice
+        // ambiguous and the tests unable to tell them apart.
+        const key = fillTask(task, BLANK);
+        if (shown.has(key)) problems.push(`${chapter.id} reads the same as ${shown.get(key)}`);
+        shown.set(key, chapter.id);
       }
-      // Exactly one option may be right, and the answer has to be
-      // among them, or the task is unanswerable.
-      if (!item.options.includes(item.answer)) problems.push(`${topic.id}: ${item.answer} not offered`);
-      if (new Set(item.options).size !== item.options.length) problems.push(`${topic.id} repeats an option`);
-      if (item.options.length < 2) problems.push(`${topic.id} has a single option`);
-      if (item.answer === "" && !topic.emptyOptionKey) problems.push(`${topic.id} has no label for the empty option`);
-      // Two tasks that read identically would make the practice
-      // ambiguous and the tests unable to tell them apart.
-      const key = fillTask(task, BLANK);
-      if (shown.has(key)) problems.push(`${topic.id} reads the same as ${shown.get(key)}`);
-      shown.set(key, topic.id);
     }
   }
-  check(`all ${CONTENT.topics.length} rules are usable`, problems.length === 0, problems.slice(0, 8).join(" | "));
+  check(`all ${CONTENT.topics.length} rules and ${chapterCount} chapters are usable`,
+    problems.length === 0, problems.slice(0, 8).join(" | "));
+  check(`the pack carries ${itemCount} tasks`, itemCount > 400, String(itemCount));
 
   const perCycle = CYCLES.map((c) => topicsForCycle(CONTENT.code, c).length);
   check("every cycle has rules to practise", perCycle.every((n) => n > 0), perCycle.join("/"));
+
+  // Step b straddles the cycle boundary in the source table, so its
+  // rules have to appear in both cycle 1 and cycle 2.
+  const spanning = CONTENT.topics.filter((t) => t.cycles.length > 1);
+  check("the rules of step b span cycles 1 and 2",
+    spanning.length > 0 && spanning.every((t) => t.step && t.step.includes("b")
+      && t.cycles.includes(1) && t.cycles.includes(2)),
+    spanning.map((t) => `${t.id}:${t.cycles}`).join(" "));
+
+  check("the Lehrplan edition is recorded", /\d{2}\.\d{2}\.\d{4}/.test(LEHRPLAN_VERSION), LEHRPLAN_VERSION);
+}
+
+/* ── Writing mode: the texts ──────────────────────────────────────── */
+{
+  const problems = [];
+  const ids = new Set();
+  let sentences = 0;
+  for (const text of CONTENT.texts) {
+    if (ids.has(text.id)) problems.push(`${text.id} duplicate text id`);
+    ids.add(text.id);
+    if (!Array.isArray(text.cycles) || !text.cycles.every((c) => CYCLES.includes(c))) {
+      problems.push(`${text.id} unknown cycle`);
+    }
+    for (const table of Object.values(TABLES)) {
+      if (!table["text" + textKey(text.id) + "Title"]) problems.push(`${text.id} has no title`);
+    }
+    // A text names the rules it pulls together, and each has to exist.
+    if (!text.rules.length) problems.push(`${text.id} names no rules`);
+    for (const rule of text.rules) {
+      if (!CONTENT.topics.some((topic) => topic.id === rule)) problems.push(`${text.id} names an unknown rule ${rule}`);
+    }
+    if (text.sentences.length < 3) problems.push(`${text.id} is too short to be a text`);
+    for (const item of text.sentences) {
+      sentences += 1;
+      // The prompt is an unformatted draft, never a misspelling: a
+      // child must not be shown a wrongly spelled word. Lowercase, no
+      // punctuation, and the same letters as the answer.
+      if (item.prompt !== item.prompt.toLowerCase()) problems.push(`${text.id}: prompt is not lowercase`);
+      if (/[.,!?;:]/.test(item.prompt)) problems.push(`${text.id}: prompt carries punctuation`);
+      const bare = (str) => str.toLowerCase().replace(/[^a-zäöüß]/g, "");
+      if (bare(item.prompt) !== bare(item.answer)) {
+        problems.push(`${text.id}: prompt and answer differ in letters, not just in form`);
+      }
+      // One auto-check at the end has to stay a fair unit to be judged
+      // on, so a sentence stays short enough to hold in one go.
+      if (item.answer.length > 65) problems.push(`${text.id}: a sentence runs to ${item.answer.length} characters`);
+      if (!/[.!?]$/.test(item.answer)) problems.push(`${text.id}: a sentence has no end mark`);
+      if (item.answer[0] !== item.answer[0].toUpperCase()) problems.push(`${text.id}: a sentence starts lowercase`);
+    }
+  }
+  check(`all ${CONTENT.texts.length} texts are usable`, problems.length === 0, problems.slice(0, 8).join(" | "));
+  check(`the writing mode carries ${sentences} sentences`, sentences >= 40, String(sentences));
+  const perCycle = CYCLES.map((c) => textsForCycle(CONTENT.code, c).length);
+  check("every cycle has texts to write", perCycle.every((n) => n > 0), perCycle.join("/"));
 }
 
 /* ── Static server (no python dependency) ─────────────────────────── */
@@ -161,15 +247,20 @@ await new Promise((r) => server.listen(PORT, r));
 mkdirSync(SHOTS_DIR, { recursive: true });
 const browser = await chromium.launch({ executablePath: CHROMIUM });
 
-// Every choice task, keyed by the text the app shows while the blank is
-// still open. Lets the test recognise the task on screen and answer it
-// the same way a child who knows the rule would.
-const CHOICE_INDEX = new Map();
+// Every task the app can put on screen, keyed by what the child sees
+// before answering. Lets the test recognise the task and answer it the
+// way someone who knows the rule would. Choice and write tasks are
+// keyed by the text around the open blank, copy tasks by their prompt.
+const GAP_INDEX = new Map();
+const COPY_INDEX = new Map();
 for (const topic of CONTENT.topics) {
-  if (topic.kind === "memory") continue;
-  for (const item of topic.items) {
-    const task = { topicId: topic.id, kind: topic.kind, item };
-    CHOICE_INDEX.set(fillTask(task, BLANK), task);
+  for (const chapter of topic.chapters) {
+    for (const item of chapter.items) {
+      const task = { topicId: topic.id, chapterId: chapter.id, kind: chapter.kind, item };
+      if (chapter.kind === "memory") continue;
+      if (chapter.kind === "copy") COPY_INDEX.set(item.prompt, task);
+      else GAP_INDEX.set(fillTask(task, BLANK), task);
+    }
   }
 }
 
@@ -188,27 +279,43 @@ try {
     path: join(SHOTS_DIR, name + ".png"), fullPage: true, animations: "disabled"
   });
   const text = async (sel) => ((await page.locator(sel).first().textContent()) || "").trim();
+  const count = (sel) => page.locator(sel).count();
 
-  // Answers the task currently on screen. `wrong: true` picks an option
-  // that is not the answer, so the miss path can be driven on purpose.
+  // Answers whatever task is on screen, choice or written. `wrong: true`
+  // gives a wrong answer on purpose, so the miss path can be driven.
   const answerTask = async ({ wrong = false } = {}) => {
-    if (await page.locator('[data-action="study-done"]').count()) {
-      // Memory task: read the word while it is shown, then write it.
+    // Memory: the word is shown, then hidden, then written.
+    if (await count('[data-action="study-done"]')) {
       const word = await text(".memory-word");
       await page.click('[data-action="study-done"]');
-      const typed = wrong ? scramble(word) : word;
       await page.fill("#answer", "");
-      await page.type("#answer", typed);
-      return { kind: "memory", task: null, answer: word };
+      await page.type("#answer", wrong ? scramble(word) : word);
+      return { kind: "memory", answer: word, task: null };
+    }
+    // Copy: the sentence to write out stays on screen.
+    if (await count(".copy-prompt")) {
+      const prompt = await text(".copy-prompt");
+      const task = COPY_INDEX.get(prompt);
+      if (!task) throw new Error("unknown copy prompt: " + JSON.stringify(prompt));
+      const answer = expectedAnswer(task);
+      await page.fill("#answer", "");
+      await page.type("#answer", wrong ? scramble(answer) : answer);
+      return { kind: "copy", answer, task };
     }
     const shownText = (await page.locator(".task-text").first().innerText()).trim();
-    const task = CHOICE_INDEX.get(shownText);
+    const task = GAP_INDEX.get(shownText);
     if (!task) throw new Error("unknown task on screen: " + JSON.stringify(shownText));
     const answer = expectedAnswer(task);
+    // Write: the same frame as a choice task, but typed.
+    if (await count("#answer")) {
+      await page.fill("#answer", "");
+      await page.type("#answer", wrong ? scramble(answer) : answer);
+      return { kind: "write", answer, task };
+    }
     const values = await page.$$eval(".choice-option", (els) => els.map((el) => el.dataset.value));
     const pick = wrong ? values.find((v) => v !== answer) : answer;
     await page.click(`.choice-option[data-value="${cssEscape(pick)}"]`);
-    return { kind: task.kind, task, answer, picked: pick };
+    return { kind: task.kind, answer, picked: pick, task };
   };
 
   // Plays a whole round cleanly and lands on the completion panel.
@@ -221,58 +328,93 @@ try {
     await page.waitForSelector(".done-panel");
   };
 
+  // Walks back to the overview from wherever the test is. Mid-round the
+  // header offers "back" (one step up the path), the completion panel
+  // offers "home" directly.
+  const backHome = async () => {
+    for (let i = 0; i < 4 && !(await count(".stats-strip")); i++) {
+      const direct = await count('[data-action="nav-home"]');
+      await page.click(direct ? '[data-action="nav-home"]' : '[data-action="nav-back"]');
+    }
+    await page.waitForSelector(".stats-strip");
+  };
+
+  const openRule = async (id) => {
+    await page.click(`.topic-card[data-id="${id}"]`);
+    await page.waitForSelector('[data-action="start-chapter"]');
+  };
+
   /* ── Home ──────────────────────────────────────────────────────── */
   await page.goto(URL);
   await page.waitForSelector(".topic-card");
   check("app title renders", (await text("h1")) === "Wortwerkstatt");
-  check("cycle 2 is the default", (await text(".panel .hint")).includes("Zyklus 2"));
+  check("cycle 1 is the default", (await text(".panel .hint")).includes("Zyklus 1"));
+  // Rule cards and text cards share a card class, so the rule counts
+  // key off the action instead.
   check("home lists the rules of the cycle",
-    await page.locator(".topic-card").count() === topicsForCycle("de", 2).length);
+    (await count('[data-action="open-topic"]')) === topicsForCycle("de", 1).length);
   check("every rule starts as Neu",
-    (await page.$$eval(".pill", (els) => els.map((e) => e.textContent.trim()))).every((p) => p === "Neu"));
+    (await page.$$eval('[data-action="open-topic"] .pill', (els) => els.map((e) => e.textContent.trim())))
+      .every((p) => p === "Neu"));
+  check("rule cards count their chapters",
+    (await text('[data-action="open-topic"] .topic-sub')) === "0 von 3 Kapiteln geübt");
   check("storage note visible", (await text(".app-footer .hint")).includes("auf diesem Gerät"));
   check("stats strip starts at level 1", (await text(".stats-title")).includes("Level 1"));
-  check("stats strip shows 0 XP", (await text(".stats-xp")) === "0 von 30 XP");
   check("no medals unlocked yet", (await text(".stats-medals")) === `0/${MEDALS.length}`);
   await shot("01-home");
 
-  /* ── One rule round: miss, rule, reveal, recovery ───────────────── */
-  await page.click('.topic-card[data-id="sp-st"]');
-  check("round shows one dot per task", await page.locator(".dot").count() === ROUND_SIZE);
+  /* ── Rule view: rule text, its source, its chapters ────────────── */
+  await openRule("sp-st");
+  check("the rule view names the rule", (await text("h1")) === "sp und st");
+  check("the rule text is available before practising",
+    (await text(".rule-text")).includes("schp und scht"));
+  check("the rule names the competency step it comes from",
+    (await text(".rule-source")).includes("D.4.F.1.b"));
+  check("the rule names the Lehrplan edition",
+    (await text(".rule-source")).includes("23.06.2016"));
+  check("a rule that spans two cycles says so",
+    (await text(".rule-source")).includes("Zyklus 1") && (await text(".rule-source")).includes("Zyklus 2"));
+  check("the rule offers three chapters", (await count('[data-action="start-chapter"]')) === 3);
+  check("the chapters are named, not just numbered",
+    (await text(".topic-title")) === "Zum Aufwärmen");
+  check("the last chapter is marked as a writing chapter",
+    (await count(".tag-write")) === 1);
+  check("the whole rule can be practised mixed",
+    (await count('[data-action="start-topic-mixed"]')) === 1);
+  await shot("02-rule-view");
+
+  /* ── Chapter 1: miss, rule, reveal, recovery ───────────────────── */
+  await page.click('[data-action="start-chapter"][data-id="sp-st-1"]');
+  check("a round is one dot per task", (await count(".dot")) === ROUND_SIZE);
   check("instruction names the task", (await text(".instruction")) === "Welche Buchstaben fehlen?");
   check("the blank is open before an answer", (await text(".blank")) === BLANK);
   check("the open blank is announced as a gap, not as three dots",
     (await page.getAttribute(".blank", "aria-label")) === "Lücke");
-  check("the rule stays hidden while thinking", await page.locator(".rule").count() === 0);
+  check("the rule stays hidden while thinking", (await count(".rule")) === 0);
   check("no confirm button, the options are the answer",
-    await page.locator('[data-action="ok"], [data-action="confirm"]').count() === 0);
-  await shot("02-round-word");
+    (await count('[data-action="ok"], [data-action="confirm"]')) === 0);
+  await shot("03-round-word");
 
   await answerTask({ wrong: true });
-  check("a wrong choice is answered at once", await page.locator(".feedback-warn").count() === 1);
-  check("the wrong choice stays visible in the blank",
-    await page.locator(".blank-miss").count() === 1);
-  check("the rule appears once the answer is in", await page.locator(".rule-text").count() === 1);
-  check("no reveal after the first miss", await page.locator('[data-action="reveal"]').count() === 0);
+  check("a wrong choice is answered at once", (await count(".feedback-warn")) === 1);
+  check("the wrong choice stays visible in the blank", (await count(".blank-miss")) === 1);
+  check("the rule appears once the answer is in", (await count(".rule-text")) === 1);
+  check("no reveal after the first miss", (await count('[data-action="reveal"]')) === 0);
   check("feedback is supportive, never wrong", !(await text(".feedback-warn")).includes("Falsch"));
-  await shot("03-round-miss");
+  await shot("04-round-miss");
 
   await page.click('[data-action="retry"]');
-  check("retry reopens the blank", (await text(".blank")) === BLANK);
   await answerTask({ wrong: true });
-  check("reveal offered after the second miss",
-    await page.locator('[data-action="reveal"]').count() === 1);
+  check("reveal offered after the second miss", (await count('[data-action="reveal"]')) === 1);
   await page.click('[data-action="reveal"]');
-  check("reveal shows the solution in the blank", await page.locator(".blank-ok").count() === 1);
-  await shot("04-round-reveal");
+  check("reveal shows the solution in the blank", (await count(".blank-ok")) === 1);
+  await shot("05-round-reveal");
   await page.click('[data-action="reveal-done"]');
   const first = await answerTask();
-  check("the right choice locks in at once", await page.locator(".feedback-success").count() === 1);
+  check("the right choice locks in at once", (await count(".feedback-success")) === 1);
   check("the solution fills the blank", (await text(".blank-ok")) === first.answer);
-  await shot("05-round-correct");
   await page.click('[data-action="next"]');
 
-  // The remaining five tasks, all right first time.
   for (let i = 1; i < ROUND_SIZE; i++) {
     await answerTask();
     await page.waitForSelector(".feedback-success");
@@ -282,58 +424,54 @@ try {
   check("round completion panel", (await text(".done-panel .feedback")).includes("Runde geschafft"));
   check("summary counts the first-try answers",
     (await text(".done-panel .feedback")).includes("5 von 6"));
-  check("summary lists every task", await page.locator(".result-row").count() === ROUND_SIZE);
-  check("the corrected task is tagged as practised",
-    await page.locator(".result-row:not(.known)").count() === 1);
-  // 5 first try, 1 corrected, cycle 2.
-  check(`round rewards +${xpForRound(2, 5, 1)} XP`, (await text(".reward-xp")) === `+${xpForRound(2, 5, 1)} XP`);
+  check("summary lists every task", (await count(".result-row")) === ROUND_SIZE);
+  // 5 first try, 1 corrected, cycle 1, not a writing chapter.
+  check(`round rewards +${xpForRound(1, 5, 1, false)} XP`,
+    (await text(".reward-xp")) === `+${xpForRound(1, 5, 1, false)} XP`);
   check("first medal in the reward block", (await text(".reward-block")).includes("Erste Runde"));
-  check("no level-up suggestion after a round with a miss",
-    await page.locator('[data-action="accept-cycle"]').count() === 0);
+  check("the completion panel points at the next chapter",
+    (await text('[data-action="start-chapter"]')).includes("Schon schwieriger"));
   await shot("06-round-done");
 
-  await page.click('[data-action="nav-home"]');
-  check("the practised rule moved to Geübt",
-    (await text('.topic-card[data-id="sp-st"] .pill')) === "Geübt");
-  check("the rule card counts the round",
-    (await text('.topic-card[data-id="sp-st"] .topic-sub')) === "1 Runden geübt");
-  check("untouched rules stay Neu",
-    (await text('.topic-card[data-id="sch"] .pill')) === "Neu");
+  /* ── Chapter 2 straight from the completion panel ──────────────── */
+  await page.click('[data-action="start-chapter"]');
+  check("the next chapter starts from the completion panel", (await count(".dot")) === ROUND_SIZE);
+  await playRound();
+  check("the second chapter points at the writing chapter",
+    (await text('[data-action="start-chapter"]')).includes("Selber schreiben"));
 
-  /* ── Memory word: study, write, miss, write again ───────────────── */
-  await page.click('.topic-card[data-id="merkwort-2"]');
-  check("a memory task starts with the word shown",
-    await page.locator(".memory-word").count() === 1);
-  check("study step names what to do",
-    (await text(".instruction")) === "Schau dir das Wort gut an.");
-  const memWord = await text(".memory-word");
-  await shot("07-memory-study");
-  await page.click('[data-action="study-done"]');
-  check("the word is hidden once writing starts",
-    await page.locator(".memory-word").count() === 0);
-  check("the letter count is stated", (await text(".answer-field .hint")).includes(`${memWord.length} Buchstaben`));
-  check("auto-check advisory line shown",
-    (await page.locator(".answer-field .hint").nth(1).textContent()).includes("letzten Buchstaben"));
+  /* ── Chapter 3: the writing chapter ────────────────────────────── */
+  await page.click('[data-action="start-chapter"]');
+  check("the writing chapter asks for a written answer", (await count("#answer")) === 1);
+  check("the writing chapter names what to do",
+    (await text(".instruction")) === "Schreib das passende Wort.");
+  check("the writing chapter still shows the sentence frame", (await count(".task-text")) === 1);
+  check("a clue points at the word", (await count(".task-clue")) === 1);
   check("the input is focused for typing",
     await page.evaluate(() => document.activeElement && document.activeElement.id === "answer"));
-  check("the input cannot take more letters than the word",
-    Number(await page.getAttribute("#answer", "maxlength")) === memWord.length);
-  await shot("08-memory-write");
+  check("no confirm button on a written answer",
+    (await count('[data-action="ok"], [data-action="confirm"]')) === 0);
+  check("the character count is stated", (await text(".answer-field .hint")).includes("Zeichen"));
+  check("auto-check advisory line shown",
+    (await page.locator(".answer-field .hint").nth(1).textContent()).includes("letzten Zeichen"));
+  await shot("07-round-write");
 
-  await page.type("#answer", scramble(memWord));
-  check("the last letter auto-evaluates a wrong word",
-    await page.locator(".feedback-warn").count() === 1);
-  check("the written letters are shown back",
-    await page.locator(".letter").count() === memWord.length);
-  check("the missed letters are marked", await page.locator(".letter.miss").count() > 0);
-  await shot("09-memory-miss");
+  // Read while the field is on screen: a wrong answer replaces it
+  // with the letter-by-letter comparison.
+  const writeMaxLength = Number(await page.getAttribute("#answer", "maxlength"));
+  const write = await answerTask({ wrong: true });
+  check("the last character auto-evaluates a wrong word", (await count(".feedback-warn")) === 1);
+  check("the written characters are shown back",
+    (await count(".letter")) === write.answer.length);
+  check("the missed characters are marked", (await count(".letter.miss")) > 0);
+  check("the input is capped at the answer length", writeMaxLength === write.answer.length);
+  await shot("08-round-write-miss");
   await page.click('[data-action="retry"]');
-  await page.type("#answer", memWord);
-  check("the last letter auto-locks the right word",
-    await page.locator(".feedback-success").count() === 1);
-  check("memory rounds count the word", await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("wortwerkstatt.state")).game.memoryWords === 1));
-  await shot("10-memory-correct");
+  await page.type("#answer", write.answer);
+  check("the last character auto-locks the right word", (await count(".feedback-success")) === 1);
+  check("a written answer is counted", await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("wortwerkstatt.state")).game.written === 1));
+  await shot("09-round-write-correct");
   await page.click('[data-action="next"]');
   for (let i = 1; i < ROUND_SIZE; i++) {
     await answerTask();
@@ -341,26 +479,131 @@ try {
     await page.click('[data-action="next"]');
   }
   await page.waitForSelector(".done-panel");
-  check("memory round finishes", (await text(".done-panel .feedback")).includes("Runde geschafft"));
-  await page.click('[data-action="nav-home"]');
+  // A writing chapter is worth more than tapping options.
+  check(`the writing chapter rewards +${xpForRound(1, 5, 1, true)} XP`,
+    (await text(".reward-xp")) === `+${xpForRound(1, 5, 1, true)} XP`);
+  check("finishing every chapter of a rule earns a medal",
+    (await text(".reward-block")).includes("Kapitelmeister"));
+  check("the last chapter offers no next chapter",
+    (await count('[data-action="start-chapter"]')) === 0);
+  await shot("10-write-done");
 
-  /* ── Mixed practice spreads over the rules ─────────────────────── */
-  await page.click('[data-action="start-mixed"]');
-  check("mixed round is titled as such", (await text("h1")) === "Gemischte Übung");
-  const seen = new Set();
+  await page.click('[data-action="nav-back"]');
+  check("back from a round returns to the rule", (await text("h1")) === "sp und st");
+  check("all three chapters now show progress",
+    (await page.$$eval(".pill", (els) => els.map((e) => e.textContent.trim())))
+      .every((p) => p !== "Neu"));
+  await shot("11-rule-practised");
+  await page.click('[data-action="nav-back"]');
+  check("back from a rule returns home", (await count(".stats-strip")) === 1);
+  check("the rule card counts the practised chapters",
+    (await text('.topic-card[data-id="sp-st"] .topic-sub')) === "3 von 3 Kapiteln geübt");
+
+  /* ── A copy chapter: write the whole sentence ──────────────────── */
+  await openRule("satzanfang");
+  await page.click('[data-action="start-chapter"][data-id="satzanfang-3"]');
+  check("a copy chapter shows the sentence to write out", (await count(".copy-prompt")) === 1);
+  check("the copy chapter names what to do",
+    (await text(".instruction")) === "Schreib den Satz richtig auf.");
+  await shot("12-round-copy");
+  const copy = await answerTask();
+  check("a written sentence locks in on the last character",
+    (await count(".feedback-success")) === 1);
+  check("the solved sentence is the one the engine expects",
+    (await text(".memory-word")) === solutionText(copy.task),
+    `${await text(".memory-word")} vs ${solutionText(copy.task)}`);
+  await shot("13-round-copy-correct");
+  await backHome();
+
+  /* ── Mixed practice ────────────────────────────────────────────── */
+  await openRule("sch");
+  await page.click('[data-action="start-topic-mixed"]');
+  check("a rule can be practised across its chapters", (await count(".dot")) === ROUND_SIZE);
+  const ruleChapters = new Set();
   for (let i = 0; i < ROUND_SIZE; i++) {
     const done = await answerTask();
-    seen.add(done.kind);
+    if (done.task) ruleChapters.add(done.task.chapterId);
     await page.waitForSelector(".feedback-success");
     await page.click('[data-action="next"]');
   }
   await page.waitForSelector(".done-panel");
-  check("mixed practice draws from more than one kind of task", seen.size > 1, [...seen].join(","));
-  await shot("11-mixed-done");
-  await page.click('[data-action="nav-home"]');
-  const touched = await page.evaluate(() =>
-    Object.keys(JSON.parse(localStorage.getItem("wortwerkstatt.state")).topics).length);
-  check("a mixed round credits every rule it drew from", touched > 2, String(touched));
+  check("mixed rule practice draws from more than one chapter",
+    ruleChapters.size > 1, [...ruleChapters].join(","));
+  await backHome();
+
+  await page.click('[data-action="start-cycle-mixed"]');
+  check("mixed cycle practice is titled as such", (await text("h1")) === "Gemischte Übung");
+  const seenRules = new Set();
+  for (let i = 0; i < ROUND_SIZE; i++) {
+    const done = await answerTask();
+    if (done.task) seenRules.add(done.task.topicId);
+    await page.waitForSelector(".feedback-success");
+    await page.click('[data-action="next"]');
+  }
+  await page.waitForSelector(".done-panel");
+  check("mixed cycle practice draws from more than one rule",
+    seenRules.size > 1, [...seenRules].join(","));
+  await shot("14-mixed-done");
+  await backHome();
+
+  /* ── The writing mode ──────────────────────────────────────────── */
+  const firstText = textsForCycle("de", 1)[0];
+  check("home offers the writing mode",
+    (await count('[data-action="start-text"]')) === textsForCycle("de", 1).length);
+  check("a text card names the rules it pulls together",
+    (await text('[data-action="start-text"] .topic-sub:last-child')).startsWith("Übt:"));
+  await page.click(`[data-action="start-text"][data-id="${firstText.id}"]`);
+  check("the text is titled", (await text("h1")) === TABLES.de["text" + textKey(firstText.id) + "Title"]);
+  check("one dot per sentence", (await count(".dot")) === firstText.sentences.length);
+  check("the writing mode never offers anything to tap",
+    (await count(".choice-option")) === 0);
+  check("the whole text is on screen from the start",
+    (await count(".para-line")) === firstText.sentences.length);
+  check("the sentence in hand is the draft version",
+    (await text(".para-line.current")) === firstText.sentences[0].prompt);
+  check("the sentences still to come are shown as drafts",
+    (await count(".para-line.pending")) === firstText.sentences.length - 1);
+  check("nothing is shown as finished yet", (await count(".para-line.done")) === 0);
+  check("the mode says what has to be added", (await text(".task-clue")).includes("grossen Buchstaben"));
+  await shot("27-text-start");
+
+  // A miss first: the letter comparison has to work on a whole sentence.
+  await page.type("#answer", firstText.sentences[0].prompt + ".");
+  check("a wrong sentence is answered at once", (await count(".feedback-warn")) === 1);
+  check("the whole sentence is shown back character by character",
+    (await count(".letter")) === firstText.sentences[0].answer.length);
+  check("the missed characters are marked", (await count(".letter.miss")) > 0);
+  check("the spaces inside a sentence read as gaps, not as empty boxes",
+    (await count(".letter-space")) > 0);
+  await shot("28-text-miss");
+  await page.click('[data-action="retry"]');
+
+  for (const [i, sentence] of firstText.sentences.entries()) {
+    if (i > 0) {
+      check(`sentence ${i + 1}: the text so far is written out`,
+        (await count(".para-line.done")) === i);
+      check(`sentence ${i + 1}: the draft is the one in hand`,
+        (await text(".para-line.current")) === sentence.prompt);
+    }
+    await page.type("#answer", sentence.answer);
+    await page.waitForSelector(".feedback-success");
+    if (i === 0) await shot("29-text-correct");
+    await page.click('[data-action="next"]');
+  }
+  await page.waitForSelector(".done-panel");
+  check("the finished text is shown as a text",
+    (await count(".done-panel .para-line.done")) === firstText.sentences.length);
+  check("the completion counts sentences, not tasks",
+    (await text(".done-panel .feedback")).includes(`von ${firstText.sentences.length} Sätzen`),
+    await text(".done-panel .feedback"));
+  check("a text is written entirely by hand, so it earns the writing bonus",
+    (await text(".reward-xp")) === `+${xpForRound(1, firstText.sentences.length - 1, 1, true)} XP`);
+  check("a finished text is recorded on its own", await page.evaluate((id) =>
+    JSON.parse(localStorage.getItem("wortwerkstatt.state")).texts[id].rounds === 1, firstText.id));
+  await shot("30-text-done");
+  await backHome();
+  check("the text card shows it was written",
+    (await text(`[data-action="start-text"][data-id="${firstText.id}"] .pill`)) === "Geübt");
 
   /* ── Persistence ───────────────────────────────────────────────── */
   const xpBefore = await text(".stats-xp");
@@ -368,123 +611,113 @@ try {
   await page.waitForSelector(".topic-card");
   check("progress survives a reload", (await text(".stats-xp")) === xpBefore, xpBefore);
   check("rule status survives a reload",
-    (await text('.topic-card[data-id="sp-st"] .pill')) === "Geübt");
-  await shot("12-home-practised");
+    (await text('.topic-card[data-id="sp-st"] .topic-sub')) === "3 von 3 Kapiteln geübt");
+  await shot("15-home-practised");
 
   /* ── Medal gallery ─────────────────────────────────────────────── */
   await page.click(".stats-strip");
   check("medal gallery opens", (await text("h1")) === "Medaillen");
-  check("gallery lists all medals", await page.locator(".medal-card").count() === MEDALS.length);
-  check("some medals are unlocked", await page.locator(".medal-card:not(.locked)").count() > 0);
+  check("gallery lists all medals", (await count(".medal-card")) === MEDALS.length);
+  check("some medals are unlocked", (await count(".medal-card:not(.locked)")) > 0);
   check("locked medals keep their description visible",
     (await text(".medal-card.locked .medal-desc")).length > 0);
-  await shot("13-medals");
-  await page.click('[data-action="nav-home"]');
+  await shot("16-medals");
+  await page.click('[data-action="nav-back"]');
 
   /* ── Cycle suggestion after five clean rounds ──────────────────── */
-  // A clean round is one finished without a single wrong answer. The
-  // streak carries over from the rounds played above, so the test asks
-  // the app where the streak stands and plays the rest: the step up may
-  // be offered on the fifth clean round and on no earlier one.
   const streak = await page.evaluate(() =>
     JSON.parse(localStorage.getItem("wortwerkstatt.state")).game.cleanCount);
   check("clean rounds so far are counted", streak >= 0 && streak < 5, String(streak));
   for (let run = streak + 1; run <= 5; run++) {
-    await page.click('.topic-card[data-id="sch"]');
+    await openRule("ng-nk");
+    await page.click('[data-action="start-chapter"][data-id="ng-nk-1"]');
     await playRound();
-    const offered = await page.locator('[data-action="accept-cycle"]').count();
+    const offered = await count('[data-action="accept-cycle"]');
     check(`clean run ${run}: suggestion ${run < 5 ? "not yet" : "offered"}`,
       offered === (run < 5 ? 0 : 1));
-    if (run < 5) await page.click('[data-action="nav-home"]');
+    if (run < 5) await backHome();
   }
   check("the suggestion names the next cycle",
-    (await text(".feedback-info")).includes("Zyklus 3"));
-  await shot("14-cycle-suggestion");
+    (await text(".feedback-info")).includes("Zyklus 2"));
+  await shot("17-cycle-suggestion");
   await page.click('[data-action="accept-cycle"]');
-  check("accepting the suggestion starts a round at once",
-    await page.locator(".step-dots").count() === 1);
-  await page.click('[data-action="nav-home"]');
+  check("accepting the suggestion starts a round at once", (await count(".step-dots")) === 1);
+  await backHome();
   check("the accepted cycle is now the setting",
-    (await text(".panel .hint")).includes("Zyklus 3"));
-  check("cycle 3 shows its own rules",
-    await page.locator(".topic-card").count() === topicsForCycle("de", 3).length);
-  await shot("15-home-cycle3");
+    (await text(".panel .hint")).includes("Zyklus 2"));
 
-  /* ── Cycle 3: a task where the right answer is no mark at all ──── */
-  await page.click('.topic-card[data-id="komma"]');
+  /* ── A rule that spans two cycles is on both lists ─────────────── */
+  check("cycle 2 lists its own rules",
+    (await count('[data-action="open-topic"]')) === topicsForCycle("de", 2).length);
+  check("the step b rules are on the cycle 2 list too",
+    (await count('.topic-card[data-id="sp-st"]')) === 1);
+  check("progress made in cycle 1 is the same progress in cycle 2",
+    (await text('.topic-card[data-id="sp-st"] .topic-sub')) === "3 von 3 Kapiteln geübt");
+  check("a cycle 2 only rule is not on the cycle 1 list",
+    topicsForCycle("de", 1).every((t) => t.id !== "wortstamm"));
+  await shot("18-home-cycle2");
+
+  /* ── Desktop layout ────────────────────────────────────────────── */
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await shot("19-home-desktop");
+  await openRule("komma-teilsatz");
+  await shot("20-rule-desktop");
+  await page.click('[data-action="start-chapter"][data-id="komma-teilsatz-1"]');
   check("the comma rule offers a no-comma option",
     (await page.$$eval(".choice-option", (els) => els.map((el) => el.dataset.value))).includes(""));
   check("the empty option is labelled, not blank",
     (await text('.choice-option[data-value=""] .choice-title')) === "kein Komma");
-  await shot("16-round-comma");
+  await shot("21-round-comma-desktop");
   const comma = await answerTask();
   await page.waitForSelector(".feedback-success");
-  // The solved sentence must read exactly as the engine spells it out,
-  // spacing included: a comma glued to the word before it, and no
-  // stray gap where the answer is "no comma at all".
   check("the solved sentence matches the engine, spacing included",
     (await text(".task-text")) === solutionText(comma.task),
     `${await text(".task-text")} vs ${solutionText(comma.task)}`);
-  check("an answer of no comma still shows the slot it filled",
-    comma.answer !== "" || (await page.locator(".blank-none").count()) === 1);
-  await shot("16b-round-comma-correct");
-  await page.click('[data-action="nav-home"]');
-
-  /* ── Desktop layout ────────────────────────────────────────────── */
-  await page.setViewportSize({ width: 1280, height: 900 });
-  await shot("17-home-desktop");
-  await page.click('.topic-card[data-id="das-dass"]');
-  await shot("18-round-desktop");
-  await page.click('[data-action="nav-home"]');
+  await backHome();
   await page.setViewportSize({ width: 390, height: 844 });
 
   /* ── Settings ──────────────────────────────────────────────────── */
-  check("home has a settings button", await page.locator('[data-action="nav-settings"]').count() === 1);
   await page.click('[data-action="nav-settings"]');
   check("settings view opens", (await text("h1")) === "Einstellungen");
   check("language is the first panel", (await text(".section h2")) === "Sprache");
-  check("both languages offered", await page.locator('[data-action="set-lang"]').count() === 2);
-  check("all three cycles offered", await page.locator('[data-action="set-cycle"]').count() === CYCLES.length);
+  check("both languages offered", (await count('[data-action="set-lang"]')) === 2);
+  check("all three cycles offered", (await count('[data-action="set-cycle"]')) === CYCLES.length);
   check("the current cycle is marked",
-    (await page.getAttribute('[data-cycle="3"]', "aria-pressed")) === "true");
-  check("no save button in settings",
-    await page.locator('[data-action="settings-save"]').count() === 0);
+    (await page.getAttribute('[data-cycle="2"]', "aria-pressed")) === "true");
+  check("each cycle states how many rules it holds",
+    (await text('[data-cycle="1"] .choice-hint:last-child'))
+      === `${topicsForCycle("de", 1).length} Regeln`);
+  check("no save button in settings", (await count('[data-action="settings-save"]')) === 0);
   check("the learning language panel stays hidden with one content pack",
-    await page.locator('[data-action="set-content"]').count() === (CONTENT_LANGUAGES.length > 1 ? CONTENT_LANGUAGES.length : 0));
-  await shot("19-settings");
-
-  await page.click('[data-action="set-cycle"][data-cycle="1"]');
-  check("a cycle change applies without a confirm step",
-    (await page.getAttribute('[data-cycle="1"]', "aria-pressed")) === "true");
-  await page.click('[data-action="nav-home"]');
-  check("cycle 1 shows its own rules",
-    await page.locator(".topic-card").count() === topicsForCycle("de", 1).length);
-  check("cycle 1 names the school years", (await text(".panel .hint")).includes("1. und 2. Klasse"));
-  await shot("20-home-cycle1");
+    (await count('[data-action="set-content"]'))
+      === (CONTENT_LANGUAGES.length > 1 ? CONTENT_LANGUAGES.length : 0));
+  await shot("22-settings");
 
   /* ── Language ──────────────────────────────────────────────────── */
-  await page.click('[data-action="nav-settings"]');
   await page.click('[data-action="set-lang"][data-lang="en"]');
   check("language applies at once", (await text("h1")) === "Settings");
   check("document language follows the setting",
     (await page.locator("html").getAttribute("lang")) === "en");
-  await page.click('[data-action="nav-home"]');
+  await page.click('[data-action="nav-back"]');
   check("home renders in English", (await text(".section h2")) === "Practise");
   const xpNow = await page.evaluate(() =>
     JSON.parse(localStorage.getItem("wortwerkstatt.state")).game.xp);
   const levelTitle = TABLES.en[levelFor(xpNow).titleKey];
   check("the level title is translated",
     (await text(".stats-title")).includes(levelTitle), levelTitle);
-  await shot("21-home-english");
+  await shot("23-home-english");
 
-  // The practice material stays in the language it teaches, and says so.
-  await page.click('.topic-card[data-id="satzanfang"]');
+  await openRule("sch");
+  check("the rule is explained in the interface language",
+    (await text(".rule-text")).includes("three letters"));
+  check("the chapter names are translated", (await text(".topic-title")) === "Warming up");
+  await page.click('[data-action="start-chapter"][data-id="sch-3"]');
   check("English interface, German practice material",
     (await page.locator(".task-text").getAttribute("lang")) === "de-CH");
-  check("the rule is explained in the interface language",
-    (await text(".instruction")) === "Which word fits?");
-  await shot("22-round-english");
-  await page.click('[data-action="nav-home"]');
+  check("the instruction is in the interface language",
+    (await text(".instruction")) === "Write the word that fits.");
+  await shot("24-round-english");
+  await backHome();
 
   // Both languages on the narrowest supported width: nothing may spill
   // sideways, and no key may fall through to its raw id.
@@ -493,7 +726,7 @@ try {
     await page.click(`[data-action="set-lang"][data-lang="${lang}"]`);
     for (const cycle of CYCLES) {
       await page.click(`[data-action="set-cycle"][data-cycle="${cycle}"]`);
-      await page.click('[data-action="nav-home"]');
+      await page.click('[data-action="nav-back"]');
       const overflow = await page.evaluate(() =>
         document.documentElement.scrollWidth - document.documentElement.clientWidth);
       check(`${lang}, cycle ${cycle}: home fits the narrow viewport`, overflow <= 0, `${overflow}px wider`);
@@ -505,25 +738,50 @@ try {
     }
   }
 
+  // A rule view is the widest thing to lay out: rule text, source line,
+  // three chapter rows with a writing tag and a status pill.
+  for (const lang of ["de", "en"]) {
+    await page.click('[data-action="nav-settings"]');
+    await page.click(`[data-action="set-lang"][data-lang="${lang}"]`);
+    await page.click('[data-action="set-cycle"][data-cycle="2"]');
+    await page.click('[data-action="nav-back"]');
+    await openRule("nachmorpheme");
+    const overflow = await page.evaluate(() =>
+      document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    check(`${lang}: the rule view fits the narrow viewport`, overflow <= 0, `${overflow}px wider`);
+    await shot(`25-rule-view-${lang}`);
+    await page.click('[data-action="nav-back"]');
+  }
+
   /* ── Reset keeps settings, clears progress ─────────────────────── */
+  const cycleBeforeReset = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("wortwerkstatt.state")).settings.cycle);
   await page.click('[data-action="reset-all"]');
   await page.waitForSelector(".topic-card");
   check("reset clears XP and level", (await text(".stats-xp")) === "0 of 30 XP");
   check("reset clears the rule progress",
     (await page.$$eval(".pill", (els) => els.map((e) => e.textContent.trim()))).every((p) => p === "New"));
+  check("reset clears the written texts too",
+    await page.evaluate(() =>
+      Object.keys(JSON.parse(localStorage.getItem("wortwerkstatt.state")).texts).length === 0));
   check("reset keeps the chosen language", (await text(".section h2")) === "Practise");
-  check("reset keeps the chosen cycle", (await text(".panel .hint")).includes("Cycle 3"));
+  check("reset keeps the chosen cycle",
+    (await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("wortwerkstatt.state")).settings.cycle)) === cycleBeforeReset,
+    String(cycleBeforeReset));
   await page.reload();
   await page.waitForSelector(".topic-card");
   check("reset persists", (await text(".stats-xp")) === "0 of 30 XP");
-  check("settings still set after reset and reload",
-    (await text(".section h2")) === "Practise");
 
-  /* ── A save from an unknown shape must not break the app ───────── */
+  /* ── A save from an older or broken version ────────────────────── */
+  // Progress used to be stored per rule under `topics`; those keys do
+  // not map onto chapters, so they are dropped while XP, medals and
+  // settings survive. Nothing here may throw.
   await page.evaluate(() => {
     localStorage.setItem("wortwerkstatt.state", JSON.stringify({
       settings: { language: "xx", cycle: 99 },
-      topics: { "sp-st": { rounds: 4, clean: 3 }, "gone-rule": { rounds: 2, clean: 1 } },
+      topics: { "sp-st": { rounds: 4, clean: 3 } },
+      chapters: { "sp-st-1": { rounds: 4, clean: 3 }, "gone-chapter": { rounds: 2, clean: 1 } },
       game: { xp: 120, rounds: 6, medals: ["erste-runde"] }
     }));
   });
@@ -532,13 +790,13 @@ try {
   check("an unusable language falls back to German",
     (await text(".section h2")) === "Üben", await text(".section h2"));
   check("an unusable cycle falls back to the default",
-    (await text(".panel .hint")).includes("Zyklus 2"));
+    (await text(".panel .hint")).includes("Zyklus 1"));
   check("stored XP survives", (await text(".stats-xp")) === "120 von 160 XP");
-  check("progress for a rule that still exists survives",
-    (await text('.topic-card[data-id="sp-st"] .pill')) === "Sitzt!");
-  check("progress for a rule that is gone does no harm",
-    await page.locator(".topic-card").count() === topicsForCycle("de", 2).length);
-  await shot("23-home-migrated");
+  check("progress for a chapter that still exists survives",
+    (await text('.topic-card[data-id="sp-st"] .topic-sub')) === "1 von 3 Kapiteln geübt");
+  check("progress for a chapter that is gone does no harm",
+    (await count('[data-action="open-topic"]')) === topicsForCycle("de", 1).length);
+  await shot("26-home-migrated");
 
   check("no console errors", consoleErrors.length === 0, consoleErrors.join(" | "));
 } finally {
@@ -546,16 +804,15 @@ try {
   server.close();
 }
 
-// A wrong word of exactly the same length, so the auto-check fires.
-function scramble(word) {
-  const shift = (ch) => {
-    const lower = "abcdefghijklmnopqrstuvwxyz";
+// A wrong answer of exactly the same length, so the auto-check fires.
+function scramble(answer) {
+  const lower = "abcdefghijklmnopqrstuvwxyz";
+  return answer.split("").map((ch) => {
     const i = lower.indexOf(ch.toLowerCase());
-    if (i < 0) return "x";
+    if (i < 0) return ch === " " ? " " : "x";
     const next = lower[(i + 1) % lower.length];
     return ch === ch.toUpperCase() ? next.toUpperCase() : next;
-  };
-  return word.split("").map(shift).join("");
+  }).join("");
 }
 
 function cssEscape(value) {
