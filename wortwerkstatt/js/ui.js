@@ -4,18 +4,18 @@
 // i18n; every practice string comes from the content pack and is
 // marked with the content language so screen readers switch voice.
 
-import { icon } from "./icons.js?v=8";
+import { icon } from "./icons.js?v=9";
 import {
   LANGUAGES, CONTENT_LANGUAGES, CYCLES,
   contentByCode, topicsForCycle, topicById, topicKey,
   textsForCycle, textById, textKey, LEHRPLAN_VERSION
-} from "./data.js?v=8";
-import { t, currentLanguage } from "./i18n.js?v=8";
-import { escapeHtml, statusOf, topicStatus } from "./util.js?v=8";
+} from "./data.js?v=9";
+import { t, currentLanguage } from "./i18n.js?v=9";
+import { escapeHtml, statusOf, topicStatus } from "./util.js?v=9";
 import {
   fillTask, expectedAnswer, letterDiff, wordDiff, isTyped, needsConfirm, ROUND_SIZE
-} from "./round.js?v=8";
-import { MEDALS, levelFor } from "./game.js?v=8";
+} from "./round.js?v=9";
+import { MEDALS, levelFor } from "./game.js?v=9";
 
 // Sentinel put in place of the answer so the blank lands exactly where
 // round.js says it does, spacing included. A control character, because
@@ -537,7 +537,9 @@ function renderTypedTask(state, task, r) {
                autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"
                inputmode="text" data-autofocus${contentLangAttr(state)}>
         <p class="hint">${confirm ? t("writeConfirmHint") : t("memoryLetters", { n: answer.length })}</p>
-        <p class="hint">${confirm ? t("writeAutoHint") : t("memoryAutoHint")}</p>
+        <p class="hint">${confirm
+          ? t(r.editing ? "writeEditHint" : "writeAutoHint")
+          : t("memoryAutoHint")}</p>
       </div>
       ${confirm ? `<button type="button" class="btn btn-primary btn-wide" data-action="check">${t("actionCheck")}</button>` : ""}`;
   } else if (r.phase === "correct") {

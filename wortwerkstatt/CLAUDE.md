@@ -110,7 +110,13 @@ All enforced by the e2e suite unless noted:
   short never reaches the expected length and hangs forever with no
   feedback — the bug this rule exists to prevent. **Never widen
   `looksComplete` to a state a half-typed sentence can reach**; the
-  suite feeds every prefix of every answer through it. Confirmed fields
+  suite feeds every prefix of every answer through it. `round.editing`
+  turns the shape rule off while a retry has kept the sentence on
+  screen: a correction takes several edits, and judging after each one
+  answers "still wrong" repeatedly. Only an exactly right sentence is
+  judged then. **Keep `editing` tied to whether the field was kept** —
+  clearing it (reveal, next task) makes it fresh writing again — and
+  keep the advisory line switching with it (WCAG 3.2.2). Confirmed fields
   allow overshoot, so a too-long answer stays finishable, and
   `normaliseTyped` strips stray spacing before anything is judged. A
   retry keeps a sentence, so the child fixes the marked word instead of

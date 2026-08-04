@@ -3,9 +3,9 @@
 // network. German is the fallback for a missing key; a missing key is a
 // bug, and `t` returns the key itself so it shows up instead of hiding.
 
-import { LANGUAGES, DEFAULT_LANGUAGE } from "./data.js?v=8";
-import { de } from "./i18n/de.js?v=8";
-import { en } from "./i18n/en.js?v=8";
+import { LANGUAGES, DEFAULT_LANGUAGE } from "./data.js?v=9";
+import { de } from "./i18n/de.js?v=9";
+import { en } from "./i18n/en.js?v=9";
 
 export const TABLES = { de, en };
 

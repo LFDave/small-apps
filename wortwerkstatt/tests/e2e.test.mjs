@@ -22,13 +22,13 @@ import { fileURLToPath } from "node:url";
 import {
   CONTENT_LANGUAGES, CYCLES, topicsForCycle, topicKey,
   textsForCycle, textKey, LEHRPLAN_VERSION
-} from "../js/data.js?v=8";
-import { TABLES } from "../js/i18n.js?v=8";
+} from "../js/data.js?v=9";
+import { TABLES } from "../js/i18n.js?v=9";
 import {
   fillTask, expectedAnswer, solutionText, isTyped, needsConfirm, wordDiff,
   looksComplete, ROUND_SIZE
-} from "../js/round.js?v=8";
-import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=8";
+} from "../js/round.js?v=9";
+import { MEDALS, xpForRound, levelFor } from "../js/game.js?v=9";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -258,6 +258,25 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
   }
   check("no half-typed sentence is ever judged on its own", halfProblems.length === 0,
     halfProblems.slice(0, 4).join(" | "));
+
+  // While correcting, only a right sentence is judged: a correction
+  // often takes several edits, and the shape check would answer "still
+  // wrong" after each one.
+  const editProblems = [];
+  for (const item of CONTENT.texts.flatMap((text) => text.sentences)) {
+    const halfFixed = item.answer.replace(/^(\S+)/, (w) => w.toLowerCase());
+    if (looksComplete(item.answer, halfFixed, { editing: true })) {
+      editProblems.push(`${item.answer}: judged mid-correction`);
+    }
+    if (!looksComplete(item.answer, item.answer, { editing: true })) {
+      editProblems.push(`${item.answer}: a finished correction was not accepted`);
+    }
+    if (!looksComplete(item.answer, halfFixed)) {
+      editProblems.push(`${item.answer}: a fresh attempt stopped being judged`);
+    }
+  }
+  check("correcting is never judged until it is right, writing fresh still is",
+    editProblems.length === 0, editProblems.slice(0, 4).join(" | "));
 
   // Marking is aligned, not positional. One slip must cost one mark,
   // however early in the sentence it happens, or a child sees a wall of
@@ -693,82 +712,79 @@ try {
     (await count(".para-line.current .icon")) === 1);
   await shot("27-text-start");
 
-  // A miss first: the letter comparison has to work on a whole sentence.
+
+  const full = firstText.sentences[0].answer;
+
+  /* ── Sentence 1, fresh: judged as soon as it looks finished ─────── */
+  check("a sentence is confirmed, not auto-checked",
+    (await count('[data-action="check"]')) === 1);
+  check("the field leaves room to overshoot, so a too-long answer is possible",
+    Number(await page.getAttribute("#answer", "maxlength")) > full.length);
   await writeAnswer("text", firstText.sentences[0].prompt + ".");
   check("a wrong sentence is answered at once", (await count(".feedback-warn")) === 1);
-  // A sentence comes back by word: a single slip must not paint every
-  // later character red.
   // Cell count comes from the aligner, not from the sentence length: a
   // dropped word shows a gap, so the two need not match.
-  const backCells = wordDiff(firstText.sentences[0].answer, firstText.sentences[0].prompt + ".").rows.length;
+  const backCells = wordDiff(full, firstText.sentences[0].prompt + ".").rows.length;
   check("the whole sentence is shown back word by word",
     (await count(".word")) === backCells, `${await count(".word")} cells, expected ${backCells}`);
   check("the missed words are marked", (await count(".word.miss")) > 0);
   check("a sentence is never shown back character by character",
     (await count(".letter")) === 0);
   await shot("28-text-miss");
-  await page.click('[data-action="retry"]');
 
-  // The bug this guards: with a self-checking field an answer one
-  // character short never reaches the expected length, so the check
-  // never fires and the child is stuck with no response at all.
-  const full = firstText.sentences[0].answer;
-  const shortOne = full.replace(".", "");
-  check("a sentence is confirmed, not auto-checked",
-    (await count('[data-action="check"]')) === 1);
-  check("the field leaves room to overshoot, so a too-long answer is possible",
-    Number(await page.getAttribute("#answer", "maxlength")) > full.length);
-  await page.fill("#answer", "");
-  await page.type("#answer", shortOne);
-  check("an answer one character short does not judge itself",
-    (await count(".feedback-warn")) === 0 && (await count(".feedback-success")) === 0);
-  await page.click('[data-action="check"]');
-  check("confirming an answer one character short is answered",
-    (await count(".feedback-warn")) === 1);
-  check("a sentence comes back word by word, not character by character",
-    (await count(".word")) > 0 && (await count(".letter")) === 0);
-  check("only the word that is actually wrong is marked",
-    (await count(".word.miss")) === 1, `${await count(".word.miss")} marked`);
-  await shot("28b-text-missing-character");
-  await page.click('[data-action="retry"]');
-
-  // A sentence that looks finished is judged without the button. The
-  // button exists for everything that cannot be told apart from a
-  // sentence still being typed.
-  await page.fill("#answer", "");
-  const smallStart = full.replace(/^(\S+)/, (w) => w.toLowerCase());
-  await page.type("#answer", smallStart);
-  check("a finished sentence with a small letter is judged without the button",
-    (await count(".feedback-warn")) === 1);
-  check("and it marks only the word that is wrong",
-    (await count(".word.miss")) === 1, `${await count(".word.miss")} marked`);
+  /* ── Sentence 1, correcting: never judged until it is right ─────── */
+  // A correction often takes several edits. Judging the shape after
+  // each keystroke answers "still wrong" over and over, which is the
+  // bug this guards.
   await page.click('[data-action="retry"]');
   check("a retry keeps the sentence, so one slip is not a full retype",
-    (await page.inputValue("#answer")) === smallStart);
+    (await page.inputValue("#answer")) === firstText.sentences[0].prompt + ".");
   check("the caret sits after what was written", await page.evaluate(() => {
     const el = document.getElementById("answer");
     return el.selectionStart === el.value.length;
   }));
+  check("the advisory line says the child decides when to check",
+    (await text(".answer-field .hint:last-child")).includes("Fertig"),
+    await text(".answer-field .hint:last-child"));
 
-  // Enter is the same button where one exists. Driven on an answer the
-  // auto-check deliberately leaves alone, so it is Enter doing the work.
+  const lastWordSmall = full.replace(/(\S+)(\.)$/, (m, w, dot) => w.toLowerCase() + dot);
   await page.fill("#answer", "");
-  await page.type("#answer", shortOne);
-  check("the answer Enter is tested on is not auto-judged",
+  await page.type("#answer", lastWordSmall);
+  check("fixing part of it while correcting is not judged",
+    (await count(".feedback-warn, .feedback-success")) === 0);
+  check("the button is still there to do it",
+    (await count('[data-action="check"]')) === 1);
+  await shot("28c-text-correcting");
+  await page.click('[data-action="check"]');
+  check("confirming mid-correction answers what is left",
+    (await count(".word.miss")) === 1, `${await count(".word.miss")} marked`);
+
+  // A correction that lands right still needs no button.
+  await page.click('[data-action="retry"]');
+  await page.fill("#answer", "");
+  await page.type("#answer", full);
+  check("a correction that lands right is accepted without the button",
+    (await count(".feedback-success")) === 1);
+  check("a right sentence never shows a wrong word", (await count(".word.miss")) === 0);
+  await shot("29b-text-auto-accepted");
+  await page.click('[data-action="next"]');
+
+  /* ── Sentence 2, fresh: the shape rule and Enter ─────────────────── */
+  // The bug the confirm button exists for: an answer one character
+  // short never reaches the expected length, so a self-checking field
+  // would leave the child with no response at all.
+  const second = firstText.sentences[1].answer;
+  await page.fill("#answer", "");
+  await page.type("#answer", second.replace(/[.!?]$/, ""));
+  check("an answer one character short does not judge itself",
     (await count(".feedback-warn, .feedback-success")) === 0);
   await page.keyboard.press("Enter");
   check("Enter confirms a sentence", (await count(".feedback-warn")) === 1);
-  await page.click('[data-action="retry"]');
-
-  // Exactly right needs no button at all, which is the path a child who
-  // writes it correctly actually takes.
-  await page.fill("#answer", "");
-  await page.type("#answer", full);
-  check("an exactly right sentence is accepted without the button",
-    (await count(".feedback-success")) === 1);
-  check("a right sentence never shows a wrong word",
-    (await count(".word.miss")) === 0);
-  await shot("29b-text-auto-accepted");
+  check("a sentence comes back word by word, not character by character",
+    (await count(".word")) > 0 && (await count(".letter")) === 0);
+  check("only the mark that is missing is marked",
+    (await count(".word.miss")) === 1, `${await count(".word.miss")} marked`);
+  await shot("28b-text-missing-character");
 
   // Back to the start of the text, so the write-through below runs from
   // sentence one.

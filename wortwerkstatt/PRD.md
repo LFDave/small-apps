@@ -240,7 +240,17 @@ A sentence looks finished in exactly two cases, both in `looksComplete`:
    class: a missing comma, a small letter, one letter short in a word.
 
 Anything else waits for the button, because a sentence with too few or
-too many words cannot be told apart from one still being typed. The
+too many words cannot be told apart from one still being typed.
+
+**While correcting, only a right sentence is judged.** Once a retry has
+kept the sentence on screen, the child is editing rather than writing it
+out, and a correction often takes several edits. Judging the shape after
+each keystroke answers "still wrong" over and over before they have
+finished, so the second rule is switched off and they say when they are
+done — while a correction that lands right is still accepted at once.
+The advisory line under the field changes with it, so the behaviour is
+always announced before use (WCAG 3.2.2). Clearing the field (a reveal,
+or the next task) makes it fresh writing again. The
 suite proves the boundary by feeding every prefix of every right answer
 through `looksComplete` and requiring that none of them is judged.
 

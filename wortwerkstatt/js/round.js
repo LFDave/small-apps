@@ -4,7 +4,7 @@
 // module directly to derive the expected answers, so the tests can
 // never drift from the engine.
 
-import { shuffle } from "./util.js?v=8";
+import { shuffle } from "./util.js?v=9";
 
 export const ROUND_SIZE = 6;
 
@@ -57,9 +57,14 @@ function wordCount(value) {
 // too few or too many words is indistinguishable from one that is still
 // being typed. Judging that would be judging characters as they are
 // typed, which recall must never become.
-export function looksComplete(expected, typed) {
+export function looksComplete(expected, typed, { editing = false } = {}) {
   const value = normaliseTyped(typed);
   if (value === expected) return true;
+  // While correcting a sentence that is already on screen, only a right
+  // one is judged. A correction often takes several edits, and judging
+  // the shape after each keystroke answers "still wrong" over and over
+  // before the child has finished. They say when they are done.
+  if (editing) return false;
   if (!/[.!?]$/.test(value)) return false;
   return wordCount(value) === wordCount(expected);
 }
