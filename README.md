@@ -12,6 +12,7 @@ A calm curriculum explorer for the Swiss Lehrplan 21 (Bern edition). Kids and pa
 - 721 cycle-specific, child-friendly German texts in Ich-form, each written at the level of that cycle's Grundanspruch, with the official Lehrplan 21 code next to every entry for parents and teachers
 - Self-assessment checklist per cycle with per-subject progress bars
 - Checks are stored separately per cycle, so moving up a cycle starts a fresh round on the same competencies at their higher level
+- Competencies that have a matching practice app link straight to it ("Üben mit Zahlensprung/Rechenturm/Masswerk/Wortwerkstatt")
 - German (Swiss standard), dark, quiet design; works offline after first load
 - Progress saved locally on the device (no sign-up, no tracking)
 
@@ -29,6 +30,31 @@ A calm counting trainer that implements exactly one Lehrplan 21 competency: MA.1
 - Progress saved locally on the device (no sign-up, no tracking)
 
 **Open:** [lfdave.github.io/small-apps/zahlensprung](https://lfdave.github.io/small-apps/zahlensprung)
+
+### 🧱 Rechenturm
+A calm arithmetic trainer that implements exactly one Lehrplan 21 competency: MA.1.A.3 "addieren, subtrahieren, multiplizieren, dividieren und potenzieren" (Bern edition). Its ten difficulty levels are the official Kompetenzstufen a-j of that competency; the Grundansprüche of cycles 1 and 2 are marked as badges. The Lehrplan sets no Grundanspruch for cycle 3 here, so the app doesn't invent one; a "Turmspitze" medal for a clean run on the top Stufe stands in.
+
+**Features:**
+- Task forms straight from the step texts: from adding within 20 through the Einmaleins, written-style large sums, decimals, percentages and prime factors up to power rules (aⁿ · aᵐ) and scientific notation
+- Step parts the Lehrplan assigns to the calculator are implemented as mental arithmetic with easy numbers, testing the operation rather than the device
+- Typed answers check themselves on the last character; whole-answer evaluation, never per character
+- Quiet gamification per GAMIFICATION.md: XP, five levels (Steinleger to Turmmeister), medals for rounds, effort and the Grundansprüche; five clean rounds suggest the next Stufe, never forced, nothing locked
+- Swiss number formatting (320'000), German (Swiss standard), dark coral design, works offline after first load
+- Progress saved locally on the device (no sign-up, no tracking)
+
+**Open:** [lfdave.github.io/small-apps/rechenturm](https://lfdave.github.io/small-apps/rechenturm)
+
+### 📏 Masswerk
+A calm quantities trainer that implements exactly one Lehrplan 21 competency: MA.3.A.2 "Grössen schätzen, messen, umwandeln, runden und mit ihnen rechnen" (Bern edition). Its difficulty levels are the official Kompetenzstufen of that competency; the Grundansprüche of all three cycles are marked as badges. Stufen a and f train measuring real objects, which an app cannot check honestly — they are deliberately skipped and a visible note says so.
+
+**Features:**
+- Task forms straight from the step texts: francs and rappen, clock times and durations, unit conversions (g/kg, mm/cm/m, dl/l), comparing and rounding quantities, areas and volumes, SI prefixes, and speeds (m/s ↔ km/h)
+- Typed answers check themselves on the last character, with Enter for early-complete answers; numeric comparison accepts "7.0" for "7"
+- Quiet gamification per GAMIFICATION.md: XP, five levels (Lehrling to Werkmeister), medals for rounds, effort and the three Grundansprüche; five clean rounds suggest the next Stufe, never forced, nothing locked
+- Swiss formats (2'000, Fr./Rp., 09:40), German (Swiss standard), dark sage design, works offline after first load
+- Progress saved locally on the device (no sign-up, no tracking)
+
+**Open:** [lfdave.github.io/small-apps/masswerk](https://lfdave.github.io/small-apps/masswerk)
 
 ### 🃏 Jass Scoreboard (Schiefertafel Z/Z)
 A browser-based digital Jass scoreboard that replicates a traditional Swiss chalk slate board with the classic Z/Z layout.
