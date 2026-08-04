@@ -287,13 +287,23 @@ against the expected ones that went with them: those are words written
 differently, not words lost and words gained, so each shows as one mark
 carrying **what the child actually wrote**.
 
-**A gap is only drawn where it is genuinely known** — a stretch with
-words expected and nothing written in their place. Where words were
-replaced as well, the position of a missing word is a guess, so it is
-counted and said in words ("Ein Wort fehlt noch.") instead of drawn
-somewhere it probably does not belong. Dots scattered through a
-sentence that also has replacements point at spots where nothing is
-missing, which reads as noise.
+**The alignment pairs tokens that are the same word written
+differently** — the same letters in another case, or within an edit or
+two (`sameWord`). That is what decides where a gap belongs. Pairing by
+position instead matches `fil` to `Lernen` and `im` to `fiel`, and then
+the dots for the words genuinely left out land nowhere near them.
+
+Every expected token with nothing standing in for it is drawn as a
+**dot in its own place**, so a child sees where a word or a mark is
+missing rather than being told a number. A mark never pairs with a
+word, so a missing full stop is a dot after the word, not a word marked
+wrong. The count under the cells names how many *words* are missing;
+marks speak for themselves through their dot.
+
+The trade-off is deliberate: a child who writes a wholly different word
+(`schwer` for `leicht`) gets the expected word shown as missing **and**
+their own word marked, rather than the two being paired on a guess. That
+is one mark more, and it is the honest account.
 
 The suite holds this to one mark per slip: for every sentence in the
 pack, a small first letter, a word left out and a word too many must

@@ -4,7 +4,7 @@
 // module directly to derive the expected answers, so the tests can
 // never drift from the engine.
 
-import { shuffle } from "./util.js?v=7";
+import { shuffle } from "./util.js?v=8";
 
 export const ROUND_SIZE = 6;
 
@@ -73,78 +73,84 @@ export function looksComplete(expected, typed) {
 // it hangs off. Writing "leicht" for "leicht." spells the word
 // perfectly and forgets the full stop; marking the word red would say
 // the child got the word wrong and hide which of the two rules they
-// actually missed. End marks and commas are their own lesson here, so
-// they are their own token.
+// actually missed.
 //
-// The two sentences are aligned rather than walked position by
-// position: position by position, one word dropped in the middle
-// shifts everything after it and the rest of the sentence turns red.
+// The two sentences are **aligned**, not walked position by position:
+// position by position, one word dropped in the middle shifts
+// everything after it and the rest of the sentence turns red.
 //
-// Between two tokens that match, the child's unmatched tokens are
-// paired against the expected ones that went with them — those are
-// words written differently, not words lost and words gained, so each
-// shows as one mark carrying what the child actually wrote.
-//
-// A gap is only ever drawn where it is genuinely known: a stretch with
-// tokens expected and nothing written in their place. Where tokens were
-// replaced as well, the position of the missing one is a guess, so it
-// is counted and said in words instead of drawn in the wrong spot.
+// The alignment pairs tokens that are the **same word written
+// differently** — the same letters in another case, or within an edit
+// or two. That is what decides where a gap belongs. Pairing by position
+// instead would match "fil" to "Lernen" and "im" to "fiel", and the
+// dots for the words genuinely left out would land nowhere near them.
 export function wordDiff(expected, typed) {
-  const want = splitTokens(expected);
-  const got = splitTokens(typed);
+  const rows = [];
+  let missing = 0;
+
+  for (const op of align(splitTokens(expected), splitTokens(typed))) {
+    if (op.type === "drop") {
+      // Nothing was written here, so the gap is shown where it belongs.
+      rows.push({ word: "", ok: false, gap: true, punct: op.want.punct });
+      if (!op.want.punct) missing += 1;
+    } else {
+      const ok = op.type === "pair" && op.want.text === op.got.text;
+      rows.push({ word: op.got.text, ok, punct: op.got.punct });
+    }
+  }
+  return { rows, missing };
+}
+
+// Order-preserving alignment of two token lists over `sameWord`.
+function align(want, got) {
   const n = want.length;
   const m = got.length;
-
-  // Longest common subsequence over the suffixes of both sentences.
   const lcs = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
   for (let i = n - 1; i >= 0; i--) {
     for (let j = m - 1; j >= 0; j--) {
-      lcs[i][j] = want[i].text === got[j].text
+      lcs[i][j] = sameWord(want[i], got[j])
         ? lcs[i + 1][j + 1] + 1
         : Math.max(lcs[i + 1][j], lcs[i][j + 1]);
     }
   }
-
-  const rows = [];
-  let missing = 0;
-  let dropped = [];
-  let added = [];
-
-  const flush = () => {
-    for (const token of added) rows.push({ word: token.text, ok: false, punct: token.punct });
-    const short = dropped.length - added.length;
-    if (short > 0) {
-      if (added.length === 0) {
-        for (const token of dropped) {
-          rows.push({ word: "", ok: false, gap: true, punct: token.punct });
-        }
-      } else {
-        missing += short;
-      }
-    }
-    dropped = [];
-    added = [];
-  };
-
+  const ops = [];
   let i = 0;
   let j = 0;
   while (i < n && j < m) {
-    if (want[i].text === got[j].text) {
-      flush();
-      rows.push({ word: got[j].text, ok: true, punct: got[j].punct });
-      i += 1;
-      j += 1;
-    } else if (lcs[i + 1][j] >= lcs[i][j + 1]) {
-      dropped.push(want[i++]);
-    } else {
-      added.push(got[j++]);
-    }
+    if (sameWord(want[i], got[j])) ops.push({ type: "pair", want: want[i++], got: got[j++] });
+    else if (lcs[i + 1][j] >= lcs[i][j + 1]) ops.push({ type: "drop", want: want[i++] });
+    else ops.push({ type: "add", got: got[j++] });
   }
-  while (j < m) added.push(got[j++]);
-  while (i < n) dropped.push(want[i++]);
-  flush();
+  while (j < m) ops.push({ type: "add", got: got[j++] });
+  while (i < n) ops.push({ type: "drop", want: want[i++] });
+  return ops;
+}
 
-  return { rows, missing };
+// Whether two tokens are one word the child was reaching for: the same
+// letters in another case, or close enough that "fil" is plainly an
+// attempt at "fiel". A mark never pairs with a word.
+function sameWord(a, b) {
+  if (a.punct !== b.punct) return false;
+  const x = a.text.toLowerCase();
+  const y = b.text.toLowerCase();
+  if (x === y) return true;
+  const longest = Math.max(x.length, y.length);
+  if (longest <= 2) return false;
+  return editDistance(x, y) <= (longest <= 5 ? 1 : 2);
+}
+
+function editDistance(a, b) {
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const row = [i];
+    for (let j = 1; j <= b.length; j++) {
+      row[j] = a[i - 1] === b[j - 1]
+        ? prev[j - 1]
+        : 1 + Math.min(prev[j - 1], prev[j], row[j - 1]);
+    }
+    prev = row;
+  }
+  return prev[b.length];
 }
 
 // A word and the mark that follows it are two things to get right, so

@@ -126,12 +126,13 @@ All enforced by the e2e suite unless noted:
   marks the mark and leaves the word before it green. End marks and
   commas are their own rules here — never fold them back into the word.
   Marks render in a narrow cell grouped tight against their word so the
-  sentence still reads as one. A **gap cell is only ever drawn
-  where nothing was written in its place**; where words were replaced
-  too, the missing word's position is a guess, so it goes into `missing`
-  and is said in words. Do not draw gaps straight from the raw
-  alignment — the dots land where nothing is missing and the marking
-  reads as noise.
+  sentence still reads as one. The alignment pairs on **`sameWord`**,
+  not on position: same letters in another case, or within an edit or
+  two, and a mark never pairs with a word. **Never pair by position** —
+  it matches "fil" to "Lernen" and the dots for the words actually left
+  out land nowhere near them. Every expected token with nothing standing
+  in for it is drawn as a dot in its own place; `missing` counts only
+  the word gaps, since a missing mark speaks through its own dot.
   In the writing mode the sentence in hand is named in the instruction
   and pointed at with a chevron — without that a child writes the wrong
   line of the paragraph and every word comes back wrong. The advisory line under
