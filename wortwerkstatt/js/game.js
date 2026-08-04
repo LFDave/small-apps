@@ -5,7 +5,7 @@
 // never matters. Medal checks are pure functions of the data object so
 // they can never drift from the stored state.
 
-import { topicsForCycle, contentByCode } from "./data.js?v=8";
+import { topicsForCycle, contentByCode } from "./data.js?v=9";
 
 // Cumulative XP thresholds. Beyond the last level XP keeps counting.
 export const LEVELS = [

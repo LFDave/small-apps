@@ -117,6 +117,7 @@ export const en = {
   actionCheck: "Done",
   writeConfirmHint: "Write the whole sentence.",
   writeAutoHint: "As soon as the sentence looks finished, the app checks it. Otherwise tap Done.",
+  writeEditHint: "Take your time fixing what is not right, then tap Done. When it is all right, you see it straight away.",
   memoryTypedWords: "What you wrote. The marked words are not right yet:",
   actionRetry: "Try again",
   actionReveal: "Show the answer",

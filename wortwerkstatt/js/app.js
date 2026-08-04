@@ -1,17 +1,17 @@
 // app.js — controller: owns the state, handles all interactions via
 // event delegation, persists through storage.js and renders via ui.js.
 
-import { render } from "./ui.js?v=8";
+import { render } from "./ui.js?v=9";
 import {
   topicById, chapterById, chaptersForCycle, topicKey, textById, textKey
-} from "./data.js?v=8";
-import { t, setLanguage } from "./i18n.js?v=8";
-import * as storage from "./storage.js?v=8";
+} from "./data.js?v=9";
+import { t, setLanguage } from "./i18n.js?v=9";
+import * as storage from "./storage.js?v=9";
 import {
   buildRound, buildTextRound, isCorrect, needsStudyStep, expectedAnswer,
   isTyped, needsConfirm, looksComplete, normaliseTyped
-} from "./round.js?v=8";
-import { award, xpForRound } from "./game.js?v=8";
+} from "./round.js?v=9";
+import { award, xpForRound } from "./game.js?v=9";
 
 // Consecutive clean rounds before the app offers the next cycle. The
 // offer is a suggestion, never a forced step (GAMIFICATION.md).
@@ -85,6 +85,7 @@ function startRound({ entries, title, topicId, chapterId, textId, tasks: given }
     wrong: 0,
     missed: false,
     firstTry: [],
+    editing: false,
     reward: null,
     suggestCycle: null,
     nextChapterId: null,
@@ -190,6 +191,7 @@ function nextTask() {
   const r = state.round;
   r.i += 1;
   r.typed = "";
+  r.editing = false;
   r.chosen = null;
   r.wrong = 0;
   r.missed = false;
@@ -276,7 +278,10 @@ document.addEventListener("click", (e) => {
       // A sentence is expensive to retype, so a retry keeps what was
       // written and the child fixes the word that is marked. A single
       // word is three to ten characters, so it starts fresh.
-      if (!needsConfirm(r.tasks[r.i].kind)) r.typed = "";
+      // Keeping the sentence means the child is correcting it, not
+      // writing it out again, so nothing is judged until they say so.
+      r.editing = needsConfirm(r.tasks[r.i].kind);
+      if (!r.editing) r.typed = "";
       r.chosen = null;
       r.phase = "ask";
       render(state);
@@ -286,7 +291,9 @@ document.addEventListener("click", (e) => {
     case "reveal-done": {
       // The miss stays on the record for the summary; only the counter
       // that offers the reveal starts over.
+      // The field starts empty again, so this is fresh writing.
       r.typed = "";
+      r.editing = false;
       r.chosen = null;
       r.wrong = 0;
       r.phase = "ask";
@@ -328,7 +335,7 @@ document.addEventListener("input", (e) => {
   const task = r.tasks[r.i];
   if (!needsConfirm(task.kind)) {
     checkWritten();
-  } else if (looksComplete(expectedAnswer(task), value)) {
+  } else if (looksComplete(expectedAnswer(task), value, { editing: r.editing })) {
     // The sentence looks finished, so there is nothing to wait for.
     // The button stays for everything this cannot tell apart from a
     // sentence still being typed.

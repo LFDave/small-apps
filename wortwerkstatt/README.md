@@ -30,7 +30,10 @@ stehen darum auf beiden Listen.
    aussieht: wenn er stimmt, oder wenn er gleich viele Wörter hat und
    mit einem Satzzeichen endet. Sonst tippst du auf Fertig. Stimmt
    etwas nicht, siehst du genau, welches Wort, und dein Satz bleibt
-   stehen, damit du nur das eine Wort ändern musst. Ein Fehler färbt
+   stehen, damit du nur das eine Wort ändern musst. Beim Korrigieren
+   prüft die App nichts mehr von selbst, solange noch etwas fehlt: du
+   kannst in Ruhe mehrere Stellen ändern und tippst dann auf Fertig.
+   Stimmt alles, siehst du es sofort. Ein Fehler färbt
    immer nur ein Wort, auch wenn er am Anfang des Satzes steht. Fehlt
    ein Satzzeichen oder ein ganzes Wort, steht ein roter Punkt genau
    dort, wo es hingehört.

@@ -117,6 +117,7 @@ export const de = {
   actionCheck: "Fertig",
   writeConfirmHint: "Schreib den ganzen Satz.",
   writeAutoHint: "Sobald der Satz fertig aussieht, prüft die App ihn. Sonst tipp auf Fertig.",
+  writeEditHint: "Ändere in Ruhe, was nicht stimmt, und tipp dann auf Fertig. Stimmt alles, siehst du es sofort.",
   memoryTypedWords: "Du hast geschrieben. Die markierten Wörter stimmen noch nicht:",
   actionRetry: "Nochmals versuchen",
   actionReveal: "Lösung zeigen",
