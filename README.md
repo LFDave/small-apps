@@ -12,7 +12,7 @@ A calm curriculum explorer for the Swiss Lehrplan 21 (Bern edition). Kids and pa
 - 721 cycle-specific, child-friendly German texts in Ich-form, each written at the level of that cycle's Grundanspruch, with the official Lehrplan 21 code next to every entry for parents and teachers
 - Self-assessment checklist per cycle with per-subject progress bars
 - Checks are stored separately per cycle, so moving up a cycle starts a fresh round on the same competencies at their higher level
-- Competencies that have a matching practice app link straight to it ("Üben mit Zahlensprung/Rechenturm/Masswerk/Wortwerkstatt")
+- Competencies that have a matching practice app link straight to it ("Üben mit ..."): all ten math competencies of the Operieren-und-Benennen aspect plus spelling (Wortwerkstatt)
 - German (Swiss standard), dark, quiet design; works offline after first load
 - Progress saved locally on the device (no sign-up, no tracking)
 
@@ -55,6 +55,41 @@ A calm quantities trainer that implements exactly one Lehrplan 21 competency: MA
 - Progress saved locally on the device (no sign-up, no tracking)
 
 **Open:** [lfdave.github.io/small-apps/masswerk](https://lfdave.github.io/small-apps/masswerk)
+
+### 📖 Zahlenwissen
+A calm trainer for exactly one Lehrplan 21 competency: MA.1.A.1 "arithmetische Begriffe und Symbole verstehen, Zahlen lesen und schreiben" (Bern edition). Twelve levels from comparing dot sets through German number words (own Zahlwort engine, Swiss spelling), place values, fraction/decimal/percent conversions, up to scientific notation and irrational numbers. Grundanspruch badges on c/g/j; dark sage design.
+
+**Open:** [lfdave.github.io/small-apps/zahlenwissen](https://lfdave.github.io/small-apps/zahlenwissen)
+
+### 💡 Rechenkniff
+Exactly one competency: MA.1.A.4 "Zahlen zerlegen, umformen und Rechengesetze nutzen". Twelve levels from equalizing sets through commutative/associative/distributive laws, inverse operations, rounding and divisibility up to linear equations, combining terms (6a + 3b) and binomial formulas; the all-Erweiterung Stufe j is flagged as such. Grundanspruch badges on c/g/k; dark violet design.
+
+**Open:** [lfdave.github.io/small-apps/rechenkniff](https://lfdave.github.io/small-apps/rechenkniff)
+
+### 🔷 Formenreich
+Exactly one competency: MA.2.A.1 "Begriffe und Symbole zu Form und Raum". Figures are drawn as SVG and recognized: circle to cube in cycle 1, cylinders and pyramids, circle terms, coordinates, quadrilateral types up to cone/prism and tetrahedron facts. The e2e oracle classifies every figure independently from the markup geometry. Grundanspruch badges on c/g/k; dark violet design.
+
+**Open:** [lfdave.github.io/small-apps/formenreich](https://lfdave.github.io/small-apps/formenreich)
+
+### 🪞 Spiegelraster
+Exactly one competency: MA.2.A.2 "Figuren und Körper abbilden". Patterns, symmetry, finding mirror images, telling rotated from mirrored from translated, rotation angles and stretch factors — all on grid figures built from chiral polyominoes so the transformations never coincide. Grundanspruch badges on c/f/i; dark coral design.
+
+**Open:** [lfdave.github.io/small-apps/spiegelraster](https://lfdave.github.io/small-apps/spiegelraster)
+
+### ⬠ Figurenmass
+Exactly one competency: MA.2.A.3 "Längen, Flächen und Volumen vergleichen, messen und berechnen". Measuring happens on the on-screen raster (reading line lengths, counting unit squares), computing goes from perimeter and area through Pythagorean triples to circles with π ≈ 3.14, pyramids, angle sums and similarity. Grundanspruch badges on b/e/i; dark blue design.
+
+**Open:** [lfdave.github.io/small-apps/figurenmass](https://lfdave.github.io/small-apps/figurenmass)
+
+### ⚖️ Grössenwissen
+Exactly one competency: MA.3.A.1 (terms, symbols and reference quantities for Grössen, Funktionen, Daten und Zufall). Opposites, the real Swiss coin set, unit abbreviations, reference quantities, SI prefixes from Milli to Tera and Mikro/Nano, probability words, diagram types, currencies, relative frequency, Zins and Rabatt. Grundanspruch badges on c/h/l; dark amber design.
+
+**Open:** [lfdave.github.io/small-apps/groessenwissen](https://lfdave.github.io/small-apps/groessenwissen)
+
+### 📈 Wertepfad
+Exactly one competency: MA.3.A.3 (Zahlenfolgen, Wertetabellen, Proportionalität und Funktionen). Value tables, linear and nonlinear sequences (the test oracle solves them generically via first and second differences), proportional and inverse-proportional reasoning, percentages, map scales, function values, intersections, slope and zeros. Grundanspruch badges on b/e/i; dark blue design.
+
+**Open:** [lfdave.github.io/small-apps/wertepfad](https://lfdave.github.io/small-apps/wertepfad)
 
 ### 🃏 Jass Scoreboard (Schiefertafel Z/Z)
 A browser-based digital Jass scoreboard that replicates a traditional Swiss chalk slate board with the classic Z/Z layout.
