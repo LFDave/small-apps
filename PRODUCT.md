@@ -261,6 +261,7 @@ Each app uses exactly one accent family from DESIGN.md. Before starting a new ap
 | jass-scoreboard | small-apps repo | not recorded | DE | pre-baseline |
 | pokemon-game | small-apps repo | not recorded | EN | pre-baseline |
 | add-subtract | small-apps repo | sage | DE | baseline |
+| tierraten | small-apps repo | amber | DE, EN | baseline |
 | add-subtract-mission | small-apps repo | not recorded | not recorded | pre-baseline |
 | jass-schieber | Cloudflare Pages | not recorded | DE, EN | pre-baseline |
 | swiss-1938-goal | Cloudflare Pages | not recorded | EN | pre-baseline |

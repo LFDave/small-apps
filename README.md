@@ -92,6 +92,25 @@ A calm spelling trainer for kids, built on one Lehrplan 21 competency (D.4 Schre
 
 **Play:** [lfdave.github.io/small-apps/wortwerkstatt](https://lfdave.github.io/small-apps/wortwerkstatt)
 
+### 🐾 Tierraten
+A calm animal guessing game for children. One animal is described clue by clue until you recognise it, and the game walks through the alphabet from A to Z.
+
+**Features:**
+- 84 animals, from the ant to the zebra, each with a full row of checkable facts
+- Nine clues in a fixed ladder: continent, a country with its flag, habitat, body, mammal or egg, food, covering, colour, and the second letter of the name
+- Guess from the first clue on; the earlier you get it, the more you earn
+- A wrong guess costs nothing and keeps the turn open, and the answer is always one tap away
+- Two ways to answer: tap one of four names, or write it yourself and watch it lock in the moment it is spelled right
+- The alphabet follows the language, so the squirrel sits under E in German and under S in English
+- The one letter with no animal stays in the grid and says so, instead of quietly disappearing
+- Quiet gamification: XP, six levels and nine medals that reward practice, never speed
+- After five clean rounds the app offers longer rounds, and never forces them
+- German and English interface
+- Works offline after the first load, apart from the country flags
+- Progress saved locally on the device (no sign-up, no tracking)
+
+**Play:** [lfdave.github.io/small-apps/tierraten](https://lfdave.github.io/small-apps/tierraten)
+
 ### ➕➖ Math Trainer
 Simple math practice game for addition and subtraction.
 
