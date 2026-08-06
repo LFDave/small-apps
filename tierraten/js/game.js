@@ -3,7 +3,7 @@
 // medal is a function of the stored counters rather than an event flag,
 // so state and medals cannot drift apart.
 
-import { CLUE_COUNT } from "./data.js?v=1";
+import { CLUE_COUNT } from "./data.js?v=2";
 
 // A solved animal is worth a base plus whatever clues were left unused.
 // Guessing early is harder, not faster: the clock plays no part here, and

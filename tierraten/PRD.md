@@ -70,8 +70,10 @@ has to work in English, and a labelled row reads the same in both.
 
 Two modes, a setting (`answerMode`), default **choose**:
 
-- **choose** — four names to tap: the animal plus three others, taken
-  from the same letter first so the clues decide and not the initial.
+- **choose** — four names to tap: the animal plus the three others from
+  its letter whose early clues match it most closely, so the choice is
+  decided by reading down the ladder rather than by the initial or by the
+  first clue. See "The first clue must not be the whole game" below.
   Spelling "Eichhörnchen" is a second task on top of the one the game is
   about, and the primary audience is children.
 - **type** — the name is written. The guess is judged as a whole word,
@@ -86,7 +88,8 @@ Two modes, a setting (`answerMode`), default **choose**:
 A typed guess is matched on letters alone: case, spaces and hyphens fall
 away, and both readings of an umlaut are produced, so "Kaenguru",
 "Kanguru" and "Känguru" all reach the same animal. Listed alternatives
-(`alt`) are accepted too: Delphin, Flusspferd, Rhino, Blauwal, Jak.
+(`alt`) are accepted too: Delphin, Flusspferd, Rhino, Blauwal, Jak,
+Beluga, Gams, Ladybug, Pikeperch, Bactrian camel.
 
 ## The alphabet walk
 
@@ -111,9 +114,36 @@ and marked "Kein Tier", with a line under the grid saying what that
 means. Naming the gap is the honest answer; the alternative is an obscure
 genus name dressed up as a common name.
 
+## The first clue must not be the whole game
+
+A letter that holds exactly one African animal is a letter the first clue
+solves: the board shows it beside three animals from three other
+continents and "Afrika" ends the round before it starts. The ladder only
+works if the early clues leave the child with more than one candidate.
+Two things carry that, and both are enforced by the e2e suite.
+
+**The fact table stocks letters in continent pairs.** A species is added
+with a partner from its own continent or not at all. In German 10 of 172
+animals are still alone in their letter, all of them in letters the
+animal kingdom simply does not fill (C, J, Q, U, V, Y); in English, whose
+alphabet cuts the same set differently, 25 are.
+
+**The option picker spends the pairs it has.** Candidates are ranked by
+`sharedPrefix` — how many *leading* clues they share with the answer —
+and the closest fill the board. Two African animals score at least 1, two
+African animals from the same country at least 2. Ties stay shuffled, so
+an animal does not always arrive with the same company. The result: clue
+one splits the board for 3 of 172 animals in German and 13 in English,
+and in none of those cases did the letter hold a partner the picker could
+have used.
+
+A letter too thin to fill the board borrows names from the rest of the
+pool. Their initial gives them away, but a letter with one animal has no
+honest alternative, and the borrowed names are ranked the same way.
+
 ## Content
 
-84 animals in `js/animals.js`. Every field holds a stable id; labels live
+172 animals in `js/animals.js`. Every field holds a stable id; labels live
 in `js/i18n/` and change with the language.
 
 - Facts are the ordinary checkable kind: range, habitat, body plan, diet,
@@ -128,8 +158,9 @@ in `js/i18n/` and change with the language.
 
 Guaranteed by the e2e suite: every field value comes from its own list,
 every listed value carries a label in every language and is actually
-used, no two animals answer to the same spelling in one language, and no
-two animals present an identical row of all nine clues.
+used, no two animals answer to the same spelling in one language, no two
+animals present an identical row of all nine clues, and the picker never
+leaves a same-continent partner on the bench.
 
 ## Progression
 

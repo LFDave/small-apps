@@ -19,7 +19,10 @@ Guess whenever you like. The earlier you get it, the more you earn. A
 wrong guess costs nothing and the turn stays open. If you would rather
 just see it, **Auflösen** shows the answer and the round carries on.
 
-84 animals, from the ant to the zebra.
+172 animals, from the ant to the zebra. The four names you get to choose
+between always come from the same letter and are picked to be hard to
+tell apart early: if the animal lives in Africa, so does at least one of
+the others, so the first clue rarely settles it.
 
 ## How to play
 

@@ -21,13 +21,14 @@ import { dirname, join, extname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   ANIMALS, CONTINENTS, HABITATS, BODIES, BIRTHS, FOODS, COVERS, COLORS, COUNTRIES
-} from "../js/animals.js?v=1";
+} from "../js/animals.js?v=2";
 import {
   LANGUAGES, ALPHABET, CLUES, CLUE_COUNT, ROUND_SIZES, OPTION_COUNT, MASTERY_RUNS,
   nameOf, letterOf, secondLetterOf, valueKey, clueLabelKey, acceptedForms, matchesName
-} from "../js/data.js?v=1";
-import { TABLES } from "../js/i18n.js?v=1";
-import { MEDALS, LEVELS, levelFor, xpForAnimal, SOLVE_BASE, REVEAL_XP } from "../js/game.js?v=1";
+} from "../js/data.js?v=2";
+import { TABLES } from "../js/i18n.js?v=2";
+import { MEDALS, LEVELS, levelFor, xpForAnimal, SOLVE_BASE, REVEAL_XP } from "../js/game.js?v=2";
+import { optionsFor, sharedPrefix } from "../js/round.js?v=2";
 
 const TESTS_DIR = dirname(fileURLToPath(import.meta.url));
 const APP_DIR = join(TESTS_DIR, "..");
@@ -190,6 +191,79 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
   check("spaces and case fall away", matchesName(roe, "en", "  roe   DEER "));
 }
 
+/* ── The first clue must not be the whole game ──────────────────────
+   This is the property the ladder lives or dies by. A letter holding a
+   single African animal offers it beside three animals from three other
+   continents, and "Afrika" ends the round before it starts. Two things
+   have to hold: the fact table stocks letters in continent pairs, and
+   the option picker actually puts the partner on the board. The second
+   is the one that is easy to regress, so it is checked against every
+   animal in both languages rather than sampled. */
+{
+  const report = [];
+  const problems = [];
+  for (const lang of LANGUAGES) {
+    let alone = 0;
+    let decided = 0;
+    for (const animal of ANIMALS) {
+      const letter = letterOf(animal, lang.code);
+      const pool = ANIMALS.filter((a) => letterOf(a, lang.code) === letter && a.id !== animal.id);
+      const partnered = pool.some((a) => a.continent === animal.continent);
+      if (!partnered) alone += 1;
+      const options = optionsFor(animal.id, lang.code).map((id) => ANIMALS.find((a) => a.id === id));
+      const shares = options.some((o) => o.id !== animal.id && o.continent === animal.continent);
+      if (!shares) {
+        decided += 1;
+        // Not sharing is only forgivable when the letter has nothing to
+        // share with. Anything else is the picker throwing the round.
+        if (partnered) problems.push(`${lang.code}: ${nameOf(animal, lang.code)} was offered no ${animal.continent} company`);
+      }
+    }
+    report.push(`${lang.code}: ${decided}/${ANIMALS.length} boards split by clue 1, ${alone} animals alone in their letter`);
+  }
+  check("the picker never wastes a same-continent partner the letter has",
+    problems.length === 0, problems.slice(0, 5).join(" | "));
+  console.log(`      ${report.join(" | ")}`);
+
+  // The floor the content currently clears. Adding animals may only
+  // improve it; a change that pushes it back is a regression in the one
+  // thing this game is about.
+  const aloneIn = (code) => ANIMALS.filter((animal) => {
+    const letter = letterOf(animal, code);
+    return !ANIMALS.some((a) => a.id !== animal.id && letterOf(a, code) === letter && a.continent === animal.continent);
+  }).length;
+  check("German keeps every animal but the thin letters in a continent pair",
+    aloneIn("de") <= 10, `${aloneIn("de")} alone`);
+  check("English keeps the same within reach of its own alphabet",
+    aloneIn("en") <= 25, `${aloneIn("en")} alone`);
+}
+
+/* ── Distractors stay close ─────────────────────────────────────────
+   Beyond the continent, an option set that agrees on more of the early
+   ladder is a set the child has to read further to split. */
+{
+  const problems = [];
+  for (const lang of LANGUAGES) {
+    for (const animal of ANIMALS) {
+      const letter = letterOf(animal, lang.code);
+      const pool = ANIMALS.filter((a) => letterOf(a, lang.code) === letter && a.id !== animal.id);
+      if (pool.length < OPTION_COUNT - 1) continue;
+      const best = pool.map((a) => sharedPrefix(animal, a)).sort((a, b) => b - a).slice(0, OPTION_COUNT - 1);
+      const got = optionsFor(animal.id, lang.code)
+        .filter((id) => id !== animal.id)
+        .map((id) => sharedPrefix(animal, ANIMALS.find((a) => a.id === id)))
+        .sort((a, b) => b - a);
+      if (got.join(",") !== best.join(",")) {
+        problems.push(`${lang.code}: ${nameOf(animal, lang.code)} got [${got}] not [${best}]`);
+      }
+    }
+  }
+  check("the option set is always the closest the letter can offer",
+    problems.length === 0, problems.slice(0, 5).join(" | "));
+  check("closeness is measured on the leading clues only",
+    sharedPrefix(ANIMALS[0], ANIMALS[0]) === CLUES.filter((c) => c.field).length);
+}
+
 /* ── Alphabet coverage ──────────────────────────────────────────────
    Every letter that holds animals must hold enough of them for the
    round the settings can ask for, or say plainly that it holds none. */
@@ -208,6 +282,15 @@ const jsFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =
   check("at most one letter is empty per language",
     empty.de.length <= 1 && empty.en.length <= 1,
     `de ${empty.de.join(",")} / en ${empty.en.join(",")}`);
+  // A letter that cannot fill the board has to borrow names whose
+  // initial gives them away, so thin letters are worth counting.
+  const thin = (code) => ALPHABET.filter((L) => {
+    const n = ANIMALS.filter((a) => letterOf(a, code) === L).length;
+    return n > 0 && n < OPTION_COUNT;
+  });
+  check("only a handful of letters are too thin to fill the board",
+    thin("de").length <= 4 && thin("en").length <= 7,
+    `de ${thin("de").join(",")} / en ${thin("en").join(",")}`);
 }
 
 /* ── XP and levels ──────────────────────────────────────────────────

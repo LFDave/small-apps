@@ -3,15 +3,15 @@
 // attribute that app.js handles. Every label comes from i18n, so no copy
 // lives in this file.
 
-import { icon } from "./icons.js?v=1";
+import { icon } from "./icons.js?v=2";
 import {
   LANGUAGES, ANSWER_MODES, ROUND_SIZES, CLUES, CLUE_COUNT,
   animalById, nameOf, secondLetterOf, valueKey, clueLabelKey
-} from "./data.js?v=1";
-import { t } from "./i18n.js?v=1";
-import { escapeHtml } from "./util.js?v=1";
-import { letterRows } from "./round.js?v=1";
-import { MEDALS, levelFor, medalProgress } from "./game.js?v=1";
+} from "./data.js?v=2";
+import { t } from "./i18n.js?v=2";
+import { escapeHtml } from "./util.js?v=2";
+import { letterRows } from "./round.js?v=2";
+import { MEDALS, levelFor, medalProgress } from "./game.js?v=2";
 
 export function render(state) {
   const app = document.getElementById("app");
