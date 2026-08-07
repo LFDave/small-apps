@@ -17,6 +17,12 @@ spec-sync rules, cache-busting convention) applies as well.
   labels. Labels live in `js/i18n/` and are looked up by convention:
   `valueKey("color", "schwarz-weiss")` is `colorSchwarzWeiss`. Adding a
   value without its label is a test failure, not a silent fallback.
+- **Add animals in continent pairs, within a letter.** A letter holding
+  one African animal is a letter the first clue solves. Never add a
+  species without a partner from its own continent under the same letter
+  — add two, or add neither. The suite counts what is left alone and
+  holds the line at the current floor (10 in German, 25 in English); it
+  may improve, never regress.
 - **Do not invent facts.** Every row is the ordinary checkable kind, and
   a parent must be able to hold it against a field guide. `country` is
   *one* country the species really occurs in and is labelled "Zum
@@ -65,6 +71,13 @@ spec-sync rules, cache-busting convention) applies as well.
   Never widen the auto-check, and never add a length hint.
 - **The `input` handler must not re-render** on a non-matching value, or
   the caret jumps mid-word.
+- **`optionsFor` ranks, it does not sample.** Distractors are the
+  same-letter animals with the longest `sharedPrefix` — the run of
+  *leading* clues they share with the answer. Picking at random is what
+  made the game give itself away, and the suite checks, for every animal
+  in both languages, that the board is the closest set the letter can
+  offer. Never replace it with a plain shuffle, and never let it skip a
+  same-continent partner the letter has.
 - `js/round.js` is pure: picking animals, building options, finding the
   next letter. `js/game.js` is pure: XP, levels, medals. Neither touches
   the DOM or a string.

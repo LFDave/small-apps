@@ -1,7 +1,7 @@
 // data.js — settings vocabulary, the clue ladder, and the selectors the
 // rest of the app reads the fact table through. No DOM, no strings.
 
-import { ANIMALS } from "./animals.js?v=1";
+import { ANIMALS } from "./animals.js?v=2";
 
 export const LANGUAGES = [
   { code: "de", label: "Deutsch", htmlLang: "de-CH" },

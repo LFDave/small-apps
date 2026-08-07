@@ -1,15 +1,15 @@
 // app.js — controller: owns the state, handles every interaction through
 // event delegation, persists via storage.js and draws via ui.js.
 
-import { render } from "./ui.js?v=1";
+import { render } from "./ui.js?v=2";
 import {
   CLUE_COUNT, ROUND_SIZES, MASTERY_RUNS,
   animalById, nameOf, matchesName
-} from "./data.js?v=1";
-import { t, setLanguage } from "./i18n.js?v=1";
-import * as storage from "./storage.js?v=1";
-import { pickAnimals, optionsFor, nextLetter } from "./round.js?v=1";
-import { award, levelFor, xpForRound } from "./game.js?v=1";
+} from "./data.js?v=2";
+import { t, setLanguage } from "./i18n.js?v=2";
+import * as storage from "./storage.js?v=2";
+import { pickAnimals, optionsFor, nextLetter } from "./round.js?v=2";
+import { award, levelFor, xpForRound } from "./game.js?v=2";
 
 const state = {
   view: "home",

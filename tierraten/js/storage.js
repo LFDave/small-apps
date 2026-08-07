@@ -4,8 +4,8 @@
 import {
   LANGUAGES, ANSWER_MODES, ROUND_SIZES,
   DEFAULT_LANGUAGE, DEFAULT_ANSWER_MODE, DEFAULT_ROUND_SIZE
-} from "./data.js?v=1";
-import { ANIMALS } from "./animals.js?v=1";
+} from "./data.js?v=2";
+import { ANIMALS } from "./animals.js?v=2";
 
 const KEY = "tierraten.state";
 

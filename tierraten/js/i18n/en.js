@@ -148,6 +148,7 @@ export const en = {
   countryCa: "Canada",
   countryCd: "Democratic Republic of the Congo",
   countryCh: "Switzerland",
+  countryCm: "Cameroon",
   countryCn: "China",
   countryDe: "Germany",
   countryEg: "Egypt",
@@ -161,9 +162,9 @@ export const en = {
   countryNl: "Netherlands",
   countryNo: "Norway",
   countryPe: "Peru",
+  countryPk: "Pakistan",
   countryPl: "Poland",
   countryRo: "Romania",
-  countrySy: "Syria",
   countryTz: "Tanzania",
   countryUs: "United States",
   countryZa: "South Africa",
@@ -190,6 +191,8 @@ export const en = {
   bodySechsBeine: "Six legs",
   bodySechsBeineFluegel: "Six legs and wings",
   bodyAchtBeine: "Eight legs",
+  bodyZehnBeine: "Ten legs",
+  bodyFuenfArme: "Five arms",
   bodyAchtArme: "Eight arms",
 
   /* Value labels: young */
@@ -239,5 +242,6 @@ export const en = {
   colorOrangeWeiss: "Orange and white",
   colorWeissBraun: "White and brown",
   colorGrauGelb: "Grey with a yellow belly",
+  colorGrauRot: "Grey with a red belly",
   colorBlauOrange: "Blue with an orange belly"
 };
