@@ -1,6 +1,6 @@
 # Claude Instructions for Mini Apps
 
-Version: 2026-08-01
+Version: 2026-09-06
 
 ## Read first
 
@@ -40,6 +40,7 @@ Build small, calm, high-usability web apps for learning, practice, quizzes, game
 - Use accent color mainly for titles, icons, progress, feedback, and selected states.
 - Primary buttons should usually be white or near-white on dark.
 - Use Lucide icons only.
+- Links follow the DESIGN.md `component.link` group: quiet links for navigation, accent links with an icon for cross-links, list rows for lists; one icon per link direction from `icon.semantic`.
 - Use self-hosted fonts.
 - Use design tokens from DESIGN.md.
 - Keep DESIGN.md token-only.
@@ -76,9 +77,13 @@ For every UI change, before reporting back or opening or updating a PR:
 
 - Cache busting: every local asset URL, meaning every CSS link, script tag, and inter-module import, carries the same `?v=N` query. Bump N in all files on every release so mobile browsers pick up changed JS and CSS on a plain reload. Where an e2e suite exists it must enforce this. The jass-scoreboard suite does.
 - App-specific instructions live in a CLAUDE.md inside the app's own folder, for example `jass-scoreboard/CLAUDE.md`. It is loaded automatically when working on files in that directory, in addition to this file.
-- index.html at the repo root is the German app overview for the GitHub Pages site, built with the DESIGN.md tokens. README.md is for the repository page on GitHub only. Update both together when an app is added or renamed.
+- index.html at the repo root is the German start page of the GitHub Pages site, built with the DESIGN.md tokens. Once the site has more than a handful of apps it shows a few entries grouped by what the visitor does, with a list page per group (rows grouped by subject, each with icon, name, one-line description and, where one exists, the competency code); a shared `site.css` and a root `fonts/` folder serve those pages, carry the same `?v=N`, and get their own e2e suite in `tests/`. README.md is for the repository page on GitHub only. Update both together when an app is added or renamed.
 - The repo root has a .nojekyll file so Pages serves files as-is without Jekyll processing.
-- 404.html at the repo root is the custom not-found page for the whole GitHub Pages site. Keep it dark, calm, and German, following the DESIGN.md tokens, with a link to the app overview.
+- 404.html at the repo root is the custom not-found page for the whole GitHub Pages site. Keep it dark, calm, and German, following the DESIGN.md tokens, with a link to the start page. It is served for any path, so its few asset URLs are absolute.
+- Family navigation: every page below the start page begins with the breadcrumb `<nav class="crumbs" aria-label="Pfad">` (Site › Bereich › App › Ansicht). Earlier items are links, the last item carries `aria-current="page"`. Apps render it from a `crumbs()` helper with the strings `nav.site`, `nav.apps`, `nav.path`, `nav.stufe`; there is no footer "Zur App-Übersicht" link. Styles follow DESIGN.md `component.breadcrumb`.
+- History in deep views: a practice round is the hash route `#stufe/<id>` (push on entry, replace for a suggested next level, pop via `history.back()` on the in-app exit when the app pushed the entry, otherwise replace). A deep link `?stufe=<id>` strips the query and then pushes the round, so browser back goes round → app overview → referrer. Suites assert it.
+- Family-wide template changes: when app.js, game.js, strings.js and styles.css are copied per app (no build step), a fix to the shared template patches every app in one change with a script that matches the exact template text, fails loudly on any app that drifted, bumps every app's `?v=N`, and runs every suite. Normalise line endings before matching on a CRLF checkout.
+- Motion: animate exactly what DESIGN.md names (progress fill via `transform: scaleX` driven by a `--p` custom property, the pressed state of answer buttons, a check icon's opacity). Never animate width or colour, never add a global `transition-duration: 0.01ms` kill: the reduced-motion block names the transitions it removes and every state stays visible.
 - Git commits: always use the GitHub noreply address `36726874+LFDave@users.noreply.github.com` as the commit email, with user name `LFDave`. The GitHub account blocks pushes that expose the private email (error GH007). In a fresh environment, set both with `git config user.name` and `git config user.email` before committing.
 
 ## Product behavior
@@ -135,6 +140,7 @@ For game apps:
 - Changes apply and persist immediately. No save button, no confirmation, no toast.
 - Language is always the first panel.
 - Reset stays in the home footer, not in settings.
+- Content filters (for example a level ladder filtered by school cycle) are content, not settings: a choice row on the home screen with `aria-pressed`, default all, persisted per app, cleared by reset, hiding nothing for good.
 - Country-dependent apps get a country setting defaulting to Switzerland, with fact tables keyed by ISO 3166-1 alpha-2 code and missing entries named in the interface rather than filled in.
 
 ## Persistence and privacy
@@ -169,6 +175,7 @@ Avoid these generated-UI tells:
 - monotonous spacing repeated everywhere
 - bounce, elastic, wobble, or spring easing
 - animating width, height, padding, or margin
+- a global `transition-duration: 0.01ms` reduced-motion kill (name the transitions you remove instead)
 - overused AI-default font choices
 - all-caps body copy
 - marketing buzzwords
@@ -227,7 +234,7 @@ For country data, store the flag code as data, not as rendered emoji.
 - Keep text contrast high.
 - Do not use color alone for correctness.
 - Use target sizes suitable for children.
-- Respect reduced motion.
+- Respect reduced motion with an intentional alternative: remove spatial movement, keep every state change visible, never kill all transitions globally.
 - Avoid horizontal scrolling.
 - Keep paragraph line length around 65 to 75 characters.
 
