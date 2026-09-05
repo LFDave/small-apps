@@ -1,6 +1,6 @@
 # Mini Apps Product Principles
 
-Version: 2026-08-01
+Version: 2026-09-06
 
 ## Product register
 
@@ -111,6 +111,31 @@ Every app with something to configure uses the same settings surface, so a child
 - Destructive controls such as reset do not belong in settings. They stay in the home footer with their confirmation.
 - Defaults must be useful without ever opening settings: German for language, and Switzerland where an app depends on a country.
 
+## Family navigation
+
+When several apps share one site, the start page shows a few entries
+grouped by what the visitor does (for example assess, look up,
+practise), not a flat list of every app; each group gets its own list
+page with one row per app (icon, name, one-line description, code
+where one exists). Every page below the start carries a location
+breadcrumb: Site › Bereich › App › Ansicht. It is quiet (small, muted
+text), every earlier item is a link, the last item names the current
+view. It replaces per-app "back to overview" links; in-app back
+buttons stay where a child needs them (leaving a round, leaving a
+subject).
+
+Deep views own a history entry so the browser back button retraces
+the path a visitor actually took: a practice round or a subject view
+is its own entry behind the app's overview, and leaving it through
+the in-app control pops that entry instead of adding one. Whoever
+arrives from another app of the family is back there with the back
+button.
+
+Cross-links carry one icon per direction, the same on every surface
+(DESIGN.md `icon.semantic`), and follow the link vocabulary in
+DESIGN.md `component.link`: quiet links for navigation, accent links
+with an icon for cross-links, list rows for lists.
+
 ## Screen model
 
 Use a consistent structure unless a specific app needs otherwise:
@@ -177,11 +202,11 @@ The visual system should be dark-only, quiet, and content-led. Use layered charc
 
 ## Typography direction
 
-Typography must be readable before it is expressive. Use a self-hosted, accessible body face and a modest display face only when it improves hierarchy. Do not use overused default AI fonts. Maintain a clear size ramp. Avoid long all-caps text, very tight line height, and body text below comfortable reading size.
+Typography must be readable before it is expressive. The family uses one self-hosted, accessible face (Atkinson Hyperlegible) for everything; titles are that face at the top of the scale, codes and scores use the system monospace stack. A display face is added only when hierarchy demands it, and DESIGN.md records it. Do not use overused default AI fonts. Maintain a clear size ramp. Avoid long all-caps text, very tight line height, and body text below comfortable reading size.
 
 ## Motion direction
 
-Motion should clarify state changes. Use short, smooth transitions. Prefer transform and opacity. Do not animate layout properties. Do not use bounce, elastic, wobble, glowing, or celebratory motion unless the game specifically needs a small reward moment.
+Motion should clarify state changes. Use short, smooth transitions. Prefer transform and opacity. Do not animate layout properties. Do not use bounce, elastic, wobble, glowing, or celebratory motion unless the game specifically needs a small reward moment. Keep the motion vocabulary tiny and named: progress bars grow (transform, the slow duration; a finished round's XP bar is the quiet reward moment), answer buttons press in (transform, the fast duration), a check icon fades in (opacity). Reduced motion removes spatial movement and keeps every state change visible: bars jump to their value, buttons stay still, nothing hides behind an animation, and no stylesheet kills transitions globally.
 
 ## Sound direction
 
@@ -273,6 +298,21 @@ Pre-baseline apps were built before this document. Bring them in line with the b
 ## Accepted decisions
 
 - Default theme: dark only.
+- Site structure: a family site starts with a few entries grouped by
+  what the visitor does; app lists live one level down; every page
+  below the start carries the family breadcrumb; per-app overview
+  links in footers are gone (2026-09-06).
+- History: deep views (a round, a subject) own a history entry and
+  their in-app exit pops it, so the browser back button always leads
+  to where the visitor came from.
+- Link vocabulary: quiet, accent and row links per DESIGN.md
+  `component.link`; one icon per link direction per `icon.semantic`.
+- Motion: two named transform moves (progress fill, pressed button)
+  and one opacity fade (check icon); reduced motion is an intentional
+  alternative, never a global kill (DESIGN.md `motion.reduced-motion`).
+- Content filters (for example a level ladder filtered by school
+  cycle) are content like a picker, not settings: default all,
+  persisted per app, cleared by reset, never hiding anything for good.
 - Visual base: charcoal and navy, not pure black.
 - Accent usage: one restrained accent per app, recorded in the app registry.
 - Buttons: primary buttons usually near-white, not loud accent blocks.
